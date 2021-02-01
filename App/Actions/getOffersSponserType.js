@@ -2,27 +2,27 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import g from '../Gloabal'
 
-export const Get_visit = (page) => {
+export const Get_offer_Types = (GovernorateId, CityId, typeId, page) => {
   return async (dispatch) => {
+    dispatch({ type: 'GET_OFFERS_TYPE_ATTEMPT' });
     const Token = await AsyncStorage.getItem('app_Token');
-    const ID = await AsyncStorage.getItem('LOGIN_ID');
-
-    dispatch({ type: 'GET_VISITS_ATTEMPT' });
-
+    //  alert(Token)
     //call the backend 
-    axios.get(`${g.BASE_URL}/api/PatientMedicalFile/ClinicVisits?patientId=${ID}&PageNumer=${page}&PageSize=5`,
+    console.log('type:' + typeId);
+    axios.get(`${g.BASE_URL}/api/Offers/AllOffers?GovernorateId=${GovernorateId}&CityId=${CityId}&SponserTypeId=${typeId}&PageNumer=${page}&PageSize=5`,
       {
         headers:
         {
-          'Authorization': `Bearer ${Token}`,
           'accept': 'text/plain',
           'authorizationKey': g.authorizationKey,
+          'Authorization': `Bearer ${Token}`,
+
         }
       })
       .then(response => {
-        // If request is good...
-        console.log('__ Visits ___');
+        console.log('__ offresType ___');
         console.log(response.data.results);
+        // If request is good...
         onhandleResponse(dispatch, response)
 
       })
@@ -35,6 +35,6 @@ const onhandleResponse = (dispatch, data) => {
   // console.log(data.data );
 }
 
-const onGetcategories = (dispatch, visit) => {
-  dispatch({ type: 'GET_VISITS_SUCCESS', visit })
+const onGetcategories = (dispatch, offersType) => {
+  dispatch({ type: 'GET_OFFERS_TYPE_SUCCESS', offersType })
 }
