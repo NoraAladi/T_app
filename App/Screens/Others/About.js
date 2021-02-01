@@ -17,6 +17,11 @@ import {
 import Header from '../DealsScreen/header';
 import HeaderNav from '../../Navigation/HeaderNav';
 import CountryRegion from '../../Navigation/CountryRegion';
+import Spinner from '../../Navigation/Spinner'
+import { Get_Social } from '../../Actions/_get_social';
+import { connect } from 'react-redux'
+
+
 
 class About extends Component {
     constructor(props) {
@@ -26,12 +31,26 @@ class About extends Component {
         };
     }
 
+async componentDidMount ()
+{
+    await this.props.Get_Social()
+}
+
 
     render() {
         return (
             <View style={{ flex: 1 }}>
 
                 <HeaderNav title={g.ABOUT} />
+
+                {
+                            this.props.loading ?
+                                <View style={{ marginTop: hp('35%') }} >
+                                    <Spinner />
+                                </View>
+
+                                :
+
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={{ zIndex: -1 }}>
                         <View style={{
@@ -79,9 +98,21 @@ class About extends Component {
 
                     </View>
                 </ScrollView>
-            </View>
+                }
+       </View>
         );
 
     }
 }
-export default withNavigation(About);
+
+
+
+const mapStateToProps = state => {
+    return {
+        loading: state.social_channel.loading,
+        social: state.social_channel.social,
+    }
+}
+
+export default connect(mapStateToProps, { Get_Social })(withNavigation(About));
+
