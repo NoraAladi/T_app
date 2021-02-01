@@ -16,6 +16,7 @@ import _get_userInfo from './_get_userInfo';
 import _offersTypesReducer from './_offersTypesReducer';
 import getDependantsReducer from './getDependantsReducer';
 import getEmergencyReducer from './getEmergencyReducer';
+import _socialReducer from './_socialReducer';
 
 
 export default combineReducers({
@@ -36,4 +37,5 @@ export default combineReducers({
     offerType: _offersTypesReducer,
     Dependants: getDependantsReducer,
     Emergency:getEmergencyReducer,
+    social_channel : _socialReducer
 });

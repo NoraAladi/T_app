@@ -84,9 +84,9 @@ class CountryRegion extends Component {
        } */
 
     async _callApi() {
-        alert('country_id= ' + this.state.countryId + this.state.country + '\n' +
-            'region_id= ' + this.state.regionId + this.state.region + '\n'
-        )
+        // alert('country_id= ' + this.state.countryId + this.state.country + '\n' +
+        //     'region_id= ' + this.state.regionId + this.state.region + '\n'
+        // )
 
         this.props.callApi(this.state.countryId, this.state.regionId)
 
