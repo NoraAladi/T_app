@@ -35,7 +35,7 @@ class Tretment extends Component {
     }
 
   componentDidMount() {
-    this.props.Get_visit()  
+    this.props.Get_visit(1)  
     }
 
     render() {

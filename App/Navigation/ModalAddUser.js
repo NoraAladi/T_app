@@ -10,7 +10,8 @@ import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../App/Gloabal';
 import Modal from 'react-native-modalbox';
-
+import { Get_Dependants } from '../Actions/getDependantsAction';
+import { connect } from 'react-redux'
 
 class ModalAddUser extends Component {
     constructor(props) {
@@ -20,27 +21,30 @@ class ModalAddUser extends Component {
         };
     }
 
-
+    async componentDidMount() {
+        await this.props.Get_Dependants()
+        //   alert(JSON.stringify(this.props.Dependants))
+    }
 
     renderListHeader = () => {
         return (
-            <TouchableOpacity 
-            
-            onPress={() => {
-                this.props.closeModel()
-                // this.setState({
-                //     modal:!this.state.modal
-                // })
-                this.props.navigation.navigate('NewUserScreen')
+            <TouchableOpacity
 
-            }}>
-            <View style={styles.center}>
-                <View style={styles.circle}>
-                    <Icon name='plus' type='AntDesign' style={{ fontSize: 44, color: g.Blue }} />
+                onPress={() => {
+                    this.props.closeModel()
+                    // this.setState({
+                    //     modal:!this.state.modal
+                    // })
+                    this.props.navigation.navigate('NewUserScreen')
+
+                }}>
+                <View style={styles.center}>
+                    <View style={styles.circle}>
+                        <Icon name='plus' type='AntDesign' style={{ fontSize: 44, color: g.Blue }} />
+                    </View>
+                    <Text style={[styleLogin.txt_btn, styles.activeTxt]}>{g.ADD_NEW_USER}</Text>
                 </View>
-                <Text style={[styleLogin.txt_btn, styles.activeTxt]}>{g.ADD_NEW_USER}</Text>
-                </View>
-                </TouchableOpacity>
+            </TouchableOpacity>
         );
     }
     render() {
@@ -56,16 +60,16 @@ class ModalAddUser extends Component {
                         height: g.windowHeight,
                         backgroundColor: '#00000020',
                     }}
-                   onClosed = {()=>{
-                    this.props.closeModel()
-                   }}
+                    onClosed={() => {
+                        this.props.closeModel()
+                    }}
                 >
 
                     <View>
                         <View style={{
-                            backgroundColor: g.white, height: g.windowHeight /2,
+                            backgroundColor: g.white, height: g.windowHeight / 2,
                             borderTopLeftRadius: 20, borderTopRightRadius: 20,
-                            marginTop: g.windowHeight - (g.windowHeight /2),
+                            marginTop: g.windowHeight - (g.windowHeight / 2),
                         }}>
                             <View
 
@@ -116,22 +120,22 @@ class ModalAddUser extends Component {
                                     nestedScrollEnabled
                                     onEndReachedThreshold={.1}
                                     onEndReached={() => { console.log('saad') }}
-                                    data={[1, 1, 1, 1, 1, 1]}
+                                    data={this.props.Dependants}
                                     renderItem={({ item, index }) => (
                                         <TouchableOpacity>
                                             <View>
                                                 <View style={styles.circle}>
-                                                    <Image source={require('../Images/user.png')}
-                                                    
+                                                    <Image source={item.personalPhoto ? { uri: item.personalPhoto } : require('../Images/notFoundImage.png')}
+
                                                         style={{ width: 84, height: 84, borderRadius: 42 }} />
                                                 </View>
                                                 <Text style={[styleLogin.txt_btn, styles.activeTxt, { fontFamily: g.Regular, color: 'black' }]}>
-                                                    اسم المستخدم
-                                                    </Text>
+                                                    {item.fullNameEn}
+                                                </Text>
                                                 <Text style={[styleLogin.txt_btn, styles.activeTxt, {
-                                                    color: 'black',marginTop:-5
+                                                    color: 'black', marginTop: -5
                                                 }]}>
-                                                    SA877832
+                                                    {item.code}
                                                 </Text>
 
                                             </View>
@@ -169,4 +173,12 @@ const styles = StyleSheet.create({
         textAlign: 'center', color: g.Blue, fontSize: 14, width: 100
     },
 });
-export default withNavigation(ModalAddUser)
+
+const mapStateToProps = state => {
+    return {
+        loading: state.Dependants.loading,
+        Dependants: state.Dependants.Dependants,
+    }
+}
+
+export default connect(mapStateToProps, { Get_Dependants })(withNavigation(ModalAddUser));

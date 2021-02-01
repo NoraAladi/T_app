@@ -17,6 +17,10 @@ import { ArabicNumbers } from 'react-native-arabic-numbers';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import HeaderNav from '../../Navigation/HeaderNav';
 
+import { connect } from 'react-redux'
+import Spinner from '../../Navigation/Spinner'
+import { Get_USER_DATA } from '../../Actions/_get_user_data';
+
 
 const Jobs = [
     "طبيب",
@@ -54,6 +58,7 @@ var radio_props = [
 ];
 
 
+
 class EditUserData extends Component {
     constructor(props) {
         super(props);
@@ -77,6 +82,24 @@ class EditUserData extends Component {
         };
     }
 
+
+async  componentDidMount() 
+{
+   await this.props.Get_USER_DATA()
+   this.setState({
+    fullName: this.props.user_d.fullNameEn,
+    email: this.props.user_d.email,
+    mobile: this.props.user_d.mobileNumber,
+    address: this.props.user_d.location.city.cityNameAr ,
+    dateInAr : this.props.user_d.dateofBirth.split('T')[0] , 
+    Jobname : this.props.user_d.profession , 
+    country  : this.props.user_d.location.city.governate.nameAr , 
+    region : this.props.user_d.location.city.cityNameAr
+   })
+}
+
+
+
     arabicDate(date) {
         for (let index = 0; index < monthsEn.length; index++) {
             if (date.includes(monthsEn[index])) {
@@ -95,6 +118,14 @@ class EditUserData extends Component {
                     behavior={Platform.OS === "ios" ? "padding" : 'position'}
                     keyboardVerticalOffset={Platform.OS === "ios" ? 64 : -(g.windowHeight)}>
 
+                            {       
+                            this.props.loading ?
+                                <View style={{ marginTop: hp('35%') }} >
+                                    <Spinner />
+                                </View>
+
+                                :
+
                     <ScrollView
                         style={{ height: Platform.OS == "android"  ? '92%' : '85%'}}        
                         showsVerticalScrollIndicator={false}
@@ -111,7 +142,8 @@ class EditUserData extends Component {
                             <View style={[styles.viewInput]}>
 
                                 <TextInput
-                                    placeholder={g.FULL_NAME}
+                                    defaultValue = {this.state.fullName}
+                                    placeholder={this.state.fullName}
                                     keyboardType={'default'}
                                     onChangeText={(fullName) => {
                                         this.setState({
@@ -134,7 +166,8 @@ class EditUserData extends Component {
                             <View style={[styles.viewInput]}>
 
                                 <TextInput
-                                    placeholder={g.EMAIL}
+                                      defaultValue = {this.state.email}
+                                      placeholder={this.state.email}
                                     keyboardType={'email-address'}
                                     onChangeText={(email) => {
                                         this.setState({
@@ -159,7 +192,7 @@ class EditUserData extends Component {
                                     style={styleSignUp.dropDownIcon}
                                     onPress={() => {
                                         this.setState({
-                                            // showClender: !this.state.showClender
+                                         showClender: !this.state.showClender
                                         })
                                     }}
                                 />
@@ -212,7 +245,7 @@ class EditUserData extends Component {
                                     style={styleSignUp.dropDownIcon}
                                     onPress={() => {
                                         this.setState({
-                                            // showSex: !this.state.showSex
+                                         showSex: !this.state.showSex
                                         })
                                     }}
                                 />
@@ -320,7 +353,7 @@ class EditUserData extends Component {
                                     style={styleSignUp.dropDownIcon}
                                     onPress={() => {
                                         this.setState({
-                                            //  showJobs: !this.state.showJobs
+                                          showJobs: !this.state.showJobs
                                         })
                                     }}
                                 />
@@ -370,7 +403,7 @@ class EditUserData extends Component {
                                     style={styleSignUp.dropDownIcon}
                                     onPress={() => {
                                         this.setState({
-                                            //   showCountry: !this.state.showCountry
+                                           showCountry: !this.state.showCountry
                                         })
                                     }}
                                 />
@@ -419,7 +452,7 @@ class EditUserData extends Component {
                                     style={styleSignUp.dropDownIcon}
                                     onPress={() => {
                                         this.setState({
-                                            //    showRegion: !this.state.showRegion
+                                            showRegion: !this.state.showRegion
                                         })
                                     }}
                                 />
@@ -468,7 +501,8 @@ class EditUserData extends Component {
                             <View style={[styles.viewInput]}>
 
                                 <TextInput
-                                    placeholder={g.ADDRESS}
+                                    defaultValue = {this.props.user_d.location.city.cityNameAr}
+                                    placeholder={this.props.user_d.location.city.cityNameAr}
                                     keyboardType={'default'}
                                     onChangeText={(address) => {
                                         this.setState({
@@ -487,11 +521,20 @@ class EditUserData extends Component {
                         </TouchableOpacity>
 
                         </ScrollView>
-                        </KeyboardAvoidingView>
+                        }
+                   </KeyboardAvoidingView>
                         
             </View>
         );
 
     }
 }
-export default withNavigation(EditUserData);
+
+const mapStateToProps = state => {
+    return {
+        loading: state.user_data.loading,
+        user_d: state.user_data.user_d,
+    }
+}
+export default connect(mapStateToProps, { Get_USER_DATA })(withNavigation(EditUserData));
+

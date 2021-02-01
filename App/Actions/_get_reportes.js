@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios' ;
 import g from '../Gloabal'
 
-export const Get_Reportes  = ()=> 
+export const Get_Reportes  = (page)=> 
 {
    return async (dispatch) =>
    {
@@ -12,7 +12,7 @@ export const Get_Reportes  = ()=>
     dispatch({ type : 'GET_REPORTES_ATTEMPT'});
     
     //call the backend 
-      axios.get(`${g.BASE_URL}/api/PatientMedicalFile/AllReports?patientId=${ID}`,
+      axios.get(`${g.BASE_URL}/api/PatientMedicalFile/AllReports?patientId=${ID}&PageNumer=${page}&PageSize=5`,
       {  
        headers:
        { 
@@ -23,6 +23,8 @@ export const Get_Reportes  = ()=>
        })
       .then(response => {
           // If request is good...
+          console.log('__ Reports ___');
+          console.log(response.data.results);        
           onhandleResponse( dispatch , response) 
 
        })
@@ -31,7 +33,7 @@ export const Get_Reportes  = ()=>
 }
 const onhandleResponse = ( dispatch , data) =>
 {
-    onGetcategories( dispatch , data.data )
+    onGetcategories( dispatch , data.data.results )
     // console.log('OFFERS');
     // console.log(data.data );
 }
