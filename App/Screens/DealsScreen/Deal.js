@@ -2,32 +2,42 @@ import style from './style';
 import React, { Component } from 'react';
 import {
     Text, View, ScrollView, Image, Dimensions, FlatList,
-    TouchableOpacity, Platform, ImageBackground, I18nManager, KeyboardAvoidingView
+    TouchableOpacity,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
 import UserFooter from '../../Navigation/UserFooter';
-import i18n from '../../i18n';
 import Header from './header';
 import CountryRegion from '../../Navigation/CountryRegion';
-import { connect } from 'react-redux'
 import Spinner from '../../Navigation/Spinner'
 import { Get_offer } from '../../Actions/_get_offer';
+import { connect } from 'react-redux'
+
+import { Get_offer_Types } from '../../Actions/getOffersSponserType';
+
 
 
 const { width, height } = Dimensions.get("window");
-const data = [{ name: 'معامل تحاليل' }, { name: 'صيدليات' },
-{ name: 'مراكز أشعة' }, { name: 'أطباء' }]
+
+const data =
+    [
+        { name: 'معامل تحاليل', id: 2 },
+        { name: 'صيدليات', id: 4 },
+        { name: 'مراكز أشعة', id: 3 },
+        { name: 'أطباء', id: 1 }
+    ]
+
 class Deal extends Component {
     constructor(props) {
         super(props);
-
+        this.state = {
+            selectedTypeId: 0
+        }
     }
 
     componentDidMount() {
-        this.props.Get_offer(1, 2)
+        this.props.Get_offer(1, 2, 1)
     }
 
     renderListHeader = () => {
@@ -47,8 +57,21 @@ class Deal extends Component {
                         renderItem={({ item, index }) => (
                             <View style={style.center}>
                                 <TouchableOpacity
-                                    style={style.view3}>
-                                    <Text style={style.txt9}>
+                                    style={[style.view3, {
+
+                                        backgroundColor: item.id == this.state.selectedTypeId ? '#c1dcff' : null,
+                                        borderColor: item.id == this.state.selectedTypeId ? g.Blue : g.Light_Gray,
+                                    }]}
+                                    onPress={async () => {
+                                        await this.setState({
+                                            selectedTypeId: item.id
+                                        })
+                                        await this.props.Get_offer_Types(1, 1, this.state.selectedTypeId, 1)
+                                    }}
+                                >
+                                    <Text style={[style.txt9, {
+                                        color: item.id == this.state.selectedTypeId ? g.Blue : g.Light_Gray,
+                                    }]}>
                                         {item.name}
                                     </Text>
                                 </TouchableOpacity>
@@ -71,34 +94,34 @@ class Deal extends Component {
                 >
                     <View style={{ zIndex: -1 }}>
                         {
-                            this.props.loading ?
+                            (this.props.loading && this.state.selectedTypeId == 0)
+                                || (this.props.loadingType && this.state.selectedTypeId != 0) ?
                                 <View style={{ marginTop: hp('35%') }} >
                                     <Spinner />
                                 </View>
 
                                 :
-                                this.props.offers == '' ?
+                                (this.props.offers == '' && this.state.selectedTypeId == 0)
+                                    || (this.props.offerType == null && this.state.selectedTypeId != 0) ?
                                     <Text style={style.no_data}>
                                         {g.NO_DATA}
                                     </Text>
                                     :
                                     <View style={{ height: g.windowHeight - 55 }} >
-
                                         <FlatList
-                                            
                                             key={(item) => { item.id }}
                                             showsVerticalScrollIndicator={false}
                                             nestedScrollEnabled
                                             onEndReachedThreshold={.5}
                                             onEndReached={() => { console.log('saad') }}
-                                            data={this.props.offers}
+                                            data={this.state.selectedTypeId == 0 ? this.props.offers : this.props.offerType}
                                             renderItem={({ item, index }) => (
                                                 <View
                                                     style={[style.container, style.card,
                                                     { height: 300, flexDirection: 'column', marginBottom: 5 }]}>
                                                     <TouchableOpacity onPress={() => {
-                                                        this.props.navigation.navigate('DealsModelScreen' , {
-                                                            'ID' : item.placeId , 'Name' : item.placeName 
+                                                        this.props.navigation.navigate('DealsModelScreen', {
+                                                            'ID': item.placeId, 'Name': item.placeName
                                                         })
                                                     }}>
                                                         <Image source={require('../../Images/ads.png')}
@@ -154,10 +177,12 @@ const mapStateToProps = state => {
         loading: state.offer.loading,
         offers: state.offer.offers,
 
-    
+        loadingType: state.offerType.loadingType,
+        offerType: state.offerType.offerType,
+
 
     }
 }
 
-export default connect(mapStateToProps, { Get_offer })(withNavigation(Deal));
+export default connect(mapStateToProps, { Get_offer, Get_offer_Types })(withNavigation(Deal));
 

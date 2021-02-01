@@ -1,23 +1,14 @@
 import styles from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, ImageBackground, Image,
-    I18nManager, Modal, KeyboardAvoidingView, FlatList, Dimensions, VirtualizedList
+    Text, View, Image,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import AsyncStorage from '@react-native-community/async-storage';
-import {
-
-    UIActivityIndicator,
-} from 'react-native-indicators';
-import Header from '../DealsScreen/header';
 import HeaderNav from '../../Navigation/HeaderNav';
-import CountryRegion from '../../Navigation/CountryRegion';
-
+import { Get_Emergency } from '../../Actions/getEmergencyAction';
+import { connect } from 'react-redux'
 class Emergency extends Component {
     constructor(props) {
         super(props);
@@ -25,7 +16,9 @@ class Emergency extends Component {
 
         };
     }
-
+    async componentDidMount() {
+        await this.props.Get_Emergency()
+    }
 
     render() {
         return (
@@ -43,7 +36,7 @@ class Emergency extends Component {
                         <Image source={require('../../Images/es3af.jpg')}
                             resizeMode={'center'}
                             style={{
-                                width: 70, height: 70,borderRadius:35
+                                width: 70, height: 70, borderRadius: 35
                             }} />
                         <View style={{ padding: 10, }}>
                             <Text style={[styles.txtBold]}>
@@ -64,7 +57,7 @@ class Emergency extends Component {
 
                     <View style={{
                         height: 1, width: wp('90'), marginLeft: 'auto', marginRight: 'auto',
-                    backgroundColor:g.Light_Gray,borderRadius:5,opacity:.3
+                        backgroundColor: g.Light_Gray, borderRadius: 5, opacity: .3
                     }} />
 
                     <View style={{
@@ -97,7 +90,7 @@ class Emergency extends Component {
 
                     <View style={{
                         height: 1, width: wp('90'), marginLeft: 'auto', marginRight: 'auto',
-                    backgroundColor:g.Light_Gray,borderRadius:5,opacity:.3
+                        backgroundColor: g.Light_Gray, borderRadius: 5, opacity: .3
                     }} />
 
                     <View style={{
@@ -132,7 +125,12 @@ class Emergency extends Component {
                 </View>
             </View>
         );
-
     }
 }
-export default withNavigation(Emergency);
+const mapStateToProps = state => {
+    return {
+        Emergency: state.Emergency.Emergency,
+    }
+}
+export default connect(mapStateToProps, { Get_Emergency })(withNavigation(Emergency));
+

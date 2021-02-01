@@ -1,19 +1,12 @@
 import styles from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, ImageBackground,
-    I18nManager, Modal, KeyboardAvoidingView, FlatList, Dimensions
+    Text, View, ScrollView
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import AsyncStorage from '@react-native-community/async-storage';
-import {
 
-    UIActivityIndicator,
-} from 'react-native-indicators';
 import Header from '../DealsScreen/header';
 import UserFooter from '../../Navigation/UserFooter';
 class Others extends Component {
@@ -77,7 +70,7 @@ class Others extends Component {
                                 this.props.navigation.navigate('ContactScreen')
                             }}
                         >
-                        <Text style={styles.txtBold}>
+                            <Text style={styles.txtBold}>
                                 {g.CONTACT}
                             </Text>
 

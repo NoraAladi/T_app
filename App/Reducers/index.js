@@ -11,6 +11,9 @@ import _lab_search from './_doctor_search';
 import specialistReducer from './specialistReducer';
 import countriesReducer from './countriesReducer';
 import citiesReducer from './citiesReducer';
+import _offersTypesReducer from './_offersTypesReducer';
+import getDependantsReducer from './getDependantsReducer';
+import getEmergencyReducer from './getEmergencyReducer';
 
 
 export default combineReducers({
@@ -26,4 +29,7 @@ export default combineReducers({
     specialist: specialistReducer,
     countries: countriesReducer,
     cities: citiesReducer,
+    offerType: _offersTypesReducer,
+    Dependants: getDependantsReducer,
+    Emergency:getEmergencyReducer,
 });
