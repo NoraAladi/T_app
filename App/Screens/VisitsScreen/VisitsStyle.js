@@ -10,11 +10,13 @@ export default {
         flexDirection: 'row-reverse',
         height: 60, marginTop: hp('1%'),
         backgroundColor: g.white,
-        shadowColor: g.white,
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.37,
-        shadowRadius: 3.49,
-        elevation: 6, width: '100%', justifyContent: 'space-between',
+        elevation: 4,
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: .1,
+        shadowRadius: 1.49, width: '100%', justifyContent: 'space-between',
         paddingHorizontal: 40,
 
 
@@ -29,12 +31,14 @@ export default {
         flexDirection: 'row',
         marginBottom: 5,
         backgroundColor: g.white,
-        shadowColor: g.white,
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 0.37,
-        shadowRadius: 3.49,
         elevation: 4,
-        paddingVertical:10 ,
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: .1,
+        shadowRadius: 1.49,
+        paddingVertical: 10,
     },
 
     img:
@@ -45,15 +49,14 @@ export default {
 
     title:
     {
-        fontFamily: g.Bold, color: g.Gray, fontSize: 16,
+        fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, color: g.Gray, fontSize: 16,
         color: g.Gray, textAlign: 'right', width: wp('65%')
     },
 
     txt:
     {
-        textAlign: 'center', fontFamily: g.Bold,
-        marginLeft: wp('15%'), width: wp('50%'),
-        textAlign: 'right', 
+        fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginLeft: wp('15%'), width: wp('50%'),
+        textAlign: 'right',
     },
 
     btn:
@@ -70,7 +73,7 @@ export default {
     },
     offer:
     {
-        fontFamily: g.Bold, marginTop: -5, color: g.Blue,
+        fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginTop: -5, color: g.Blue,
         fontSize: 18
     },
     // Tretment
@@ -81,10 +84,9 @@ export default {
 
     doctor_name:
     {
-        fontFamily: g.Bold,
-        textAlign: 'right', width: wp('65%'), color: g.Blue, fontSize: 14,
+        fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'right', width: wp('65%'), color: g.Blue, fontSize: 14,
         marginRight: wp('5%'),
-      //  marginTop: hp('2'),
+        //  marginTop: hp('2'),
     },
 
     date:
@@ -96,7 +98,7 @@ export default {
 
     date_txt:
     {
-        fontFamily: g.Bold, textAlign: 'center',
+        fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'center',
         color: g.COLOR_NO, height: 20
     },
 
@@ -106,7 +108,14 @@ export default {
         color: g.COLOR_NO, height: 20, fontSize: 12
     },
     normalTxt: {
-        textAlign: 'center', fontFamily: g.Regular,fontSize: 12
+        textAlign: 'center', fontFamily: g.Regular, fontSize: 12
+    },
+
+    no_data : 
+    {
+      marginTop: hp('30%'),
+      textAlign: 'center', fontFamily: g.Regular, color: g.Gray, fontSize: 20,
     }
+    
 
 };

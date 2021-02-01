@@ -6,13 +6,18 @@ import style from '../DealsScreen/style';
 import React, { Component } from 'react';
 import {
     Text, View, FlatList, TouchableOpacity
-    , TouchableWithoutFeedback, 
+    , TouchableWithoutFeedback,  Platform 
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
 import Modal from 'react-native-modalbox';
+
+import { connect } from 'react-redux'
+import Spinner from '../../Navigation/Spinner'
+import { Get_Reportes } from '../../Actions/_get_reportes';
+import moment from 'moment'
 
 const colors = [g.Date1, g.Date1, g.Date1
     , g.Date2, g.Date2, g.Date3, g.Date4, g.Date4, g.Date4]
@@ -26,6 +31,11 @@ class Reportes extends Component {
             modal: false
         }
 
+    }
+
+    componentDidMount()
+    {
+        this.props.Get_Reportes()
     }
 
     render() {
@@ -50,7 +60,8 @@ class Reportes extends Component {
                             style.img_view,
                             {
                                 borderWidth: .5, borderRadius: 20,
-                                borderColor: this.state.tab_1 ? '#0070FF' : g.Light_Gray, transform: [{ rotateY: '180deg' }],
+                                borderColor: this.state.tab_1 ? '#0070FF' : g.Light_Gray,
+                                 transform:  Platform.OS == "android" ? [{ rotateY: '180deg' }]:[{ rotateY: '0deg' }],
                                 backgroundColor: this.state.tab_1 ? '#0070FF10' : 'white'
                             },
                         ]}>
@@ -77,8 +88,7 @@ class Reportes extends Component {
                                 width: 150,
                                 borderColor: this.state.tab_2 ? '#0070FF' : g.Light_Gray,
                                 borderWidth: .5, borderRadius: 20,
-                                transform: [{ rotateY: '180deg' }],
-                                backgroundColor: this.state.tab_2 ? '#0070FF10' : 'white'
+                                transform:  Platform.OS == "android" ? [{ rotateY: '180deg' }]:[{ rotateY: '0deg' }],                                backgroundColor: this.state.tab_2 ? '#0070FF10' : 'white'
                             },
                         ]}>
 
@@ -93,12 +103,24 @@ class Reportes extends Component {
                     </TouchableOpacity>
 
                 </View>
+                {
+                    this.props.loading ?
+                        <View style={{ marginTop: hp('35%') }} >
+                            <Spinner />
+                        </View>
+
+                        :
+                        this.props.reportes == '' ?
+                            <Text style={style.no_data}>
+                                {g.NO_DATA}
+                            </Text>
+                            :
                 <View style={{ height: hp('80%') }} >
                     <FlatList
                         key={(item) => { item.id }}
                         showsVerticalScrollIndicator={false}
                         nestedScrollEnabled
-                        data={[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
+                        data={this.props.reportes}
                         renderItem={({ item, index }) => (
                             <View style={{ flexDirection: 'row', marginLeft: 10 }}>
                                 <TouchableWithoutFeedback
@@ -120,16 +142,19 @@ class Reportes extends Component {
                                             flexDirection: 'column', marginLeft: 'auto'
                                         }}>
                                             <Text style={VisitsStyle.doctor_name}>
-                                                CRP,CBC Urine ESR </Text>
+                                                {item.reportNames} </Text>
                                             <Text style={[VisitsStyle.txt, { fontSize: 12 }]}>
-                                                معمل المختبر
+                                                {item.reportType}
                                   </Text>
 
                                             <Text style={[VisitsStyle.txt, {
-                                                fontSize: 12, color: g.Light_Gray,
+                                                fontSize: 12, color: g.Light_Gray, 
                                             }]}>
-                                                د. محمد سعدون
+
+                                                {item.doctorName}
+
                                   </Text>
+                                 
                                         </View>
 
                                     </View>
@@ -158,10 +183,10 @@ class Reportes extends Component {
                                                 height: 100, padding: 0
                                             }]}>تحليل</Text>
                                         </View>
-                                        <Text style={VisitsStyle.date_txt}>0 </Text>
-                                        <Text style={VisitsStyle.month}> ديسمبر
+                                        <Text style={VisitsStyle.date_txt}>{  moment(item.clinicVisitDate).format('DD')} </Text>
+                                        <Text style={[VisitsStyle.month , {  marginRight : 10 ,}]}>  {moment(item.clinicVisitDate).format('MMM')}
                                  </Text>
-                                        <Text style={VisitsStyle.month}>٢٠٢٠</Text>
+                                        <Text style={VisitsStyle.month}>{moment(item.clinicVisitDate).format('yy')}</Text>
                                     </View>
 
                                 </View>
@@ -200,8 +225,9 @@ class Reportes extends Component {
                             </View>
                         )} />
                 </View>
+                    }
                 {/*** Modal Reports*/}
-
+                                    
                 <Modal
                     //      transparent={true}
                     isOpen={this.state.modal}
@@ -265,4 +291,16 @@ class Reportes extends Component {
 
     }
 }
-export default withNavigation(Reportes);
+
+const mapStateToProps = state => {
+    return {
+        loading: state.report.loading,
+        reportes: state.report.reportes,
+
+        user: state.auth.user,
+
+    }
+}
+
+export default connect(mapStateToProps, { Get_Reportes })(withNavigation(Reportes));
+

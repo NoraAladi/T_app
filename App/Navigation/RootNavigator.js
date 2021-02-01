@@ -17,12 +17,27 @@ import DealsModelScreen from '../Screens/DealsScreen/Model';
 
 import VisitsScreen from '../Screens/VisitsScreen/Visits';
 
-
 import Test from '../Screens/test/Test';
 
 import SearchScreen from '../Screens/SearchScreen/Search';
 import SearchListScreen from '../Screens/SearchScreen/SearchList';
+import DispenseScreen from '../Screens/SearchScreen/DispenseScreen';
 
+import Others from '../Screens/Others/Others';
+import JobsScreen from '../Screens/Others/Jobs';
+import AboutScreen from '../Screens/Others/About';
+import ContactScreen from '../Screens/Others/Contact';
+import EmergencyScreen from '../Screens/Others/Emergency';
+
+import ProfileScreen from '../Screens/ProfileScreen/Profile';
+import EditMedicalScreen from '../Screens/ProfileScreen/EditMedicalData';
+import EditPassScreen from '../Screens/ProfileScreen/EditPassword';
+import EditProfileScreen from '../Screens/ProfileScreen/EditUserData';
+import UserManagementScreen from '../Screens/ProfileScreen/UserManagement';
+
+import NewUserScreen from '../Screens/NewUserScreen/newUser';
+import ThanksDispense from '../Screens/SearchScreen/ThanksDispense';
+import MyOrderScreen from '../Screens/MyOrderScreen/myOrder';
 
 
 import SideBar from './SideBar';
@@ -36,31 +51,82 @@ const Navigator = createStackNavigator({
   {
     screen: Test,
  ,*/
+ 
+ HomeScreen:
+ {
+   screen: HomeScreen,
+   navigationOptions:
+   {
+     headerMode: 'none',
+     header: null,
+     drawerLockMode: 'locked-closed'
+   },
+  },
+ SearchScreen:
+ {
+   screen: SearchScreen,
+   navigationOptions:
+   {
+     headerMode: 'none',
+     header: null,
+     drawerLockMode: 'locked-closed'
+   },
+
+  },
+  
+  
+
+ 
+  ProfileScreen:
+  {
+    screen: ProfileScreen,
+    navigationOptions:
+    {
+      headerMode: 'none',
+      header: null,
+      drawerLockMode: 'locked-closed'
+    },
+   },
+   
+
+   NewUserScreen:
+ {
+   screen: NewUserScreen,
+   navigationOptions:
+   {
+     headerMode: 'none',
+     header: null,
+     drawerLockMode: 'locked-closed'
+   },
+ },
+  
+ DispenseScreen:
+ {
+   screen: DispenseScreen,
+ navigationOptions:
+   {
+     headerMode: 'none',
+     header: null,
+     drawerLockMode: 'locked-closed'
+   },
+  },
   
 
 
+ 
+ 
+ Others:
+ {
+   screen: Others,
+   navigationOptions:
+   {
+     headerMode: 'none',
+     header: null,
+     drawerLockMode: 'locked-closed'
+   },
+ },
 
-  HomeScreen:
-  {
-    screen: HomeScreen,
-    navigationOptions:
-    {
-      headerMode: 'none',
-      header: null,
-      drawerLockMode: 'locked-closed'
-    },
-  },
-
-  SearchScreen:
-  {
-    screen: SearchScreen,
-    navigationOptions:
-    {
-      headerMode: 'none',
-      header: null,
-      drawerLockMode: 'locked-closed'
-    },
-  },
+ 
 
  SearchListScreen : 
   {
@@ -72,6 +138,7 @@ const Navigator = createStackNavigator({
       drawerLockMode: 'locked-closed'
     },
   },
+  
   VerificationScreen:
   {
     screen: VerificationScreen,
@@ -162,6 +229,120 @@ const Navigator = createStackNavigator({
 
   VisitsScreen: {
     screen: VisitsScreen,
+    navigationOptions:
+    {
+      headerMode: 'none',
+      header: null,
+      drawerLockMode: 'locked-closed'
+    },
+  },
+
+
+  JobsScreen:
+ {
+   screen: JobsScreen,
+   navigationOptions:
+   {
+     headerMode: 'none',
+     header: null,
+     drawerLockMode: 'locked-closed'
+   },
+  },
+  
+
+  AboutScreen:
+ {
+   screen: AboutScreen,
+   navigationOptions:
+   {
+     headerMode: 'none',
+     header: null,
+     drawerLockMode: 'locked-closed'
+   },
+  },
+  
+
+  ContactScreen:
+ {
+   screen: ContactScreen,
+   navigationOptions:
+   {
+     headerMode: 'none',
+     header: null,
+     drawerLockMode: 'locked-closed'
+   },
+  },
+  
+  EmergencyScreen:
+  {
+    screen: EmergencyScreen,
+    navigationOptions:
+    {
+      headerMode: 'none',
+      header: null,
+      drawerLockMode: 'locked-closed'
+    },
+  },
+
+
+  EditMedicalScreen:
+  {
+    screen: EditMedicalScreen,
+    navigationOptions:
+    {
+      headerMode: 'none',
+      header: null,
+      drawerLockMode: 'locked-closed'
+    },
+  },
+  
+  EditPassScreen:
+  {
+    screen: EditPassScreen,
+    navigationOptions:
+    {
+      headerMode: 'none',
+      header: null,
+      drawerLockMode: 'locked-closed'
+    },
+  },
+  
+  EditProfileScreen:
+  {
+    screen: EditProfileScreen,
+    navigationOptions:
+    {
+      headerMode: 'none',
+      header: null,
+      drawerLockMode: 'locked-closed'
+    },
+  },
+  
+  
+  UserManagementScreen:
+  {
+    screen: UserManagementScreen,
+    navigationOptions:
+    {
+      headerMode: 'none',
+      header: null,
+      drawerLockMode: 'locked-closed'
+    },
+  },
+
+  ThanksDispense:
+  {
+    screen: ThanksDispense,
+    navigationOptions:
+    {
+      headerMode: 'none',
+      header: null,
+      drawerLockMode: 'locked-closed'
+    },
+  },
+
+MyOrderScreen : {
+    screen: MyOrderScreen,
     navigationOptions:
     {
       headerMode: 'none',

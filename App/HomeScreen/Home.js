@@ -14,13 +14,19 @@ import OnBoard from './OnBoard';
 
 function Home({ navigation }) {
 
+  const params = navigation.state.params || {};
+  const logout_ = params.logout_ ? params.logout_ : false
+
   const [splash, isSplash] = useState(true)
   const [start, isStart] = useState(true)
+  const [token, istoken] = useState(false)
+
   const [appState, setAppState] = useState(AppState.currentState);
 
 
   useEffect(() => {
     Orientation.lockToPortrait()
+
     console.disableYellowBox = true;
     AsyncStorage.getItem('start').then(val => {
       if (val != 'disabled') {
@@ -40,7 +46,7 @@ function Home({ navigation }) {
 
   }, [appState]);
 
-
+  
 
   const handleAppStateChange = (state) => {
     console.log(state);
@@ -50,20 +56,37 @@ function Home({ navigation }) {
   AsyncStorage.getItem('start').then(val => {
     if (val == 'disabled') {
       isStart(false)
+
     }
     else {
       isStart(true)
     }
   })
 
+
+  AsyncStorage.getItem('app_Token').then(val => {
+    if (val != null) {
+      istoken(true)
+      navigation.replace('SearchScreen')
+      return true
+    }
+    else {
+      istoken(false)
+      return false
+    }
+  })
+ 
+
   return (
     <>
       <View>
         {
-          splash ?
+
+          splash && !token && !logout_ ?
             <SplashScreen />
             :
-            start ?
+            start && !token ?
+
               <OnBoard />
               :
               null

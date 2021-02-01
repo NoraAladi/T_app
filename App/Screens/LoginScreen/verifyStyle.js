@@ -1,5 +1,6 @@
 import { StyleSheet, Platform } from 'react-native';
 import G from '../../Gloabal';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export const CELL_SIZE = 50;
 export const CELL_BORDER_RADIUS = 8;
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     color: G.darkGrey,
     fontSize: 24,
-    fontFamily: G.Bold,
+    fontFamily: Platform.OS == "android" ?  G.Bold  : G.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,    marginRight: wp('10'),
     textAlign: 'center',
     paddingBottom: 40,
   },

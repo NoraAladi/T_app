@@ -22,9 +22,18 @@ class Enterpass extends Component {
     render() {
         return (
             <View>
-                <Text style={[styles.change_title, { fontSize: 18 }]}>
-                    {g.CHANGE_PASSWORD}
-                </Text>
+                  <View style={{ flexDirection: 'row',  paddingHorizontal: 25, 
+            marginTop : Platform.OS == "ios" ? hp('5%') : null
+            }}>
+                    <Text style={[styles.change, { fontSize: 18 ,marginLeft: wp('25') ,}]}>
+                        {g.CHANGE_PASSWORD}
+                    </Text>
+                    <Icon name="arrowright" type="AntDesign"
+                        style={[styles.arrow, { marginLeft: 'auto' }]}
+                        onPress={()=>{this.props.navigation.pop()}}
+
+                    />
+                </View>
 
 
                 <Text style={styles.login}>

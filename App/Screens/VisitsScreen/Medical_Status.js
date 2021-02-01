@@ -88,7 +88,7 @@ class Visit extends Component {
                                         </Text>
                                                 <TouchableOpacity style={VisitsStyle.btn}>
                                                     <Text style={{
-                                                        fontFamily: g.Bold, marginTop: -5, color: g.Blue,
+fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                                         marginTop: -5, color: g.Blue,
                                                         fontSize: 18
                                                     }}> {i18n.t(g.OFFER_BTN)} </Text>
                                                 </TouchableOpacity>
@@ -159,7 +159,7 @@ class Visit extends Component {
                                     source={require('../../Images/caution.png')} />
 
                                 <Text style={{
-                                    fontFamily: g.Bold, fontSize: 16,
+fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                    fontSize: 16,
                                     textAlign: 'center',
                                 }}>
                                     {g.HIDE_DATA}
@@ -190,7 +190,7 @@ class Visit extends Component {
                                         })
                                     }}
                                     style={{
-                                        fontFamily: g.Bold, fontSize: 16,
+                                        fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                         fontSize: 16,
                                         textAlign: 'center',
                                         width: (g.windowWidth - 80) / 2,
                                         color: '#E02020'
@@ -206,7 +206,7 @@ class Visit extends Component {
                                     }}
 
                                     style={{
-                                        fontFamily: g.Bold, fontSize: 16,
+                                        fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                         fontSize: 16,
                                         textAlign: 'center',
                                         width: (g.windowWidth - 80) / 2,
                                         color: g.Blue

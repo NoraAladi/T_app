@@ -11,13 +11,28 @@ import g from '../../Gloabal';
 import i18n from '../../i18n';
 import Header from './header';
 import BottomSheet from 'reanimated-bottom-sheet';
+import { connect } from 'react-redux'
+import Spinner from '../../Navigation/Spinner'
+import { Get_offer_details } from '../../Actions/_get_offer_details';
+
+var ID = '', Name = ''
 
 class DealsModelScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            Name: '', ID: ''
         }
+    }
+
+    async componentDidMount() {
+        ID = this.props.navigation.getParam('ID')
+        Name = this.props.navigation.getParam('Name')
+        this.setState({
+            ID: ID, Name: Name
+        })
+
+        await this.props.Get_offer_details(ID)
     }
 
     renderContent = () => (
@@ -26,59 +41,77 @@ class DealsModelScreen extends Component {
                 backgroundColor: g.white,
             }}>
 
-           <View style={ style.semi} />
-            <View style={{ alignItems: 'flex-end', padding: 20 , }}>
-                <Text style={[style.txt, style.sale, { marginTop: hp('1%') }]}>
-                    50% خصم</Text>
 
-                <Text style={[style.txt, style.txt3]}>
-                    صيدلية العزبي عملتلكوا عروض كتير بخصومات لحد 50% على منتجات مختلفة عشان نفرحها بهدية مختلفة
-                    </Text>
-
-                <Text
-                    style={[style.txt, style.txt1, { marginTop: hp('1%') }]}>
-                    400 ج.م</Text>
-                <Text style={[style.txt, style.txt4]}>
-                    200 ج.م</Text>
-
-
-                <Text style={[style.txt, style.txt5]}>
-                    بندور على هدية مميزة نشكر بيها ماما ونفرحها… وعشان متحتاروش كتير #صيدلية_العزبي عملتلكوا عروض كتير بخصومات لحد 50% على منتجات مختلفة عشان نفرحها بهدية مختلفة… العروض هتلاقوها في كل فروعنا من يوم 14/3 ولحد يوم 1/4
-                    </Text>
-
-
-                <Text style={[style.txt, style.txt2, { marginTop: hp('2%') }]}>
-                    العرض ساري حتي ٢٨ يناير ٢٠٢١</Text>
-
-                <View style={style.line} />
-                <View style={{ flexDirection: 'row', margin: 20 }}>
-                    <Text style={style.branch}>{i18n.t(g.BRANCH)}</Text>
-                    <View style={[style.view1, { marginRight: wp('2%') }]}>
-                        <Text style={[style.username, { fontFamily: g.Bold }]}> صيدلية العزبي </Text>
-                        <Text style={[style.code, style.txt6]}>صيدلية  </Text>
+            <View style={style.semi} />
+            {
+                this.props.loading ?
+                    <View style={{ marginTop: hp('35%') }} >
+                        <Spinner />
                     </View>
-                    <Image source={require('../../Images/profile.png')}
-                        style={[style.userimg]} />
 
-                </View>
-                <View style={[style.line, { marginTop: hp('0%') }]} />
-                <Text style={[style.txt, style.txt7]}>
-                    {i18n.t(g.HOWGETOFFER)}
-                </Text>
+                    :
+                    this.props.offers_details == '' ?
+                        <Text style={style.no_data}>
+                            {g.NO_DATA}
+                        </Text>
+                        :
+                        <View style={{ alignItems: 'flex-end', padding: 20, }}>
+                            <Text style={[style.txt, style.sale, { marginTop: hp('1%') }]}>
+                                {this.props.offer_detail.discount}{g.DISCOUNT}</Text>
 
-                <Text style={[style.txt, style.txt8]}>
+                            <Text style={[style.txt, style.txt3]}>
+                                {this.props.offer_detail.descriptionEn}
+                            </Text>
 
-                    هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها. ولذلك يتم استخدام طريقة لوريم إيبسوم لأنها تعطي توزيعاَ طبيعياَ -إلى حد ما- للأحرف عوضاً عن استخدام "هنا يوجد محتوى نصي، هنا يوجد محتوى نصي" فتجعلها تبدو (أي الأحرف) وكأنها نص مقروء.                      </Text>
-            </View>
+                            <Text
+                                style={[style.txt, style.txt1, { marginTop: hp('1%') }]}>
+                                {this.props.offer_detail.priceBefore} {g.POUND}</Text>
+                            <Text style={[style.txt, style.txt4]}>
+                                {this.props.offer_detail.priceAfter} {g.POUND}</Text>
+
+
+                            <Text style={[style.txt, style.txt5]}>
+                                {this.props.offer_detail.descriptionEn}
+                            </Text>
+
+
+                            <Text style={[style.txt, style.txt2, { marginTop: hp('2%') }]}>
+                                {g.OFFERS_SARY}   {this.props.offer_detail.toDate.split('T')[0]}</Text>
+
+                            <View style={style.line} />
+                            <View style={{ flexDirection: 'row', margin: 20 }}>
+                                <Text style={style.branch}>{i18n.t(g.BRANCH)}</Text>
+                                <View style={[style.view1, { marginRight: wp('2%') }]}>
+                                    <Text style={[style.username, {
+                                        fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
+
+                                    }]}>   {this.props.offer_detail.placeName} </Text>
+                                    <Text style={[style.code, style.txt6]}>{this.props.offer_detail.titleEn}  </Text>
+                                </View>
+                                <Image source={require('../../Images/profile.png')}
+                                    style={[style.userimg]} />
+
+                            </View>
+                            <View style={[style.line, { marginTop: hp('0%') }]} />
+                            <Text style={[style.txt, style.txt7]}>
+                                {i18n.t(g.HOWGETOFFER)}
+                            </Text>
+
+                            <Text style={[style.txt, style.txt8]}>
+                                {this.props.offer_detail.descriptionEn}
+                            </Text>
+                        </View>
+            }
         </View>
     );
-    
+
     render() {
         return (
 
-            <View style = {{ height : '100%'}}>
-               <BottomSheet
-                    snapPoints={[ 500 , 600 , 500   ]}
+            <View style={{ height: '100%' }}>
+                <BottomSheet
+                    snapPoints={[Platform.OS == "ios" ? 650 : 500,
+                    Platform.OS == "ios" ? 750 : 600, Platform.OS == "ios" ? 750 : 500]}
                     borderRadius={20}
                     renderContent={this.renderContent}
                 />
@@ -88,18 +121,27 @@ class DealsModelScreen extends Component {
                         style={style.img} />
                     <View onStartShouldSetResponder={() => {
                         this.props.navigation.pop()
-
-                    }} style={{ flexDirection: 'row', marginLeft: 'auto' , backgroundColor : 'red' }}>
-                        <Text style={style.title3}> صيدلية العزبي عملتلكوا عروض … </Text>
-
+                    }} style={{
+                        flexDirection: 'row', marginLeft : wp('60%')
+                    }}>  
+                        <Text  style={[style.title3 , {zIndex : 2}]}> {this.state.Name}</Text>
                         <Icon name="arrowdown" type="AntDesign"
                             style={[style.arrow, style.down]} />
                     </View>
                 </View>
-               
+
             </View>
         );
 
     }
 }
-export default withNavigation(DealsModelScreen);
+const mapStateToProps = state => {
+    return {
+        loading: state.offers_details.loading,
+        offer_detail: state.offers_details.offer_detail,
+
+
+    }
+}
+
+export default connect(mapStateToProps, { Get_offer_details })(withNavigation(DealsModelScreen));

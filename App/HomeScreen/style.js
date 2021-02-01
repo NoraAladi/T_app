@@ -40,12 +40,12 @@ export default {
   },
   header: {
     textAlign: 'right',
-    fontFamily: G.Bold,
+    fontFamily: Platform.OS == "android" ?  G.Bold  : G.Regular , fontWeight : Platform.OS == "ios" ? "800": null , 
     color: 'black',
     fontSize: 24,
     paddingRight: 20,
     padding: 5,
-
+    marginTop : Platform.OS == "ios" ? hp('5%') : null 
   },
   txt: {
     textAlign: 'right',
@@ -57,7 +57,7 @@ export default {
   },
   normalTxt: {
     textAlign: 'center',
-    fontFamily: G.Bold,
+    fontFamily: Platform.OS == "android" ?  G.Bold  : G.Regular , fontWeight : Platform.OS == "ios" ? "800": null , 
     color: 'white',
     fontSize: 16,
     

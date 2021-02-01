@@ -25,6 +25,7 @@ import Reportes from './Reportes';
 import VisitsStyle from './VisitsStyle';
 import { ArabicNumbers } from 'react-native-arabic-numbers';
 import Modal from 'react-native-modalbox';
+import ModalAddUser from '../../Navigation/ModalAddUser';
 class Visits extends Component {
     constructor(props) {
         super(props);
@@ -35,12 +36,18 @@ class Visits extends Component {
             tabSelected_3: false,
             heightWithScroll: g.windowHeight,
             elevation: true,
-            modal: false
+            modal: false,
+            Flag: false
+
 
         };
     }
 
-
+    _close_model() {
+        this.setState({
+            Flag: false
+        })
+    }
 
     componentDidMount() {
         this.props.navigation.addListener('willFoucs', () => {
@@ -61,15 +68,12 @@ class Visits extends Component {
     }
 
 
-   
+
     render() {
 
         return (
-            <View
-                style={{ flex: 1, zIndex: -1, }}
+            <View style={{ flex: 1, zIndex: -1, }}>
 
-            >
-            
                 <View style={[headerStyle.container, {
                     flexDirection: 'column', zIndex: -1,
                     elevation: this.state.elevation ? 3 : 0
@@ -81,14 +85,25 @@ class Visits extends Component {
                         paddingHorizontal: 10
                     }}>
                         <View style={{ flexDirection: 'row', marginTop: 20, }}>
-                            <Icon name="arrow-drop-down" type="MaterialIcons"
-                                style={headerStyle.arrow} />
+                            <TouchableOpacity onPress={() => {
+                                this.setState({
+                                    Flag: true
+                                })
+
+                            }}>
+                                <Icon name="arrow-drop-down" type="MaterialIcons"
+                                    style={headerStyle.arrow} />
+                            </TouchableOpacity>
+                            <TouchableOpacity  style = {{ flexDirection : 'row'}} onPress = {()=>{
+                                 this.props.navigation.navigate('ProfileScreen')
+                             }}>
                             <Image source={require('../../Images/profile.png')}
                                 style={headerStyle.userimg} />
                             <View style={headerStyle.view1}>
                                 <Text style={headerStyle.username}> هشام مهدي </Text>
                                 <Text style={headerStyle.code}>SA877832  </Text>
-                            </View>
+                                </View>
+                                </TouchableOpacity>
                         </View>
                         <Text style={[headerStyle.offer, {
                             marginTop: 'auto',
@@ -104,6 +119,7 @@ class Visits extends Component {
                         justifyContent: 'space-around',
                         marginTop: 5,
                         paddingHorizontal: 10,
+
                     }}>
                         <View
                             style={{ justifyContent: 'center', alignItems: 'center' }}
@@ -117,11 +133,11 @@ class Visits extends Component {
                             }}>
                             <Text style={{
                                 width: g.windowWidth / 3,
+                                height: Platform.OS == "ios" ? 40 : null,
                                 paddingVertical: 5,
                                 textAlign: 'center',
                                 fontSize: 14,
-                                fontFamily: g.Bold,
-                                marginTop: 3,
+                                fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginTop: 3,
                                 borderBottomColor: this.state.tabSelected_1 ? g.Blue : g.Light_Gray,
                                 borderBottomWidth: this.state.tabSelected_1 ? 3 : 0,
                                 color: this.state.tabSelected_1 ? g.Blue : 'black'
@@ -145,9 +161,9 @@ class Visits extends Component {
                                 width: g.windowWidth / 3,
                                 paddingVertical: 5,
                                 textAlign: 'center',
+                                height: Platform.OS == "ios" ? 40 : null,
                                 fontSize: 14,
-                                fontFamily: g.Bold,
-                                marginTop: 3,
+                                fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginTop: 3,
                                 borderBottomColor: this.state.tabSelected_2 ? g.Blue : g.Light_Gray,
                                 borderBottomWidth: this.state.tabSelected_2 ? 3 : 0,
                                 color: this.state.tabSelected_2 ? g.Blue : 'black'
@@ -171,8 +187,9 @@ class Visits extends Component {
                                 paddingVertical: 5,
                                 textAlign: 'center',
                                 fontSize: 14,
-                                fontFamily: g.Bold,
-                                marginTop: 3,
+                                height: Platform.OS == "ios" ? 40 : null,
+
+                                fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginTop: 3,
                                 borderBottomColor: this.state.tabSelected_3 ? g.Blue : g.Light_Gray,
                                 borderBottomWidth: this.state.tabSelected_3 ? 3 : 0,
                                 color: this.state.tabSelected_3 ? g.Blue : 'black'
@@ -231,6 +248,10 @@ class Visits extends Component {
 
                 </ScrollView>
                 <UserFooter tab={2} />
+                {
+                   this.state.Flag ? 
+                   <ModalAddUser  closeModel = {()=>this._close_model()} /> : null 
+               }
             </View>
         );
 

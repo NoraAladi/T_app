@@ -17,6 +17,13 @@ export default {
         marginTop: hp('2'),
         borderRadius: 10,
         padding: 12,
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+
+        shadowOpacity: .1,
+        shadowRadius: 1.49,
     },
     dropDownIcon:
     {
@@ -24,6 +31,15 @@ export default {
     },
     dropDownTxt:
     {
-         fontFamily: g.Regular, color: g.BLACK, fontSize: 14,
+        fontFamily: g.Regular, color: g.BLACK, fontSize: 14,
     },
+    staticHeight: {
+
+        marginTop: -18,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        height: 120,
+        width: wp('42.5')
+
+    }
 };

@@ -214,8 +214,7 @@ class SignUp extends Component {
                                         textAlign: 'center',
                                         transform: [{ rotateY: '180deg' }],
                                         padding: 15,
-                                        fontFamily: g.Bold
-                                    }}>{item}</Text>
+                                        fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                    }}>{item}</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -270,7 +269,8 @@ class SignUp extends Component {
                     <View style={{ zIndex: -1, }}>
                         <View style={{
                             flexDirection: 'row', paddingHorizontal: 25,
-                            justifyContent: 'space-between'
+                            justifyContent: 'space-between',
+                            marginTop : Platform.OS == "ios" ? hp('5%') : null ,
                         }}>
                             <View style={{ width: 25 }} />
 
@@ -278,6 +278,9 @@ class SignUp extends Component {
                                 {g.SIGNUP}
                             </Text>
                             <Icon name="arrowright" type="AntDesign"
+                                onPress={() => {
+                                    this.props.navigation.pop()
+                                }}
                                 style={[styleLogin.arrow, { marginLeft: 0 }]} />
                         </View>
 

@@ -4,17 +4,6 @@ import g from '../../Gloabal';
 
 export default {
 
-  container:
-  {
-    flexDirection: 'row', alignItems: 'center',
-    backgroundColor: g.white,
-    shadowColor: g.white,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.37,
-    shadowRadius: 3.49,
-    elevation: 4,
-  },
-
   arrow:
   {
     fontSize: 22, width: 30, marginTop: hp('2%')
@@ -37,12 +26,14 @@ export default {
 
   code:
   {
-    textAlign: 'center', fontFamily: g.Bold
+    textAlign: 'center',
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
   },
 
   offer:
   {
-    textAlign: 'center', marginLeft: wp('20%'), fontSize: 20, fontFamily: g.Bold
+    textAlign: 'center', marginLeft: wp('20%'), fontSize: 20,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
   },
 
   card:
@@ -58,15 +49,23 @@ export default {
     shadowRadius: 3.49,
     elevation: 4,
     width: wp('22%'), height: hp('14%'),
-    alignItems: 'center'
+    alignItems: 'center',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+
+    shadowOpacity: .1,
+    shadowRadius: 1.49,
+
   },
 
   txt:
   {
     textAlign: 'center', color: g.white,
     marginTop: hp('-8%'),
-    fontSize: 15, fontFamily: g.Bold,
-    width: 65,
+    fontSize: 15,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, width: 65,
   },
 
   arr:
@@ -116,14 +115,14 @@ export default {
   {
     marginTop: hp('3%'), marginLeft: 'auto', marginRight: 'auto',
     borderRadius: 10, backgroundColor: g.Bold_blue, alignItems: 'center',
-    justifyContent: 'center', marginBottom: hp('8%'),
+    justifyContent: 'center', marginBottom: hp('5%'),
     height: hp('8%'), width: wp('80%')
   },
 
   txt_btn:
   {
-    fontSize: 16, color: g.white, fontFamily: g.Bold,
-    textAlign: 'center'
+    fontSize: 16, color: g.white,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'center'
   },
 
 
@@ -131,11 +130,14 @@ export default {
   {
     flexDirection: 'row', alignItems: 'center',
     backgroundColor: g.white,
-    shadowColor: g.white,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.37,
-    shadowRadius: 3.49,
     elevation: 4,
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+
+    shadowOpacity: .1,
+    shadowRadius: 1.49,
   },
 
   irea:
@@ -145,19 +147,17 @@ export default {
 
   city:
   {
-    textAlign: 'center', fontFamily: g.Bold,
-    marginLeft: wp('5%'), marginTop: -5
+    textAlign: 'center',
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginLeft: wp('5%'), marginTop: -5
   },
   pouns:
   {
-    height: 50, width: 150, marginTop: hp('1%'), borderRadius: 10,
-    paddingLeft: 10
+    height: 50, width: wp('42.5'), marginTop: hp('1%'), borderRadius: 10,
   },
 
   view2:
   {
-    height: 50, width: 150, marginTop: hp('1%'), borderRadius: 10,
-    paddingLeft: 10
+    height: 50, width: wp('42.5'), marginTop: hp('1%'), borderRadius: 10,
   },
 
   view3:
@@ -173,75 +173,149 @@ export default {
 
   Title:
   {
-    textAlign: 'right', marginLeft: wp('20%'), fontSize: 20, fontFamily: g.Bold
+    textAlign: 'right', marginLeft: wp('20%'), fontSize: 20,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null
     , width: 200
+  },
+
+  txt2:
+  {
+    textAlign: 'right', marginLeft: wp('40%'), fontSize: 16,
+    fontFamily: g.Regular, marginTop: hp('1%'), color: g.Gray
+    , width: 200 , margin : 10 
   },
 
   info:
   {
-    padding : 10 , 
+    padding: 10,
     marginTop: wp('2%'),
     marginLeft: wp('1%'),
     marginRight: wp('1%'),
     borderRadius: 10,
     marginBottom: 5,
     backgroundColor: g.white,
-    shadowColor: g.white,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.37,
-    shadowRadius: 3.49,
     elevation: 4,
-   // height: hp('14%'),
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+
+    shadowOpacity: .1,
+    shadowRadius: 1.49,
+    // height: hp('14%'),
     alignItems: 'center',
-    flexDirection: 'row-reverse', width: wp('90%')
+    flexDirection: 'row-reverse', width: wp('90%'),
   },
 
-  view_img :
+  view_img:
   {
-    width: 70, height: 70 , alignItems : 'center' ,
-    justifyContent : 'center' ,
-      borderRadius : 90 , 
+    width: 70, height: 70, alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 90,
   },
   doctor_name:
   {
-      fontFamily: g.Bold,
-      textAlign: 'right', width: wp('50%'), color: g.Blue, fontSize: 14,
-      marginRight: wp('3%'),
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'right', width: wp('50%'), color: g.Blue, fontSize: 14,
+    marginRight: wp('3%'),
     //  marginTop: hp('2'),
   },
 
-  call : 
+  call:
   {
-    color : g.Gray,fontSize: 20, marginTop : hp('.5%')
+    color: g.Gray, fontSize: 20, marginTop: hp('.5%')
   },
 
-  modal_txt : 
+  modal_txt:
   {
-    fontSize: 22, color: g.BLACK, fontFamily: g.Bold, marginRight: wp('10'),
-    marginRight: 0, 
+    fontSize: 22, color: g.BLACK,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginRight: wp('10'),
+    marginRight: 0,
   },
-  semi : 
+  semi:
   {
-    width: wp('15%'), marginTop: hp('2%'), marginRight : 'auto' , 
-           marginLeft : 'auto' , borderRadius : 20 ,
-           height: 5 , backgroundColor : g.Light_Gray
+    width: wp('15%'), marginTop: hp('2%'), marginRight: 'auto',
+    marginLeft: 'auto', borderRadius: 20,
+    height: 5, backgroundColor: g.Light_Gray
   },
 
-  input1 :
+  input1:
   {
     textAlign: 'center', fontSize: 14,
-    fontFamily: g.Bold, padding: 10, width : wp('85%')
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, padding: 10, width: wp('85%')
   },
-  view5 : 
+  view5:
   {
-    height : hp('20%') , marginTop: hp('2%'), marginRight: 'auto',
-    marginLeft: 'auto',borderColor: g.Light_Gray, borderWidth: .5, borderRadius: 10,
+    height: hp('20%'), marginTop: hp('2%'), marginRight: 'auto',
+    marginLeft: 'auto', borderColor: g.Light_Gray, borderWidth: .5, borderRadius: 10,
     width: wp('90%'), textAlign: 'right'
   },
 
-  add :
+  add:
   {
-    marginTop: hp('2%') , textDecorationLine : 'underline'
-    ,  color : g.Blue
+    marginTop: hp('2%'), textDecorationLine: 'underline'
+    , color: g.Blue
+  },
+  view6:
+  {
+    backgroundColor: g.Samawe, borderRadius: 0,
+    width: 55, height: 55, alignItems: 'center',
+    justifyContent: 'center', marginRight: wp('3%')
+  },
+
+  txt3:
+  {
+    textAlign: 'right', marginRight: wp('5%'), fontSize: 16,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
+    fontWeight: Platform.OS == "ios" ? "800" : null
+    , width: 230
+  },
+
+  line: {
+    height: 1, marginTop: 5, marginBottom: 10, borderWidth: .5,
+    borderColor: g.Light_Gray, width: wp('90%')
+  },
+  view7:
+  {
+    padding: 10,
+    marginTop: wp('3%'),
+    marginBottom: 5,
+    backgroundColor: g.white,
+    elevation: 4,
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: .1,
+    shadowRadius: 1.49,
+    // height: hp('14%'),
+    width: wp('100%'),
+  },
+
+  view8 : 
+  {
+    padding: 10,
+    marginTop: wp('2%'),
+    marginLeft: wp('1%'),
+    marginRight: wp('1%'),
+    borderRadius: 10,
+    marginBottom: 5,
+    backgroundColor: g.white,
+    borderColor : g.Light_Gray , borderBottomWidth : .5 ,
+    alignItems: 'center',
+    flexDirection: 'row-reverse', width: wp('90%'),
+  },
+  no_data : 
+  {
+    marginTop: hp('30%'),
+    textAlign: 'center', fontFamily: g.Regular, color: g.Gray, fontSize: 20,
+  
+  },
+  error:
+  {
+     color: 'red',
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
+    fontWeight: Platform.OS == "ios" ? "800" : null,
+    textAlign: 'center', marginTop: 10
   }
+
 };

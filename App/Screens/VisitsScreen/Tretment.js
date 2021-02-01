@@ -10,6 +10,12 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import g from '../../Gloabal';
 import Modal from 'react-native-modalbox';
 import ModalTreatments from './ModalTreatments';
+import moment from 'moment'
+import { connect } from 'react-redux'
+import Spinner from '../../Navigation/Spinner'
+import { Get_visit } from '../../Actions/_get_visit';
+import { Get_visit_Details } from '../../Actions/_get_visit_details';
+
 
 const colors = [g.Date1, g.Date1, g.Date1
     , g.Date2, g.Date2, g.Date3, g.Date4, g.Date4, g.Date4]
@@ -18,7 +24,7 @@ class Tretment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modal: false
+            modal: false  , clinicId : 0
         }
     }
 
@@ -28,91 +34,113 @@ class Tretment extends Component {
         })
     }
 
-   
+  componentDidMount() {
+    this.props.Get_visit()  
+    }
+
     render() {
         return (
 
             <View>
-                <View style={{ height: hp('80%') }} >
-                    <FlatList
-                        key={(item) => { item.id }}
-                        showsVerticalScrollIndicator={false}
-                        nestedScrollEnabled
-                        data={[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
-                        renderItem={({ item, index }) => (
-                            <View style={{ flexDirection: 'row', marginLeft: 10 }}>
-                                <TouchableOpacity activeOpacity={1}
-                                    onPress={() => {
-                                        this.setState({
-                                            modal: !this.state.modal
-                                        })
-                                    }}
-                                >
-                                    <View style={[VisitsStyle.card, {
-                                        width: wp('60%'), height: hp('9%'),
-                                        alignItems: 'center'
-                                    }]}>
-                                        <Icon name="left" type="AntDesign"
-                                            style={[VisitsStyle.arrow, { fontSize: 18 }]} />
-                                        <View style={{ flexDirection: 'column', marginLeft: 'auto' }}>
-                                            <Text style={VisitsStyle.doctor_name}>
-                                                د. محمد عبد الرازق خليفة </Text>
-                                            <Text style={[VisitsStyle.txt, { fontSize: 12 }]}>
-                                                أخصائي أمراض الباطنة
-                                  </Text>
+                {
+                    this.props.loading ?
+                        <View style={{ marginTop: hp('35%') }} >
+                            <Spinner />
+                        </View>
+
+                        :
+                        this.props.visit == '' ?
+                            <Text style={style.no_data}>
+                                {g.NO_DATA}
+                            </Text>
+                            :
+                            <View style={{ height: hp('80%') }} >
+                                <FlatList
+                                    key={(item) => { item.id }}
+                                    showsVerticalScrollIndicator={false}
+                                    nestedScrollEnabled
+                                    data={this.props.visit}
+                                    renderItem={({ item, index }) => (
+                                        <View style={{ flexDirection: 'row', marginLeft: 10 }}>
+                                            <TouchableOpacity activeOpacity={1}
+                                                onPress={ () => {
+                                                    this.setState({
+                                                        modal: !this.state.modal
+                                                    })
+                                                    this.setState({
+                                                        clinicId  :  item.clinicVisitId
+                                                    }) 
+                                                   
+                                                }}
+                                            >
+                                                <View style={[VisitsStyle.card, {
+                                                    width: wp('60%'), height: hp('9%'),
+                                                    alignItems: 'center'
+                                                }]}>
+                                                    <Icon name="left" type="AntDesign"
+                                                        style={[VisitsStyle.arrow, { fontSize: 18 }]} />
+                                                    <View style={{ flexDirection: 'column', marginLeft: 'auto' }}>
+                                                        <Text style={VisitsStyle.doctor_name}>
+                                                            {item.doctorNameAr}</Text>
+                                                        <Text style={[VisitsStyle.txt, { fontSize: 12 }]}>
+                                                            {item.doctorSpecilityAr}
+                                                        </Text>
+                                                    </View>
+
+                                                </View>
+                                            </TouchableOpacity>
+                                            <View
+                                                style={[VisitsStyle.date, { backgroundColor: colors[index % colors.length] }]}>
+
+                                                <View
+                                                    elevation={4}
+
+                                                    style={{
+                                                        flexDirection: 'column', justifyContent: 'center'
+                                                        , alignItems: 'center',
+                                                    }}>
+                                                    <Text style={VisitsStyle.date_txt}>{
+                                                        moment(item.date).format('DD')}</Text>
+                                                    <Text style={VisitsStyle.month}>
+                                                        {moment(item.date).format('MMM')}
+                                                    </Text>
+                                                    <Text style={VisitsStyle.month}>{moment(item.date).format('yy')}</Text>
+                                                </View>
+
+                                            </View>
+                                            <View>
+                                                <View style={{
+                                                    height: 20, width: 20, alignItems: 'center',
+                                                    margin: 11, padding: 5,
+                                                    borderRadius: 60, backgroundColor: g.Light_Gray
+                                                }}>
+                                                    <View style={{
+                                                        height: 10, width: 10,
+                                                        borderRadius: 60, backgroundColor: g.Gray
+                                                    }} />
+                                                </View>
+
+                                                <View style={{
+                                                    flexDirection: 'column', justifyContent: 'center'
+                                                    , alignItems: 'center',
+                                                    height: hp('4'),
+                                                    marginTop: 0
+                                                }}>
+
+
+                                                    <Text style={{
+                                                        width: 2, lineHeight: 10,
+                                                        transform: [{ rotate: '180deg' }]
+
+                                                    }}>|{'\n'}|{'\n'}|</Text>
+
+                                                </View>
+                                            </View>
                                         </View>
-
-                                    </View>
-                                </TouchableOpacity>
-                                <View
-                                    style={[VisitsStyle.date, { backgroundColor: colors[index % colors.length] }]}>
-
-                                    <View
-                                        elevation={4}
-
-                                        style={{
-                                            flexDirection: 'column', justifyContent: 'center'
-                                            , alignItems: 'center',
-                                        }}>
-                                        <Text style={VisitsStyle.date_txt}>0 </Text>
-                                        <Text style={VisitsStyle.month}> ديسمبر
-                                 </Text>
-                                        <Text style={VisitsStyle.month}>٢٠٢٠</Text>
-                                    </View>
-
-                                </View>
-                                <View>
-                                    <View style={{
-                                        height: 20, width: 20, alignItems: 'center',
-                                        margin: 11, padding: 5,
-                                        borderRadius: 60, backgroundColor: g.Light_Gray
-                                    }}>
-                                        <View style={{
-                                            height: 10, width: 10,
-                                            borderRadius: 60, backgroundColor: g.Gray
-                                        }} />
-                                    </View>
-
-                                    <View style={{
-                                        flexDirection: 'column', justifyContent: 'center'
-                                        , alignItems: 'center',
-                                        height: hp('4'),
-                                        marginTop: 0
-                                    }}>
-
-
-                                        <Text style={{
-                                            width: 2, lineHeight: 10,
-                                            transform: [{ rotate: '180deg' }]
-
-                                        }}>|{'\n'}|{'\n'}|</Text>
-
-                                    </View>
-                                </View>
+                                    )} />
                             </View>
-                        )} />
-                </View>
 
+                }
                 <Modal
                     isOpen={this.state.modal}
                     swipeToClose={true}
@@ -140,7 +168,7 @@ class Tretment extends Component {
                                     , borderRadius: 10
                                 }} />
 
-                            <ModalTreatments closeModal={this.closeModal} />
+                            <ModalTreatments clinicId = {this.state.clinicId} closeModal={this.closeModal} />
                         </View>
                     </View>
 
@@ -150,4 +178,17 @@ class Tretment extends Component {
 
     }
 }
-export default withNavigation(Tretment);
+
+const mapStateToProps = state => {
+    return {
+        loading: state.visits.loading,
+        visit: state.visits.visit,
+
+        user: state.auth.user,
+
+    }
+}
+
+export default connect(mapStateToProps, { Get_visit, Get_visit_Details })(withNavigation(Tretment));
+
+

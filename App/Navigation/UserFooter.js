@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Image, ImageBackground, StatusBar, Dimensions, ScrollView, TouchableOpacity } from "react-native";
+import { View, Image, ImageBackground, StatusBar, Dimensions, ScrollView, TouchableOpacity, Platform } from "react-native";
 import { Container, Text, Form, Item, Label, Input, Icon, Content, Button, Thumbnail, Header, Left, Body, Right, Title, CardItem, Card } from "native-base";
 import { withNavigation } from "react-navigation"
 import g from '../Gloabal';
@@ -29,9 +29,11 @@ function Footer({ navigation, tab }) {
   }
   const MyOrders = () => {
     //  setTab(4);
+    navigation.navigate('MyOrderScreen');
+
   }
   const Secvices = () => {
-    //setTab(5);
+    navigation.navigate('Others');
   }
 
   return (
@@ -39,9 +41,8 @@ function Footer({ navigation, tab }) {
     <View
       style={{
         flexDirection: 'row', justifyContent: 'center',
-        height: 55,
+        height: Platform.OS == "android" ?  55 : 70,
         backgroundColor: g.white,
-        shadowColor: g.white,
         shadowOffset: { width: 1, height: 1 },
         shadowOpacity: 0.37,
         shadowRadius: 3.49,
@@ -122,7 +123,7 @@ function Footer({ navigation, tab }) {
         </View>
 
         <Text style={{
-          fontFamily: g.Regular, marginTop: hp('-1%'),
+          fontFamily: g.Regular, marginTop: Platform.OS == "android" ? hp('-1%') : 0,
           marginLeft: 0, color: tab == 3 ? g.Blue : 'black'
         }}>{i18n.t(g.SEARCH)}</Text>
 

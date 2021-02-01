@@ -260,17 +260,21 @@ export default class ModalVaccinations extends Component {
                                     style={{ width: 120, height: 120 }}
                                 />
                                 <View style={{ paddingHorizontal: 30 }}>
-                                    <Text style={[VisitsStyle.normalTxt,{color:g.Light_Gray,fontFamily:g.Bold,textAlign:'right'}]}>
+                                    <Text style={[VisitsStyle.normalTxt,{color:g.Light_Gray,
+fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                        textAlign:'right'}]}>
                                         {g.AGE}
                                     </Text>
-                                    <Text style={[VisitsStyle.normalTxt,{fontFamily:g.Bold,textAlign:'right',fontSize:14}]}>
+                                    <Text style={[VisitsStyle.normalTxt,{
+fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                        textAlign:'right',fontSize:14}]}>
                                         3 سنوات 
                                     </Text>
 
-                                    <Text style={[VisitsStyle.normalTxt,{color:g.Light_Gray,fontFamily:g.Bold,textAlign:'right'}]}>
+                                    <Text style={[VisitsStyle.normalTxt,{color:g.Light_Gray,
+fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                        textAlign:'right'}]}>
                                         {g.HEAD}
                                     </Text>
-                                    <Text style={[VisitsStyle.normalTxt,{fontFamily:g.Bold,textAlign:'right',fontSize:14}]}>
+                                    <Text style={[VisitsStyle.normalTxt,{
+fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                        textAlign:'right',fontSize:14}]}>
                                         3.5 سم
                                     </Text>
 

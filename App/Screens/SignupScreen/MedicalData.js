@@ -125,7 +125,9 @@ class UserData extends Component {
                         }}
                     >
                         <Text style={[styleSignUp.dropDownTxt,
-                        { textAlign: 'center', fontFamily: g.Bold, color: g.Bold_blue }]}
+                        { textAlign: 'center', 
+                        fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null 
+                        , color: g.Bold_blue }]}
                         >
                             {g.DISEASE_SELECTED}
                         </Text>

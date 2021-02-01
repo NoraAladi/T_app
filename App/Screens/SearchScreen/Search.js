@@ -13,7 +13,8 @@ import Doctor from './doctor';
 import Lab from './lab';
 import Rad from './rad';
 import Pharma from './pharma';
-
+import Header from '../DealsScreen/header';
+import AsyncStorage from '@react-native-community/async-storage'
 
 const data = [
     { name: 'صيدلية', img: require('../../Images/pharma.png'), imgicon: require('../../Images/pharmacyIcon.png') },
@@ -30,26 +31,18 @@ class Search extends Component {
             name: 'طبيب', imgIcon: require('../../Images/doctorIcon.png')
         }
     }
+    componentDidMount()
+    {
 
+    }
     render() {
         return (
 
             <View style={{ flex: 1 }}>
-                {/* // Header  */}
+                  <Header title={'لوجو'} />
+                <View style={{ height: 15 }} />
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={style.container}>
-                        <View style={{ flexDirection: 'row', margin: 20 }}>
-                            <Icon name="arrow-drop-down" type="MaterialIcons"
-                                style={style.arrow} />
-                            <Image source={require('../../Images/profile.png')}
-                                style={style.userimg} />
-                            <View style={style.view1}>
-                                <Text style={style.username}> هشام مهدي </Text>
-                                <Text style={style.code}>SA877832  </Text>
-                            </View>
-                        </View>
-                        <Text style={style.offer}> لوجو </Text>
-                    </View>
+               
                     <Text style={{
                         textAlign: 'right', fontFamily: g.Regular, fontSize: 20,
                         margin: 10

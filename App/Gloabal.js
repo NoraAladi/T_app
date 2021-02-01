@@ -2,13 +2,23 @@ import i18n from './i18n';
 import { Dimensions } from 'react-native';
 
 export default {
-  BASE_URL: 'https://tdemc.sa',
+
+
+  BASE_URL: 'https://www.exir360.com',
+  authorizationKey: '574BECE6-E24F-4F94-AF08-FF578A64D782',
   windowWidth: Dimensions.get('window').width,
   windowHeight: Dimensions.get('window').height,
+
+  /********VALIDATION********* */
+
+  NAME_REQUIRED: i18n.t('اسم المستخدم مطلوب'),
+  PASS_REQUIRED: i18n.t('كلمة السر مطلوبة'),
+
+
   /********Colors********* */
   BLACK: 'black',
   Bold: 'DIN NEXT LT Arabic Bold',
-  Regular: 'DIN NEXT LT Arabic Regular',
+  Regular: 'DIN NEXT LT Arabic',
   Meduim: 'DIN NextLT Arabic Medium',
   Gray: '#818E95',
   Light_Gray: '#C3CCD2',
@@ -21,6 +31,7 @@ export default {
   pink: '#FFD7D7',
   Peag: '#FFEDCF',
   Move: '#F0DDFF',
+  BACK_SAMA: '#f3f7fd',
   /*******ON_BOARD****** */
 
   ONBOARD_P1: i18n.t('سجلك الطبي أينما كنت.'),
@@ -102,8 +113,10 @@ export default {
   VISIT: i18n.t('زيارات طبية'),
   BRANCH: i18n.t('عرض الفروع'),
   HOWGETOFFER: i18n.t('ازاي احصل علي العرض'),
-
-
+  DISCOUNT: i18n.t('% خصم'),
+  OFFERS_SARY: i18n.t('العرض ساري حتي'),
+  POUND : i18n.t('ج.م'),
+  NO_DATA : i18n.t('لا توجد بيانات') , 
   /***Visit Screen */
   OFFER_BTN: i18n.t('عرض'),
   MEDICAL_STATUS: i18n.t('الحالة الطبية'),
@@ -182,7 +195,60 @@ export default {
   SEND_REQUEST: i18n.t('إرسال الطلب'),
 
   SEARCH_PHARM: i18n.t('البحث عن صيدلية'),
-  
+
+  ROSHETA_NAME: i18n.t('صرف روشتة'),
+  CHOOSE_PHARMACY: i18n.t('اختر صيدلية لتنفيذ الشراء'),
+  REQUIRED_TYPES: i18n.t('الأصناف المطلوبة'),
+
+  REQUEST_DATA: i18n.t('بيانات الطلب'),
+  FROM_PARMA: i18n.t('الصيدلية المطلوب منها'),
+  UPDATE: i18n.t('تعديل'),
+  SHIPPING: i18n.t('عنوان الشحن'),
+  DOCTOR_ERROR :  i18n.t('يجب إدخال اسم الطبيب'), 
+  LAB_ERROR :  i18n.t('يجب إدخال اسم المعمل'), 
+  PHARMA_ERROR :  i18n.t('يجب إدخال اسم الصيدلية'), 
+  RAD_ERROR :  i18n.t('يجب إدخال اسم المركز'), 
+
+  /****others */
+  SERVICES: i18n.t('خدمات'),
+  JOBS: i18n.t('وظائف'),
+  EMERGENCY: i18n.t('ارقام الطوارئ'),
+  ABOUT: i18n.t('عن التطبيق'),
+  CONTACT: i18n.t('تواصل معنا'),
+  MESSAGE: i18n.t('تفاصيل الرسالة'),
+  /**Profile */
+  LOGOUT: i18n.t('خروج'),
+  USER_MANAGEMENT: i18n.t('ادارة المستخدمين'),
+  EDIT_PROFILE: i18n.t('تعديل البيانات الشخصية'),
+  EDIT_MEDICAL: i18n.t('تعديل البيانات الطبية'),
+  EDIT_PASS: i18n.t('تعديل كلمة المرور'),
+
+  SAVE: i18n.t('حفظ'),
+  CURRENT_PASS: i18n.t('كلمة المرورالحالية'),
+  NEW_PASS: i18n.t('كلمة المرور الجديدة'),
+  CONFIRM_NEW_PASS: i18n.t('تأكيد كلمة المرور الجديدة'),
+
+  DELETE: i18n.t('حذف'),
+
+  /**new user */
+  RELATION: i18n.t('صلة القرابة'),
+  SON: i18n.t('اسم الابن'),
+  JOB_FOUND: i18n.t('الوظيفة (ان وجدت)'),
+  ADD_NEW_USER: i18n.t('اضف مستخدم جديد'),
+  SELECT_USER: i18n.t('اختر المستخدم'),
+
+
+  REQUEST_SUCCESS: i18n.t('تم استقبال طلبك بنجاح، سيقوم المورد بمراجعة الطلب والتأكيد خلال دقائق'),
+  REQUEST_DATE: i18n.t('تاريخ الطلب'),
+  PROVIDER: i18n.t('المورد'),
+  STATUS: i18n.t('حالة الطلب'),
+  Delivery: i18n.t('(سيتم تجهيز وتوصيل الطلب خلال ٤٥ دقيقة)'),
+  TRY_REQUEST: i18n.t('اعادة الطلب'),
+  NOT_AVALIABLE: i18n.t('(عدم توافر بعض الأصناف)'),
+  REQURIED_ITEMS: i18n.t('الأصناف المطلوبة'),
+
+
+
 
 
 

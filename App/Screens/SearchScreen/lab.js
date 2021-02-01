@@ -8,13 +8,14 @@ import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
 import i18n from '../../i18n';
+import CountryRegion from '../../Navigation/CountryRegion';
 
 
 class Lab extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            lab_name : '' , error : ''
         }
     }
 
@@ -22,48 +23,40 @@ class Lab extends Component {
         return (
 
             <View>
-                <Text style={[style.username1, { marginTop: hp('2%') }]}>
+                <Text style={[style.username1, { marginTop: hp('2%') , textAlign : 'right'  }]}>
                     {g.Lab_NAME}
                 </Text>
 
                 <View style={style.viewInput}>
                     <TextInput
+                        onChangeText={(lab_name) => this.setState({ lab_name })}
                         placeholder={g.Lab_NAME}
                         placeholderTextColor={g.Light_Gray}
                         style={style.input} />
                 </View>
 
 
-                <View style={{ flexDirection: 'row', margin: 20 }}>
-                    <View style={{ marginLeft: wp('0%') }}>
-                        <Text style={style.irea}>{i18n.t(g.LAB_IREA)}</Text>
-                        <View style={[style.container, style.view2]}>
-                            <Icon name="arrow-drop-down" type="MaterialIcons"
-                                style={[style.arrow, { marginTop: 0 }]} />
-                            <Text style={style.city}>مصر الجديدة</Text>
-                        </View>
-                    </View>
-
-                    <View style={{ marginLeft: wp('5%') }}>
-                        <Text style={[style.irea, { marginLeft: wp('22%') }]}>{i18n.t(g.CITY)}</Text>
-                        <View style={[style.container, style.pouns]}>
-                            <Icon name="arrow-drop-down" type="MaterialIcons"
-                                style={[style.arrow, { marginTop: 0 }]} />
-                            <Text style={style.city}>القاهرة</Text>
-                        </View>
-                    </View>
-
-                </View>
+               <CountryRegion/>
 
                 <TouchableOpacity style={style.btn} onPress={() => {
+                     if( this.state.lab_name == '')
+                     {   
+                         this.setState({
+                             error : g.LAB_ERROR
+                         })
+                     }
+                     else {
                     this.props.navigation.navigate('SearchListScreen' , {
                         'TITLE' : g.LAB_TITLE  , 'IREA' : g.LAB_IREA ,
                         'icon' : require('../../Images/listtwo.png') , 
+                        'Filter_name' : this.state.lab_name , 
                     })
-
+                }
                 }}>
                     <Text style={style.txt_btn}>{g.SEARCH}</Text>
                 </TouchableOpacity>
+                <Text style={[style.error , { marginTop : -30 , marginBottom : 50}]}>{this.state.error}</Text>
+
             </View>
         );
 

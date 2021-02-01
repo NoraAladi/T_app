@@ -11,6 +11,11 @@ import g from '../../Gloabal';
 import UserFooter from '../../Navigation/UserFooter';
 import i18n from '../../i18n';
 import Header from './header';
+import CountryRegion from '../../Navigation/CountryRegion';
+import { connect } from 'react-redux'
+import Spinner from '../../Navigation/Spinner'
+import { Get_offer } from '../../Actions/_get_offer';
+
 
 const { width, height } = Dimensions.get("window");
 const data = [{ name: 'معامل تحاليل' }, { name: 'صيدليات' },
@@ -21,35 +26,15 @@ class Deal extends Component {
 
     }
 
-
+    componentDidMount() {
+        this.props.Get_offer(1, 2)
+    }
 
     renderListHeader = () => {
         return (
             <View>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={{ flexDirection: 'row', margin: 20 }}>
-                        <View style={{ marginLeft: wp('0%') }}>
-                            <Text style={style.irea}>{i18n.t(g.IREA)}</Text>
-                            <View style={[style.container, {
-                                height: 50, width: 150, marginTop: hp('1%'), borderRadius: 10, paddingLeft: 10
-                            }]}>
-                                <Icon name="arrow-drop-down" type="MaterialIcons"
-                                    style={[style.arrow, { marginTop: 0 }]} />
-                                <Text style={style.city}>مصر الجديدة</Text>
-                            </View>
-                        </View>
+                <CountryRegion />
 
-                        <View style={{ marginLeft: wp('5%') }}>
-                            <Text style={[style.irea, { marginLeft: wp('22%') }]}>{i18n.t(g.CITY)}</Text>
-                            <View style={[style.container, style.pouns]}>
-                                <Icon name="arrow-drop-down" type="MaterialIcons"
-                                    style={[style.arrow, { marginTop: 0 }]} />
-                                <Text style={style.city}>القاهرة</Text>
-                            </View>
-                        </View>
-
-                    </View>
-                </View>
                 <View style={style.flat}>
                     <FlatList
                         style={{ scaleX: -1 }}
@@ -79,65 +64,81 @@ class Deal extends Component {
     render() {
         return (
             <View style={{ width: null, height: '100%', resizeMode: 'contain' }}>
-                <Header />
+                <Header title={g.offer} />
+                {this.renderListHeader()}
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                 >
                     <View style={{ zIndex: -1 }}>
+                        {
+                            this.props.loading ?
+                                <View style={{ marginTop: hp('35%') }} >
+                                    <Spinner />
+                                </View>
 
-                        <View style={{height:g.windowHeight-55 }} >
-                            <FlatList
-                                ListHeaderComponent={this.renderListHeader}
-                                key={(item) => { item.id }}
-                                showsVerticalScrollIndicator={false}
-                                nestedScrollEnabled
-                                onEndReachedThreshold={.5}
-                                onEndReached={() => { console.log('saad') }}
-                                data={[1, 1, 1, 1, 1, 1]}
-                                renderItem={({ item, index }) => (
-                                    <View
-                                        style={[style.container, style.card,
-                                        { height: 300, flexDirection: 'column', marginBottom: 5 }]}>
-                                        <TouchableOpacity onPress={() => {
-                                            this.props.navigation.navigate('DealsModelScreen')
-                                        }}>
-                                            <Image source={require('../../Images/ads.png')}
-                                                style={{
-                                                    width: wp('90%'), height: hp('20%'), borderTopRightRadius: 10
-                                                    , borderTopLeftRadius: 10
-                                                }} />
-                                        </TouchableOpacity>
-                                        <Image
-                                            source={require('../../Images/user.png')}
-                                            style={style.logo}
-                                        />
-                                        <Text style={[style.irea, { marginTop: hp('-2%'), color: g.Ferany }]}>
-                                            صيدلية العزبي</Text>
+                                :
+                                this.props.offers == '' ?
+                                    <Text style={style.no_data}>
+                                        {g.NO_DATA}
+                                    </Text>
+                                    :
+                                    <View style={{ height: g.windowHeight - 55 }} >
 
-                                        <View style={{ flexDirection: 'row-reverse' }}>
-                                            <Text style={[style.txt]}>
-                                                صيدلية العزبي عملتلكوا عروض كتير بخصومات لحد 50% …</Text>
+                                        <FlatList
+                                            
+                                            key={(item) => { item.id }}
+                                            showsVerticalScrollIndicator={false}
+                                            nestedScrollEnabled
+                                            onEndReachedThreshold={.5}
+                                            onEndReached={() => { console.log('saad') }}
+                                            data={this.props.offers}
+                                            renderItem={({ item, index }) => (
+                                                <View
+                                                    style={[style.container, style.card,
+                                                    { height: 300, flexDirection: 'column', marginBottom: 5 }]}>
+                                                    <TouchableOpacity onPress={() => {
+                                                        this.props.navigation.navigate('DealsModelScreen' , {
+                                                            'ID' : item.placeId , 'Name' : item.placeName 
+                                                        })
+                                                    }}>
+                                                        <Image source={require('../../Images/ads.png')}
+                                                            style={{
+                                                                width: wp('90%'), height: hp('20%'), borderTopRightRadius: 10
+                                                                , borderTopLeftRadius: 10
+                                                            }} />
+                                                    </TouchableOpacity>
+                                                    <Image
+                                                        source={require('../../Images/user.png')}
+                                                        style={style.logo}
+                                                    />
+                                                    <Text style={[style.irea, { marginTop: hp('-2%'), color: g.Ferany }]}>
+                                                        {item.placeName}</Text>
 
-                                            <View style={{ flexDirection: 'column' }}>
-                                                <Text
-                                                    style={[style.txt, style.txt1]}>
-                                                    400 ج.م</Text>
-                                                <Text style={[style.txt, { width: 70, fontSize: 16, color: g.Blue }]}>
-                                                    200 ج.م</Text>
-                                            </View>
-                                        </View>
+                                                    <View style={{ flexDirection: 'row-reverse' }}>
+                                                        <Text style={[style.txt]}>
+                                                            {item.titleEn}</Text>
 
-                                        <View style={{ flexDirection: 'row-reverse', marginTop: hp('1%') }}>
-                                            <Text style={[style.txt, style.sale]}>
-                                                50% خصم</Text>
-                                            <Text style={[style.txt, style.txt2]}>
-                                                العرض ساري حتي ٢٨ يناير ٢٠٢١</Text>
-                                        </View>
+                                                        <View style={{ flexDirection: 'column' }}>
+                                                            <Text
+                                                                style={[style.txt, style.txt1]}>
+                                                                {item.priceBefore} {g.POUND}</Text>
+                                                            <Text style={[style.txt, { width: 70, fontSize: 16, color: g.Blue }]}>
+                                                                {item.priceAfter} {g.POUND}</Text>
+                                                        </View>
+                                                    </View>
 
+                                                    <View style={{ flexDirection: 'row-reverse', marginTop: hp('1%') }}>
+                                                        <Text style={[style.txt, style.sale]}>
+                                                            {item.discount}{g.DISCOUNT}</Text>
+                                                        <Text style={[style.txt, style.txt2]}>
+                                                            {g.OFFERS_SARY}   {item.toDate.split('T')[0]}</Text>
+                                                    </View>
+
+                                                </View>
+
+                                            )} />
                                     </View>
-
-                                )} />
-                        </View>
+                        }
                     </View>
                 </ScrollView>
                 <UserFooter tab={1} />
@@ -148,4 +149,15 @@ class Deal extends Component {
 
     }
 }
-export default withNavigation(Deal);
+const mapStateToProps = state => {
+    return {
+        loading: state.offer.loading,
+        offers: state.offer.offers,
+
+    
+
+    }
+}
+
+export default connect(mapStateToProps, { Get_offer })(withNavigation(Deal));
+

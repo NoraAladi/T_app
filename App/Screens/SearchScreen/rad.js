@@ -8,6 +8,7 @@ import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
 import i18n from '../../i18n';
+import CountryRegion from '../../Navigation/CountryRegion';
 
 
 class Rad extends Component {
@@ -22,7 +23,7 @@ class Rad extends Component {
         return (
 
             <View>
-                <Text style={[style.username1, { marginTop: hp('2%') }]}>
+                <Text style={[style.username1, { marginTop: hp('2%') ,textAlign : 'right'  }]}>
                     {g.RAD_NAME}
                 </Text>
 
@@ -34,26 +35,7 @@ class Rad extends Component {
                 </View>
 
 
-                <View style={{ flexDirection: 'row', margin: 20 }}>
-                    <View style={{ marginLeft: wp('0%') }}>
-                        <Text style={style.irea}>{i18n.t(g.RAD_IREA)}</Text>
-                        <View style={[style.container, style.view2]}>
-                            <Icon name="arrow-drop-down" type="MaterialIcons"
-                                style={[style.arrow, { marginTop: 0 }]} />
-                            <Text style={style.city}>مصر الجديدة</Text>
-                        </View>
-                    </View>
-
-                    <View style={{ marginLeft: wp('5%') }}>
-                        <Text style={[style.irea, { marginLeft: wp('22%') }]}>{i18n.t(g.CITY)}</Text>
-                        <View style={[style.container, style.pouns]}>
-                            <Icon name="arrow-drop-down" type="MaterialIcons"
-                                style={[style.arrow, { marginTop: 0 }]} />
-                            <Text style={style.city}>القاهرة</Text>
-                        </View>
-                    </View>
-
-                </View>
+               <CountryRegion/>
 
                 <TouchableOpacity style={style.btn} onPress={() => {
                     this.props.navigation.navigate('SearchListScreen' , {

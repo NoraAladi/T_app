@@ -16,6 +16,7 @@ import {
 
     UIActivityIndicator,
 } from 'react-native-indicators';
+import CountryRegion from '../../Navigation/CountryRegion';
 
 
 class ModalSearch extends Component {
@@ -66,31 +67,13 @@ class ModalSearch extends Component {
 
 
                 {/* // Content  */}
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10, }}>
-                    <View style={{ marginLeft: wp('0%') }}>
-                        <Text style={style.irea}>{g.RAD_IREA}</Text>
-                        <View style={[style.container, style.view2]}>
-                            <Icon name="arrow-drop-down" type="MaterialIcons"
-                                style={[style.arrow, { marginTop: 0 }]} />
-                            <Text style={style.city}>مصر الجديدة</Text>
-                        </View>
-                    </View>
-
-                    <View style={{ marginLeft: wp('5%') }}>
-                        <Text style={[style.irea, { marginLeft: wp('22%') }]}>{g.CITY}</Text>
-                        <View style={[style.container, style.pouns]}>
-                            <Icon name="arrow-drop-down" type="MaterialIcons"
-                                style={[style.arrow, { marginTop: 0 }]} />
-                            <Text style={style.city}>القاهرة</Text>
-                        </View>
-                    </View>
-
-                </View>
+              <CountryRegion/>
 
                 <TouchableOpacity style={[styleLogin.btn, { marginTop:'auto' ,marginBottom: 'auto', }]}
                     onPress={async () => {
                         this.props.navigation.navigate('SearchListScreen' , {
-                            'TITLE' : g.PHARMA_TITLE , 'IREA' : g.PHARMA_IREA ,
+
+                            'TITLE' : g.ROSHETA_NAME , 'IREA' : g.PHARMA_IREA ,
                             'color' : g.Move ,
                             'icon' : require('../../Images/listfour.png') , 
     

@@ -1,21 +1,12 @@
-import styleLogin from '../LoginScreen/style';
-import headerStyle from '../DealsScreen/style';
+
 import React, { Component } from 'react';
 import {
     Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, ImageBackground,
-    I18nManager, Modal, KeyboardAvoidingView, FlatList, Dimensions, Image
+    TouchableOpacity, Image
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Icon } from 'native-base';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
 import AsyncStorage from '@react-native-community/async-storage';
-import {
-
-    UIActivityIndicator,
-} from 'react-native-indicators';
-
 import VisitsStyle from './VisitsStyle';
 import { ArabicNumbers } from 'react-native-arabic-numbers';
 
@@ -78,7 +69,7 @@ export default class ModalReportes extends Component {
                             <View style={{ paddingHorizontal: 20 }}>
                                 {/**Dark Details */}
                                 <Text style={[VisitsStyle.txt, { fontSize: 16 }]}>
-                                    د. محمد سعدون
+                                د. محمد عبد الرازق خليفة
                         </Text>
                                 <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular }]}>
                                     إخصائي امراض الباطنة

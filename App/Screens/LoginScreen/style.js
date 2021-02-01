@@ -16,8 +16,9 @@ export default {
 
   login:
   {
-    fontSize: 24, color: g.BLACK, fontFamily: g.Bold, marginRight: wp('10'),
-    marginTop: hp('5%')
+    fontSize: 24, color: g.BLACK,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginRight: wp('10'),
+    marginTop: hp('5%'), textAlign: 'right'
   },
 
   viewInput:
@@ -27,29 +28,31 @@ export default {
     justifyContent: 'center',
     height: hp('8%'), width: wp('80%'), textAlign: 'right'
   },
+  input:
+  {
+    textAlign: 'right', fontSize: 16,
+    fontFamily: g.Regular, padding: 10,
+  },
 
   enter:
   {
     fontSize: 16, color: g.BLACK, fontFamily: g.Regular, marginRight: wp('10'),
-    marginTop: hp('0')
+    marginTop: hp('0'), textAlign: 'right'
   },
 
   username:
   {
     fontSize: 14, color: g.Gray, fontFamily: g.Regular, marginRight: wp('10'),
-    marginTop: hp('5%')
+    marginTop: hp('5%'), textAlign: 'right'
   },
 
-  input:
-  {
-    textAlign: 'right', fontSize: 16,
-    fontFamily: g.Regular,padding: 10,
-  },
+
 
   forget:
   {
-    fontSize: 16, color: g.Blue, fontFamily: g.Bold, marginRight: wp('60'),
-    marginTop: hp('5%')
+    fontSize: 16, color: g.Blue,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginRight: wp('60'),
+    marginTop: hp('5%'), textAlign: 'right'
   },
 
   btn:
@@ -62,17 +65,20 @@ export default {
 
   txt_btn:
   {
-    fontSize: 16, color: g.white, fontFamily: g.Bold,
-    textAlign: 'center'
+    fontSize: 16, color: g.white,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'center'
   },
   sign1:
   {
-    fontSize: 14, color: g.Ferany, fontFamily: g.Bold,
+    fontSize: 14, color: g.Ferany,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
+    marginRight: wp('10'),
     marginTop: hp('1%'), marginRight: wp('2%')
   },
   sign:
   {
-    fontSize: 14, color: g.Blue, fontFamily: g.Bold,
+    fontSize: 14, color: g.Blue,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginRight: wp('10'),
     marginTop: hp('1%'), marginRight: wp('2%')
   },
 
@@ -84,14 +90,24 @@ export default {
   change:
   {
     color: g.BLACK, fontsize: 20, marginTop: hp('4%'), marginLeft: wp('40%')
-    , fontFamily: g.Bold
+    , fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginRight: wp('10'),
+
 
   },
 
   change_title:
   {
-    color: g.BLACK, fontsize: 20, marginTop: hp('4%'), marginRight: wp('35%')
-    , fontFamily: g.Bold
+    color: g.BLACK, fontsize: 20, marginTop: hp('4%'), marginRight: wp('35%'),
+    textAlign: 'center',
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginRight: wp('10'),
+
+  },
+  error:
+  {
+     color: 'red',
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
+    fontWeight: Platform.OS == "ios" ? "800" : null,
+    textAlign: 'center', marginTop: 10
   }
 
 };

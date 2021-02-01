@@ -190,11 +190,9 @@ class UserData extends Component {
                                 fontFamily: g.Regular
                             }}
                             previousTitleStyle={{
-                                fontFamily: g.Bold
-                            }}
+                                fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                            }}
                             nextTitleStyle={{
-                                fontFamily: g.Bold
-                            }}
+                                fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                            }}
 
                             onDateChange={async (date) => {
                                 var date = new Date(date)

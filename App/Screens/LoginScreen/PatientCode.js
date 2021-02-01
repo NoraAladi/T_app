@@ -23,12 +23,16 @@ class PatientCode extends Component {
                 <View style={{
                     flexDirection: 'row',
                     paddingHorizontal: 25, width: g.windowWidth,
-                    justifyContent:'space-between'
+                    justifyContent:'space-between' ,
+                    marginTop : Platform.OS == "ios" ? hp('5%') : null,
 
                 }}>
                     <Icon name="info" type="Feather"
                         style={[styles.arrow, { marginLeft: 0 }]} />
                     <Icon name="arrowright" type="AntDesign"
+                        onPress={() => {
+                            this.props.navigation.pop()
+                        }}
                         style={[styles.arrow, { marginLeft: 0 }]} />
                 </View>
 

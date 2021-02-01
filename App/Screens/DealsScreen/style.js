@@ -8,13 +8,15 @@ export default {
   {
     flexDirection: 'row', alignItems: 'center',
     backgroundColor: g.white,
-    shadowColor: g.white,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.37,
-    shadowRadius: 3.49,
     elevation: 4,
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: .1,
+    shadowRadius: 1.49,
+    marginTop : Platform.OS == "ios" ? hp('5%') : null ,
   },
-
   arrow:
   {
     fontSize: 22, width: 30, marginTop: hp('2%')
@@ -37,12 +39,16 @@ export default {
 
   code:
   {
-    textAlign: 'center', fontFamily: g.Bold
+    textAlign: 'center', 
+    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null , 
+
   },
 
   offer:
   {
-    textAlign: 'center', marginLeft: wp('20%'), fontSize: 20, fontFamily: g.Bold
+    textAlign: 'center', marginLeft: wp('20%'), fontSize: 20, 
+    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null , 
+
   },
 
   irea:
@@ -53,7 +59,9 @@ export default {
 
   city:
   {
-    textAlign: 'center', fontFamily: g.Bold,
+    textAlign: 'center',   
+      fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null , 
+
     marginLeft: wp('5%'), marginTop: -5
   },
 
@@ -109,8 +117,8 @@ export default {
 
   txt:
   {
-    textAlign: 'center', fontFamily: g.Bold,
-    marginLeft: wp('5%'), width: 200
+    textAlign: 'center', 
+    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,    marginLeft: wp('5%'), width: 200
   },
 
   txt1:
@@ -136,7 +144,9 @@ export default {
   title3:
   {
     marginTop: hp('-31%'), marginRight: wp('1%'), fontSize: 18,
-    color: g.white, fontFamily: g.Bold, textAlign: 'right'
+    color: g.white,
+    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,     
+     textAlign: 'right'
   },
 
   down:
@@ -146,7 +156,7 @@ export default {
 
   view2:
   {
-    alignItems: 'center', justifyContent: 'center', height: hp('35%')
+    alignItems: 'center', justifyContent: 'center', height: hp('35%') ,
   },
 
   line:
@@ -157,7 +167,8 @@ export default {
 
   branch:
   {
-    marginRight: wp('20%'), fontSize: 14, fontFamily: g.Bold, color: g.Blue, marginTop: hp('2%')
+    marginRight: wp('20%'), fontSize: 14,
+    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,      color: g.Blue, marginTop: hp('2%')
 
   },
 
@@ -215,6 +226,11 @@ export default {
     borderColor: g.Light_Gray , 
     justifyContent: 'center', alignItems: 'center',
      padding:10, height: 37, marginLeft: 5,
+  },
+  no_data : 
+  {
+    marginTop: hp('30%'),
+    textAlign: 'center', fontFamily: g.Regular, color: g.Gray, fontSize: 20,
   }
 
 };
