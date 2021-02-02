@@ -32,13 +32,20 @@ class Doctor extends Component {
         }
     }
     async componentDidMount() {
-        await this.props.Get_Specialist()
+        if (this.props.specialist == null) {
+            await this.props.Get_Specialist()
+
+        }
+        else {
+            this.setState({ specialist: this.props.specialist[0].specialityNameAr });
+
+        }
         // await this.setState({
         //     specialist: this.props.specialist[0].specialityNameAr
         // })
 
     }
-    
+
     componentDidUpdate(prevProps) {
         if (prevProps.specialist !== this.props.specialist) {
             this.setState({ specialist: this.props.specialist[0].specialityNameAr });
@@ -88,7 +95,7 @@ class Doctor extends Component {
                         <FlatList
                             ListFooterComponent={() => <Text>{ }</Text>}
                             nestedScrollEnabled
-                            showsVerticalScrollIndicator={false}
+                          //  showsVerticalScrollIndicator={false}
                             style={{ padding: 10, }}
                             data={this.props.specialist}
                             renderItem={({ item, index }) => (
@@ -102,7 +109,7 @@ class Doctor extends Component {
                                     }}>
                                         <Text style={[styleSignUp.dropDownTxt, {
                                             fontSize: 12,
-                                            color: g.Light_Gray,
+                                        //    color: g.Light_Gray,
                                             textAlign: 'right'
                                         }]}>{item.specialityNameAr}</Text>
                                     </TouchableOpacity>
@@ -112,7 +119,7 @@ class Doctor extends Component {
                     </View>
                     : null}
 
-                <CountryRegion  />
+                <CountryRegion />
 
 
                 <TouchableOpacity style={style.btn} onPress={() => {

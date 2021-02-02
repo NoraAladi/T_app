@@ -6,11 +6,11 @@ export const Get_Doctor_Search  = ( Filter ,  specialityId ,  GovernorateId ,  C
 {
    return async (dispatch) =>
    {
-   //  alert( Filter  + " " +  specialityId  + " " +   GovernorateId  + " " +   CityId )
+  // alert( Filter  + " " +  specialityId  + " " +   GovernorateId  + " " +   CityId )
     dispatch({ type : 'GET_DOCTOR_SEARCH_ATTEMPT'});
     const Token = await AsyncStorage.getItem('app_Token');
     //call the backend 
-      axios.get(`${g.BASE_URL}/api/PatientServiceProviders/ClinicSearch?governorateId=${GovernorateId}&cityId=${CityId}&specialityId=${specialityId}&doctorname=${Filter}`,
+      axios.get(`${g.BASE_URL}/api/PatientServiceProviders/ClinicSearch?governorateId=${GovernorateId}&cityId=${CityId}&specialityId=${specialityId}&doctorname=${Filter}&PageNumer=1&PageSize=5`,
       {  
        headers:
        { 
@@ -29,9 +29,9 @@ export const Get_Doctor_Search  = ( Filter ,  specialityId ,  GovernorateId ,  C
 }
 const onhandleResponse = ( dispatch , data) =>
 {
-    onGetcategories( dispatch , data.data )
+    onGetcategories( dispatch , data.data.results )
       console.log('DOCTOR ________________');
-     console.log(data.data );
+     console.log(data.data.results );
 }
 
 const onGetcategories= ( dispatch , doctor    ) => 

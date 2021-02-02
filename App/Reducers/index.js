@@ -7,7 +7,7 @@ import _viists_detailsReducers from './_viists_detailsReducers';
 import _reportes from './_reportes';
 import _mini_profileReducer from './_mini_profileReducer';
 import _doctor_search from './_doctor_search';
-import _lab_search from './_doctor_search';
+import _lab_search from './_lab_search';
 import specialistReducer from './specialistReducer';
 import countriesReducer from './countriesReducer';
 import citiesReducer from './citiesReducer';
@@ -17,6 +17,7 @@ import _offersTypesReducer from './_offersTypesReducer';
 import getDependantsReducer from './getDependantsReducer';
 import getEmergencyReducer from './getEmergencyReducer';
 import _socialReducer from './_socialReducer';
+import forgetpassReducer from './forgetpassReducer';
 
 
 export default combineReducers({
@@ -37,5 +38,6 @@ export default combineReducers({
     offerType: _offersTypesReducer,
     Dependants: getDependantsReducer,
     Emergency:getEmergencyReducer,
-    social_channel : _socialReducer
+    social_channel : _socialReducer , 
+    forget_pass : forgetpassReducer 
 });

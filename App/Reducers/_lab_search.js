@@ -1,13 +1,13 @@
-const INITIAL_STATE = { lab : []  , loading_doctor : true }
+const INITIAL_STATE = { lab_rad : []  , loading_lab : true }
 export default ( state = INITIAL_STATE , action ) =>
 {
     switch( action.type)
     {
-        case 'GET_LAB_SEARCH_ATTEMPT':
-            return {...state , loading_doctor  : true }
+        case 'GET_LAB_RAD_SEARCH_ATTEMPT':
+            return {...state , loading_lab  : true }
         
-        case 'GET_LAB_SEARCH_SUCCESS':
-                return {...INITIAL_STATE ,  lab : action.lab , loading_doctor  : false }
+        case 'GET_LAB__RAD_SEARCH_SUCCESS':
+                return {...INITIAL_STATE ,  lab_rad : action.lab_rad , loading_lab  : false }
     
         
         default : 
