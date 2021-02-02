@@ -99,7 +99,7 @@ class Profile extends Component {
                                 :
                         <View>
                             <Text style={[styles.txt, { color: g.Gray, fontSize: 12 }]}>
-                            {'الاسم'}
+                            {'الاسم كاملا'}
                             </Text>
 
                             <Text style={[styles.txt, { fontSize: 16, marginTop: -5, }]}>

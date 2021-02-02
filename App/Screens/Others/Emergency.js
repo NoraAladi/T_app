@@ -1,7 +1,7 @@
 import styles from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, Image,
+    Text, View, Image, Linking
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -9,6 +9,7 @@ import g from '../../Gloabal';
 import HeaderNav from '../../Navigation/HeaderNav';
 import { Get_Emergency } from '../../Actions/getEmergencyAction';
 import { connect } from 'react-redux'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 class Emergency extends Component {
     constructor(props) {
         super(props);
@@ -30,8 +31,9 @@ class Emergency extends Component {
                     <View style={{
                         flexDirection: 'row-reverse', width: wp('90'),
                         marginRight: 'auto', marginLeft: 'auto',
-                        padding: 15, alignItems: 'center'
+                        padding: 15, alignItems: 'center',justifyContent: 'space-between',
                     }}>
+                        <View style={{flexDirection:'row-reverse'}}>
 
                         <Image source={require('../../Images/es3af.jpg')}
                             resizeMode={'center'}
@@ -45,13 +47,20 @@ class Emergency extends Component {
                             <Text style={[styles.txt, { color: g.Light_Gray, }]}>
                                 123
                                         </Text>
-                        </View>
-
-                        <Image source={require('../../Images/call.png')}
+                            </View>
+                            </View>
+                        <TouchableOpacity
                             style={{
-                                width: 35, height: 35,
-                                marginLeft: 'auto',
-                            }} />
+                            }}
+                            onPress={() => {
+                                Linking.openURL(`tel:${123}`)
+
+                            }}>
+                            <Image source={require('../../Images/call.png')}
+                                style={{
+                                    width: 35, height: 35,
+                                }} />
+                        </TouchableOpacity>
 
                     </View>
 

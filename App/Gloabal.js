@@ -60,7 +60,7 @@ export default {
 
   /********Verification********* */
   SEND_CODE: i18n.t('تم ارسال رمز التحقق'),
-  ENTER_CODE_VERIFICATION: i18n.t('من فضلك أدخل الرمز المكون من 5 أرقام الذي\n أرسلناه إلى بريدك الإلكتروني \nsaad@gmail.com'),
+  ENTER_CODE_VERIFICATION: i18n.t('من فضلك أدخل الرمز المكون من 5 أرقام الذي\n أرسلناه إلى بريدك الإلكتروني \ntest@gmail.com'),
   NOT_SEND: i18n.t('لم تتلق الرمز؟'),
   TRY_SEND: i18n.t('أعد الإرسال!'),
   /*************PatientCode****** */

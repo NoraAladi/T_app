@@ -88,7 +88,7 @@ class Jobs extends Component {
                                         </Text>
 
                                             <Text style={[styles.txtBold, { fontSize: 15 }]}>
-                                                saad@ewegiw.edu
+                                                test@ewegiw.edu
                                         </Text>
                                         </View>
 
