@@ -13,8 +13,8 @@ export default {
 
   NAME_REQUIRED: i18n.t('اسم المستخدم مطلوب'),
   PASS_REQUIRED: i18n.t('كلمة السر مطلوبة'),
-
-
+  EMAIL_REQUIRED : i18n.t('الايميل مطلوب'),
+  
   /********Colors********* */
   BLACK: 'black',
   Bold: 'DIN NEXT LT Arabic Bold',

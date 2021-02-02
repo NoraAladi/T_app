@@ -15,7 +15,10 @@ import CountryRegion from '../../Navigation/CountryRegion';
 import { connect } from 'react-redux'
 import Spinner from '../../Navigation/Spinner'
 import { Get_Doctor_Search } from '../../Actions/_get_doctor_search';
-import { Get_Lab_Search } from '../../Actions/_get_lab_search';
+import { Get_LAB_RAD_PAHRMA_Search } from '../../Actions/_get_lab_search';
+
+
+
 var TITLE = '', IREA, Filter_name, icon, Special
 class SearchList extends Component {
     constructor(props) {
@@ -27,13 +30,13 @@ class SearchList extends Component {
         }
     }
     _callApi = async (countryId, cityID) => {
-        alert(countryId + '  ' + cityID)
+      //  alert(countryId + '  ' + cityID)
         //if(TITLE==)
         if (TITLE == g.DOCTOR_TITLE) {
             this.props.Get_Doctor_Search(Filter_name, Special, countryId, cityID)
         }
         else if (TITLE == g.LAB_TITLE) {
-            this.props.Get_Lab_Search(Filter_name, countryId, cityID)
+            this.props.Get_LAB_RAD_PAHRMA_Search(  'MicrolabSearch'  , Filter_name, countryId, cityID)
         }
         else if (TITLE == g.RAD_TITLE) {
             //   this.props.Get_Doctor_Search( Filter_name , Special , 1 , 1  )
@@ -60,21 +63,17 @@ class SearchList extends Component {
         })
         if (TITLE == g.DOCTOR_TITLE) {
             this.props.Get_Doctor_Search(Filter_name, Special, 1, 1)
-            this.setState({
-                loading_stop: 1
-            })
         }
         else if (TITLE == g.LAB_TITLE) {
-            this.props.Get_Lab_Search(Filter_name, 1, 1)
-            this.setState({
-                loading_stop: 2
-            })
+            this.props.Get_LAB_RAD_PAHRMA_Search(  'MicrolabSearch'  , Filter_name,  1, 1 )
         }
         else if (TITLE == g.RAD_TITLE) {
-            //   this.props.Get_Doctor_Search( Filter_name , Special , 1 , 1  )
+            this.props.Get_LAB_RAD_PAHRMA_Search(  'RadiologyCenterSearch'  , Filter_name,  1, 1 )
         }
-        else null
-        //  this.props.Get_Doctor_Search( Filter_name , Special , 1 , 1  ) 
+        else if (TITLE == g.PHARMA_TITLE)
+        this.props.Get_LAB_RAD_PAHRMA_Search(  'PharmacySearch'  , Filter_name,  1, 1 )
+
+        else null 
     }
 
     render() {
@@ -111,12 +110,19 @@ class SearchList extends Component {
                 <CountryRegion nameScreen={TITLE} callApi={this._callApi} />
 
                 {
-                    this.props.loading_doctor || this.props.loading_lab ?
+                   ( this.props.loading_doctor && TITLE == g.DOCTOR_TITLE ) ||
+                   ( this.props.loading_lab  && 
+                   ( TITLE == g.LAB_TITLE  ||  TITLE == g.RAD_TITLE  ||
+                           TITLE == g.PHARMA_TITLE  ))
+                   ?
                         <View style={{ marginTop: hp('35%') }} >
                             <Spinner />
                         </View>
                         :
-                        this.props.doctor == '' || this.props.lab == '' ?
+                    ( this.props.doctor == '' && TITLE == g.DOCTOR_TITLE ) ||
+                    ( this.props.lab_rad == ''  && 
+                    ( TITLE == g.LAB_TITLE  ||  TITLE == g.RAD_TITLE  ||
+                           TITLE == g.PHARMA_TITLE  )) ?
                             <Text style={style.no_data}>
                                 {g.NO_DATA}
                             </Text>
@@ -253,8 +259,8 @@ const mapStateToProps = state => {
         doctor: state.doctor_search.doctor,
 
         loading_lab: state.lab_search.loading_lab,
-        lab: state.lab_search.lab,
+        lab_rad: state.lab_search.lab_rad,
     }
 }
 
-export default connect(mapStateToProps, { Get_Doctor_Search, Get_Lab_Search })(withNavigation(SearchList));
+export default connect(mapStateToProps, { Get_Doctor_Search, Get_LAB_RAD_PAHRMA_Search })(withNavigation(SearchList));
