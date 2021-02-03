@@ -34,9 +34,14 @@ class Reportes extends Component {
     }
 
     componentDidMount() {
-        this.props.Get_Reportes(1)
+        if (this.props.reportes == '') {
+            this.props.Get_Reportes(1)
+        }
     }
-
+    // componentWillReceiveProps(nextProps) {
+    //     if (this.props.reportes !== nextProps.content) {
+    //     }
+    //   }
     render() {
 
         return (
@@ -138,10 +143,11 @@ class Reportes extends Component {
 
                                                     />
                                                     <View style={{
-                                                        flexDirection: 'column', marginLeft : wp('-30%')
+                                                        flexDirection: 'column', marginLeft: wp('-30%')
                                                     }}>
-                                                        <Text style={[VisitsStyle.doctor_name , { 
-                                                           marginLeft : wp('13%') , width : 200}]}>
+                                                        <Text style={[VisitsStyle.doctor_name, {
+                                                            marginLeft: wp('13%'), width: 200
+                                                        }]}>
                                                             {item.reportNames} </Text>
                                                         <Text style={[VisitsStyle.txt, { fontSize: 12 }]}>
                                                             {item.reportType}
@@ -154,9 +160,9 @@ class Reportes extends Component {
                                                             {item.doctorName}
 
                                                         </Text>
-                                                      
+
                                                     </View>
-                                                        
+
                                                 </View>
                                             </TouchableWithoutFeedback>
                                             <View
