@@ -77,21 +77,21 @@ class Forget extends Component {
                             :
                             <TouchableOpacity style={styles.btn}
                                 onPress={async () => {
-                                 //   await this._on_ForgetPass()
+                                   await this._on_ForgetPass()
 
-                                    // if (this.props.error) {
-                                    //     Toast.show({
-                                    //         text: this.props.error,
-                                    //         textStyle: { fontFamily: g.Regular },
-                                    //         style: { marginTop: hp('0%') },
-                                    //         position: 'bottom',
-                                    //     })
-                                    // }
-                                    // else {
+                                    if (this.props.error) {
+                                        Toast.show({
+                                            text: this.props.error,
+                                            textStyle: { fontFamily: g.Regular },
+                                            style: { marginTop: hp('0%') },
+                                            position: 'bottom',
+                                        })
+                                    }
+                                    else {
                                         setTimeout(() => {
                                             this.props.navigation.navigate('VerificationScreen')
                                         }, 0);
-                                   // }
+                                    }
 
                                 }}>
                                 <Text style={styles.txt_btn}>{g.SEND}</Text>

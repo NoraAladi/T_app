@@ -24,7 +24,7 @@ class Tretment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modal: false  , clinicId : 0
+            modal: false, clinicId: 0
         }
     }
 
@@ -34,8 +34,10 @@ class Tretment extends Component {
         })
     }
 
-  componentDidMount() {
-    this.props.Get_visit(1)  
+    componentDidMount() {
+        if (this.props.visit=='') {
+            this.props.Get_visit(1)
+        }
     }
 
     render() {
@@ -63,14 +65,14 @@ class Tretment extends Component {
                                     renderItem={({ item, index }) => (
                                         <View style={{ flexDirection: 'row', marginLeft: 10 }}>
                                             <TouchableOpacity activeOpacity={1}
-                                                onPress={ () => {
+                                                onPress={() => {
                                                     this.setState({
                                                         modal: !this.state.modal
                                                     })
                                                     this.setState({
-                                                        clinicId  :  item.clinicVisitId
-                                                    }) 
-                                                   
+                                                        clinicId: item.clinicVisitId
+                                                    })
+
                                                 }}
                                             >
                                                 <View style={[VisitsStyle.card, {
@@ -168,7 +170,7 @@ class Tretment extends Component {
                                     , borderRadius: 10
                                 }} />
 
-                            <ModalTreatments clinicId = {this.state.clinicId} closeModal={this.closeModal} />
+                            <ModalTreatments clinicId={this.state.clinicId} closeModal={this.closeModal} />
                         </View>
                     </View>
 

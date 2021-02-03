@@ -92,30 +92,28 @@ class CountryRegion extends Component {
 
     }
 
-     componentDidMount() {
-       
-        if (this.props.countries == null) {
+    async componentDidMount() {
+        console.log('Didmount');
+         AsyncStorage.getItem('app_Token').then(token => {
+            this.props.Get_City(token, 1)
+        })
+        if (this.props.countries == '') {
              AsyncStorage.getItem('app_Token').then(token => {
                 this.props.Get_Country(token)
-                this.props.Get_City(token, 1)
             })
         }
         else {
-             AsyncStorage.getItem('app_Token').then( (token) => {
-                 this.props.Get_City(token, 1)
-            })
             this.setState({
-                country: this.props.countries[0].nameAr,
                 region: this.props.cities[0].cityNameAr,
+                country: this.props.countries[0].nameAr,
+
             });
         }
 
-       
-
-       
     }
 
     componentDidUpdate(prevProps) {
+        console.log('componentDidUpdate')
         if (prevProps.countries !== this.props.countries) {
             this.setState({
                 country: this.props.countries[0].nameAr,
@@ -174,7 +172,7 @@ class CountryRegion extends Component {
                                     ListFooterComponent={() => <Text>{ }</Text>}
 
                                     nestedScrollEnabled
-                                   // showsVerticalScrollIndicator={false}
+                                    // showsVerticalScrollIndicator={false}
                                     style={{ padding: 10 }}
                                     data={this.props.cities}
                                     renderItem={({ item, index }) => (
@@ -190,7 +188,7 @@ class CountryRegion extends Component {
                                             }}>
                                                 <Text style={[styleSignUp.dropDownTxt, {
                                                     fontSize: 12,
-                                                 //   color: g.Light_Gray,
+                                                    //   color: g.Light_Gray,
                                                     textAlign: 'right'
                                                 }]}>{item.cityNameAr}</Text>
                                             </TouchableOpacity>
@@ -251,7 +249,7 @@ class CountryRegion extends Component {
                                     ListFooterComponent={() => <Text>{ }</Text>}
 
                                     nestedScrollEnabled
-                                 //   showsVerticalScrollIndicator={false}
+                                    //   showsVerticalScrollIndicator={false}
                                     style={{ padding: 10, }}
                                     data={this.props.countries}
                                     renderItem={({ item, index }) => (

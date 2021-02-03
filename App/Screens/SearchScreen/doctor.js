@@ -32,14 +32,16 @@ class Doctor extends Component {
         }
     }
     async componentDidMount() {
-        if (this.props.specialist == null) {
+        if (this.props.specialist=='') {
             await this.props.Get_Specialist()
-
+            
         }
         else {
-            this.setState({ specialist: this.props.specialist[0].specialityNameAr });
-
+            await this.setState({
+                specialist: this.props.specialist[0].specialityNameAr
+            })
         }
+
         // await this.setState({
         //     specialist: this.props.specialist[0].specialityNameAr
         // })
@@ -95,7 +97,7 @@ class Doctor extends Component {
                         <FlatList
                             ListFooterComponent={() => <Text>{ }</Text>}
                             nestedScrollEnabled
-                          //  showsVerticalScrollIndicator={false}
+                            //  showsVerticalScrollIndicator={false}
                             style={{ padding: 10, }}
                             data={this.props.specialist}
                             renderItem={({ item, index }) => (
@@ -109,7 +111,7 @@ class Doctor extends Component {
                                     }}>
                                         <Text style={[styleSignUp.dropDownTxt, {
                                             fontSize: 12,
-                                        //    color: g.Light_Gray,
+                                            //    color: g.Light_Gray,
                                             textAlign: 'right'
                                         }]}>{item.specialityNameAr}</Text>
                                     </TouchableOpacity>

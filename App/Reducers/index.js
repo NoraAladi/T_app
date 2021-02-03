@@ -18,6 +18,8 @@ import getDependantsReducer from './getDependantsReducer';
 import getEmergencyReducer from './getEmergencyReducer';
 import _socialReducer from './_socialReducer';
 import forgetpassReducer from './forgetpassReducer';
+import getMyOrderReducer from './getMyOrderReducer';
+
 
 
 export default combineReducers({
@@ -39,5 +41,6 @@ export default combineReducers({
     Dependants: getDependantsReducer,
     Emergency:getEmergencyReducer,
     social_channel : _socialReducer , 
-    forget_pass : forgetpassReducer 
+    forget_pass: forgetpassReducer,
+    _MyOrder:getMyOrderReducer,
 });
