@@ -1,6 +1,11 @@
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Platform } from 'react-native';
+import { Platform , Dimensions } from 'react-native';
 import g from '../../Gloabal';
+
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+const window = Dimensions.get("window");
 
 export default {
 
@@ -108,6 +113,59 @@ export default {
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
     fontWeight: Platform.OS == "ios" ? "800" : null,
     textAlign: 'center', marginTop: 10
+  },
+
+  view1 : 
+  {
+
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+    width: windowWidth - 50,
+    marginTop: 40,
+    marginRight: 20,
+  },
+
+  view2 : 
+  {
+    width: 155,
+                        height: 55,
+                        backgroundColor: '#C0D0FF99',
+                        borderRadius: 9,
+                        shadowColor: '#000',
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.9,
+                        shadowRadius: 2,
+  },
+
+  txt1 : 
+  {
+
+    textAlign: 'center',
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
+    color: 'white',
+    fontSize: 16, marginTop: 10,
+  },
+
+  txt2 : 
+  {
+
+    width: 155,
+    height: 55,
+    borderRadius: 9,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.9,
+    shadowRadius: 2,
+    backgroundColor: '#273A70',
+
+  },
+
+  txt3 : 
+  {
+    textAlign: 'center',
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
+    color: 'white',
+    fontSize: 16, marginTop: 10, marginTop: 10,
   }
 
 };
