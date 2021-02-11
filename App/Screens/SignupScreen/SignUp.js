@@ -26,7 +26,6 @@ class SignUp extends Component {
             loader: false,
             tabSelected_1: true,
             tabSelected_2: false,
-            tabSelected_3: false,
             heightWithScroll: g.windowHeight,
             Diseases: [],
             selected: false
@@ -80,32 +79,12 @@ class SignUp extends Component {
                 loader: false,
                 tabSelected_1: false,
                 tabSelected_2: true,
-                tabSelected_3: false
             })
         }, 3000);
 
     }
 
     async MedicalDataValidation() {
-
-        this.setState({
-            loader: true
-        })
-        setTimeout(() => {
-            this.setState({
-                loader: false,
-                tabSelected_1: false,
-                tabSelected_2: false,
-                tabSelected_3: true
-            })
-            this.setState({
-            })
-
-        }, 3000);
-
-    }
-
-    async CreatPassValidation() {
 
         this.setState({
             loader: true
@@ -119,6 +98,8 @@ class SignUp extends Component {
 
     }
 
+    
+
     async nextTap() {
         if (this.state.tabSelected_1) {
             await this.UserDataValidation()
@@ -128,10 +109,7 @@ class SignUp extends Component {
             await this.MedicalDataValidation()
             return;
         }
-        if (this.state.tabSelected_3) {
-            await this.CreatPassValidation()
-            return;
-        }
+       
 
     }
     async removeItem(item)
@@ -245,7 +223,7 @@ class SignUp extends Component {
         return (
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : 'position'}
-                keyboardVerticalOffset={Platform.OS === "ios" ? 64 : -220}>
+                keyboardVerticalOffset={Platform.OS === "ios" ? 64 : -270}>
                 <ScrollView
                     onContentSizeChange={(width, height) => {
                         if (this.state.tabSelected_2) {
@@ -289,21 +267,14 @@ class SignUp extends Component {
                             flexDirection: 'row-reverse',
                             justifyContent: 'space-around',
                             marginTop: 25,
-                            paddingHorizontal: 40,
+                            paddingHorizontal: 50,
                         }}>
                             <View
                                 style={{ justifyContent: 'center', alignItems: 'center' }}
-                              /*  onStartShouldSetResponder={async () => {
-                                    await AsyncStorage.setItem('Tab', 'USER_DATA')
-                                    this.setState({
-                                        tabSelected_1: true,
-                                        tabSelected_2: false,
-                                        tabSelected_3: false,
-                                    })
-                                }}*/>
+                              >
                                 <View style={{
                                     width: 90,
-                                    backgroundColor: this.state.tabSelected_2 || this.state.tabSelected_3 ? 'red' : g.Light_Gray,
+                                    backgroundColor: this.state.tabSelected_2  ? 'red' : g.Light_Gray,
                                     borderRadius: 3,
                                     height: 4,
                                 }} />
@@ -311,23 +282,16 @@ class SignUp extends Component {
                                     fontSize: 12,
                                     fontFamily: g.Regular,
                                     marginTop: 3,
-                                    color: this.state.tabSelected_1 || this.state.tabSelected_2 || this.state.tabSelected_3 ? 'red' : g.Light_Gray
+                                    color: this.state.tabSelected_1 || this.state.tabSelected_2 ? 'red' : g.Light_Gray
                                 }}>{g.USER_DATA}</Text>
                             </View>
 
                             <View
                                 style={{ justifyContent: 'center', alignItems: 'center' }}
-                              /*  onStartShouldSetResponder={async () => {
-                                    await AsyncStorage.setItem('Tab', 'MEDICAL_DATA')
-                                    this.setState({
-                                        tabSelected_1: false,
-                                        tabSelected_2: true,
-                                        tabSelected_3: false,
-                                    })
-                                }}*/>
+                 >
                                 <View style={{
                                     width: 90,
-                                    backgroundColor: this.state.tabSelected_3 ? 'red' : g.Light_Gray,
+                                    backgroundColor:  g.Light_Gray,
                                     borderRadius: 3,
                                     height: 4,
                                 }} />
@@ -335,54 +299,30 @@ class SignUp extends Component {
                                     fontSize: 12,
                                     fontFamily: g.Regular,
                                     marginTop: 3,
-                                    color: this.state.tabSelected_2 || this.state.tabSelected_3 ? 'red' : g.Light_Gray
+                                    color: this.state.tabSelected_2 ? 'red' : g.Light_Gray
                                 }}>{g.MEDICAL_DATA}</Text>
                             </View>
 
-                            <View
-                                style={{ justifyContent: 'center', alignItems: 'center' }}
-                             /*   onStartShouldSetResponder={async () => {
-                                    await AsyncStorage.setItem('Tab', 'CREATE_PASSWORD')
-
-                                    this.setState({
-                                        tabSelected_1: false,
-                                        tabSelected_2: false,
-                                        tabSelected_3: true,
-                                    })
-                                }}*/>
-                                <View style={{
-                                    width: 90,
-                                    backgroundColor: g.Light_Gray,
-                                    borderRadius: 3,
-                                    height: 4,
-                                }} />
-                                <Text style={{
-                                    fontSize: 12,
-                                    fontFamily: g.Regular,
-                                    marginTop: 3,
-                                    color: this.state.tabSelected_3 ? 'red' : g.Light_Gray
-                                }}>{g.PASSWORD}</Text>
-                            </View>
+                          
 
                         </View>
 
                         {
                             this.state.tabSelected_1 ?
-                                <UserData />
+                                <UserData haveCode={false}/>
                                 : this.state.tabSelected_2 ?
                                     <MedicalData handlePress={this.handlePress} />
-                                    : this.state.tabSelected_3 ?
-                                        <CreatPassword />
+                                    
                                         : null
                         }
 
-                        <TouchableOpacity style={[styleLogin.btn, { marginTop: this.state.tabSelected_3 ? 150 : hp('3') }]}
+                        <TouchableOpacity style={[styleLogin.btn, { marginTop: hp('3') }]}
                             disabled={this.state.loader}
                             onPress={async () => {
                                 await this.nextTap()
                             }}>
                             <Text style={[styleLogin.txt_btn,]}>
-                                {this.state.tabSelected_3 ? g.COMPLETE_PROFILE : g.NEXT}</Text>
+                                {this.state.tabSelected_2 ? g.COMPLETE_PROFILE : g.NEXT}</Text>
                         </TouchableOpacity>
                         <View style={{ height: 50 }} />
 

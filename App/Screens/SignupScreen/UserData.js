@@ -15,22 +15,23 @@ import moment from 'moment';
 import { FlatList } from 'react-native-gesture-handler';
 import { ArabicNumbers } from 'react-native-arabic-numbers';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+import CreatPassword from './CreatPassword';
 const Jobs = [
     "طبيب",
     "محاسب",
     "مهندس",
     "مبرمج",
     "اخرى",
-   
+
 ];
-const countries=['القاهرة',
+const countries = ['القاهرة',
     'الاسكندرية',
     'الجيزة',
     'حلوان',
     'السويس'
 ]
-const region=['السلام',
-     'مدينة نصر',
+const region = ['السلام',
+    'مدينة نصر',
     'الهرم',
     'مصر الجديدة',
     'السيدة عائشة',
@@ -69,7 +70,13 @@ class UserData extends Component {
             country: countries[0],
             showCountry: false,
             region: region[0],
-            showRegion:false
+            showRegion: false,
+
+
+            show: true,
+            showConfirm: true,
+            password: '',
+            confirmPassword: '',
 
         };
     }
@@ -159,6 +166,72 @@ class UserData extends Component {
                     </View>
                 </View>
 
+                {/**pass */}
+                <View>
+
+                    <Text style={[styles.username, { marginTop: hp('2%') }]}>
+                        {g.PASSWORD}
+                    </Text>
+
+                    <View style={[styles.viewInput, { flexDirection: 'row' }]}>
+
+                        <Icon name="eye-off-sharp" type="Ionicons"
+
+                            onPress={() => {
+                                this.setState({
+                                    show: !this.state.show
+                                })
+                            }}
+                            style={[styles.show, { marginLeft: wp('5%'), color: this.state.show ? g.Light_Gray : g.Bold_blue }]} />
+                        <TextInput
+                            placeholder={g.PASSWORD}
+                            secureTextEntry={this.state.show}
+                            keyboardType={'web-search'}
+                            onChangeText={(password) => {
+
+                                this.setState({
+                                    password: password,
+                                    show: true
+                                })
+
+                            }}
+                            placeholderTextColor={g.Light_Gray}
+                            style={[styles.input, { width: wp('65%') }]} />
+                    </View>
+
+
+
+                    {/***confirm pass */}
+                    <Text style={[styles.username, { marginTop: hp('2%') }]}>
+                        {g.CONFIRM_PASS}
+                    </Text>
+
+                    <View style={[styles.viewInput, { flexDirection: 'row' }]}>
+
+                        <Icon name="eye-off-sharp" type="Ionicons"
+
+                            onPress={() => {
+                                this.setState({
+                                    showConfirm: !this.state.showConfirm
+                                })
+                            }}
+                            style={[styles.show, { marginLeft: wp('5%'), color: this.state.showConfirm ? g.Light_Gray : g.Bold_blue }]} />
+                        <TextInput
+                            placeholder={g.CONFIRM_PASS}
+                            secureTextEntry={this.state.showConfirm}
+                            onChangeText={(confirmPassword) => {
+
+                                this.setState({
+                                    confirmPassword: confirmPassword,
+                                    showConfirm: true
+                                })
+
+                            }}
+                            placeholderTextColor={g.Light_Gray}
+                            style={[styles.input, { width: wp('65%') }]} />
+                    </View>
+                </View>
+
                 {/**Date */}
                 <View>
                     <Text style={[styles.username, { marginTop: hp('2%') }]}>
@@ -170,7 +243,7 @@ class UserData extends Component {
                             style={styleSignUp.dropDownIcon}
                             onPress={() => {
                                 this.setState({
-                                   // showClender: !this.state.showClender
+                                    // showClender: !this.state.showClender
                                 })
                             }}
                         />
@@ -190,9 +263,11 @@ class UserData extends Component {
                                 fontFamily: g.Regular
                             }}
                             previousTitleStyle={{
-                                fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                            }}
+                                fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
+                            }}
                             nextTitleStyle={{
-                                fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                            }}
+                                fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
+                            }}
 
                             onDateChange={async (date) => {
                                 var date = new Date(date)
@@ -213,6 +288,8 @@ class UserData extends Component {
                     </View>
                     : null}
 
+                {!this.props.haveCode ?
+                <>
                 {/**sex */}
                 <View>
                     <Text style={[styles.username, { marginTop: hp('2%') }]}>
@@ -224,7 +301,7 @@ class UserData extends Component {
                             style={styleSignUp.dropDownIcon}
                             onPress={() => {
                                 this.setState({
-                                   // showSex: !this.state.showSex
+                                    // showSex: !this.state.showSex
                                 })
                             }}
                         />
@@ -260,8 +337,8 @@ class UserData extends Component {
                         />
                     </View>
                     : null}
-                
-                
+
+
                 {/**mobile*/}
                 <View>
                     <Text style={[styles.username, { marginTop: hp('2%') }]}>
@@ -336,7 +413,7 @@ class UserData extends Component {
                             style={styleSignUp.dropDownIcon}
                             onPress={() => {
                                 this.setState({
-                                  //  showJobs: !this.state.showJobs
+                                    //  showJobs: !this.state.showJobs
                                 })
                             }}
                         />
@@ -387,7 +464,7 @@ class UserData extends Component {
                             style={styleSignUp.dropDownIcon}
                             onPress={() => {
                                 this.setState({
-                                 //   showCountry: !this.state.showCountry
+                                    //   showCountry: !this.state.showCountry
                                 })
                             }}
                         />
@@ -437,7 +514,7 @@ class UserData extends Component {
                             style={styleSignUp.dropDownIcon}
                             onPress={() => {
                                 this.setState({
-                                //    showRegion: !this.state.showRegion
+                                    //    showRegion: !this.state.showRegion
                                 })
                             }}
                         />
@@ -501,13 +578,22 @@ class UserData extends Component {
                             style={[styles.input]} />
                     </View>
                 </View>
+                </>
+                :null}
 
-
-
-
+                {this.props.haveCode ?
+                    <TouchableOpacity style={[styles.btn, { marginTop: hp('3') }]}
+                        disabled={this.state.loader}
+                        onPress={async () => {
+                            this.props.navigation.navigate('ThankUScreen')
+                        }}>
+                        <Text style={[styles.txt_btn,]}>
+                            {g.COMPLETE_PROFILE}</Text>
+                    </TouchableOpacity>
+                    : null
+                }
             </View>
         );
-
     }
 }
 export default withNavigation(UserData);
