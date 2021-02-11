@@ -39,6 +39,8 @@ import NewUserScreen from '../Screens/NewUserScreen/newUser';
 import ThanksDispense from '../Screens/SearchScreen/ThanksDispense';
 import MyOrderScreen from '../Screens/MyOrderScreen/myOrder';
 
+import SignUpHaveCode from '../Screens/SignupScreen/SignUpHaveCode';
+
 
 import SideBar from './SideBar';
 
@@ -55,6 +57,17 @@ const Navigator = createStackNavigator({
  HomeScreen:
  {
    screen: HomeScreen,
+   navigationOptions:
+   {
+     headerMode: 'none',
+     header: null,
+     drawerLockMode: 'locked-closed'
+   },
+  },
+
+  SignUpHaveCode:
+ {
+   screen: SignUpHaveCode,
    navigationOptions:
    {
      headerMode: 'none',

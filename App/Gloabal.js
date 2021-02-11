@@ -248,6 +248,7 @@ export default {
   REQURIED_ITEMS: i18n.t('الأصناف المطلوبة'),
 
 
+  pregnant: i18n.t('هل انت حامل ...'),
 
 
 
