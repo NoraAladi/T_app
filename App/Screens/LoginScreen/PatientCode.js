@@ -59,18 +59,14 @@ class PatientCode extends Component {
                 <View style={styles.view1}>
 
                     <View style={styles.view2} onStartShouldSetResponder={() => {
-                        this.props.navigation.navigate('SignUpScreen' , {
-                            'haveCode' : 'No'
-                        })
+                        this.props.navigation.navigate('SignUpScreen')
                     }}>
                         <Text style={styles.txt1}>{g.NO}</Text>
                     </View>
                     <View
                         style={styles.txt2}
                         onStartShouldSetResponder={() => {
-                            this.props.navigation.navigate('SignUpScreen' , {
-                                'haveCode' : 'Yes' 
-                            })                        
+                            this.props.navigation.navigate('SignUpScreen')                        
                         }}
                     >
                         <Text style={styles.txt3}>{g.YES}</Text>
