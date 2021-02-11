@@ -18,7 +18,7 @@ class Enterpass extends Component {
             password: '', confirm_pass: ' ', show_confirm: true,
         };
     }
-   
+
     render() {
         return (
             <View>
@@ -107,21 +107,24 @@ class Enterpass extends Component {
                         style={[styles.input, { width: wp('60%') }]} />
                 </View>
 
-                {
-                    this.state.password == this.state.confirm_pass &&
-                        (this.state.password != '' || this.state.confirm_pass != '')
-                        ?
+                <TouchableOpacity
+                    disabled={
+                        this.state.password == this.state.confirm_pass &&
+                            (this.state.password != '' || this.state.confirm_pass != '')
+                            ? false : true
+                    }
+                    style={[styles.btn, {
+                        backgroundColor: this.state.password == this.state.confirm_pass &&
+                            (this.state.password != '' || this.state.confirm_pass != '')
+                            ? g.Bold_blue : g.Gray
+                    }]} onPress={() => {
+                        //alert(this.state.password)
+                        this.props.navigation.navigate('')
+                    }}>
+                    <Text style={styles.txt_btn}>{g.CONFIRM_PASS}</Text>
+                </TouchableOpacity>
 
-                        <TouchableOpacity
-                            style={styles.btn} onPress={() => {
-                                //alert(this.state.password)
-                                this.props.navigation.navigate('')
-                            }}>
-                            <Text style={styles.txt_btn}>{g.CONFIRM_PASS}</Text>
-                        </TouchableOpacity>
 
-                        : null
-                }
 
             </View>
         );
