@@ -24,13 +24,6 @@ class CreatPassword extends Component {
         return (
             <View>
 
-
-
-                <Text style={styles.login}>
-                    {g.CREATE_PASS}
-                </Text>
-
-
                 <Text style={[styles.username, { marginTop: hp('2%') }]}>
                     {g.PASSWORD}
                 </Text>

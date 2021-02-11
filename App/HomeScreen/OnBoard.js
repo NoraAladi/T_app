@@ -127,7 +127,9 @@ class OnBoard extends Component {
                         <View
                             style={[styles.Button, { backgroundColor: '#C0D0FF99' }]}
                             onStartShouldSetResponder={() => {
-                                this.props.navigation.navigate('SignUpScreen')
+                                //this.props.navigation.navigate('SignUpScreen')
+//                                this.props.navigation.navigate('SignUpHaveCode')
+                                
                             }}
                         >
                             <Text style={[styles.normalTxt, { marginTop: 10, }]}>{G.SIGNUP}</Text>
