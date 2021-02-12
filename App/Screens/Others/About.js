@@ -31,10 +31,9 @@ class About extends Component {
         };
     }
 
-async componentDidMount ()
-{
-    await this.props.Get_Social()
-}
+    async componentDidMount() {
+        await this.props.Get_Social()
+    }
 
 
     render() {
@@ -44,29 +43,33 @@ async componentDidMount ()
                 <HeaderNav title={g.ABOUT} />
 
                 {
-                            this.props.loading ?
-                                <View style={{ marginTop: hp('35%') }} >
-                                    <Spinner />
-                                </View>
-
-                                :
-
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={{ zIndex: -1 }}>
-                        <View style={{
-                            marginLeft: 'auto', paddingHorizontal: 10,
-                            width: 120, height: 80, backgroundColor: g.Light_Gray,
-                            justifyContent: 'center', alignItems: 'center'
-                        }}>
-                            <Text style={styles.txtBold}>لوجو</Text>
+                    this.props.loading ?
+                        <View style={{ marginTop: hp('35%') }} >
+                            <Spinner />
                         </View>
 
-                        <View style={{
-                            width: wp('90'), justifyContent: 'center', marginLeft: 'auto',
-                            marginRight: 'auto'
-                        }}>
-                            <Text style={[styles.txt, { color: g.Gray, fontSize: 16 }]}>
-                                تطبيق EXIR 360 سهل الاستخدام مخزن على السحابة الإليكترونية .. آمن تماما ..  خصوصية كاملة لملفك الطبي و تحكم تام في كيفية الوصول إليه.{'\n'}
+                        :
+
+                        <ScrollView showsVerticalScrollIndicator={false}>
+                            <View style={{ zIndex: -1 }}>
+                                <View style={{
+                                    marginLeft: 'auto', paddingHorizontal: 10,
+                                    width: 120, height: 80, 
+                                    justifyContent: 'center', alignItems: 'center'
+                                }}>
+
+                                    <Image source={require('../../Images/logo.png')}
+                                        style={{ width: 100, height: 100 }}
+
+                                    />
+                                </View>
+
+                                <View style={{
+                                    width: wp('90'), justifyContent: 'center', marginLeft: 'auto',
+                                    marginRight: 'auto'
+                                }}>
+                                    <Text style={[styles.txt, { color: g.Gray, fontSize: 16 }]}>
+                                        تطبيق EXIR 360 سهل الاستخدام مخزن على السحابة الإليكترونية .. آمن تماما ..  خصوصية كاملة لملفك الطبي و تحكم تام في كيفية الوصول إليه.{'\n'}
 خصوصيتك هي مهمتنا الرئيسية ، أظهر من بياناتك ما تريد لمن تريد فقط.{'\n'}
 تجنب الأخطاء في صرف الأدوية الموصوفة لك.{'\n'}
 سجلك الطبي وتقارير الأشعة والاختبارات المعملية والوصفات الطبية معك أينما كنت.{'\n'}
@@ -75,31 +78,31 @@ async componentDidMount ()
 قم بتنفيذ الوصفة الطبية الخاصة بك عبر الإنترنت ، أو اطلب عبر الإنترنت ما تريده من أقرب الصيدليات.{'\n'}
 أضف أطفالك و المسنين بسهولة إلى التطبيق ، و استمر بالاهتمام بهم.{'\n'}
 اتصل بالطوارئ وابحث عن المتبرعين بالدم وتبرع بالدم.{'\n'}
-                            </Text>
-                        </View>
+                                    </Text>
+                                </View>
 
-                        <View style={{
-                            justifyContent: 'center', marginLeft: 'auto',
-                            marginRight: 'auto', width: g.windowWidth, alignItems: 'center'
-                        }} >
-                            <Text style={styles.txtBold}>للمتابعة عبر وسائل التواصل</Text>
-                            <View style={{
-                                flexDirection: 'row-reverse', marginTop: 10, marginBottom: 5,
-                                justifyContent: 'space-around', width: wp('40')
-                            }}>
+                                <View style={{
+                                    justifyContent: 'center', marginLeft: 'auto',
+                                    marginRight: 'auto', width: g.windowWidth, alignItems: 'center'
+                                }} >
+                                    <Text style={styles.txtBold}>للمتابعة عبر وسائل التواصل</Text>
+                                    <View style={{
+                                        flexDirection: 'row-reverse', marginTop: 10, marginBottom: 5,
+                                        justifyContent: 'space-around', width: wp('40')
+                                    }}>
 
-                                <Icon name='youtube' type='AntDesign' style={[styles.icon1, { color: g.Gray }]} />
-                                <Icon name='instagram' type='AntDesign' style={[styles.icon1, { color: g.Gray }]} />
-                                <Icon name='twitter' type='AntDesign' style={[styles.icon1, { color: g.Gray }]} />
-                                <Icon name='facebook-f' type='FontAwesome' style={[styles.icon1, { color: g.Gray }]} />
+                                        <Icon name='youtube' type='AntDesign' style={[styles.icon1, { color: g.Gray }]} />
+                                        <Icon name='instagram' type='AntDesign' style={[styles.icon1, { color: g.Gray }]} />
+                                        <Icon name='twitter' type='AntDesign' style={[styles.icon1, { color: g.Gray }]} />
+                                        <Icon name='facebook-f' type='FontAwesome' style={[styles.icon1, { color: g.Gray }]} />
+
+                                    </View>
+                                </View>
 
                             </View>
-                        </View>
-
-                    </View>
-                </ScrollView>
+                        </ScrollView>
                 }
-       </View>
+            </View>
         );
 
     }

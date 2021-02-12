@@ -1,11 +1,8 @@
-import styles from './style';
-import React, { Component, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import {
-  Text, View, ScrollView, Image,
-  TouchableOpacity, Platform, AppState, ImageBackground, I18nManager
+  View, AppState, 
 } from 'react-native'
 import { withNavigation } from "react-navigation";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Orientation from 'react-native-orientation-locker';
 import AsyncStorage from '@react-native-community/async-storage';
 import SplashScreen from './SplashScreen';
