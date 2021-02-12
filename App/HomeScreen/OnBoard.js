@@ -3,10 +3,8 @@ import { View, Text, ImageBackground, Image, Dimensions, Animated } from 'react-
 import styles from './style';
 import { withNavigation } from "react-navigation";
 import G from '../Gloabal';
-import { SliderBox } from "react-native-image-slider-box";
 import { ScrollView } from 'react-native-gesture-handler';
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+
 const window = Dimensions.get("window");
 const images = [
 
@@ -48,7 +46,11 @@ class OnBoard extends Component {
                 <ScrollView
                     showsHorizontalScrollIndicator={false
                     }>
-                <Text style={styles.header}>لوجو</Text>
+                    <View style={{ flexDirection:'row-reverse'}}>
+                        <Image source={require('../Images/logo.png')}
+                        style={{width:100,height:100}}
+                        />
+                </View>
 
                     <View>
                         <Text style={styles.header}>{G.ONBOARD_P1}</Text>
