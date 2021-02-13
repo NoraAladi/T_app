@@ -19,6 +19,10 @@ import MedicalData from './MedicalData';
 import BottomSheet from 'reanimated-bottom-sheet';
 import CreatPassword from './CreatPassword';
 
+import { sign_up } from '../../Actions/signupAction';
+import { connect } from 'react-redux'
+
+
 class SignUp extends Component {
     constructor(props) {
         super(props);
@@ -28,8 +32,9 @@ class SignUp extends Component {
             tabSelected_2: false,
             heightWithScroll: g.windowHeight,
             Diseases: [],
-            selected: false
+            selected: false ,
 
+            user_data_arr : []
         };
     }
 
@@ -51,6 +56,7 @@ class SignUp extends Component {
     */
 
 
+
     componentDidMount() {
         const { navigation } = this.props;
         navigation.addListener('willFoucs', () => {
@@ -69,18 +75,35 @@ class SignUp extends Component {
             loader: true
         })
         await this.getKeysData([
-            'email', 'fullName', 'date',
+            'fullName' , 'email',
+            'password' , 'confirmPassword' , 'date',
             'sex', 'mobile', 'job', 'Jobname',
-            'country', 'region', 'address'])
-            .then((response) => { console.log(response) })
-
-        setTimeout(() => {
-            this.setState({
-                loader: false,
-                tabSelected_1: false,
-                tabSelected_2: true,
+            'country', 'address' , 
+            ])
+            .then( async (response) => { 
+                console.log( response )
+                
+                await this.props.sign_up(
+                    response[0].fullName , response[1].email ,
+                    response[2].password , response[3].confirmPassword , 
+                    response[4].date ,  response[5].sex  ,
+                    response[6].mobile , response[7].job ,
+                    response[8].Jobname , response[9].country ,
+                    response[10].address ,
+                     
+                )   
+                alert(JSON.stringify( response))
             })
-        }, 3000);
+            
+     
+            
+        // setTimeout(() => {
+        //     this.setState({
+        //         loader: false,
+        //         tabSelected_1: false,
+        //         tabSelected_2: true,
+        //     })
+        // }, 3000);
 
     }
 
@@ -315,7 +338,7 @@ class SignUp extends Component {
                                     
                                         : null
                         }
-
+                        
                         <TouchableOpacity style={[styleLogin.btn, { marginTop: hp('3') }]}
                             disabled={this.state.loader}
                             onPress={async () => {
@@ -329,7 +352,7 @@ class SignUp extends Component {
                         <Modal
                             animationType="slide"
                             transparent={true}
-                            visible={this.state.loader}
+                            visible={this.props.loading}
                         >
                             <View
                                 style={{
@@ -350,4 +373,14 @@ class SignUp extends Component {
 
     }
 }
-export default withNavigation(SignUp);
+
+const mapStateToProps = state => {
+    return {
+        error: state.register.error,
+        loading: state.register.loading,
+        user: state.register.user,
+        message: state.register.message,
+    }
+}
+
+export default connect(mapStateToProps, { sign_up })(withNavigation(SignUp));

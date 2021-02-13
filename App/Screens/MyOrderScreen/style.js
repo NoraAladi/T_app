@@ -57,8 +57,7 @@ export default {
     textAlign: 'right',
   },
   txtBold: {
-    fontFamily: g.Bold,
-    textAlign: 'right', fontSize: 16,
+    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,    textAlign: 'right', fontSize: 16,
   }
   ,
 
@@ -84,8 +83,8 @@ export default {
 
   txt_btn:
   {
-    fontSize: 16, color: g.white, fontFamily: g.Bold,
-    textAlign: 'center'
+    fontSize: 16, color: g.white,
+    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,    textAlign: 'center'
   },
   linearGradient: {
     paddingLeft: 15,
