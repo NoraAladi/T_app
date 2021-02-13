@@ -16,6 +16,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { ArabicNumbers } from 'react-native-arabic-numbers';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import CreatPassword from './CreatPassword';
+
 const Jobs = [
     "طبيب",
     "محاسب",
@@ -187,13 +188,13 @@ class UserData extends Component {
                             placeholder={g.PASSWORD}
                             secureTextEntry={this.state.show}
                             keyboardType={'web-search'}
-                            onChangeText={(password) => {
+                            onChangeText={ async (password) => {
 
-                                this.setState({
+                              await  this.setState({
                                     password: password,
                                     show: true
                                 })
-
+                                await AsyncStorage.setItem('password', this.state.password)
                             }}
                             placeholderTextColor={g.Light_Gray}
                             style={[styles.input, { width: wp('65%') }]} />
@@ -219,12 +220,13 @@ class UserData extends Component {
                         <TextInput
                             placeholder={g.CONFIRM_PASS}
                             secureTextEntry={this.state.showConfirm}
-                            onChangeText={(confirmPassword) => {
+                            onChangeText={async (confirmPassword) => {
 
-                                this.setState({
+                              await  this.setState({
                                     confirmPassword: confirmPassword,
                                     showConfirm: true
                                 })
+                              await AsyncStorage.setItem('confirmPassword', this.state.confirmPassword)
 
                             }}
                             placeholderTextColor={g.Light_Gray}
@@ -243,7 +245,7 @@ class UserData extends Component {
                             style={styleSignUp.dropDownIcon}
                             onPress={() => {
                                 this.setState({
-                                    // showClender: !this.state.showClender
+                                 showClender: !this.state.showClender
                                 })
                             }}
                         />
@@ -301,7 +303,7 @@ class UserData extends Component {
                             style={styleSignUp.dropDownIcon}
                             onPress={() => {
                                 this.setState({
-                                    // showSex: !this.state.showSex
+                                 showSex: !this.state.showSex
                                 })
                             }}
                         />
@@ -325,7 +327,7 @@ class UserData extends Component {
                                             sex: item,
                                             showSex: false
                                         })
-                                        await AsyncStorage.setItem('sex', item)
+                                        await AsyncStorage.setItem('sex', String( index ))
                                     }}>
                                         <Text style={[styleSignUp.dropDownTxt, {
                                             fontSize: 12,
@@ -395,8 +397,9 @@ class UserData extends Component {
                             buttonColor={'#000'}
                             animation={false}
                             onPress={async (value) => {
-                                this.setState({ JobType: radio_props[value].label })
-                                await AsyncStorage.setItem('job', radio_props[value].label)
+                               await this.setState({ JobType: radio_props[value].label })
+                               
+                                await AsyncStorage.setItem('job', String( value ))
                             }}
                         />
                     </View>
@@ -413,7 +416,7 @@ class UserData extends Component {
                             style={styleSignUp.dropDownIcon}
                             onPress={() => {
                                 this.setState({
-                                    //  showJobs: !this.state.showJobs
+                                     showJobs: !this.state.showJobs
                                 })
                             }}
                         />
@@ -464,7 +467,7 @@ class UserData extends Component {
                             style={styleSignUp.dropDownIcon}
                             onPress={() => {
                                 this.setState({
-                                    //   showCountry: !this.state.showCountry
+                                  showCountry: !this.state.showCountry
                                 })
                             }}
                         />
@@ -514,7 +517,7 @@ class UserData extends Component {
                             style={styleSignUp.dropDownIcon}
                             onPress={() => {
                                 this.setState({
-                                    //    showRegion: !this.state.showRegion
+                                  showRegion: !this.state.showRegion
                                 })
                             }}
                         />
