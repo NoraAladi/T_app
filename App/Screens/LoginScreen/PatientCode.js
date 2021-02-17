@@ -20,7 +20,6 @@ class PatientCode extends Component {
     }
 
     componentDidMount() {
-        alert('sss')
     }
 
     render() {
