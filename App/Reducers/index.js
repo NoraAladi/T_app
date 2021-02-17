@@ -21,6 +21,7 @@ import forgetpassReducer from './forgetpassReducer';
 import getMyOrderReducer from './getMyOrderReducer';
 import sign_upReducer from './sign_upReducer';
 
+import chande_passReducer from './chande_passReducer';
 
 
 export default combineReducers({
@@ -45,4 +46,5 @@ export default combineReducers({
     forget_pass: forgetpassReducer,
     _MyOrder:getMyOrderReducer,
     register : sign_upReducer ,
+    CHange : chande_passReducer
 });
