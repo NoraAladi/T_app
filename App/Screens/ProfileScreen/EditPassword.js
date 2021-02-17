@@ -23,7 +23,7 @@ class EditPassword extends Component {
             showConfirm: true,
             password: '',
             confirmPassword: '',
-            loading : false 
+            loading: false
         };
     }
 
@@ -131,35 +131,32 @@ class EditPassword extends Component {
                         style={[styles.input, { width: wp('60%') }]} />
                 </View>
 
-               
 
-                        <TouchableOpacity style={[styles.btn, { marginTop: hp('20') }]}
-                            onPress={ async () => {
-                               this.setState({
-                                   loading : true 
-                               }) 
-                             await  this.props.change_Pass(this.state.currentPassword,
-                                    this.state.password, this.state.confirmPassword)
-                                    this.setState({
-                                        loading : false  
-                                    })   
-                            }}>
-                                 {
-                       this.state.loading ?
-                        <View style={{ marginBottom: hp('0%') }} >
-                            <Spinner />
-                        </View>
-                        :
+
+                <TouchableOpacity style={[styles.btn, { marginTop: hp('20') }]}
+                    onPress={async () => {
+                        this.setState({
+                            loading: true
+                        })
+                        await this.props.change_Pass(this.state.currentPassword,
+                            this.state.password, this.state.confirmPassword)
+                        this.setState({
+                            loading: false
+                        })
+                    }}>
+                    {
+                        this.state.loading ?
+                            <View style={{ marginBottom: hp('0%') }} >
+                                <Spinner />
+                            </View>
+                            :
                             <Text style={[styles.txt_btn,]}>
                                 {g.CONFIRM}</Text>
-                        }
-                        </TouchableOpacity>
+                    }
+                </TouchableOpacity>
                 <Text style={styles.error}>
                     {this.props.error}
-                </Text>  
-                
-
-                
+                </Text>
 
             </View>
         );
