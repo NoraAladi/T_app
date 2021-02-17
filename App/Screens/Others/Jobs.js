@@ -1,108 +1,154 @@
 import styles from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, ImageBackground, Image,
-    I18nManager, Modal, KeyboardAvoidingView, FlatList, Dimensions
+    Text, View, Image,
+    FlatList,
+    ActivityIndicator,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import AsyncStorage from '@react-native-community/async-storage';
-import {
 
-    UIActivityIndicator,
-} from 'react-native-indicators';
-import Header from '../DealsScreen/header';
+import { Get_Jobs } from '../../Actions/_JobsAction';
+import { connect } from 'react-redux'
+
 import HeaderNav from '../../Navigation/HeaderNav';
+import Spinner from '../../Navigation/Spinner';
+
 import CountryRegion from '../../Navigation/CountryRegion';
 
 class Jobs extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            jobs: [],
+            cityId: 1,
+            countryId: 1,
+            loadmore: false
         };
+        this.page = 1
+    }
+    async componentDidMount() {
+        await this.props.Get_Jobs(1, 1, 1, 0)
+        this.setState({
+            jobs: this.props.jobs
+        })
     }
 
-    renderListHeader = () => {
-        return (
-            <CountryRegion />
-
-        )
+    componentDidUpdate(prevProps) {
+        if (prevProps.jobs !== this.props.jobs) {
+            console.log('Jobs Updated')
+            this.setState({
+                jobs: this.props.jobs,
+                //cities: this.props.cities[0].cityNameAr,
+            });
+        }
     }
+    getCountryAndCityIds = async (countryId, cityId) => {
+        await this.setState({
+            cityId: cityId,
+            countryId: countryId
+        })
+        await this.props.Get_Jobs(countryId, cityId, 1, 0)
+    }
+
+
+    // renderListHeader = () => {
+    //     return (
+
+    //     )
+    // }
+
     render() {
         return (
             <View style={{ flex: 1 }}>
                 <HeaderNav title={g.JOBS} />
-
+                <CountryRegion callApi={this.getCountryAndCityIds} />
                 <View style={{ zIndex: -1 }}>
+                    {this.props.loading && !this.state.loadmore ?
+                        <View style={{ marginTop: '70%' }}>
+                            <Spinner />
+                        </View>
+                        :
+                        this.props.jobs == '' ?
+                            <Text style={styles.noFound}>لا توجد بيانات</Text>
+                            :
+                        <View>
+                            <FlatList
+                                style={{ height: hp('70') }}
+                                key={(item) => { item.id }}
+                                showsVerticalScrollIndicator={false}
+                                onEndReachedThreshold={.01}
+                                onEndReached={() => {
+                                    console.log('saad')
+                                    if (this.page < this.props.totalNumberOfPages) {
+                                        this.setState({
+                                            loadmore: true
+                                        })
+                                        this.page = this.page + 1
+                                        this.props.Get_Jobs(this.state.countryId, this.state.cityId, this.page, 1)
+                                    }
+                                }}
+                                data={this.state.jobs}
+                                // ListHeaderComponent={this.renderListHeader}
 
-                    <FlatList
-                        style={{ height: g.windowHeight - 100 }}
-                        key={(item) => { item.id }}
-                        showsVerticalScrollIndicator={false}
-                        onEndReachedThreshold={.1}
-                        onEndReached={() => { console.log('saad') }}
-                        data={[1, 1, 1, 1, 1, 1]}
-                        ListHeaderComponent={this.renderListHeader}
-
-                        renderItem={({ item, index }) => (
-                            <View style={styles.card}>
-                                <View>
-                                    <Image source={require('../../Images/user.png')}
-                                        style={styles.img} />
-                                </View>
-
-                                <View style={{ paddingHorizontal: 10, width: wp('60') }}>
-                                    <Text style={[styles.txtBold, { color: g.Blue }]}>
-                                        سكرتير عيادات
-                                </Text>
-
-                                    <Text style={[styles.txt, {}]}>
-                                        مركز ZO للأمراض الجلدية • القاهرة
-                                </Text>
-
-                                    <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5, width: wp('55') }]}>
-                                        مطلوب اطباء لمركز طبي مجهز بأحدث الاجهزة و معمل تحاليل و مركز اشعه جلديه العمر من 25 الي 45 عام
-                                </Text>
-
-                                    <View style={{
-                                        flexDirection: 'row-reverse',
-                                        // paddingHorizontal: 88,
-                                    }}>
-                                        <View style={{ width: wp('20') }}>
-                                            <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5 }]}>
-                                                المرتب
-                                        </Text>
-
-                                            <Text style={[styles.txtBold, { fontSize: 15 }]}>
-                                                غير محدد
-                                        </Text>
+                                renderItem={({ item, index }) => (
+                                    <View style={styles.card}>
+                                        <View>
+                                            <Image source={{ uri: item.placeLogo }}
+                                                style={styles.img} />
                                         </View>
 
-                                        <View style={{ width: wp('40') }}>
-                                            <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5 }]}>
-                                                التواصل
+                                        <View style={{ paddingHorizontal: 10, width: wp('60') }}>
+                                            <Text style={[styles.txtBold, { color: g.Blue }]}>
+                                                {item.titleEn}
+                                            </Text>
+
+                                            <Text style={[styles.txt, {}]}>
+                                                {item.placeName}
+                                            </Text>
+
+                                            <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5, width: wp('55') }]}>
+                                                {item.descriptionEn}
+                                            </Text>
+
+                                            <View style={{
+                                                flexDirection: 'row-reverse',
+                                                // paddingHorizontal: 88,
+                                            }}>
+                                                <View style={{ width: wp('20') }}>
+                                                    <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5 }]}>
+                                                        المرتب
                                         </Text>
 
-                                            <Text style={[styles.txtBold, { fontSize: 15 }]}>
-                                                test@ewegiw.edu
+                                                    <Text style={[styles.txtBold, { fontSize: 15 }]}>
+                                                        {item.salary}
+                                                    </Text>
+                                                </View>
+
+                                                <View style={{ width: wp('40') }}>
+                                                    <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5 }]}>
+                                                        التواصل
                                         </Text>
+
+                                                    <Text style={[styles.txtBold, { fontSize: 15 }]}>
+                                                        {item.contactEmail}
+                                                    </Text>
+                                                </View>
+
+                                            </View>
+
                                         </View>
 
                                     </View>
 
-                                </View>
 
-                            </View>
-
-
-                        )} />
-
-
-
+                                )} />
+                        </View>
+                    }
+                    {this.props.loading && this.state.loadmore ?
+                        <ActivityIndicator size='small' color='gray' style={{ marginTop: -5 }} />
+                        : null}
 
 
 
@@ -112,6 +158,12 @@ class Jobs extends Component {
 
     }
 }
-export default withNavigation(Jobs);
-/**                        <View style={{ height: 15 }} />
- */
+
+const mapStateToProps = state => {
+    return {
+        jobs: state.jobs.jobs,
+        loading: state.jobs.loading,
+        totalNumberOfPages: state.jobs.totalNumberOfPages
+    }
+}
+export default connect(mapStateToProps, { Get_Jobs })(withNavigation(Jobs));
