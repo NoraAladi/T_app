@@ -92,19 +92,13 @@ class SignUp extends Component {
                     response[10].address ,
                      
                 )   
-                alert(JSON.stringify( response))
+               // alert(JSON.stringify( response))
+               await this.setState({
+                    loader: false,
+                     tabSelected_1: false,
+                     tabSelected_2: true,
+                })
             })
-            
-     
-            
-        // setTimeout(() => {
-        //     this.setState({
-        //         loader: false,
-        //         tabSelected_1: false,
-        //         tabSelected_2: true,
-        //     })
-        // }, 3000);
-
     }
 
     async MedicalDataValidation() {

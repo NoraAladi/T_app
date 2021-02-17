@@ -9,6 +9,9 @@ import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
 import HeaderNav from '../../Navigation/HeaderNav';
+import { change_Pass } from '../../Actions/change_passAction';
+import { connect } from 'react-redux';
+import Spinner from '../../Navigation/Spinner'
 
 class EditPassword extends Component {
     constructor(props) {
@@ -20,7 +23,15 @@ class EditPassword extends Component {
             showConfirm: true,
             password: '',
             confirmPassword: '',
+            loading: false
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.user && this.state.password) {
+            this.props.navigation.replace('LoginScreen');
+        }
+        else null
     }
 
     render() {
@@ -120,14 +131,49 @@ class EditPassword extends Component {
                         style={[styles.input, { width: wp('60%') }]} />
                 </View>
 
-                <TouchableOpacity style={[styles.btn, { marginTop: hp('25') }]}
-                >
-                    <Text style={[styles.txt_btn,]}>
-                        {g.CONFIRM}</Text>
+
+
+                <TouchableOpacity style={[styles.btn, { marginTop: hp('20') }]}
+                    onPress={async () => {
+                        this.setState({
+                            loading: true
+                        })
+                        await this.props.change_Pass(this.state.currentPassword,
+                            this.state.password, this.state.confirmPassword)
+                        this.setState({
+                            loading: false
+                        })
+                    }}>
+                    {
+                        this.state.loading ?
+                            <View style={{ marginBottom: hp('0%') }} >
+                                <Spinner />
+                            </View>
+                            :
+                            <Text style={[styles.txt_btn,]}>
+                                {g.CONFIRM}</Text>
+                    }
                 </TouchableOpacity>
+                <Text style={styles.error}>
+                    {this.props.error}
+                </Text>
+
             </View>
         );
 
     }
 }
-export default withNavigation(EditPassword);
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.CHange.loading,
+        user: state.CHange.user,
+        error: state.CHange.error,
+
+    };
+};
+
+export default connect(mapStateToProps, { change_Pass })(
+    withNavigation(EditPassword),
+);
+

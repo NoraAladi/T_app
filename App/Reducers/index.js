@@ -21,8 +21,7 @@ import forgetpassReducer from './forgetpassReducer';
 import getMyOrderReducer from './getMyOrderReducer';
 import sign_upReducer from './sign_upReducer';
 import _JobsReducer from './_JobsReducer';
-
-
+import chande_passReducer from './chande_passReducer';
 
 
 export default combineReducers({
@@ -46,6 +45,7 @@ export default combineReducers({
     social_channel : _socialReducer , 
     forget_pass: forgetpassReducer,
     _MyOrder:getMyOrderReducer,
-    register: sign_upReducer,
+    register : sign_upReducer ,
+    CHange : chande_passReducer,
     jobs:_JobsReducer,
 });

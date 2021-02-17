@@ -12,8 +12,7 @@ export const sign_up  = ({
         dispatch({ type: 'SIGN_UP_ATTEMPT' });
 
         //call the backend 
-        try {
-            const response = await axios({
+       await axios({
                 method: 'POST',
                 url: `${g.BASE_URL}/api/Accounts/register-newpatient`,
                 headers: {
@@ -37,27 +36,26 @@ export const sign_up  = ({
                     acceptTerms : true
 
                 },
-            })
-            if (response.data) {
-            
-             onhandleResponse(dispatch, response)  
-            }
-          } catch (err) {
+            }).then ( resp => {
+                onhandleResponse(dispatch, resp)  
+
+            }).catch( err => {
             // Handle Error Here
             if( err.response.data.message)
             {
                 dispatch({ type: 'SIGN_UP_NOT', error: err.response.data.message })
-                alert( JSON.stringify(err.response.data.message ))
+             //   alert( JSON.stringify(err.response.data.message ))
             }
             else 
                 dispatch({ type: 'SIGN_UP_NOT', error:  Object.values(err.response.data.errors)[0][0] })
-        }
+
+            })
         }
 }
 
 const onhandleResponse = (dispatch, data) => {
     onLoginSuccess(dispatch, data.data )
-   //  console.log(data.data)
+    console.log(data.data)
 }
 
 const onLoginSuccess = (dispatch, user ) => {
