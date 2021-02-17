@@ -93,7 +93,6 @@ class CountryRegion extends Component {
     }
 
     async componentDidMount() {
-        console.log('Didmount');
          AsyncStorage.getItem('app_Token').then(token => {
             this.props.Get_City(token, 1)
         })
@@ -113,7 +112,6 @@ class CountryRegion extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log('componentDidUpdate')
         if (prevProps.countries !== this.props.countries) {
             this.setState({
                 country: this.props.countries[0].nameAr,

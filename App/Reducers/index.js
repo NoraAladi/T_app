@@ -20,6 +20,8 @@ import _socialReducer from './_socialReducer';
 import forgetpassReducer from './forgetpassReducer';
 import getMyOrderReducer from './getMyOrderReducer';
 import sign_upReducer from './sign_upReducer';
+import _JobsReducer from './_JobsReducer';
+
 
 
 
@@ -44,5 +46,6 @@ export default combineReducers({
     social_channel : _socialReducer , 
     forget_pass: forgetpassReducer,
     _MyOrder:getMyOrderReducer,
-    register : sign_upReducer ,
+    register: sign_upReducer,
+    jobs:_JobsReducer,
 });

@@ -49,7 +49,7 @@ export default {
   img:
   {
     width: 88, height: 88,
-    borderRadius: 44,
+    borderRadius: 44,borderWidth: .5,borderColor: '#00000020',
   },
 
   txt: {
@@ -88,5 +88,14 @@ export default {
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
     textAlign: 'center'
   },
+  noFound: {
+   
+    fontFamily: Platform.OS == "android" ? g.Regular : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
+    textAlign: 'center',
+    color: g.Gray,
+    fontSize: 20,
+    marginTop: hp('5'),
+
+  }
 
 };
