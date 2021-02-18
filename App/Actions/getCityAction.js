@@ -2,7 +2,7 @@
 import axios from 'axios';
 import g from '../Gloabal';
 
-export const Get_City = (token,id) => {
+export const Get_City = (id) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_CITY_ATTEMPT' });
         try {
@@ -12,7 +12,6 @@ export const Get_City = (token,id) => {
                     {
                         'accept': 'text/plain',
                         'authorizationKey': g.authorizationKey,
-                        'Authorization': `Bearer ${token}`,
 
                     }
                 })
