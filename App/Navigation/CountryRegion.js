@@ -12,8 +12,7 @@ import { Get_Country } from '../Actions/getCountryAction';
 import { Get_City } from '../Actions/getCityAction';
 
 import { connect } from 'react-redux';
-import AsyncStorage from '@react-native-community/async-storage';
-import axios from 'axios';
+
 
 
 class CountryRegion extends Component {
@@ -93,13 +92,9 @@ class CountryRegion extends Component {
     }
 
     async componentDidMount() {
-         AsyncStorage.getItem('app_Token').then(token => {
-            this.props.Get_City(token, 1)
-        })
+        this.props.Get_City(1)
         if (this.props.countries == '') {
-             AsyncStorage.getItem('app_Token').then(token => {
-                this.props.Get_Country(token)
-            })
+            this.props.Get_Country()
         }
         else {
             this.setState({
@@ -259,10 +254,7 @@ class CountryRegion extends Component {
                                                     countryId: item.id,
 
                                                 })
-
-                                                await AsyncStorage.getItem('app_Token').then(async (token) => {
-                                                    await this.props.Get_City(token, item.id)
-                                                })
+                                                await this.props.Get_City(item.id)
                                                 await this.setState({
                                                     regionId: this.props.cities[0].id
                                                 })

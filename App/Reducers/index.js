@@ -22,6 +22,8 @@ import getMyOrderReducer from './getMyOrderReducer';
 import sign_upReducer from './sign_upReducer';
 import _JobsReducer from './_JobsReducer';
 import chande_passReducer from './chande_passReducer';
+import EditUserDataReducer from './EditUserDataReducer';
+
 
 
 export default combineReducers({
@@ -47,5 +49,6 @@ export default combineReducers({
     _MyOrder:getMyOrderReducer,
     register : sign_upReducer ,
     CHange : chande_passReducer,
-    jobs:_JobsReducer,
+    jobs: _JobsReducer,
+    editStatus:EditUserDataReducer,
 });

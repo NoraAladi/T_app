@@ -1,7 +1,6 @@
 import axios from 'axios';
 import g from '../Gloabal';
-import { getToken } from '../Navigation/helperFun';
-export const Get_Country = (token) => {
+export const Get_Country = () => {
     return async (dispatch) => {
         dispatch({ type: 'GET_COUNTRIES_ATTEMPT' });
         try {
@@ -11,7 +10,6 @@ export const Get_Country = (token) => {
                     {
                         'accept': 'text/plain',
                         'authorizationKey': g.authorizationKey,
-                        'Authorization': `Bearer ${token}`,
 
                     }
                 })

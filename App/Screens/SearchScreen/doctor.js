@@ -74,7 +74,7 @@ class Doctor extends Component {
                         {'امراض باطنة'}
                     </Text>
                     <View style={[styleSignUp.dropDownView, { width: wp('90') }]}>
-                        <Text style={[styleSignUp.dropDownTxt, { fontFamily: g.Bold }]}>{this.state.specialist}</Text>
+                        <Text style={[styleSignUp.dropDownTxt]}>{this.state.specialist}</Text>
                         <Icon name={this.state.showSpecialist ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
                             style={styleSignUp.dropDownIcon}
                             onPress={() => {
