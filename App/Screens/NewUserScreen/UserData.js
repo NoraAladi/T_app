@@ -1,8 +1,8 @@
 import styles from '../LoginScreen/style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, AppState, ImageBackground, I18nManager
+    Text, View, TextInput,
+    TouchableOpacity, Platform
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -14,10 +14,10 @@ import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
 import { FlatList } from 'react-native-gesture-handler';
 import { ArabicNumbers } from 'react-native-arabic-numbers';
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
+import { Get_Relation } from '../../Actions/get_Relation';
+import { connect } from 'react-redux'
 
-const relation = ['الابن','الاب']
 var months = ["يناير", "فبراير", "مارس", "إبريل", "مايو", "يونيو",
     "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
 var monthsEn = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -35,9 +35,10 @@ class UserData extends Component {
             jobName: '',
             showClender: false,
             showRelation: false,
-            relation: 'الابن',
+            relationName: '',
+            relationId: 0,
             dateInAr: this.arabicDate(moment().format('DD MMMM YYYY')),
-            
+
 
         };
     }
@@ -51,17 +52,22 @@ class UserData extends Component {
         }
         return date
     }
-    async setDefault() {
-        await AsyncStorage.setItem('sonName', this.state.sonName)
-        await AsyncStorage.setItem('email', this.state.email)
-        await AsyncStorage.setItem('date', String(moment().format('DD-MM-YYYY')))
-        await AsyncStorage.setItem('relation', this.state.relation)
-        await AsyncStorage.setItem('jobName', this.state.jobName)
-      
+    setDefault() {
+        AsyncStorage.setItem('sonName', this.state.sonName)
+        AsyncStorage.setItem('date', String(moment().format('DD-MM-YYYY')))
+        AsyncStorage.setItem('relation', String(this.state.relationId))
+        AsyncStorage.setItem('jobName', this.state.jobName)
 
     }
     async componentDidMount() {
-        await this.setDefault()
+        await this.props.Get_Relation()
+        await this.setState({
+            relationName: this.props.relation[0].typeNameAR,
+            relationId: this.props.relation[0].id,
+        })
+     //   alert(this.state.relationId)
+        this.setDefault()
+
     }
     render() {
         return (
@@ -71,20 +77,20 @@ class UserData extends Component {
                 </Text>
 
 
-                
-                
+
+
                 {/**relation */}
                 <View>
                     <Text style={[styles.username, { marginTop: hp('2%') }]}>
                         {g.RELATION}
                     </Text>
                     <View style={styleNewUser.dropDownView}>
-                        <Text style={styleNewUser.dropDownTxt}>{this.state.relation}</Text>
+                        <Text style={styleNewUser.dropDownTxt}>{this.state.relationName}</Text>
                         <Icon name={this.state.showRelation ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
                             style={styleNewUser.dropDownIcon}
                             onPress={() => {
                                 this.setState({
-                                   // showRelation: !this.state.showRelation
+                                    showRelation: !this.state.showRelation
                                 })
                             }}
                         />
@@ -96,32 +102,34 @@ class UserData extends Component {
                         marginTop: -15,
                         borderBottomLeftRadius: 10,
                         borderBottomRightRadius: 10,
-                        height: 80
+                        height: 100
                     }]}>
                         <FlatList
-                            style={{ height: 65, padding: 10, }}
-                            data={relation}
+                            ListFooterComponent={() => <Text>{ }</Text>}
+                            style={{ padding: 7, }}
+                            data={this.props.relation}
                             renderItem={({ item, index }) => (
                                 <View >
                                     <TouchableOpacity onPress={async () => {
                                         this.setState({
-                                            relation: item,
+                                            relationName: item.typeNameAR,
+                                            relationId: item.id,
                                             showRelation: false
                                         })
-                                        await AsyncStorage.setItem('relation', item)
+                                        await AsyncStorage.setItem('relation', item.id)
                                     }}>
                                         <Text style={[styleNewUser.dropDownTxt, {
                                             fontSize: 12,
-                                            color: g.Light_Gray,
-                                        }]}>{item}</Text>
+                                            // color: g.Light_Gray,
+                                        }]}>{item.typeNameAR}</Text>
                                     </TouchableOpacity>
                                 </View>
                             )}
                         />
                     </View>
                     : null}
-                
-                
+
+
 
 
                 {/**son */}
@@ -159,7 +167,7 @@ class UserData extends Component {
                             style={styleNewUser.dropDownIcon}
                             onPress={() => {
                                 this.setState({
-                                   // showClender: !this.state.showClender
+                                    showClender: !this.state.showClender
                                 })
                             }}
                         />
@@ -179,10 +187,10 @@ class UserData extends Component {
                                 fontFamily: g.Regular
                             }}
                             previousTitleStyle={{
-                                fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,
+                                fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
                             }}
                             nextTitleStyle={{
-                                fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,
+                                fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
                             }}
 
                             onDateChange={async (date) => {
@@ -204,8 +212,8 @@ class UserData extends Component {
                     </View>
                     : null}
 
-                 {/**son */}
-                 <View>
+                {/**son */}
+                <View>
                     <Text style={[styles.username, { marginTop: hp('2%') }]}>
                         {g.JOB_FOUND}
                     </Text>
@@ -237,4 +245,10 @@ class UserData extends Component {
 
     }
 }
-export default withNavigation(UserData);
+const mapStateToProps = state => {
+    return {
+        relation: state.relation.relation,
+    }
+}
+
+export default connect(mapStateToProps, { Get_Relation })(withNavigation(UserData));

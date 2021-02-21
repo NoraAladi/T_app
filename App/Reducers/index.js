@@ -1,4 +1,4 @@
-import { combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import loginReducer from './loginReducer';
 import _offersReducer from './_offersReducer';
 import _offers_Details from './_offers_Details';
@@ -23,32 +23,38 @@ import sign_upReducer from './sign_upReducer';
 import _JobsReducer from './_JobsReducer';
 import chande_passReducer from './chande_passReducer';
 import EditUserDataReducer from './EditUserDataReducer';
-
+import EditMedicalDataReducer from './EditMedicalDataReducer';
+import getRelation from './getRelation';
+import newRegister_Reducer from './newRegister_Reducer';
 
 
 export default combineReducers({
-    auth : loginReducer ,
-    offer : _offersReducer ,
-    offers_details : _offers_Details ,
-    visits : _viistsReducers ,
-    visit_detail : _viists_detailsReducers ,
-    report : _reportes ,
-    mini_profile : _mini_profileReducer ,
-    doctor_search : _doctor_search ,
-    lab_search : _lab_search , 
+    auth: loginReducer,
+    offer: _offersReducer,
+    offers_details: _offers_Details,
+    visits: _viistsReducers,
+    visit_detail: _viists_detailsReducers,
+    report: _reportes,
+    mini_profile: _mini_profileReducer,
+    doctor_search: _doctor_search,
+    lab_search: _lab_search,
     specialist: specialistReducer,
     countries: countriesReducer,
     cities: citiesReducer,
-    user_data : _get_userdata , 
-    user_info : _get_userInfo ,
+    user_data: _get_userdata,
+    user_info: _get_userInfo,
     offerType: _offersTypesReducer,
     Dependants: getDependantsReducer,
-    Emergency:getEmergencyReducer,
-    social_channel : _socialReducer , 
+    Emergency: getEmergencyReducer,
+    social_channel: _socialReducer,
     forget_pass: forgetpassReducer,
-    _MyOrder:getMyOrderReducer,
-    register : sign_upReducer ,
-    CHange : chande_passReducer,
+    _MyOrder: getMyOrderReducer,
+    register: sign_upReducer,
+    CHange: chande_passReducer,
     jobs: _JobsReducer,
-    editStatus:EditUserDataReducer,
+    editStatus: EditUserDataReducer,
+    editMedicalData: EditMedicalDataReducer,
+    relation: getRelation,
+    newRegister:newRegister_Reducer,
+
 });

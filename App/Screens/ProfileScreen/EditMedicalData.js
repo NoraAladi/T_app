@@ -1,23 +1,24 @@
 import styles from '../LoginScreen/style';
-import styleLogin from '../LoginScreen/style';
 
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, FlatList, ImageBackground, I18nManager
+    Text, View, TextInput,
+    TouchableOpacity,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import AsyncStorage from '@react-native-community/async-storage';
 import styleSignUp from '../SignupScreen/styleSignUp';
 import RadioForm from 'react-native-simple-radio-button';
 import HeaderNav from '../../Navigation/HeaderNav';
-import BottomSheet from 'reanimated-bottom-sheet';
-import { Icon } from 'native-base'
-import { connect } from 'react-redux'
+import AsyncStorage from '@react-native-community/async-storage';
+
 import Spinner from '../../Navigation/Spinner'
 import { Get_USER_INFO } from '../../Actions/_get_userInfo';
+import { Edit_MedicalData } from '../../Actions/EditMedicalData';
+import { connect } from 'react-redux'
+
+import Toast, { DURATION } from 'react-native-easy-toast'
 
 var radio_props_one = [
     { label: g.YES, value: 0 },
@@ -27,15 +28,23 @@ var radio_props_two = [
     { label: g.YES, value: 0 },
     { label: g.NO, value: 1 }
 ];
-
+var radio_props_three = [
+    { label: g.YES, value: 0 },
+    { label: g.NO, value: 1 }
+];
+var id = 0
 class EditMedicalData extends Component {
     constructor(props) {
         super(props);
         this.state = {
             weight: 0,
             height: 0,
-            smoking: radio_props_one[0].label,
-            married: radio_props_two[0].label,
+
+            smoking: radio_props_one[1].value,
+            married: radio_props_two[1].value,
+            pregnant: radio_props_three[1].value,
+
+            healthProfile: {},
 
             loader: false,
             tabSelected_1: true,
@@ -43,111 +52,33 @@ class EditMedicalData extends Component {
             tabSelected_3: false,
             heightWithScroll: g.windowHeight,
             Diseases: [],
-            selected: false , 
-            elevation : 2 
+            selected: false,
+            elevation: 2, loading: true
         };
     }
 
     async componentDidMount() {
+        id = await AsyncStorage.getItem('LOGIN_ID')
         await this.props.Get_USER_INFO()
-        this.setState({
+        await this.setState({
             weight: this.props.user_i.weight,
             height: this.props.user_i.height,
+            smoking: this.props.user_i.smoker ? 0 : 1,
+            married: this.props.user_i.married ? 0 : 1,
+            pregnant: this.props.user_i.healthProfile.pregnant ? 0 : 1,
+            healthProfile: {
+                id: parseInt(id),
+                pregnant: this.props.user_i.healthProfile.pregnant,
+                breastFeeding: this.props.user_i.healthProfile.breastFeeding,
+
+            }
+        })
+        this.setState({
+            loading: false
         })
     }
 
-    renderContent = () => (
-        <View
-            style={{
-                backgroundColor: '#00000020',
-                height: this.state.heightWithScroll,
-            }}
-        >
 
-            <View style={{
-                backgroundColor: g.white, height: 525,
-                marginTop: this.state.heightWithScroll - 525,
-                borderTopRightRadius: 20,
-                borderTopLeftRadius: 20,
-                width: g.windowWidth,
-                // elevation: 3
-            }}>
-                <View style={{
-                    flexDirection: 'row-reverse',
-                    paddingHorizontal: 25, width: g.windowWidth,
-                    justifyContent: 'space-between'
-                }}>
-                    <Text style={[styleLogin.login, { marginRight: 0, marginTop: 15, }]}>
-                        {g.DISEASE}
-                    </Text>
-                    <Icon name='close' type='Ionicons'
-                        style={{ fontSize: 22, marginTop: 15, }}
-                        onPress={() => {
-                            this.sheetRef.current.snapTo(0)
-                            this.setState({
-                                elevation : 2
-                            })
-                        }}
-                    />
-                </View>
-                <Text style={[styleLogin.username, {
-                    marginTop: 0, marginRight: 0,
-                    flexDirection: 'row-reverse', paddingHorizontal: 25
-                }]}>
-                    {g.SELECT_MORE}
-                </Text>
-                <FlatList
-                    extraData={this.state}
-                    numColumns={3}
-                    showsVerticalScrollIndicator={false}
-                    style={{
-                        padding: 16, transform: [{ rotateY: '180deg' }]
-                    }}
-                    data={['سكر', 'ضغط', 'قلب', 'سرطان', 'جلدية', 'مخ واعصاب', 'امراض الكبد', 'الانسحاب الرئوي', 'الذبحة الصدرية', 'متلازمات خارج الهرمية',]}
-                    renderItem={({ item, index }) => (
-                        <View >
-                            <TouchableOpacity onPress={async () => {
-
-                                //   await this.state.Diseases.push(item)
-                                // if (!this.state.Diseases.includes(item)) {
-                                //     await this.setState({
-                                //         Diseases: [...this.state.Diseases, item],
-                                //     })
-                                // }
-                                // else {
-                                //     await this.setState({
-                                //         Diseases: await this.removeItem(item),
-                                //     })  
-                                // }
-                            }}>
-                                <View style={{
-                                    height: 40,
-                                    margin: 4, borderRadius: 20,
-                                    alignItems: 'center', justifyContent: 'center',
-                                    backgroundColor: this.state.Diseases.includes(item) ? g.Blue : g.Light_Gray
-                                }}>
-
-                                    <Text style={{
-                                        fontSize: 12,
-                                        color: g.white,
-                                        textAlign: 'center',
-                                        transform: [{ rotateY: '180deg' }],
-                                        padding: 15,
-                                        fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                    }}>{item}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                />
-            </View>
-        </View>
-    );
-
-    sheetRef = React.createRef()
-
-    handlePress = () => {
-        this.sheetRef.current.snapTo(1)
-    }
 
     render() {
         return (
@@ -156,7 +87,7 @@ class EditMedicalData extends Component {
 
 
                 {
-                    this.props.loading ?
+                    this.state.loading ?
                         <View style={{ marginTop: hp('35%') }} >
                             <Spinner />
                         </View>
@@ -164,20 +95,6 @@ class EditMedicalData extends Component {
                         :
                         <View>
 
-
-                            <BottomSheet
-                                ref={this.sheetRef}
-                                snapPoints={[-2000, this.state.heightWithScroll,]}
-                                enabledContentGestureInteraction={true}
-                                enabledInnerScrolling={true}
-                                enabledContentTapInteraction={false}
-                                renderContent={this.renderContent}
-                                onCloseEnd = {()=>{
-                                    this.setState({
-                                        elevation : 2
-                                    })
-                                }}
-                            />
 
                             {/**weight */}
                             <View>
@@ -229,37 +146,7 @@ class EditMedicalData extends Component {
                                 </View>
                             </View>
 
-                            {/**diseases */}
-                            <View>
-                                <Text style={[styles.username, { marginTop: hp('2%') }]}>
-                                    {g.DISEASE}
-                                </Text>
 
-                                <TouchableOpacity
-                                    style={[styleSignUp.dropDownView,
-                                    {
-                                        alignItems: 'center', justifyContent: 'center',
-                                        elevation:  this.state.elevation ,
-                                    }]}
-                                    onPress={() => {
-                                        this.handlePress()
-                                        this.setState({
-                                            elevation : 0
-                                        })
-                                    }}
-                                >
-                                    <Text style={[styleSignUp.dropDownTxt,
-                                    {
-                                        textAlign: 'center',
-                                        fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
-                                        color: g.Bold_blue
-                                    }]}
-                                    >
-                                        {g.DISEASE_SELECTED}
-                                    </Text>
-
-                                </TouchableOpacity>
-                            </View>
 
                             {/*****Smoking */}
                             <View>
@@ -275,7 +162,7 @@ class EditMedicalData extends Component {
                                 }}>
                                     <RadioForm
                                         radio_props={radio_props_one}
-                                        initial={0}
+                                        initial={this.state.smoking}
                                         formHorizontal={true}
                                         labelHorizontal={true}
                                         buttonSize={11}
@@ -292,7 +179,7 @@ class EditMedicalData extends Component {
                                         buttonColor={'#000'}
                                         animation={false}
                                         onPress={async (value) => {
-                                            this.setState({ smoking: radio_props_one[value].label })
+                                            this.setState({ smoking: value })
                                         }}
                                     />
                                 </View>
@@ -311,8 +198,47 @@ class EditMedicalData extends Component {
                                     marginTop: 10,
                                 }}>
                                     <RadioForm
+                                        animation={true}
+
                                         radio_props={radio_props_two}
-                                        initial={0}
+                                        initial={this.state.married}
+                                        formHorizontal={true}
+                                        labelHorizontal={true}
+                                        buttonSize={11}
+                                        labelStyle={[styleSignUp.dropDownTxt,
+                                        {
+                                            transform: [{
+                                                rotate: '180deg',
+                                            }],
+                                            paddingHorizontal: 10,
+
+                                        }]}
+                                        selectedButtonColor={'red'}
+                                        buttonColor={'#000'}
+                                        animation={false}
+                                        onPress={async (value) => {
+                                            this.setState({ married: value })
+                                        }}
+                                    />
+                                </View>
+                            </View>
+
+
+                            {/***pregnant */}
+                            <View>
+                                <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
+                                    {g.pregnant}
+                                </Text>
+
+                                <View style={{
+                                    flexDirection: 'row',
+                                    transform: [{ rotate: '180deg' }],
+                                    paddingHorizontal: 40,
+                                    marginTop: 10,
+                                }}>
+                                    <RadioForm
+                                        radio_props={radio_props_three}
+                                        initial={this.state.pregnant}
                                         formHorizontal={true}
                                         labelHorizontal={true}
                                         buttonSize={11}
@@ -329,19 +255,59 @@ class EditMedicalData extends Component {
                                         buttonColor={'#000'}
                                         animation={false}
                                         onPress={async (value) => {
-                                            this.setState({ married: radio_props[value].label })
+                                            await this.setState({
+                                                pregnant: value,
+                                                healthProfile: {
+                                                    id: parseInt(id),
+                                                    pregnant: value == 0 ? true : false,
+                                                    breastFeeding: value == 0 ? true : false,
+
+                                                }
+                                            })
+//                                            alert(JSON.stringify(this.state.healthProfile))
                                         }}
                                     />
                                 </View>
                             </View>
 
-                            <TouchableOpacity style={[styles.btn, { marginTop: hp('6') }]}>
+
+
+
+                            <TouchableOpacity style={[styles.btn, { marginTop: hp('6') }]}
+                                onPress={async () => {
+                                    await this.props.Edit_MedicalData(
+                                        this.state.height,
+                                        this.state.weight,
+                                        this.state.married == 0 ? true : false,
+                                        this.state.smoking == 0 ? true : false,
+                                        this.state.healthProfile,
+
+                                    )
+                                    if (this.props.status == 200) {
+                                        this.toast.show('تم تعديل البيانات الطبية بنجاح', 1000);
+                                    }
+                                    else {
+                                        this.toast.show('البيانات غير صحيحة ', 1000);
+
+                                    }
+
+                                }}
+                            >
                                 <Text style={[styles.txt_btn,]}>
                                     {g.SAVE}</Text>
                             </TouchableOpacity>
 
                         </View>
                 }
+                <Toast
+                    ref={(toast) => this.toast = toast}
+                    style={{ backgroundColor: '#000' }}
+                    position='bottom'
+                    positionValue={180}
+                    fadeInDuration={120}
+                    fadeOutDuration={1000}
+                    textStyle={{ color: 'white', fontFamily: g.Regular }}
+                />
             </View>
         );
 
@@ -352,7 +318,8 @@ const mapStateToProps = state => {
     return {
         loading: state.user_info.loading,
         user_i: state.user_info.user_i,
+        status: state.editMedicalData.status
     }
 }
-export default connect(mapStateToProps, { Get_USER_INFO })(withNavigation(EditMedicalData));
+export default connect(mapStateToProps, { Get_USER_INFO, Edit_MedicalData })(withNavigation(EditMedicalData));
 
