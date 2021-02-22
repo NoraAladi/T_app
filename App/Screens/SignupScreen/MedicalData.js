@@ -1,8 +1,7 @@
 import styles from '../LoginScreen/style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, AppState, ImageBackground, I18nManager
+    Text, View, TextInput,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -31,10 +30,10 @@ class UserData extends Component {
         this.state = {
             weight: 0,
             height: 0,
-            smoking: radio_props_one[0].label,
-            married: radio_props_two[0].label,
+            smoking: radio_props_one[0].value,
+            married: radio_props_two[0].value,
             elevation: true,
-            pregnant:radio_props_three[0].label,
+            pregnant: radio_props_three[0].value,
         };
     }
 
@@ -54,8 +53,9 @@ class UserData extends Component {
 
 
     render() {
+
         return (
-            <View style={{zIndex: -1}}>
+            <View style={{ zIndex: -1 }}>
 
                 <Text style={[styles.login, { marginTop: hp('2') }]}>
                     {g.MEDICAL_DATA}
@@ -111,7 +111,7 @@ class UserData extends Component {
                     </View>
                 </View>
 
-               
+
 
                 {/*****Smoking */}
                 <View>
@@ -144,8 +144,7 @@ class UserData extends Component {
                             buttonColor={'#000'}
                             animation={false}
                             onPress={async (value) => {
-                                this.setState({ smoking: radio_props_one[value].label })
-                                await AsyncStorage.setItem('smoking', radio_props_one[value].label)
+                                await AsyncStorage.setItem('smoking', String(value))
                             }}
                         />
                     </View>
@@ -182,58 +181,57 @@ class UserData extends Component {
                             buttonColor={'#000'}
                             animation={false}
                             onPress={async (value) => {
-                                this.setState({ married: radio_props_two[value].label })
-                                await AsyncStorage.setItem('married', radio_props_two[value].label)
+                                await AsyncStorage.setItem('married', String(value))
                             }}
                         />
                     </View>
                 </View>
 
-                
 
 
-                 {/***حامل  */}
-                 <View>
-                    <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
-                        {g.pregnant}
-                    </Text>
 
-                    <View style={{
-                        flexDirection: 'row',
-                        transform: [{ rotate: '180deg' }],
-                        paddingHorizontal: 40,
-                        marginTop: 10,
-                    }}>
-                        <RadioForm
-                            radio_props={radio_props_three}
-                            initial={0}
-                            formHorizontal={true}
-                            labelHorizontal={true}
-                            buttonSize={11}
-                            labelStyle={[styleSignUp.dropDownTxt,
-                            {
-                                transform: [{
-                                    rotate: '180deg',
-                                }],
-                                paddingHorizontal: 10,
+                {/***حامل  */}
+                {this.props.gender != 1 ?
+                    <View>
+                        <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
+                            {g.pregnant}
+                        </Text>
+
+                        <View style={{
+                            flexDirection: 'row',
+                            transform: [{ rotate: '180deg' }],
+                            paddingHorizontal: 40,
+                            marginTop: 10,
+                        }}>
+                            <RadioForm
+                                radio_props={radio_props_three}
+                                initial={0}
+                                formHorizontal={true}
+                                labelHorizontal={true}
+                                buttonSize={11}
+                                labelStyle={[styleSignUp.dropDownTxt,
+                                {
+                                    transform: [{
+                                        rotate: '180deg',
+                                    }],
+                                    paddingHorizontal: 10,
 
 
-                            }]}
-                            selectedButtonColor={'red'}
-                            buttonColor={'#000'}
-                            animation={false}
-                            onPress={async (value) => {
-                                this.setState({ pregnant: radio_props_three[value].label })
-                                await AsyncStorage.setItem('pregnant', radio_props_three[value].label)
-                            }}
-                        />
+                                }]}
+                                selectedButtonColor={'red'}
+                                buttonColor={'#000'}
+                                animation={false}
+                                onPress={async (value) => {
+                                    await AsyncStorage.setItem('pregnant', String(value))
+                                }}
+                            />
+                        </View>
                     </View>
-                </View>
 
+                    : null}
 
             </View>
         );
-
     }
 }
 export default withNavigation(UserData);

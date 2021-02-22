@@ -1,63 +1,77 @@
 import axios from 'axios';
-import AsyncStorage from '@react-native-community/async-storage';
 import g from "../Gloabal";
 
-export const sign_up  = ({ 
-    fullName , email , password  , confirmPassword  , date ,  sex , mobile , 
-    JobType , Jobname , country  , address ,
-    
-}) => {
-    // alert( email + "  " + password )
+export const sign_up = (
+    fullNameAr, dateofBirth, gender, mobileNumber, profession, jobFieldId, cityId,
+    addressDetails, email, password, confirmPassword, acceptTerms
+
+) => {
+
     return async (dispatch) => {
         dispatch({ type: 'SIGN_UP_ATTEMPT' });
-
-        //call the backend 
-       await axios({
+        try {
+            // alert
+            // ('fullNameAr : ' + fullNameAr + '\n' +
+            //     'dateofBirth : ' + dateofBirth + '\n' +
+            //     'gender : ' + gender + '\n' +
+            //     'mobileNumber : ' + mobileNumber + '\n' +
+            //     'profession : ' + profession + '\n' +
+            //     'jobFieldId : ' + jobFieldId + '\n' +
+            //     'cityId : ' + cityId + '\n' +
+            //     'addressDetails : ' + addressDetails + '\n' +
+            //     'email : ' + email + '\n' +
+            //     'password : ' + password + '\n' +
+            //     'confirmPassword : ' + confirmPassword + '\n' +
+            //     'acceptTerms : ' + acceptTerms + '\n'
+            // )
+            let response = await axios({
                 method: 'POST',
                 url: `${g.BASE_URL}/api/Accounts/register-newpatient`,
                 headers: {
                     'accept': 'text/plain',
                     'Content-Type': 'application/json-patch+json',
-                    'authorizationKey': g.authorizationKey,
                 },
                 data:
                 {
-                    fullNameAr:  fullName ,
-                    dateofBirth : date,
-                    gender : sex ,
-                    mobileNumber : mobile ,
-                    profession : Jobname ,
-                    jobFieldId : JobType ,
-                    cityId: country ,
-                    addressDetails : address ,
-                    email:  email ,
-                    password : password ,
-                    confirmPassword : confirmPassword  ,
-                    acceptTerms : true
+                    fullNameAr: fullNameAr,
+                    dateofBirth: dateofBirth,
+                    gender: gender,
+                    mobileNumber: mobileNumber,
+                    profession: profession,
+                    jobFieldId: jobFieldId,
+                    cityId: cityId,
+                    addressDetails: addressDetails,
+                    email: email,
+                    password: password,
+                    confirmPassword: confirmPassword,
+                    acceptTerms: acceptTerms
 
                 },
-            }).then ( resp => {
-                onhandleResponse(dispatch, resp)  
-
-            }).catch( err => {
-            // Handle Error Here
-            if( err.response.data.message)
-            {
-                dispatch({ type: 'SIGN_UP_NOT', error: err.response.data.message })
-             //   alert( JSON.stringify(err.response.data.message ))
-            }
-            else 
-                dispatch({ type: 'SIGN_UP_NOT', error:  Object.values(err.response.data.errors)[0][0] })
-
             })
+            console.log('----- SIGN UP -----');
+            console.log(response.data);
+            dispatch({
+                type: 'SIGN_UP_SUCCESS',
+                message: 'تم إنشاء المستخدم بنجاح',
+                status: response.status,
+                id: response.data.id
+            })
+
+
+        } catch (error) {
+            console.log(error);
+            if (error.response) {
+                dispatch({
+                    type: 'SIGN_UP_FAIL',
+                    message: error.response.data.message.split('.')[0],
+                    status: error.response.status
+                })
+
+            }
+
         }
+
+
+    }
 }
 
-const onhandleResponse = (dispatch, data) => {
-    onLoginSuccess(dispatch, data.data )
-    console.log(data.data)
-}
-
-const onLoginSuccess = (dispatch, user ) => {
-            dispatch({ type: 'SIGN_UP_SUCCESS', user })
-}

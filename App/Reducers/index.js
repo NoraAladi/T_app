@@ -26,7 +26,7 @@ import EditUserDataReducer from './EditUserDataReducer';
 import EditMedicalDataReducer from './EditMedicalDataReducer';
 import getRelation from './getRelation';
 import newRegister_Reducer from './newRegister_Reducer';
-
+import patientCode_Reducer from './patientCode_Reducer';
 
 export default combineReducers({
     auth: loginReducer,
@@ -55,6 +55,7 @@ export default combineReducers({
     editStatus: EditUserDataReducer,
     editMedicalData: EditMedicalDataReducer,
     relation: getRelation,
-    newRegister:newRegister_Reducer,
+    newRegister: newRegister_Reducer,
+    patientCode: patientCode_Reducer,
 
 });

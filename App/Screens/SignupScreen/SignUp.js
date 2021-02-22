@@ -1,9 +1,9 @@
 import styleLogin from '../LoginScreen/style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, ImageBackground,
-    I18nManager, Modal, KeyboardAvoidingView, FlatList, Dimensions
+    Text, View, ScrollView,
+    TouchableOpacity, Platform,
+    Modal, KeyboardAvoidingView, Dimensions
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -16,11 +16,10 @@ import {
     UIActivityIndicator,
 } from 'react-native-indicators';
 import MedicalData from './MedicalData';
-import BottomSheet from 'reanimated-bottom-sheet';
-import CreatPassword from './CreatPassword';
 
 import { sign_up } from '../../Actions/signupAction';
 import { connect } from 'react-redux'
+import Toast from 'react-native-easy-toast'
 
 
 class SignUp extends Component {
@@ -28,40 +27,19 @@ class SignUp extends Component {
         super(props);
         this.state = {
             loader: false,
-            tabSelected_1: true,
+            tabSelected_1:true ,
             tabSelected_2: false,
             heightWithScroll: g.windowHeight,
             Diseases: [],
-            selected: false ,
-
-            user_data_arr : []
+            selected: false,
+            user_data_arr: [],
+            gender: 1,
+            createdUser_ID: 0
         };
     }
 
-    /*
- async getKeysData(keys){
-      const stores = await AsyncStorage.multiGet(keys);
-      return stores.map(([key, value]) => ({[key]: value}))
-    }
-    
-    getKeysData(['key1', 'key2', 'key3'])
-     .then((response)=>{ console.log(response)})
-     
-     /*
-     Respose will be in below form 
-     response = [
-      {key1: 'DATAOF key1'},
-      {key2: {"DATA OF KEY2"}}
-      {key3: 'DATAOF key1'}
-    */
-
-
-
     componentDidMount() {
-        const { navigation } = this.props;
-        navigation.addListener('willFoucs', () => {
-            console.log("willFocus runs") // calling it here to make sure it is logged at every time screen is focused after initial start
-        });
+
     }
 
     async getKeysData(keys) {
@@ -71,33 +49,49 @@ class SignUp extends Component {
 
     async UserDataValidation() {
 
-        this.setState({
-            loader: true
-        })
         await this.getKeysData([
-            'fullName' , 'email',
-            'password' , 'confirmPassword' , 'date',
+            'fullName', 'email',
+            'password', 'confirmPassword', 'date',
             'sex', 'mobile', 'job', 'Jobname',
-            'country', 'address' , 
-            ])
-            .then( async (response) => { 
-                console.log( response )
-                
-                await this.props.sign_up(
-                    response[0].fullName , response[1].email ,
-                    response[2].password , response[3].confirmPassword , 
-                    response[4].date ,  response[5].sex  ,
-                    response[6].mobile , response[7].job ,
-                    response[8].Jobname , response[9].country ,
-                    response[10].address ,
-                     
-                )   
-               // alert(JSON.stringify( response))
-               await this.setState({
-                    loader: false,
-                     tabSelected_1: false,
-                     tabSelected_2: true,
+            'address', 'region', 'isChecked'
+        ])
+            .then(async (response) => {
+                console.log(response)
+                this.setState({
+                    gender: parseInt(response[5].sex),
                 })
+                await this.props.sign_up(
+                    response[0].fullName,
+                    response[4].date,
+                    parseInt(response[5].sex),
+                    response[6].mobile,
+                    response[8].Jobname,
+                    parseInt(response[7].job),
+                    parseInt(response[10].region),
+                    response[9].address,
+                    response[1].email,
+                    response[2].password,
+                    response[3].confirmPassword,
+                    response[11].isChecked == 'false' ? false : true
+                )
+
+                if (this.props.status == 200) {
+                    //alert(this.props.id)
+                    this.setState({
+                        createdUser_ID: this.props.id
+                    })
+                    this.toast.show(this.props.message, 1000);
+                    setTimeout(() => {
+                        this.setState({
+                            tabSelected_1: false,
+                            tabSelected_2: true,
+                        })
+                    }, 1000);
+                }
+                else {
+                    this.toast.show(this.props.message, 1000);
+                }
+
             })
     }
 
@@ -115,7 +109,6 @@ class SignUp extends Component {
 
     }
 
-    
 
     async nextTap() {
         if (this.state.tabSelected_1) {
@@ -126,98 +119,8 @@ class SignUp extends Component {
             await this.MedicalDataValidation()
             return;
         }
-       
 
     }
-    async removeItem(item)
-    {
-        await this.state.Diseases.splice(this.state.Diseases.indexOf(item), 1)
-        return this.state.Diseases
-
-    }
-    renderContent = () => (
-        <View
-            style={{
-                backgroundColor: '#00000020',
-                height: this.state.heightWithScroll,
-            }}
-        >
-
-            <View style={{
-                backgroundColor: g.white, height: 525,
-                marginTop: this.state.heightWithScroll - 525,
-                borderTopRightRadius: 20,
-                borderTopLeftRadius: 20,
-                width: g.windowWidth,
-                // elevation: 3
-            }}>
-                <View style={{
-                    flexDirection: 'row-reverse',
-                    paddingHorizontal: 25, width: g.windowWidth,
-                    justifyContent: 'space-between'
-                }}>
-                    <Text style={[styleLogin.login, { marginRight: 0, marginTop: 15, }]}>
-                        {g.DISEASE}
-                    </Text>
-                    <Icon name='close' type='Ionicons'
-                        style={{ fontSize: 22, marginTop: 15, }}
-                        onPress={() => {
-                            this.sheetRef.current.snapTo(0)
-                        }}
-                    />
-                </View>
-                <Text style={[styleLogin.username, {
-                    marginTop: 0, marginRight: 0,
-                    flexDirection: 'row-reverse', paddingHorizontal: 25
-                }]}>
-                    {g.SELECT_MORE}
-                </Text>
-                <FlatList
-                    extraData={this.state}
-                    numColumns={3}
-                    showsVerticalScrollIndicator={false}
-                    style={{
-                        padding: 16, transform: [{ rotateY: '180deg' }]
-                    }}
-                    data={['سكر', 'ضغط', 'قلب', 'سرطان', 'جلدية', 'مخ واعصاب', 'امراض الكبد', 'الانسحاب الرئوي', 'الذبحة الصدرية', 'متلازمات خارج الهرمية',]}
-                    renderItem={({ item, index }) => (
-                        <View >
-                            <TouchableOpacity onPress={async () => {
-
-                                //   await this.state.Diseases.push(item)
-                                // if (!this.state.Diseases.includes(item)) {
-                                //     await this.setState({
-                                //         Diseases: [...this.state.Diseases, item],
-                                //     })
-                                // }
-                                // else {
-                                //     await this.setState({
-                                //         Diseases: await this.removeItem(item),
-                                //     })  
-                                // }
-                            }}>
-                                <View style={{
-                                    height: 40,
-                                    margin: 4, borderRadius: 20,
-                                    alignItems: 'center', justifyContent: 'center',
-                                    backgroundColor: this.state.Diseases.includes(item) ? g.Blue : g.Light_Gray
-                                }}>
-
-                                    <Text style={{
-                                        fontSize: 12,
-                                        color: g.white,
-                                        textAlign: 'center',
-                                        transform: [{ rotateY: '180deg' }],
-                                        padding: 15,
-                                        fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                    }}>{item}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                />
-            </View>
-        </View>
-    );
 
     find_dimesions(width, height) {
         const deviceHeight = Dimensions.get("window").height;
@@ -226,14 +129,7 @@ class SignUp extends Component {
             heightWithScroll: height
         })
         console.log(" view width:" + width + "  " + "view height:" + height);
-        console.log(
-            "device width:" + deviceWidth + "  " + " device height:" + deviceHeight
-        );
-    }
-    sheetRef = React.createRef()
-
-    handlePress = () => {
-        this.sheetRef.current.snapTo(1)
+        console.log("device width:" + deviceWidth + "  " + " device height:" + deviceHeight);
     }
     render() {
 
@@ -245,27 +141,19 @@ class SignUp extends Component {
                     onContentSizeChange={(width, height) => {
                         if (this.state.tabSelected_2) {
                             this.scrollListReftop.scrollTo({ x: 0, y: 0, animated: true })
-                         }
+                        }
 
                         this.find_dimesions(width, height)
                     }}
                     ref={(ref) => { this.scrollListReftop = ref; }}
                     showsVerticalScrollIndicator={false}>
 
-                    <BottomSheet
-                        ref={this.sheetRef}
-                        snapPoints={[-2000, this.state.heightWithScroll,]}
-                        enabledContentGestureInteraction={true}
-                        enabledInnerScrolling={true}
-                        enabledContentTapInteraction={false}
-                        renderContent={this.renderContent}
-                    />
 
                     <View style={{ zIndex: -1, }}>
                         <View style={{
                             flexDirection: 'row', paddingHorizontal: 25,
                             justifyContent: 'space-between',
-                            marginTop : Platform.OS == "ios" ? hp('5%') : null ,
+                            marginTop: Platform.OS == "ios" ? hp('5%') : null,
                         }}>
                             <View style={{ width: 25 }} />
 
@@ -288,10 +176,10 @@ class SignUp extends Component {
                         }}>
                             <View
                                 style={{ justifyContent: 'center', alignItems: 'center' }}
-                              >
+                            >
                                 <View style={{
                                     width: 90,
-                                    backgroundColor: this.state.tabSelected_2  ? 'red' : g.Light_Gray,
+                                    backgroundColor: this.state.tabSelected_2 ? 'red' : g.Light_Gray,
                                     borderRadius: 3,
                                     height: 4,
                                 }} />
@@ -305,10 +193,10 @@ class SignUp extends Component {
 
                             <View
                                 style={{ justifyContent: 'center', alignItems: 'center' }}
-                 >
+                            >
                                 <View style={{
                                     width: 90,
-                                    backgroundColor:  g.Light_Gray,
+                                    backgroundColor: g.Light_Gray,
                                     borderRadius: 3,
                                     height: 4,
                                 }} />
@@ -320,19 +208,19 @@ class SignUp extends Component {
                                 }}>{g.MEDICAL_DATA}</Text>
                             </View>
 
-                          
+
 
                         </View>
 
                         {
                             this.state.tabSelected_1 ?
-                                <UserData haveCode={false}/>
+                                <UserData haveCode={false} />
                                 : this.state.tabSelected_2 ?
-                                    <MedicalData handlePress={this.handlePress} />
-                                    
-                                        : null
+                                    <MedicalData handlePress={this.handlePress} gender={this.state.gender} />
+
+                                    : null
                         }
-                        
+
                         <TouchableOpacity style={[styleLogin.btn, { marginTop: hp('3') }]}
                             disabled={this.state.loader}
                             onPress={async () => {
@@ -347,6 +235,7 @@ class SignUp extends Component {
                             animationType="slide"
                             transparent={true}
                             visible={this.props.loading}
+                        // visible={false}
                         >
                             <View
                                 style={{
@@ -361,6 +250,15 @@ class SignUp extends Component {
 
 
                     </View>
+                    <Toast
+                        ref={(toast) => this.toast = toast}
+                        style={{ backgroundColor: '#000' }}
+                        position='bottom'
+                        positionValue={-(g.windowHeight + 100)}
+                        fadeInDuration={120}
+                        fadeOutDuration={1000}
+                        textStyle={{ color: 'white', fontFamily: g.Regular }}
+                    />
                 </ScrollView>
             </KeyboardAvoidingView>
         );
@@ -370,10 +268,11 @@ class SignUp extends Component {
 
 const mapStateToProps = state => {
     return {
-        error: state.register.error,
         loading: state.register.loading,
-        user: state.register.user,
+        status: state.register.status,
         message: state.register.message,
+        id: state.register.id,
+
     }
 }
 
