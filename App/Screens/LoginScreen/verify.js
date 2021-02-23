@@ -1,23 +1,15 @@
 
 import {
-    Animated, Image, SafeAreaView,
-    Text, View, KeyboardAvoidingView,
-    TouchableWithoutFeedback, Keyboard
+    Animated, Image,
+    Text, View,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { withNavigation } from "react-navigation";
 import G from '../../Gloabal';
 import {
-    BallIndicator,
-    BarIndicator,
-    DotIndicator,
-    MaterialIndicator,
-    PacmanIndicator,
-    PulseIndicator,
-    SkypeIndicator,
+
     UIActivityIndicator,
-    WaveIndicator,
 } from 'react-native-indicators';
 
 import {
@@ -29,9 +21,6 @@ import {
 
 import styles, {
     ACTIVE_CELL_BG_COLOR,
-    CELL_BORDER_RADIUS,
-    CELL_SIZE,
-    DEFAULT_CELL_BG_COLOR,
     NOT_EMPTY_CELL_BG_COLOR,
 } from './verifyStyle';
 import { Icon } from 'native-base';
@@ -94,12 +83,14 @@ const Verification = ({ navigation }) => {
     return (
         <>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ flex: 1, padding: 24, 
-                marginTop : Platform.OS == "ios" ? hp('5%') : null}}>
+                <View style={{
+                    flex: 1, padding: 24,
+                    marginTop: Platform.OS == "ios" ? hp('5%') : null
+                }}>
 
-                    <Icon name='arrowdown' type='AntDesign' 
-                    style={{ fontsize: 25, marginLeft: 'auto', }}
-                    onPress={()=>{navigation.pop()}}
+                    <Icon name='arrowdown' type='AntDesign'
+                        style={{ fontsize: 25, marginLeft: 'auto', }}
+                        onPress={() => { navigation.pop() }}
                     />
                     <Text style={styles.title}>{G.SEND_CODE}</Text>
                     <Image style={styles.icon} source={source} />
@@ -140,9 +131,10 @@ const Verification = ({ navigation }) => {
                         <Text style={styles.subTitle}>
                             {G.NOT_SEND}{'  '}
                         </Text>
-                        <Text style={[styles.subTitle, { 
-    fontFamily: Platform.OS == "android" ?  G.Bold  : G.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,    marginRight: wp('10'),
-    color: G.Bold_blue }]}>
+                        <Text style={[styles.subTitle, {
+                            fontFamily: Platform.OS == "android" ? G.Bold : G.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, 
+                            color: G.Bold_blue
+                        }]}>
                             {G.TRY_SEND}{'  '}
                         </Text>
                     </View>

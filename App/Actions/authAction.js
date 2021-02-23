@@ -27,6 +27,8 @@ export const loginuser = ({ email, password }) => {
                 console.log('----- Login Success -----');
                 console.log(response.data);
                 AsyncStorage.setItem('patientCode', response.data.patient.code)
+                AsyncStorage.setItem('refreshToken',  response.data.patient.refreshToken)
+
                 onhandleResponse(dispatch, response)
             }
         } catch (err) {
@@ -54,6 +56,7 @@ const onLoginSuccess = (dispatch, user, jwtToken, role, id) => {
 
     AsyncStorage.setItem('ROLE', role)
     AsyncStorage.setItem('LOGIN_ID', String(id))
+
 
 
 }

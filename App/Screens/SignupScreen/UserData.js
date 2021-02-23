@@ -15,11 +15,18 @@ import moment from 'moment';
 import { FlatList } from 'react-native-gesture-handler';
 import { ArabicNumbers } from 'react-native-arabic-numbers';
 import RadioForm from 'react-native-simple-radio-button';
+import Spinner from '../../Navigation/Spinner'
 
 
 import { connect } from 'react-redux'
 import { Get_City } from '../../Actions/getCityAction';
 import { Get_Country } from '../../Actions/getCountryAction';
+import { Get_MicroInfo } from '../../Actions/get_MicroInfo_Action';
+import { Put_MicroInfo } from '../../Actions/Put_MicroInfo_Action';
+
+import Toast from 'react-native-easy-toast'
+
+
 import CheckBox from 'react-native-check-box'
 
 const Jobs = [
@@ -60,6 +67,7 @@ class UserData extends Component {
             gender: 1,
 
             dateInAr: this.arabicDate(moment().format('DD MMMM YYYY')),
+            realDate: moment().format('YYYY-MM-DD'),
             Jobname: Jobs[0],
             showJobs: false,
 
@@ -103,26 +111,59 @@ class UserData extends Component {
         await AsyncStorage.setItem('address', this.state.address)
         await AsyncStorage.setItem('isChecked', String(this.state.isChecked))
 
-
-
-
-
     }
     async componentDidMount() {
-        await this.props.Get_Country()
-        await this.props.Get_City(1)
-        this.setState({
-            country: this.props.countries[0].nameAr,
-            countryID: this.props.countries[0].id,
+        if (this.props.haveCode) {
+            //  alert(this.props.patientCode)
+            await this.props.Get_MicroInfo(this.props.patientCode)
+            //alert(JSON.stringify(this.props.microInfo))
+            await this.setState({
+                fullName: this.props.microInfo.fullNameAr,
+                email: this.props.microInfo.email,
+                dateInAr: this.arabicDate(moment(this.props.microInfo.dateofBirth).format('DD MMMM YYYY')),
+                realDate: moment(this.props.microInfo.dateofBirth).format('YYYY-MM-DD')
+            })
+        }
+        else {
+            await this.props.Get_Country()
+            await this.props.Get_City(1)
+            this.setState({
+                country: this.props.countries[0].nameAr,
+                countryID: this.props.countries[0].id,
 
-            region: this.props.cities[0].cityNameAr,
-            regionId: this.props.cities[0].id,
-        })
-        await this.setDefault()
+                region: this.props.cities[0].cityNameAr,
+                regionId: this.props.cities[0].id,
+            })
+            await this.setDefault()
+        }
+    }
+
+    async _Put_MicroInfo() {
+        await this.props.Put_MicroInfo(
+            this.props.microInfo.id,
+            this.state.fullName,
+            this.state.fullName,
+            this.state.email,
+            this.state.realDate,
+            this.state.password,
+            this.state.confirmPassword,
+        )
+        if (this.props.status == 200) {
+            this.toast.show('تم استكمال الملف الشخصي بنجاح', 1000);
+            setTimeout(() => {
+                this.props.navigation.navigate('ThankUScreen')
+            }, 1000);
+        }
+        else {
+            this.toast.show('يجب إدخال جميع البيانات صحيحة', 1000);
+        }
+
     }
     render() {
         return (
             <View>
+
+
                 <Text style={[styles.login, { marginTop: hp('2') }]}>
                     {g.USER_DATA}
                 </Text>
@@ -148,7 +189,10 @@ class UserData extends Component {
                                 await AsyncStorage.setItem('fullName', this.state.fullName)
                             }}
                             placeholderTextColor={g.Light_Gray}
-                            style={[styles.input]} />
+                            style={[styles.input]}
+                            defaultValue={this.state.fullName}
+
+                        />
                     </View>
                 </View>
 
@@ -173,7 +217,9 @@ class UserData extends Component {
                                 await AsyncStorage.setItem('email', this.state.email)
                             }}
                             placeholderTextColor={g.Light_Gray}
-                            style={[styles.input]} />
+                            style={[styles.input]}
+                            defaultValue={this.state.email}
+                        />
                     </View>
                 </View>
 
@@ -289,6 +335,7 @@ class UserData extends Component {
 
                                 this.setState({
                                     dateInAr: this.arabicDate(dateFormat2),
+                                    realDate: dateFormat,
                                     showClender: false
                                 })
                                 //   
@@ -624,16 +671,31 @@ class UserData extends Component {
                     : null}
 
                 {this.props.haveCode ?
-                    <TouchableOpacity style={[styles.btn, { marginTop: hp('3') }]}
-                        disabled={this.state.loader}
-                        onPress={async () => {
-                            this.props.navigation.navigate('ThankUScreen')
-                        }}>
-                        <Text style={[styles.txt_btn,]}>
-                            {g.COMPLETE_PROFILE}</Text>
-                    </TouchableOpacity>
+
+                    this.props.put_loading ?
+                        <View  style={{ marginTop: hp('3') }}>
+                            <Spinner />
+                        </View> :
+                        <TouchableOpacity style={[styles.btn, { marginTop: hp('3') }]}
+                            disabled={this.state.loader}
+                            onPress={async () => {
+                                this._Put_MicroInfo()
+                            }}>
+                            <Text style={[styles.txt_btn,]}>
+                                {g.COMPLETE_PROFILE}</Text>
+                        </TouchableOpacity>
                     : null
                 }
+
+                <Toast
+                    ref={(toast) => this.toast = toast}
+                    style={{ backgroundColor: '#000' }}
+                    //    position='center'
+                    positionValue={200}
+                    fadeInDuration={120}
+                    fadeOutDuration={1000}
+                    textStyle={{ color: 'white', fontFamily: g.Regular }}
+                />
             </View>
         );
     }
@@ -643,7 +705,15 @@ const mapStateToProps = state => {
 
         countries: state.countries.countries,
         cities: state.cities.cities,
+
+        microInfo: state.microInfo.microInfo,
+
+
+        microInfo_updated: state.microInfo_updated.microInfo_updated,
+        put_loading: state.microInfo_updated.put_loading,
+        status: state.microInfo_updated.status,
+
     }
 }
-export default connect(mapStateToProps, { Get_Country, Get_City })(withNavigation(UserData));
+export default connect(mapStateToProps, { Get_Country, Get_City, Get_MicroInfo, Put_MicroInfo })(withNavigation(UserData));
 

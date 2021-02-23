@@ -87,7 +87,8 @@ class PatientCode extends Component {
                             if (this.props.status == 200) {
                                 this.toast.show(this.props.message, 1000);
                                 setTimeout(() => {
-                                    this.props.navigation.navigate('SignUpHaveCode')
+                                    this.props.navigation.navigate('SignUpHaveCode',
+                                        { 'patientCode':this.state.code})
                                 }, 1000);
 
                             }

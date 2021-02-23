@@ -1,7 +1,7 @@
 import styleLogin from '../LoginScreen/style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, Platform, KeyboardAvoidingView, 
+    Text, View, ScrollView, Platform, KeyboardAvoidingView,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -14,15 +14,13 @@ class SignUpHaveCode extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
-
+            patientCode: this.props.navigation.getParam('patientCode')
         };
     }
 
 
 
     componentDidMount() {
-        ;
     }
 
 
@@ -34,8 +32,6 @@ class SignUpHaveCode extends Component {
                 behavior={Platform.OS === "ios" ? "padding" : 'position'}
                 keyboardVerticalOffset={Platform.OS === "ios" ? 64 : -270}>
                 <ScrollView
-
-
                     ref={(ref) => { this.scrollListReftop = ref; }}
                     showsVerticalScrollIndicator={false}>
 
@@ -60,7 +56,7 @@ class SignUpHaveCode extends Component {
                         </View>
 
 
-                        <UserData haveCode={true} />
+                        <UserData haveCode={true} patientCode={ this.state.patientCode}/>
 
                         <View style={{ height: 50 }} />
                     </View>

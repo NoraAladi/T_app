@@ -41,9 +41,9 @@ class UserData extends Component {
     async setDefault() {
         await AsyncStorage.setItem('weight', String(this.state.weight))
         await AsyncStorage.setItem('height', String(this.state.height))
-        await AsyncStorage.setItem('smoking', this.state.smoking)
-        await AsyncStorage.setItem('married', this.state.married)
-        await AsyncStorage.setItem('pregnant', this.state.pregnant)
+        await AsyncStorage.setItem('smoking', String(this.state.smoking))
+        await AsyncStorage.setItem('married', String(this.state.married))
+        await AsyncStorage.setItem('pregnant', String(this.state.pregnant))
 
     }
     async componentDidMount() {

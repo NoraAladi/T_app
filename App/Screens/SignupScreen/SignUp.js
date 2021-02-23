@@ -11,6 +11,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import g from '../../Gloabal';
 import UserData from './UserData';
 import AsyncStorage from '@react-native-community/async-storage';
+
 import {
 
     UIActivityIndicator,
@@ -18,6 +19,8 @@ import {
 import MedicalData from './MedicalData';
 
 import { sign_up } from '../../Actions/signupAction';
+import { completeRegister } from '../../Actions/completeregister_newpatient_Action';
+
 import { connect } from 'react-redux'
 import Toast from 'react-native-easy-toast'
 
@@ -27,19 +30,19 @@ class SignUp extends Component {
         super(props);
         this.state = {
             loader: false,
-            tabSelected_1:true ,
+            tabSelected_1: true,
             tabSelected_2: false,
             heightWithScroll: g.windowHeight,
             Diseases: [],
             selected: false,
             user_data_arr: [],
             gender: 1,
-            createdUser_ID: 0
+            createdUser_ID: 114,
+            healthProfile: {}
         };
     }
 
     componentDidMount() {
-
     }
 
     async getKeysData(keys) {
@@ -91,21 +94,49 @@ class SignUp extends Component {
                 else {
                     this.toast.show(this.props.message, 1000);
                 }
-
             })
     }
 
     async MedicalDataValidation() {
 
-        this.setState({
-            loader: true
-        })
-        setTimeout(() => {
-            this.setState({
-                loader: false
+       
+
+        await this.getKeysData([
+            'weight', 'height',
+            'smoking', 'married', 'pregnant'
+        ])
+            .then(async (response) => {
+                console.log(response)
+                await this.setState({
+                    healthProfile: {
+                        id: this.state.createdUser_ID,
+                        pregnant: response[3].pregnant == '0' ? true : false,
+                        breastFeeding: response[3].pregnant == '0' ? true : false,
+
+                    }
+                })
+
+                await this.props.completeRegister(
+                    this.state.createdUser_ID,
+                    parseInt(response[0].weight),
+                    parseInt(response[1].height),
+                    parseInt(response[2].smoking),
+                    parseInt(response[3].married),
+                    this.state.healthProfile
+
+                )
+                if (this.props.statusComplete == 200) {
+                    //alert(this.props.id)
+
+                    this.toast.show('تم تسجيل البيانات الطبية بنجاح', 1000);
+                    setTimeout(() => {
+                        this.props.navigation.replace('ThankUScreen')
+                    }, 1000);
+                }
+                else {
+                    this.toast.show('حدث مشكلة ، حاول مرة اخرى', 1000);
+                }
             })
-            this.props.navigation.replace('ThankUScreen')
-        }, 3000);
 
     }
 
@@ -234,8 +265,8 @@ class SignUp extends Component {
                         <Modal
                             animationType="slide"
                             transparent={true}
-                            visible={this.props.loading}
-                        // visible={false}
+                            visible={this.props.loading || this.props.complete_loading}
+                        //visible={false}
                         >
                             <View
                                 style={{
@@ -253,8 +284,8 @@ class SignUp extends Component {
                     <Toast
                         ref={(toast) => this.toast = toast}
                         style={{ backgroundColor: '#000' }}
-                        position='bottom'
-                        positionValue={-(g.windowHeight + 100)}
+                        //    position='center'
+                        positionValue={this.state.tabSelected_1 ? -(g.windowHeight + 100) : 200}
                         fadeInDuration={120}
                         fadeOutDuration={1000}
                         textStyle={{ color: 'white', fontFamily: g.Regular }}
@@ -273,7 +304,11 @@ const mapStateToProps = state => {
         message: state.register.message,
         id: state.register.id,
 
+        complete_loading: state.user_completed.complete_loading,
+        statusComplete: state.user_completed.status,
+        user_completed: state.user_completed.user_completed,
+
     }
 }
 
-export default connect(mapStateToProps, { sign_up })(withNavigation(SignUp));
+export default connect(mapStateToProps, { sign_up, completeRegister })(withNavigation(SignUp));

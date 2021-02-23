@@ -7,12 +7,11 @@ export const Get_Reportes  = (page)=>
    return async (dispatch) =>
    {
      const Token = await AsyncStorage.getItem('app_Token');
-     const ID = await AsyncStorage.getItem('LOGIN_ID');
 
     dispatch({ type : 'GET_REPORTES_ATTEMPT'});
     
     //call the backend 
-      axios.get(`${g.BASE_URL}/api/PatientMedicalFile/AllReports?patientId=${ID}&PageNumer=${page}&PageSize=5`,
+      axios.get(`${g.BASE_URL}/api/PatientMedicalFile/AllReports?PageNumer=${page}&PageSize=10`,
       {  
        headers:
        { 
