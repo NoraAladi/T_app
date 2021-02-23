@@ -15,7 +15,7 @@ export default {
     },
     shadowOpacity: .1,
     shadowRadius: 1.49,
-    marginTop : Platform.OS == "ios" ? hp('5%') : null ,
+    marginTop: Platform.OS == "ios" ? hp('5%') : null,
   },
   arrow:
   {
@@ -39,28 +39,28 @@ export default {
 
   code:
   {
-    textAlign: 'center', 
-    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null , 
+    textAlign: 'center',
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
 
   },
 
   offer:
   {
-    textAlign: 'center', marginLeft: wp('20%'), fontSize: 20, 
-    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null , 
+    textAlign: 'center', marginLeft: wp('20%'), fontSize: 20,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
 
   },
 
   irea:
   {
-    textAlign: 'center', fontFamily: g.Regular, color: g.Gray, fontSize: 16,
-    marginLeft: wp('10%')
+    textAlign: 'right', fontFamily: g.Regular, color: g.Gray, fontSize: 16,
+    marginLeft: wp('-10%'), width: wp('50')
   },
 
   city:
   {
-    textAlign: 'center',   
-      fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null , 
+    textAlign: 'center',
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
 
     marginLeft: wp('5%'), marginTop: -5
   },
@@ -73,7 +73,7 @@ export default {
 
   flat:
   {
-    marginRight: 'auto',marginLeft: 'auto',
+    marginRight: 'auto', marginLeft: 'auto',
   },
 
   center:
@@ -117,8 +117,8 @@ export default {
 
   txt:
   {
-    textAlign: 'center', 
-    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,    marginLeft: wp('5%'), width: 200
+    textAlign: 'center',
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginLeft: wp('5%'), width: 200
   },
 
   txt1:
@@ -145,8 +145,8 @@ export default {
   {
     marginTop: hp('-31%'), marginRight: wp('1%'), fontSize: 18,
     color: g.white,
-    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,     
-     textAlign: 'right'
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
+    textAlign: 'right'
   },
 
   down:
@@ -156,7 +156,7 @@ export default {
 
   view2:
   {
-    alignItems: 'center', justifyContent: 'center', height: hp('35%') ,
+    alignItems: 'center', justifyContent: 'center', height: hp('35%'),
   },
 
   line:
@@ -168,7 +168,7 @@ export default {
   branch:
   {
     marginRight: wp('20%'), fontSize: 14,
-    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,      color: g.Blue, marginTop: hp('2%')
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, color: g.Blue, marginTop: hp('2%')
 
   },
 
@@ -205,29 +205,29 @@ export default {
     textAlign: 'right', width: wp('85%')
   },
 
-  semi : 
+  semi:
   {
-    width: wp('15%'), marginTop: hp('2%'), marginRight : 'auto' , 
-           marginLeft : 'auto' , borderRadius : 20 ,
-           height: 5 , backgroundColor : g.Light_Gray
+    width: wp('15%'), marginTop: hp('2%'), marginRight: 'auto',
+    marginLeft: 'auto', borderRadius: 20,
+    height: 5, backgroundColor: g.Light_Gray
   },
-  txt9 : 
+  txt9:
   {
     textAlign: 'center', color: g.Gray,
-     marginTop: hp('-.5%'),
-     fontSize: 14, fontFamily: g.Regular,
+    marginTop: hp('-.5%'),
+    fontSize: 14, fontFamily: g.Regular,
     transform: Platform.OS == "ios" ? [{ rotateY: '0deg' }] : [{ rotateY: '180deg' }],
     fontSize: 12, width: 60
   },
 
-  view3 : 
+  view3:
   {
     borderWidth: .5, borderRadius: 20,
-    borderColor: g.Light_Gray , 
+    borderColor: g.Light_Gray,
     justifyContent: 'center', alignItems: 'center',
-     padding:10, height: 37, marginLeft: 5,
+    padding: 10, height: 37, marginLeft: 5,
   },
-  no_data : 
+  no_data:
   {
     marginTop: hp('30%'),
     textAlign: 'center', fontFamily: g.Regular, color: g.Gray, fontSize: 20,

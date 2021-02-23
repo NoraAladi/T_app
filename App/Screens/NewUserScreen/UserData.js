@@ -54,7 +54,7 @@ class UserData extends Component {
     }
     setDefault() {
         AsyncStorage.setItem('sonName', this.state.sonName)
-        AsyncStorage.setItem('date', String(moment().format('DD-MM-YYYY')))
+        AsyncStorage.setItem('date', String(moment().format('YYYY-MM-DD')))
         AsyncStorage.setItem('relation', String(this.state.relationId))
         AsyncStorage.setItem('jobName', this.state.jobName)
 
@@ -195,7 +195,7 @@ class UserData extends Component {
 
                             onDateChange={async (date) => {
                                 var date = new Date(date)
-                                var dateFormat = moment(date).format('DD-MM-YYYY')
+                                var dateFormat = moment(date).format('YYYY-MM-DD')
                                 var dateFormat2 = moment(date).format('DD MMMM YYYY')
                                 await AsyncStorage.setItem('date', dateFormat)
 

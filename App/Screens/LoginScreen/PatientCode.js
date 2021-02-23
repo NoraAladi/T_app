@@ -1,15 +1,17 @@
 import styles from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, Dimensions, ImageBackground, I18nManager
+    Text, View, TextInput,
+    TouchableOpacity, Platform, Keyboard
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import i18n from '../../i18n';
-
+import { Get_PatientCode } from '../../Actions/patientCode_Action';
+import { connect } from 'react-redux'
+import Toast, { DURATION } from 'react-native-easy-toast'
+import Spinner from '../../Navigation/Spinner';
 
 class PatientCode extends Component {
     constructor(props) {
@@ -67,34 +69,68 @@ class PatientCode extends Component {
                 <View style={styles.view1}>
 
                     <TouchableOpacity
-
-                        disabled={
-                            this.state.code != ''
-                                ? false : true
-                        }
                         style={styles.view2} onPress={() => {
                             this.props.navigation.navigate('SignUpScreen')
                         }}>
                         <Text style={styles.txt1}>{g.NO}</Text>
                     </TouchableOpacity>
+
                     <TouchableOpacity
                         disabled={
                             this.state.code != ''
                                 ? false : true
                         }
                         style={styles.txt2}
-                        onPress={() => {
-                            this.props.navigation.navigate('SignUpHaveCode')
+                        onPress={async () => {
+                            Keyboard.dismiss()
+                            await this.props.Get_PatientCode(this.state.code)
+                            if (this.props.status == 200) {
+                                this.toast.show(this.props.message, 1000);
+                                setTimeout(() => {
+                                    this.props.navigation.navigate('SignUpHaveCode',
+                                        { 'patientCode':this.state.code})
+                                }, 1000);
+
+                            }
+                            else {
+                                this.toast.show(this.props.message, 1000);
+                            }
+                            //
 
                         }}
                     >
                         <Text style={styles.txt3}>{g.YES}</Text>
                     </TouchableOpacity>
-                </View>
 
+                    
+                </View>
+                {
+                        this.props.loading ?
+                            <View style={{ marginTop: '20%' }}>
+                                <Spinner />
+                            </View>
+                     
+                            : null}
+                <Toast
+                    ref={(toast) => this.toast = toast}
+                    style={{ backgroundColor: '#000' }}
+                    position='bottom'
+                    positionValue={180}
+                    fadeInDuration={120}
+                    fadeOutDuration={1000}
+                    textStyle={{ color: 'white', fontFamily: g.Regular }}
+                />
             </View>
         );
 
     }
 }
-export default withNavigation(PatientCode);
+const mapStateToProps = state => {
+    return {
+        status: state.patientCode.status,
+        message: state.patientCode.message,
+        loading: state.patientCode.loading,        
+    }
+}
+
+export default connect(mapStateToProps, { Get_PatientCode })(withNavigation(PatientCode));

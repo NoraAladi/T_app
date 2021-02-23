@@ -40,7 +40,7 @@ class ThankU extends Component {
                     marginTop: 0, color:'#0091FF',fontSize:14
                 }]}
                     onPress={() => {
-                    this.props.navigation.replace('SearchScreen')
+                    this.props.navigation.replace('HomeScreen',{'noSplash':'noSplash'})
                 }}
                 >
                     {g.GO_TO_HOME}

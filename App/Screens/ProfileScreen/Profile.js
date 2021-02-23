@@ -1,9 +1,9 @@
 import styles from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, ImageBackground, Image,
-    I18nManager, Modal, KeyboardAvoidingView, FlatList, Dimensions
+    Text, View, ScrollView,
+    TouchableOpacity, Platform, Image,
+
 } from 'react-native';
 import { withNavigation, NavigationActions, StackActions } from "react-navigation"
 import { Icon } from 'native-base';
@@ -16,6 +16,8 @@ import { connect } from 'react-redux'
 import Spinner from '../../Navigation/Spinner'
 import { Get_mini_Profile } from '../../Actions/_get_mini_profile';
 
+import axios from 'axios';
+
 class Profile extends Component {
     constructor(props) {
         super(props);
@@ -24,6 +26,35 @@ class Profile extends Component {
         };
     }
 
+    async _logOut() {
+        try {
+            const Token = await AsyncStorage.getItem('app_Token');
+            const refreshToken = await AsyncStorage.getItem('refreshToken');
+
+            let response = await axios({
+                method: 'POST',
+                url: `${g.BASE_URL}/api/Accounts/Logout`,
+                headers:
+                {
+                    'Authorization': `Bearer ${Token}`,
+                    'accept': '*/*',
+                    'Content-Type': 'application/json-patch+json'
+                },
+                data:
+                {
+                    token: refreshToken,
+                },
+            })
+            console.log('---- LOG OUT ----');
+            console.log(response.data);
+            await AsyncStorage.removeItem('app_Token')
+            this.navigateToScreen()
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
     navigateToScreen = () => {
         const resetAction = StackActions.reset({
             index: 0,
@@ -31,8 +62,6 @@ class Profile extends Component {
                 routeName: 'HomeScreen',      // name of the screen you want to navigate
                 params: {
                     logout_: true,
-                    //  signup_: false
-                    // this second parameter is for sending the params
                 }
             })],
         });
@@ -41,8 +70,7 @@ class Profile extends Component {
 
     }
 
-    componentDidMount()
-    {
+    componentDidMount() {
         this.props.Get_mini_Profile()
     }
 
@@ -97,25 +125,25 @@ class Profile extends Component {
                                 </View>
 
                                 :
-                        <View>
-                            <Text style={[styles.txt, { color: g.Gray, fontSize: 12 }]}>
-                            {'الاسم كاملا'}
-                            </Text>
+                                <View>
+                                    <Text style={[styles.txt, { color: g.Gray, fontSize: 12 }]}>
+                                        {'الاسم كاملا'}
+                                    </Text>
 
-                            <Text style={[styles.txt, { fontSize: 16, marginTop: -5, }]}>
-                            {this.props.mini.fullNameEn}
-                            </Text>
+                                    <Text style={[styles.txt, { fontSize: 16, marginTop: -5, }]}>
+                                        {this.props.mini.fullNameEn}
+                                    </Text>
 
-                            <Text style={[styles.txt, { color: g.Gray, fontSize: 12 }]}>
-                            {g.EMAIL}
-                            </Text>
+                                    <Text style={[styles.txt, { color: g.Gray, fontSize: 12 }]}>
+                                        {g.EMAIL}
+                                    </Text>
 
-                            <Text style={[styles.txt, { fontSize: 16, marginTop: -5, }]}>
-                            {this.props.mini.email} {'\n'}
-                            
-                            </Text>
-                        </View>
-                    }
+                                    <Text style={[styles.txt, { fontSize: 16, marginTop: -5, }]}>
+                                        {this.props.mini.email} {'\n'}
+
+                                    </Text>
+                                </View>
+                        }
                     </LinearGradient>
 
 
@@ -190,9 +218,7 @@ class Profile extends Component {
                     }]}
 
                         onPress={async () => {
-                            await AsyncStorage.removeItem('app_Token')
-                            this.navigateToScreen()
-
+                            this._logOut()
                         }}
                     >
                         <Icon name='log-out' type='Entypo' style={[styles.icon, { color: '#E02020', padding: 10, marginTop: 5, }]} />
@@ -209,7 +235,7 @@ class Profile extends Component {
 const mapStateToProps = state => {
     return {
         loading: state.mini_profile.loading,
-        mini : state.mini_profile.mini,
+        mini: state.mini_profile.mini,
     }
 }
 

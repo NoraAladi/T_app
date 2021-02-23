@@ -5,12 +5,11 @@ import g from '../Gloabal'
 export const Get_visit = (page) => {
   return async (dispatch) => {
     const Token = await AsyncStorage.getItem('app_Token');
-    const ID = await AsyncStorage.getItem('LOGIN_ID');
 
     dispatch({ type: 'GET_VISITS_ATTEMPT' });
 
     //call the backend 
-    axios.get(`${g.BASE_URL}/api/PatientMedicalFile/ClinicVisits?patientId=${ID}&PageNumer=${page}&PageSize=5`,
+    axios.get(`${g.BASE_URL}/api/PatientMedicalFile/ClinicVisits?PageNumer=${page}&PageSize=10`,
       {
         headers:
         {

@@ -17,7 +17,7 @@ import {
 } from 'react-native-indicators';
 import MedicalData from './MedicalData';
 
-import { newRegister } from '../../Actions/newRegister_action';
+import { new_Register } from '../../Actions/newRegister_action';
 import { connect } from 'react-redux'
 import Toast, { DURATION } from 'react-native-easy-toast'
 
@@ -76,26 +76,27 @@ class newUser extends Component {
             'relation', 'jobName'])
             .then(async (response) => {
                 console.log(response)
-                alert(response[0].sonName +
-                    response[1].date +
-                    response[2].relation +
-                    response[3].jobName)
+                // alert(response[0].sonName + ' / ' +
+                //     response[1].date + ' / ' +
+                //     parseInt(response[2].relation) + ' / ' +
+                //     response[3].jobName)
                 //await call Api
-                //  await this.props.newRegister(
-                //      response[0].sonName,
-                //     new Date(response[1].date),
-                //      response[2].relation,
-                //      response[3].jobName
-                //  )
+                await this.props.new_Register(
+                    response[0].sonName,
+                    response[1].date,
+                    response[3].jobName,
+                    parseInt(response[2].relation),
+
+                )
                 this.toast.show('تمت الاضافة بنجاح ', 1000);
 
             })
 
-        // this.setState({
-        //     loader: false,
-        //     tabSelected_1: false,
-        //     tabSelected_2: true,
-        // })
+        this.setState({
+            loader: false,
+            tabSelected_1: false,
+            tabSelected_2: true,
+        })
 
     }
 
@@ -235,7 +236,7 @@ class newUser extends Component {
                         <TouchableOpacity style={[styleLogin.btn, { marginTop: hp('3') }]}
                             disabled={this.state.loader}
                             onPress={async () => {
-                              //  await this.nextTap()
+                                await this.nextTap()
                             }}>
                             <Text style={[styleLogin.txt_btn,]}>
                                 {this.state.tabSelected_2 ? g.COMPLETE_PROFILE : g.NEXT}</Text>
@@ -281,4 +282,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { newRegister })(withNavigation(newUser));
+export default connect(mapStateToProps, { new_Register })(withNavigation(newUser));

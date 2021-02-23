@@ -18,7 +18,6 @@ import { Get_offer_Types } from '../../Actions/getOffersSponserType';
 
 
 
-const { width, height } = Dimensions.get("window");
 
 const data =
     [
@@ -32,18 +31,28 @@ class Deal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTypeId: 0
+            selectedTypeId: 2,
+            cityId: 1,
+            countryId: 1,
         }
     }
 
-    componentDidMount() {
-        this.props.Get_offer(1, 2, 1)
+    async componentDidMount() {
+        await this.props.Get_offer_Types(1, 1, this.state.selectedTypeId, 1)
+    }
+
+    getCountryAndCityIds = async (countryId, cityId) => {
+        await this.setState({
+            cityId: cityId,
+            countryId: countryId
+        })
+        await this.props.Get_offer_Types(countryId, cityId, this.state.selectedTypeId, 1)
     }
 
     renderListHeader = () => {
         return (
             <View>
-                <CountryRegion />
+                <CountryRegion callApi={this.getCountryAndCityIds} />
 
                 <View style={style.flat}>
                     <FlatList
@@ -66,7 +75,7 @@ class Deal extends Component {
                                         await this.setState({
                                             selectedTypeId: item.id
                                         })
-                                        await this.props.Get_offer_Types(1, 1, this.state.selectedTypeId, 1)
+                                        await this.props.Get_offer_Types(this.state.countryId, this.state.cityId, this.state.selectedTypeId, 1)
                                     }}
                                 >
                                     <Text style={[style.txt9, {
@@ -94,15 +103,14 @@ class Deal extends Component {
                 >
                     <View style={{ zIndex: -1 }}>
                         {
-                            (this.props.loading && this.state.selectedTypeId == 0)
-                                || (this.props.loadingType && this.state.selectedTypeId != 0) ?
+                            this.props.loadingType ?
                                 <View style={{ marginTop: hp('35%') }} >
                                     <Spinner />
                                 </View>
 
                                 :
-                                (this.props.offers == '' && this.state.selectedTypeId == 0)
-                                    || (this.props.offerType == null && this.state.selectedTypeId != 0) ?
+
+                                this.props.offersType == '' ?
                                     <Text style={style.no_data}>
                                         {g.NO_DATA}
                                     </Text>
@@ -114,7 +122,7 @@ class Deal extends Component {
                                             nestedScrollEnabled
                                             onEndReachedThreshold={.5}
                                             onEndReached={() => { console.log('saad') }}
-                                            data={this.state.selectedTypeId == 0 ? this.props.offers : this.props.offerType}
+                                            data={this.props.offersType}
                                             renderItem={({ item, index }) => (
                                                 <View
                                                     style={[style.container, style.card,
@@ -134,12 +142,12 @@ class Deal extends Component {
                                                         source={require('../../Images/user.png')}
                                                         style={style.logo}
                                                     />
-                                                    <Text style={[style.irea, { marginTop: hp('-2%'), color: g.Ferany }]}>
-                                                        {item.placeName}</Text>
+                                                    <Text style={[style.irea, { marginTop: hp('-4%'), color: g.Ferany }]}>
+                                                        {item.titleEn}</Text>
 
                                                     <View style={{ flexDirection: 'row-reverse' }}>
                                                         <Text style={[style.txt]}>
-                                                            {item.titleEn}</Text>
+                                                            {item.placeName}</Text>
 
                                                         <View style={{ flexDirection: 'column' }}>
                                                             <Text
@@ -177,8 +185,8 @@ const mapStateToProps = state => {
         loading: state.offer.loading,
         offers: state.offer.offers,
 
-        loadingType: state.offerType.loadingType,
-        offerType: state.offerType.offerType,
+        loadingType: state.offersType.loadingType,
+        offersType: state.offersType.offersType,
 
 
     }

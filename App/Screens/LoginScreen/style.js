@@ -166,6 +166,11 @@ export default {
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
     color: 'white',
     fontSize: 16, marginTop: 10, marginTop: 10,
-  }
+  },
+  input1:
+  {
+    textAlign: 'center', fontSize: 14,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, padding: 10, width: wp('85%')
+  },
 
 };

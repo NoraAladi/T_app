@@ -26,7 +26,10 @@ import EditUserDataReducer from './EditUserDataReducer';
 import EditMedicalDataReducer from './EditMedicalDataReducer';
 import getRelation from './getRelation';
 import newRegister_Reducer from './newRegister_Reducer';
-
+import patientCode_Reducer from './patientCode_Reducer';
+import completeregister_newpatient_Reducer from './completeregister_newpatient_Reducer';
+import get_microInfo_Reducer from './get_microInfo_Reducer';
+import Put_MicroInfo_Reducer from './Put_MicroInfo_Reducer';
 
 export default combineReducers({
     auth: loginReducer,
@@ -43,7 +46,7 @@ export default combineReducers({
     cities: citiesReducer,
     user_data: _get_userdata,
     user_info: _get_userInfo,
-    offerType: _offersTypesReducer,
+    offersType: _offersTypesReducer,
     Dependants: getDependantsReducer,
     Emergency: getEmergencyReducer,
     social_channel: _socialReducer,
@@ -55,6 +58,10 @@ export default combineReducers({
     editStatus: EditUserDataReducer,
     editMedicalData: EditMedicalDataReducer,
     relation: getRelation,
-    newRegister:newRegister_Reducer,
+    newRegister: newRegister_Reducer,
+    patientCode: patientCode_Reducer,
+    user_completed: completeregister_newpatient_Reducer,
+    microInfo: get_microInfo_Reducer,
+    microInfo_updated:Put_MicroInfo_Reducer,
 
 });

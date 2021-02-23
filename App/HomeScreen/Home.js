@@ -23,7 +23,7 @@ function Home({ navigation }) {
 
   useEffect(() => {
     Orientation.lockToPortrait()
-
+  
     console.disableYellowBox = true;
     AsyncStorage.getItem('start').then(val => {
       if (val != 'disabled') {
@@ -79,7 +79,7 @@ function Home({ navigation }) {
       <View>
         {
 
-          splash && !token && !logout_ ?
+          splash && !token && !logout_ &&navigation.getParam('noSplash')!='noSplash'?
             <SplashScreen />
             :
             start && !token ?
