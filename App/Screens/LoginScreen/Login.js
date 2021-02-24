@@ -119,7 +119,7 @@ class Login extends Component {
 
                         <View style={styles.row}>
                             <Text style={styles.sign}
-                                onPress={() => { this.props.navigation.navigate('SignUpScreen') }}
+                                onPress={() => { this.props.navigation.navigate('PatientCodeScreen') }}
 
                             >
                                 {g.SIGNUP}

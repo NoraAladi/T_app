@@ -30,6 +30,11 @@ import patientCode_Reducer from './patientCode_Reducer';
 import completeregister_newpatient_Reducer from './completeregister_newpatient_Reducer';
 import get_microInfo_Reducer from './get_microInfo_Reducer';
 import Put_MicroInfo_Reducer from './Put_MicroInfo_Reducer';
+import support_types_reducer from './support_types_reducer';
+import contact_Reducer from './contact_Reducer';
+import completeregister_newDependent_Reducer from './completeregister_newDependent_Reducer';
+
+
 
 export default combineReducers({
     auth: loginReducer,
@@ -62,6 +67,8 @@ export default combineReducers({
     patientCode: patientCode_Reducer,
     user_completed: completeregister_newpatient_Reducer,
     microInfo: get_microInfo_Reducer,
-    microInfo_updated:Put_MicroInfo_Reducer,
-
+    microInfo_updated: Put_MicroInfo_Reducer,
+    supportTypes:support_types_reducer,
+    contactResponse: contact_Reducer,
+    userDependent_completed:completeregister_newDependent_Reducer,
 });
