@@ -110,8 +110,8 @@ class SignUp extends Component {
                 await this.setState({
                     healthProfile: {
                         id: this.state.createdUser_ID,
-                        pregnant: response[3].pregnant == '0' ? true : false,
-                        breastFeeding: response[3].pregnant == '0' ? true : false,
+                        pregnant: response[4].pregnant == '0' ? true : false,
+                        breastFeeding: response[4].pregnant == '0' ? true : false,
 
                     }
                 })

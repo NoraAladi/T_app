@@ -25,6 +25,7 @@ import { Edit_UserData } from '../../Actions/EditUserData';
 
 import Toast, { DURATION } from 'react-native-easy-toast'
 
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 
@@ -100,8 +101,15 @@ class EditUserData extends Component {
 
 
     async componentDidMount() {
+        if (this.props.navigation.getParam('id')) {
+            await this.props.Get_USER_DATA(this.props.navigation.getParam('id'))
 
-        await this.props.Get_USER_DATA()
+        }
+        else {
+            const ID = await AsyncStorage.getItem('LOGIN_ID')
+            await this.props.Get_USER_DATA(ID)
+        }
+
 
         this.setState({
             fullName: this.props.user_d.fullNameAr,

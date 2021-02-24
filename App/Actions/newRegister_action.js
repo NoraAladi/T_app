@@ -42,8 +42,7 @@ export const new_Register = (
             if (response.data) {
                 console.log('--- newDependent ----');
                 console.log(response.data);
-                status = response.status
-                dispatch({ type: 'NEW_REGISTER_SUCCESS', status })
+                dispatch({ type: 'NEW_REGISTER_SUCCESS', newRegister:response.data })
             }
         } catch (err) {
             console.log(err);

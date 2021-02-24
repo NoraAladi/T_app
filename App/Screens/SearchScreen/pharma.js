@@ -15,7 +15,7 @@ class Pharma extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            Filter_name: ''
         }
     }
 
@@ -23,7 +23,7 @@ class Pharma extends Component {
         return (
 
             <View>
-                <Text style={[style.username1, { marginTop: hp('2%')  , textAlign : 'right' }]}>
+                <Text style={[style.username1, { marginTop: hp('2%'), textAlign: 'right' }]}>
                     {g.PHRMA_NAME}
                 </Text>
 
@@ -31,7 +31,9 @@ class Pharma extends Component {
                     <TextInput
                         placeholder={g.PHRMA_NAME}
                         placeholderTextColor={g.Light_Gray}
-                        style={style.input} />
+                        style={style.input}
+                        onChange={(value) => this.setState({ Filter_name: value })}
+                    />
                 </View>
 
                 <CountryRegion />
@@ -41,7 +43,7 @@ class Pharma extends Component {
                         'TITLE': g.PHARMA_TITLE, 'IREA': g.PHARMA_IREA,
                         'color': g.Move,
                         'icon': require('../../Images/listfour.png'),
-
+                        'Filter_name': this.state.Filter_name
                     })
 
                 }}>

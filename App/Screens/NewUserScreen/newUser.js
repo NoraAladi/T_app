@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {
     Text, View, ScrollView,
     TouchableOpacity, Platform,
-    Modal, KeyboardAvoidingView, FlatList, Dimensions
+    Modal, KeyboardAvoidingView, Dimensions
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -15,13 +15,14 @@ import {
 
     UIActivityIndicator,
 } from 'react-native-indicators';
-import MedicalData from './MedicalData';
+import MedicalData from '../SignupScreen/MedicalData';
 
 import { new_Register } from '../../Actions/newRegister_action';
+import { completeRegisterDependent } from '../../Actions/completeregister_newDependent_Action';
+
 import { connect } from 'react-redux'
 import Toast, { DURATION } from 'react-native-easy-toast'
 
-import moment from 'moment';
 class newUser extends Component {
     constructor(props) {
         super(props);
@@ -31,29 +32,13 @@ class newUser extends Component {
             tabSelected_2: false,
             heightWithScroll: g.windowHeight,
             Diseases: [],
-            selected: false
+            selected: false,
+
+            newUserID: 120,
+            healthProfile: {}
 
         };
     }
-
-    /*
- async getKeysData(keys){
-      const stores = await AsyncStorage.multiGet(keys);
-      return stores.map(([key, value]) => ({[key]: value}))
-    }
-    
-    getKeysData(['key1', 'key2', 'key3'])
-     .then((response)=>{ console.log(response)})
-     
-     /*
-     Respose will be in below form 
-     response = [
-      {key1: 'DATAOF key1'},
-      {key2: {"DATA OF KEY2"}}
-      {key3: 'DATAOF key1'}
-    */
-
-
     componentDidMount() {
         const { navigation } = this.props;
         navigation.addListener('willFoucs', () => {
@@ -68,28 +53,22 @@ class newUser extends Component {
 
     async UserDataValidation() {
 
-        this.setState({
-            //    loader: true
-        })
         await this.getKeysData([
             'sonName', 'date',
             'relation', 'jobName'])
             .then(async (response) => {
                 console.log(response)
-                // alert(response[0].sonName + ' / ' +
-                //     response[1].date + ' / ' +
-                //     parseInt(response[2].relation) + ' / ' +
-                //     response[3].jobName)
-                //await call Api
+
                 await this.props.new_Register(
                     response[0].sonName,
                     response[1].date,
                     response[3].jobName,
                     parseInt(response[2].relation),
-
                 )
-                this.toast.show('تمت الاضافة بنجاح ', 1000);
-
+                //      this.toast.show('تمت الاضافة بنجاح ', 1000);
+                this.setState({
+                    newUserID: this.props.newRegister.id
+                })
             })
 
         this.setState({
@@ -102,16 +81,42 @@ class newUser extends Component {
 
     async MedicalDataValidation() {
 
-        this.setState({
-            loader: true
-        })
-        setTimeout(() => {
-            this.setState({
-                loader: false
-            })
-            this.props.navigation.replace('ThankUScreen')
+        await this.getKeysData([
+            'weight', 'height',
+            'smoking', 'married', 'pregnant'
+        ])
+            .then(async (response) => {
+                console.log(response)
+                await this.setState({
+                    healthProfile: {
+                        id: this.state.newUserID,
+                        pregnant: response[4].pregnant == '0' ? true : false,
+                        breastFeeding: response[4].pregnant == '0' ? true : false,
 
-        }, 3000);
+                    }
+                })
+
+                await this.props.completeRegisterDependent(
+                   parseInt(this.state.newUserID),
+                    response[0].weight,
+                    response[1].height,
+                    response[2].smoking == '0' ? true : false,
+                    response[3].married == '0' ? true : false,
+                    this.state.healthProfile
+
+                )
+                if (this.props.status == 200) {
+                    //alert(this.props.id)
+
+                    this.toast.show('تم تسجيل البيانات الطبية بنجاح', 1000);
+                    setTimeout(() => {
+                         this.props.navigation.replace('UserManagementScreen')
+                    }, 1000);
+                }
+                else {
+                    this.toast.show('حدث مشكلة ، حاول مرة اخرى', 1000);
+                }
+            })
 
     }
 
@@ -246,7 +251,7 @@ class newUser extends Component {
                         <Modal
                             animationType="slide"
                             transparent={true}
-                            visible={this.state.loader}
+                            visible={this.props.loading || this.props.loading1}
                         >
                             <View
                                 style={{
@@ -279,7 +284,13 @@ class newUser extends Component {
 const mapStateToProps = state => {
     return {
         newRegister: state.newRegister.newRegister,
+        loading: state.newRegister.loading,
+
+        userDependent_completed: state.userDependent_completed.newRegister,
+        loading1: state.userDependent_completed.loading,
+        status: state.userDependent_completed.status,
+
     }
 }
 
-export default connect(mapStateToProps, { new_Register })(withNavigation(newUser));
+export default connect(mapStateToProps, { new_Register, completeRegisterDependent })(withNavigation(newUser));

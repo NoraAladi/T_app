@@ -1,6 +1,6 @@
-import React, {  useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-  View, AppState, 
+  View, AppState,
 } from 'react-native'
 import { withNavigation } from "react-navigation";
 import Orientation from 'react-native-orientation-locker';
@@ -23,7 +23,7 @@ function Home({ navigation }) {
 
   useEffect(() => {
     Orientation.lockToPortrait()
-  
+
     console.disableYellowBox = true;
     AsyncStorage.getItem('start').then(val => {
       if (val != 'disabled') {
@@ -43,7 +43,7 @@ function Home({ navigation }) {
 
   }, [appState]);
 
-  
+
 
   const handleAppStateChange = (state) => {
     console.log(state);
@@ -72,14 +72,14 @@ function Home({ navigation }) {
       return false
     }
   })
- 
+
 
   return (
     <>
       <View>
         {
 
-          splash && !token && !logout_ &&navigation.getParam('noSplash')!='noSplash'?
+          splash && !token && !logout_ && navigation.getParam('noSplash') != 'noSplash' ?
             <SplashScreen />
             :
             start && !token ?

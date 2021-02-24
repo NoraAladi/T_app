@@ -232,7 +232,7 @@ export default {
 
   /**new user */
   RELATION: i18n.t('صلة القرابة'),
-  SON: i18n.t('اسم الابن'),
+  SON: i18n.t('الاسم '),
   JOB_FOUND: i18n.t('الوظيفة (ان وجدت)'),
   ADD_NEW_USER: i18n.t('اضف مستخدم جديد'),
   SELECT_USER: i18n.t('اختر المستخدم'),
@@ -249,6 +249,9 @@ export default {
 
 
   pregnant: i18n.t('هل انت حامل ...'),
+  SupportTypes: i18n.t('نوع الدعم'),
+  PROVIDER: i18n.t('المورد'),
+  PROVIDER: i18n.t('المورد'),
 
 
 

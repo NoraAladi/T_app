@@ -30,13 +30,13 @@ class SearchList extends Component {
         }
     }
     _callApi = async (countryId, cityID) => {
-      //  alert(countryId + '  ' + cityID)
+        //  alert(countryId + '  ' + cityID)
         //if(TITLE==)
         if (TITLE == g.DOCTOR_TITLE) {
             this.props.Get_Doctor_Search(Filter_name, Special, countryId, cityID)
         }
         else if (TITLE == g.LAB_TITLE) {
-            this.props.Get_LAB_RAD_PAHRMA_Search(  'MicrolabSearch'  , Filter_name, countryId, cityID)
+            this.props.Get_LAB_RAD_PAHRMA_Search('MicrolabSearch', Filter_name, countryId, cityID)
         }
         else if (TITLE == g.RAD_TITLE) {
             //   this.props.Get_Doctor_Search( Filter_name , Special , 1 , 1  )
@@ -65,15 +65,36 @@ class SearchList extends Component {
             this.props.Get_Doctor_Search(Filter_name, Special, 1, 1)
         }
         else if (TITLE == g.LAB_TITLE) {
-            this.props.Get_LAB_RAD_PAHRMA_Search(  'MicrolabSearch'  , Filter_name,  1, 1 )
+            this.props.Get_LAB_RAD_PAHRMA_Search('MicrolabSearch', Filter_name, 1, 1)
         }
         else if (TITLE == g.RAD_TITLE) {
-            this.props.Get_LAB_RAD_PAHRMA_Search(  'RadiologyCenterSearch'  , Filter_name,  1, 1 )
+            this.props.Get_LAB_RAD_PAHRMA_Search('RadiologyCenterSearch', Filter_name, 1, 1)
         }
         else if (TITLE == g.PHARMA_TITLE)
-        this.props.Get_LAB_RAD_PAHRMA_Search(  'PharmacySearch'  , Filter_name,  1, 1 )
+            this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, 1, 1)
 
-        else null 
+        else null
+    }
+
+    getCountryAndCityIds = async (countryId, cityId) => {
+        await this.setState({
+            cityId: cityId,
+            countryId: countryId
+        })
+        if (TITLE == g.DOCTOR_TITLE) {
+            this.props.Get_Doctor_Search(Filter_name, Special, countryId, cityId)
+        }
+        else if (TITLE == g.LAB_TITLE) {
+            this.props.Get_LAB_RAD_PAHRMA_Search('MicrolabSearch', Filter_name, countryId, cityId)
+        }
+        else if (TITLE == g.RAD_TITLE) {
+            this.props.Get_LAB_RAD_PAHRMA_Search('RadiologyCenterSearch', Filter_name, countryId, cityId)
+        }
+        else if (TITLE == g.PHARMA_TITLE) {
+          await  this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, countryId, cityId)
+            alert(JSON.stringify(this.props.lab_rad))
+        }
+        else null
     }
 
     render() {
@@ -107,7 +128,7 @@ class SearchList extends Component {
                 }
 
                 {/* // Content  */}
-                <CountryRegion nameScreen={TITLE} callApi={this._callApi} />
+                <CountryRegion callApi={this.getCountryAndCityIds} />
 
                 {
                    ( this.props.loading_doctor && TITLE == g.DOCTOR_TITLE ) ||
@@ -137,7 +158,7 @@ class SearchList extends Component {
                                     showsVerticalScrollIndicator={false}
                                     onEndReachedThreshold={.5}
                                     onEndReached={() => { console.log('hegazy') }}
-                                    data={this.state.arr}
+                                    data={this.props.lab_rad}
                                     renderItem={({ item, index }) => (
                                         <View style={style.info}>
                                             <View style={[style.view_img, {
