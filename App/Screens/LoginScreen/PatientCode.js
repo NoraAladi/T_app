@@ -27,20 +27,14 @@ class PatientCode extends Component {
     render() {
         return (
             <View>
-                <View style={{
-                    flexDirection: 'row',
-                    paddingHorizontal: 25, width: g.windowWidth,
-                    justifyContent: 'space-between',
-                    marginTop: Platform.OS == "ios" ? hp('5%') : null,
-
-                }}>
+                <View style={styles.patientContainer}>
                     <Icon name="info" type="Feather"
-                        style={[styles.arrow, { marginLeft: 0 }]} />
+                        style={[styles.arrow]} />
                     <Icon name="arrowright" type="AntDesign"
                         onPress={() => {
                             this.props.navigation.pop()
                         }}
-                        style={[styles.arrow, { marginLeft: 0 }]} />
+                        style={[styles.arrow]} />
                 </View>
 
                 <Text style={styles.login}>
@@ -51,7 +45,7 @@ class PatientCode extends Component {
                     {g.ENTER_CODE_PATIENT}
                 </Text>
 
-                <Text style={[styles.username, { marginTop: hp('4') }]}>
+                <Text style={[styles.username, styles.enter4]}>
                     {g.PATIENT_CODE}
                 </Text>
 
@@ -106,7 +100,7 @@ class PatientCode extends Component {
                 </View>
                 {
                         this.props.loading ?
-                            <View style={{ marginTop: '20%' }}>
+                        <View style={ styles.SpinnerTopPatient}>
                                 <Spinner />
                             </View>
                      

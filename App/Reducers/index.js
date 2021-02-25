@@ -33,6 +33,7 @@ import Put_MicroInfo_Reducer from './Put_MicroInfo_Reducer';
 import support_types_reducer from './support_types_reducer';
 import contact_Reducer from './contact_Reducer';
 import completeregister_newDependent_Reducer from './completeregister_newDependent_Reducer';
+import PharmacyOrderDetails_Reducer from './PharmacyOrderDetails_Reducer';
 
 
 
@@ -70,5 +71,6 @@ export default combineReducers({
     microInfo_updated: Put_MicroInfo_Reducer,
     supportTypes:support_types_reducer,
     contactResponse: contact_Reducer,
-    userDependent_completed:completeregister_newDependent_Reducer,
+    userDependent_completed: completeregister_newDependent_Reducer,
+    pharmacyOrderDetails:PharmacyOrderDetails_Reducer,
 });

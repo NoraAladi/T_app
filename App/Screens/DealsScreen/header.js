@@ -4,9 +4,7 @@ import {
     View, Image, Text, TouchableOpacity
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import i18n from '../../i18n';
 import { Icon } from 'native-base';
-import g from '../../Gloabal';
 import ModalAddUser from '../../Navigation/ModalAddUser';
 
 
@@ -29,17 +27,16 @@ class header extends Component {
                 style={style.container}>
 
                 <View
-                    style={{ flexDirection: 'row', margin: 20 }}>
+                    style={style.flag}>
                     <TouchableOpacity onPress={() => {
                         this.setState({
                             Flag: true
                         })
-
                     }}>
-
 
                         <Icon name="arrow-drop-down" type="MaterialIcons"
                             style={style.arrow} />
+                        
                     </TouchableOpacity>
                     <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => {
                         this.props.navigation.navigate('ProfileScreen')
@@ -54,7 +51,7 @@ class header extends Component {
                 </View>
                 {this.props.title == 'لوجو' ?
                     <Image source={require('../../Images/logo.png')}
-                        style={{ width: 100, height: 100 ,marginLeft:60}}
+                        style={style.imageLogo}
                     />
                     :
                     <Text style={style.offer}>{this.props.title}</Text>
@@ -69,4 +66,6 @@ class header extends Component {
 
     }
 }
+
+
 export default withNavigation(header);

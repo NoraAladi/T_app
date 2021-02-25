@@ -11,6 +11,8 @@ export const Get_supportTypes = () => {
           headers:
           {
             'accept': 'text/plain',
+            'authorizationKey': g.authorizationKey,
+
           }
         })
       if (res.data) {

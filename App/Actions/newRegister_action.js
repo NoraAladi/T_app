@@ -29,6 +29,8 @@ export const new_Register = (
                 headers: {
                     'accept': 'text/plain',
                     'Content-Type': 'application/json-patch+json',
+                    'authorizationKey': g.authorizationKey,
+
                 },
                 data:
                 {

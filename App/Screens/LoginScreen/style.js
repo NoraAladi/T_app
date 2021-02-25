@@ -172,5 +172,42 @@ export default {
     textAlign: 'center', fontSize: 14,
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, padding: 10, width: wp('85%')
   },
+  ViewContainer:{
+    flexDirection: 'row', paddingHorizontal: 25,
+    marginTop: Platform.OS == "ios" ? hp('5%') : null
+  },
+  changePass: {
+    fontSize: 18,
+    marginLeft: wp('27'),
+    marginTop: 30,
+  },
+  enter2: 
+    { marginTop: hp('2%') },
+    enter4: 
+    { marginTop: hp('4%') },
+  simpleRow: {
+    flexDirection: 'row' 
+  },
+  enter5: { marginLeft: wp('5%'), },
+  
+  widthInput: {
+    width: wp('60%')
+  },
+  SpinnerTopForget: {
+    marginTop: '10%' 
+  },
+  SpinnerTopPatient: {
+    marginTop: '20%' 
+  },
+  LoginContainer: {
+    marginTop: Platform.OS == "ios" ? hp('5%') : null
+  },
 
+patientContainer:{
+  flexDirection: 'row',
+  paddingHorizontal: 25, width: g.windowWidth,
+  justifyContent: 'space-between',
+  marginTop: Platform.OS == "ios" ? hp('5%') : null,
+
+},
 };

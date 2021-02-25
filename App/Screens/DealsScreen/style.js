@@ -53,8 +53,12 @@ export default {
 
   irea:
   {
-    textAlign: 'right', fontFamily: g.Regular, color: g.Gray, fontSize: 16,
-    marginLeft: wp('-10%'), width: wp('50')
+    textAlign: 'right',
+    fontFamily: g.Regular,
+    color: g.Gray,
+    fontSize: 16,
+    marginLeft: wp('-10%'),
+    width: wp('50')
   },
 
   city:
@@ -231,6 +235,77 @@ export default {
   {
     marginTop: hp('30%'),
     textAlign: 'center', fontFamily: g.Regular, color: g.Gray, fontSize: 20,
-  }
+  },
+  forFlex: {
+    width: null, height: '100%', resizeMode: 'contain'
+  },
+  spinner: {
+    marginTop: hp('35%')
+  },
+  specificCard: {
+    height: 300,
+    flexDirection: 'column',
+    marginBottom: 5
+  },
+  imageCard: {
+    width: wp('90%'),
+    height: hp('20%'),
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10
+  },
+  minusMargin: {
+    marginTop: hp('-4%'),
+    color: g.Ferany
+  },
 
+  simpleRowRevers: {
+    flexDirection: 'row-reverse'
+  },
+
+  specificTxt: {
+    width: 70,
+    fontSize: 16,
+    color: g.Blue
+  },
+  discount:
+  {
+    flexDirection: 'row-reverse',
+    marginTop: hp('1%')
+  },
+  flatListHeight: {
+     height: g.windowHeight - 55 
+  },
+  flag: {
+    flexDirection: 'row',
+    margin: 20
+  },
+  imageLogo: {
+    width: 100,
+    height: 100, marginLeft: 60
+  },
+  spinnerTop: {
+    marginTop: hp('35%')
+  },
+  discountView: {
+    alignItems: 'flex-end', padding: 20,
+  },
+  enter: {
+    marginTop: hp('1%')
+  },
+  enter2: {
+    marginTop: hp('2%')
+  },
+  viewBranch: {
+    flexDirection: 'row',
+    margin: 20
+  }
+  ,
+  txtIOS: {
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
+    fontWeight: Platform.OS == "ios" ? "800" : null,
+
+  },
+  popModal:{
+    flexDirection: 'row', marginLeft : 'auto'
+}
 };

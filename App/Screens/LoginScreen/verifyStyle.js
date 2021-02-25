@@ -80,6 +80,23 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '700',
   },
+  ViewContainer:{
+    flex: 1, padding: 24,
+    marginTop: Platform.OS == "ios" ? hp('5%') : null
+  },
+  spinner: {
+     marginTop: 50, 
+  },
+  notSend:{
+    flexDirection: 'row-reverse',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  trySend: {
+    fontFamily: Platform.OS == "android" ? G.Bold : G.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, 
+    color: G.Bold_blue
+},
+  iconStyle:{ fontSize: 25, marginLeft: 'auto', }
 });
 
 export default styles;

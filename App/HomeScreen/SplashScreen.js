@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, ImageBackground } from 'react-native';
+import { ImageBackground } from 'react-native';
 import { withNavigation } from "react-navigation";
-
+import styles from './style';
 class SplashScreen extends Component {
     constructor(props) {
         super(props);
@@ -14,7 +14,7 @@ class SplashScreen extends Component {
 
             <ImageBackground source={require('../Images/HomeLogo.jpg')}
                 resizeMode={'contain'}
-                style={{ width: '100%', height: '100%' }}
+                style={styles.fullScreen}
             >
             </ImageBackground>
 

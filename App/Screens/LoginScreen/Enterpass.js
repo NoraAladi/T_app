@@ -1,14 +1,12 @@
 import styles from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, AppState, ImageBackground, I18nManager
+    Text, View, TextInput,
+    TouchableOpacity,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import i18n from '../../i18n';
 
 class Enterpass extends Component {
     constructor(props) {
@@ -22,11 +20,8 @@ class Enterpass extends Component {
     render() {
         return (
             <View>
-                <View style={{
-                    flexDirection: 'row', paddingHorizontal: 25,
-                    marginTop: Platform.OS == "ios" ? hp('5%') : null
-                }}>
-                    <Text style={[styles.change, { fontSize: 18, marginLeft: wp('25'), }]}>
+                <View style={styles.ViewContainer}>
+                    <Text style={[styles.change, styles.changePass]}>
                         {g.CHANGE_PASSWORD}
                     </Text>
                     <Icon name="arrowright" type="AntDesign"
@@ -45,20 +40,19 @@ class Enterpass extends Component {
                     {g.PLEASE}
                 </Text>
 
-                <Text style={[styles.username, { marginTop: hp('2%') }]}>
+                <Text style={[styles.username, styles.enter2]}>
                     {g.PASSWORD}
                 </Text>
 
-                <View style={[styles.viewInput, { flexDirection: 'row' }]}>
+                <View style={[styles.viewInput, styles.simpleRow]}>
 
                     <Icon name="eye-off-sharp" type="Ionicons"
-
                         onPress={() => {
                             this.setState({
                                 show: !this.state.show
                             })
                         }}
-                        style={[styles.show, { marginLeft: wp('5%'), color: this.state.show ? g.Light_Gray : g.Bold_blue }]} />
+                        style={[styles.show, styles.enter5, { color: this.state.show ? g.Light_Gray : g.Bold_blue }]} />
 
                     <TextInput
                         placeholder={g.PASSWORD}
@@ -73,14 +67,14 @@ class Enterpass extends Component {
 
                         }}
                         placeholderTextColor={g.Light_Gray}
-                        style={[styles.input, { width: wp('60%') }]} />
+                        style={[styles.input, styles.widthInput]} />
                 </View>
 
 
-                <Text style={[styles.username, { marginTop: hp('2%') }]}>
+                <Text style={[styles.username, styles.enter2]}>
                     {g.CONFIRM_PASS}
                 </Text>
-                <View style={[styles.viewInput, { flexDirection: 'row' }]}>
+                <View style={[styles.viewInput, styles.simpleRow]}>
 
                     <Icon name="eye-off-sharp" type="Ionicons"
 
@@ -89,7 +83,7 @@ class Enterpass extends Component {
                                 show_confirm: !this.state.show_confirm
                             })
                         }}
-                        style={[styles.show, { marginLeft: wp('5%'), color: this.state.show_confirm ? g.Light_Gray : g.Bold_blue }]} />
+                        style={[styles.show, styles.enter5, { color: this.state.show_confirm ? g.Light_Gray : g.Bold_blue }]} />
 
                     <TextInput
                         placeholder={g.CONFIRM_PASS}
@@ -104,7 +98,7 @@ class Enterpass extends Component {
 
                         }}
                         placeholderTextColor={g.Light_Gray}
-                        style={[styles.input, { width: wp('60%') }]} />
+                        style={[styles.input, styles.widthInput]} />
                 </View>
 
                 <TouchableOpacity
@@ -123,8 +117,6 @@ class Enterpass extends Component {
                     }}>
                     <Text style={styles.txt_btn}>{g.CONFIRM_PASS}</Text>
                 </TouchableOpacity>
-
-
 
             </View>
         );

@@ -4,15 +4,15 @@ import g from '../Gloabal'
 
 export const Get_USER_DATA = (ID) => {
   return async (dispatch) => {
-    // const Token = await AsyncStorage.getItem('app_Token')
+    const Token = await AsyncStorage.getItem('app_Token')
 
     dispatch({ type: 'GET_USER_DATA_ATTEMPT' });
     try {
-      let res = await axios.get(`${g.BASE_URL}/api/PatientProfile/PersonalInfo?patientId=${ID}`,
+      let res = await axios.get(`${g.BASE_URL}/api/PatientProfile/PersonalInfo`,
         {
           headers:
           {
-            // 'Authorization': `Bearer ${Token}`,
+            'Authorization': `Bearer ${Token}`,
             'accept': 'text/plain',
             'authorizationKey': g.authorizationKey,
           },

@@ -14,6 +14,8 @@ export const Get_offer = (GovernorateId, CityId, page) => {
         headers:
         {
           'accept': 'text/plain',
+          'authorizationKey': g.authorizationKey,
+
 
         }
       })

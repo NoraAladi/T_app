@@ -1,11 +1,10 @@
 import style from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, Image, Dimensions, FlatList,
+    Text, View, ScrollView, Image, FlatList,
     TouchableOpacity,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
 import UserFooter from '../../Navigation/UserFooter';
 import Header from './header';
@@ -95,78 +94,72 @@ class Deal extends Component {
 
     render() {
         return (
-            <View style={{ width: null, height: '100%', resizeMode: 'contain' }}>
+            <View style={style.forFlex}>
                 <Header title={g.offer} />
                 {this.renderListHeader()}
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                 >
-                    <View style={{ zIndex: -1 }}>
+                    <View
+                        style={{zIndex: -1}}>
                         {
                             this.props.loadingType ?
-                                <View style={{ marginTop: hp('35%') }} >
+                                <View style={style.spinner} >
                                     <Spinner />
                                 </View>
-
                                 :
-
                                 this.props.offersType == '' ?
                                     <Text style={style.no_data}>
                                         {g.NO_DATA}
                                     </Text>
                                     :
-                                    <View style={{ height: g.windowHeight - 55 }} >
+                                    <View style={style.flatListHeight} >
                                         <FlatList
                                             key={(item) => { item.id }}
                                             showsVerticalScrollIndicator={false}
                                             nestedScrollEnabled
                                             onEndReachedThreshold={.5}
-                                            onEndReached={() => { console.log('saad') }}
+                                            onEndReached={() => { console.log('paging') }}
                                             data={this.props.offersType}
                                             renderItem={({ item, index }) => (
                                                 <View
-                                                    style={[style.container, style.card,
-                                                    { height: 300, flexDirection: 'column', marginBottom: 5 }]}>
+                                                    style={[style.container, style.card, style.specificCard
+                                                    ]}>
                                                     <TouchableOpacity onPress={() => {
                                                         this.props.navigation.navigate('DealsModelScreen', {
-                                                            'ID': item.placeId, 'Name': item.placeName
+                                                            'ID': item.id, 'Name': item.placeName
                                                         })
                                                     }}>
                                                         <Image source={require('../../Images/ads.png')}
-                                                            style={{
-                                                                width: wp('90%'), height: hp('20%'), borderTopRightRadius: 10
-                                                                , borderTopLeftRadius: 10
-                                                            }} />
+                                                            style={style.imageCard} />
                                                     </TouchableOpacity>
                                                     <Image
                                                         source={require('../../Images/user.png')}
                                                         style={style.logo}
                                                     />
-                                                    <Text style={[style.irea, { marginTop: hp('-4%'), color: g.Ferany }]}>
+                                                    <Text style={[style.irea, style.minusMargin]}>
                                                         {item.titleEn}</Text>
 
-                                                    <View style={{ flexDirection: 'row-reverse' }}>
+                                                    <View style={style.simpleRowRevers}>
                                                         <Text style={[style.txt]}>
                                                             {item.placeName}</Text>
 
-                                                        <View style={{ flexDirection: 'column' }}>
+                                                        <View >
                                                             <Text
                                                                 style={[style.txt, style.txt1]}>
                                                                 {item.priceBefore} {g.POUND}</Text>
-                                                            <Text style={[style.txt, { width: 70, fontSize: 16, color: g.Blue }]}>
+                                                            <Text style={[style.txt, style.specificTxt]}>
                                                                 {item.priceAfter} {g.POUND}</Text>
                                                         </View>
                                                     </View>
 
-                                                    <View style={{ flexDirection: 'row-reverse', marginTop: hp('1%') }}>
+                                                    <View style={style.discount}>
                                                         <Text style={[style.txt, style.sale]}>
                                                             {item.discount}{g.DISCOUNT}</Text>
                                                         <Text style={[style.txt, style.txt2]}>
                                                             {g.OFFERS_SARY}   {item.toDate.split('T')[0]}</Text>
                                                     </View>
-
                                                 </View>
-
                                             )} />
                                     </View>
                         }

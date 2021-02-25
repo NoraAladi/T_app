@@ -4,10 +4,8 @@ import {
     Text, View, TouchableOpacity, TextInput
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import i18n from '../../i18n';
 import CountryRegion from '../../Navigation/CountryRegion';
 
 
@@ -39,19 +37,13 @@ class Lab extends Component {
                <CountryRegion/>
 
                 <TouchableOpacity style={style.btn} onPress={() => {
-                     if( this.state.lab_name == '')
-                     {   
-                         this.setState({
-                             error : g.LAB_ERROR
-                         })
-                     }
-                     else {
+                 
                     this.props.navigation.navigate('SearchListScreen' , {
                         'TITLE' : g.LAB_TITLE  , 'IREA' : g.LAB_IREA ,
                         'icon' : require('../../Images/listtwo.png') , 
                         'Filter_name' : this.state.lab_name , 
                     })
-                }
+                
                 }}>
                     <Text style={style.txt_btn}>{g.SEARCH}</Text>
                 </TouchableOpacity>

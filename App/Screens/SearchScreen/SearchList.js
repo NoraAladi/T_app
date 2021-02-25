@@ -92,7 +92,7 @@ class SearchList extends Component {
         }
         else if (TITLE == g.PHARMA_TITLE) {
           await  this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, countryId, cityId)
-            alert(JSON.stringify(this.props.lab_rad))
+           // alert(JSON.stringify(this.props.lab_rad))
         }
         else null
     }
@@ -131,7 +131,7 @@ class SearchList extends Component {
                 <CountryRegion callApi={this.getCountryAndCityIds} />
 
                 {
-                   ( this.props.loading_doctor && TITLE == g.DOCTOR_TITLE ) ||
+                  this.props.loading_doctor||
                    ( this.props.loading_lab  && 
                    ( TITLE == g.LAB_TITLE  ||  TITLE == g.RAD_TITLE  ||
                            TITLE == g.PHARMA_TITLE  ))
@@ -158,7 +158,7 @@ class SearchList extends Component {
                                     showsVerticalScrollIndicator={false}
                                     onEndReachedThreshold={.5}
                                     onEndReached={() => { console.log('hegazy') }}
-                                    data={this.props.lab_rad}
+                                    data={TITLE == g.DOCTOR_TITLE? this.props.doctor:this.props.lab_rad}
                                     renderItem={({ item, index }) => (
                                         <View style={style.info}>
                                             <View style={[style.view_img, {

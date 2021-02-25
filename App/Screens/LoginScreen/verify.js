@@ -3,7 +3,7 @@ import {
     Animated, Image,
     Text, View,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { withNavigation } from "react-navigation";
 import G from '../../Gloabal';
@@ -83,13 +83,10 @@ const Verification = ({ navigation }) => {
     return (
         <>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{
-                    flex: 1, padding: 24,
-                    marginTop: Platform.OS == "ios" ? hp('5%') : null
-                }}>
+                <View style={styles.ViewContainer}>
 
                     <Icon name='arrowdown' type='AntDesign'
-                        style={{ fontsize: 25, marginLeft: 'auto', }}
+                        style={styles.iconStyle}
                         onPress={() => { navigation.pop() }}
                     />
                     <Text style={styles.title}>{G.SEND_CODE}</Text>
@@ -121,20 +118,13 @@ const Verification = ({ navigation }) => {
 
                     />
                     {loader ? <UIActivityIndicator color={NOT_EMPTY_CELL_BG_COLOR} size={30}
-                        style={{ marginTop: 50, }} /> : null}
+                        style={styles.spinner} /> : null}
 
-                    <View style={{
-                        flexDirection: 'row-reverse',
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
-                    }}>
+                    <View style={styles.notSend}>
                         <Text style={styles.subTitle}>
                             {G.NOT_SEND}{'  '}
                         </Text>
-                        <Text style={[styles.subTitle, {
-                            fontFamily: Platform.OS == "android" ? G.Bold : G.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, 
-                            color: G.Bold_blue
-                        }]}>
+                        <Text style={[styles.subTitle, styles.trySend]}>
                             {G.TRY_SEND}{'  '}
                         </Text>
                     </View>

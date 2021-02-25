@@ -33,11 +33,8 @@ class Forget extends Component {
         return (
 
             <View>
-                <View style={{
-                    flexDirection: 'row', paddingHorizontal: 25,
-                    marginTop: Platform.OS == "ios" ? hp('5%') : null
-                }}>
-                    <Text style={[styles.change, { fontSize: 18, marginLeft: wp('25'), }]}>
+                <View style={styles.ViewContainer}>
+                    <Text style={[styles.change,styles.changePass ]}>
                         {g.CHANGE_PASSWORD}
                     </Text>
                     <Icon name="arrowright" type="AntDesign"
@@ -55,7 +52,7 @@ class Forget extends Component {
                     {g.FORGET_PASSWORD_P1}
                 </Text>
 
-                <Text style={[styles.username, { marginTop: hp('2%') }]}>
+                <Text style={[styles.username, styles.enter2 ]}>
                     {g.EMAIL}
                 </Text>
 
@@ -69,7 +66,7 @@ class Forget extends Component {
 
                 {
                     this.props.loading ?
-                        <View style={{ marginTop: '10%' }}>
+                        <View style={ styles.SpinnerTopForget}>
                             <Spinner />
                         </View>
 
@@ -101,7 +98,6 @@ class Forget extends Component {
                 <Toast
                     ref={(toast) => this.toast = toast}
                     style={{ backgroundColor: '#000' }}
-                    //    position='center'
                     positionValue={this.state.tabSelected_1 ? -(g.windowHeight + 100) : 200}
                     fadeInDuration={120}
                     fadeOutDuration={1000}

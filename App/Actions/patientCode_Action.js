@@ -14,6 +14,8 @@ export const Get_PatientCode = (code) => {
                 url: `${g.BASE_URL}/api/Accounts/verify-patientcode?patientCode=${code}`,
                 headers: {
                     'accept': '*/*',
+                    'authorizationKey': g.authorizationKey,
+
                 },
             })
             if (response.data) {

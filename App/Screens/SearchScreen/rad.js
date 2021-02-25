@@ -4,10 +4,8 @@ import {
     Text, View, TouchableOpacity, TextInput
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import i18n from '../../i18n';
 import CountryRegion from '../../Navigation/CountryRegion';
 
 
@@ -15,7 +13,7 @@ class Rad extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            rad_name:''
         }
     }
 
@@ -40,7 +38,9 @@ class Rad extends Component {
                 <TouchableOpacity style={style.btn} onPress={() => {
                     this.props.navigation.navigate('SearchListScreen' , {
                         'TITLE' : g.RAD_TITLE , 'IREA' : g.RAD_IREA , 
-                        'icon' : require('../../Images/listthree.png') , 
+                        'icon': require('../../Images/listthree.png'), 
+                        'Filter_name' : this.state.rad_name , 
+
                     })
 
                 }}>

@@ -43,6 +43,8 @@ export const completeRegisterDependent = (
                     {
                         'accept': 'text/plain',
                         'Content-Type': 'application/json-patch+json',
+                        'authorizationKey': g.authorizationKey,
+
 
                     }
                 })

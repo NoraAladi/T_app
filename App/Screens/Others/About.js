@@ -1,22 +1,14 @@
 import styles from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput, StatusBar,
-    TouchableOpacity, Platform, ImageBackground, Image,
-    I18nManager, Modal, KeyboardAvoidingView, FlatList, Dimensions, VirtualizedList
+    Text, View, ScrollView, Image,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import AsyncStorage from '@react-native-community/async-storage';
-import {
 
-    UIActivityIndicator,
-} from 'react-native-indicators';
-import Header from '../DealsScreen/header';
 import HeaderNav from '../../Navigation/HeaderNav';
-import CountryRegion from '../../Navigation/CountryRegion';
 import Spinner from '../../Navigation/Spinner'
 import { Get_Social } from '../../Actions/_get_social';
 import { connect } from 'react-redux'

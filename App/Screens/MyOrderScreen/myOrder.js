@@ -1,9 +1,9 @@
 import styles from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput, TouchableWithoutFeedback,
-    TouchableOpacity, Platform, ImageBackground, Image,
-    I18nManager, Modal, KeyboardAvoidingView, FlatList, Dimensions
+    Text, View, ScrollView, TouchableWithoutFeedback,
+    TouchableOpacity, Image,
+    FlatList
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -11,6 +11,8 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import g from '../../Gloabal';
 import UserFooter from '../../Navigation/UserFooter';
 import { Get_MyOrder } from '../../Actions/getMyOrder';
+import { Get_PharmacyOrderDetails } from '../../Actions/PharmacyOrderDetails';
+
 import { connect } from 'react-redux'
 import Header from '../DealsScreen/header';
 import { ArabicNumbers } from 'react-native-arabic-numbers';
@@ -27,7 +29,8 @@ class myOrder extends Component {
         super(props);
         this.state = {
             dropDown: false,
-            nameSelected:''
+            nameSelected: '',
+            selectIndex:0
         };
     }
     async componentDidMount() {
@@ -48,18 +51,18 @@ class myOrder extends Component {
                 <Header title={g.REQUEST} />
 
 
-                <View style={{ height: 15 }} />
+                <View style={styles.height} />
 
 
                 <ScrollView
                     showsVerticalScrollIndicator={false}>
                     {this.props.loading ?
-                        <View style={{ marginTop: hp('35%') }} >
+                        <View style={styles.spinnerTop} >
                             <Spinner />
                         </View>
 
                         :
-                        <View style={{ height: hp('80') }}>
+                        <View style={styles.FlatListHeight}>
                             <FlatList
 
                                 showsVerticalScrollIndicator={false}
@@ -71,35 +74,33 @@ class myOrder extends Component {
 
                                     <View style={[styles.card, { flexDirection: 'column' }]}>
                                         <View style={{ flexDirection: 'row-reverse', }}>
-                                            <Text style={[styles.txt, { color: g.Gray, fontSize: 12, width: wp('40') }]}>
+                                            <Text style={[styles.txt, styles.dateRequest]}>
                                                 {g.REQUEST_DATE}
                                             </Text>
-                                            <Text style={[styles.txt, {
-                                                color: g.Gray, fontSize: 12, width: wp('35')
-
-                                            }]}>
+                                            <Text style={[styles.txt, styles.provider]}>
                                                 {g.PROVIDER}
                                             </Text>
 
-                                            <TouchableOpacity onPress={async() => {
+                                            <TouchableOpacity onPress={async () => {
+
                                                 await this.setState({
                                                     dropDown: !this.state.dropDown,
-                                                    nameSelected:item.nameEn
+                                                    selectIndex: index
                                                 })
+                                                if(this.state.dropDown)
+                                                this.props.Get_PharmacyOrderDetails(item.pharmacy.id)
+
                                             }}>
                                                 <Icon
-                                                    name={this.state.dropDown ? 'up' : 'down'} type='AntDesign'
-                                                    style={[styles.icon, { fontSize: 14, marginTop: 5, }]} />
+                                                    name={this.state.dropDown&&this.state.selectIndex == index ? 'up' : 'down'} type='AntDesign'
+                                                    style={[styles.icon, styles.iconSize]} />
                                             </TouchableOpacity>
 
                                         </View>
 
-                                        <View style={{
-                                            flexDirection: 'row-reverse'
-                                            , marginBottom: -10,
-                                        }}>
+                                        <View style={styles.viewValues}>
                                             <Text style={[styles.txt, { fontSize: 16, marginTop: -5, width: wp('40') }]}>
-                                              
+
                                                 {ArabicNumbers(this.arabicDate(moment(item.created).format('DD MMMM YYYY')))
                                                 }
                                                 {'\n'}
@@ -109,13 +110,12 @@ class myOrder extends Component {
                                                 {item.pharmacy.nameEn}{'\n'}
                                             </Text>
 
-                                            <Icon
-                                                style={[styles.icon, { fontSize: 14, }]} />
+                                          
                                         </View>
 
 
                                         {/*** dropDown*/}
-                                        {this.state.dropDown &&item.nameEn==this.state.nameSelected?
+                                        {this.state.dropDown && this.state.selectIndex == index ?
                                             <View style={{ flex: 1 }}>
                                                 <Text style={[styles.txt, { color: g.Gray, fontSize: 12 }]}>
                                                     {g.STATUS}
@@ -146,7 +146,7 @@ class myOrder extends Component {
                                                             nestedScrollEnabled
                                                             onEndReachedThreshold={.1}
                                                             onEndReached={() => { console.log('saad') }}
-                                                            data={[1, 1, 1, 1, 1, 1, 1,]}
+                                                            data={this.props.pharmacyOrderDetails}
                                                             renderItem={({ item, index }) => (
                                                                 <View>
                                                                     <View style={{ flexDirection: 'row-reverse', margin: 10, }}>
@@ -158,22 +158,21 @@ class myOrder extends Component {
                                                                         }}>
                                                                             <Image source={require('../../Images/drugs.png')}
                                                                                 resizeMode='center'
-                                                                            // style={{ width: 21, height: 20 }}
                                                                             />
                                                                         </View>
 
                                                                         <View style={{ marginRight: 15, width: wp('55') }}>
 
                                                                             <Text style={[styles.txt, { fontSize: 14, }]}>
-                                                                                {'الاسم'}
+                                                                                {item.medicineUsage}
                                                                             </Text>
                                                                             <Text style={[styles.txt, { fontSize: 14, marginTop: -5, }]}>
-                                                                                {'الاسم'}
+                                                                                {item.medicine.medicineName}
                                                                             </Text>
                                                                         </View>
 
                                                                         <Text style={[styles.txt, { fontSize: 14, }]}>
-                                                                            {ArabicNumbers('2×')}
+                                                                            {ArabicNumbers(item.quantity+'×')}
                                                                         </Text>
 
                                                                     </View>
@@ -208,8 +207,13 @@ class myOrder extends Component {
 const mapStateToProps = state => {
     return {
         MyOrder: state._MyOrder.MyOrder,
-        loading: state._MyOrder.loading
+        loading: state._MyOrder.loading,
+
+        pharmacyOrderDetails: state.pharmacyOrderDetails.pharmacyOrderDetails,
+        loading2: state.pharmacyOrderDetails.loading,
+
+        
     }
 }
-export default connect(mapStateToProps, { Get_MyOrder })(withNavigation(myOrder));
+export default connect(mapStateToProps, { Get_MyOrder,Get_PharmacyOrderDetails })(withNavigation(myOrder));
 

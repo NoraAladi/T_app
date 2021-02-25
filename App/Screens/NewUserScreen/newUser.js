@@ -173,14 +173,14 @@ class newUser extends Component {
                         }}>
                             <View style={{ width: 25 }} />
 
-                            <Text style={[styleLogin.change, { fontSize: 18, marginLeft: 0, }]}>
+                            <Text style={[styleLogin.change, { fontSize: 18 }]}>
                                 {g.SIGNUP}
                             </Text>
                             <Icon name="arrowright" type="AntDesign"
                                 onPress={() => {
                                     this.props.navigation.pop()
                                 }}
-                                style={[styleLogin.arrow, { marginLeft: 0 }]} />
+                                style={[styleLogin.arrow, ]} />
                         </View>
 
                         <View style={{

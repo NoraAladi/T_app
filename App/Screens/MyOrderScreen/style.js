@@ -98,4 +98,22 @@ export default {
     marginBottom: 15,
   },
 
+  height: {
+    height:15
+  },
+  spinnerTop: {
+     marginTop: hp('35%') 
+  },
+  FlatListHeight: { height: hp('80') },
+  provider:{
+    color: g.Gray, fontSize: 12, width: wp('35')
+
+  },
+  dateRequest: { color: g.Gray, fontSize: 12, width: wp('40') },
+  iconSize: { fontSize: 14, marginTop: 5, },
+  viewValues:{
+    flexDirection: 'row-reverse'
+    , marginBottom: -10,
+}
+  
 };

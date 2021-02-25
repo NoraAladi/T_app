@@ -103,7 +103,7 @@ class Doctor extends Component {
                             renderItem={({ item, index }) => (
                                 <View >
                                     <TouchableOpacity onPress={async () => {
-                                        this.setState({
+                                    await    this.setState({
                                             specialist: item.specialityNameAr,
                                             showSpecialist: false,
                                             special_id: item.id
@@ -125,20 +125,14 @@ class Doctor extends Component {
 
 
                 <TouchableOpacity style={style.btn} onPress={() => {
-                    if (this.state.doctor_name == '') {
-                        this.setState({
-                            error: g.DOCTOR_ERROR
-                        })
-                    }
-
-                    else {
+                    console.log(this.state.special_id);
                         this.props.navigation.navigate('SearchListScreen', {
                             'TITLE': g.DOCTOR_TITLE, 'IREA': g.IREA,
                             'icon': require('../../Images/listone.png'),
                             'Filter_name': this.state.doctor_name,
                             'Special': this.state.special_id,
                         })
-                    }
+                    
                 }}>
                     <Text style={style.txt_btn}>{g.SEARCH}</Text>
                 </TouchableOpacity>
