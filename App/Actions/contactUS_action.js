@@ -18,6 +18,8 @@ export const contact_us = (supportCaseTypeId, supportCaseMessage) => {
                     'accept': '*/*',
                     'Content-Type': 'application/json-patch+json',
                     'Authorization': `Bearer ${Token}`,
+                    'authorizationKey': g.authorizationKey,
+
                 },
                 data:
                 {

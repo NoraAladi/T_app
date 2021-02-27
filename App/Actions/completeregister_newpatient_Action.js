@@ -37,7 +37,9 @@ export const completeRegister = (
                     headers:
                     {
                         'accept': 'text/plain',
-                        'Content-Type': 'application/json-patch+json'
+                        'Content-Type': 'application/json-patch+json',
+                        'authorizationKey': g.authorizationKey,
+
                     }
                 })
             console.log('______ COMPLETE_SIGN_UP_API ______');

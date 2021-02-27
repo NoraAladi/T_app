@@ -20,6 +20,7 @@ export const Get_MyOrder = () => {
                     }
                 })
             console.log('______ MyOrder ______');
+            console.log(resp.data.results);
             onhandleResponse(dispatch, resp.data.results)
 
         } catch (error) {

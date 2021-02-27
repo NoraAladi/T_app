@@ -46,11 +46,11 @@ class OnBoard extends Component {
                 <ScrollView
                     showsHorizontalScrollIndicator={false
                     }>
-                    <View style={{ flexDirection:'row-reverse'}}>
+                    <View style={{ flexDirection: 'row-reverse' }}>
                         <Image source={require('../Images/logo.png')}
-                        style={{width:100,height:100}}
+                            style={styles.logoSize}
                         />
-                </View>
+                    </View>
 
                     <View>
                         <Text style={styles.header}>{G.ONBOARD_P1}</Text>
@@ -86,7 +86,7 @@ class OnBoard extends Component {
                                         <ImageBackground
                                             resizeMode={'contain'}
                                             source={image} style={styles.card}
-                                        >       
+                                        >
                                         </ImageBackground>
                                     </View>
                                 );
@@ -114,29 +114,19 @@ class OnBoard extends Component {
                     </View>
 
                     {/*********slider */}
-                    <View style={{
-                        flexDirection: 'row-reverse',
-                        justifyContent: 'space-between',
-                        width: windowWidth - 50,
-                        marginTop: 20,
-                        marginRight: 25,
-                    }}>
+                    <View style={styles.slider}>
                         <View style={styles.Button} onStartShouldSetResponder={() => {
                             this.props.navigation.navigate('LoginScreen')
                         }}>
-                            <Text style={[styles.normalTxt, { marginTop: 10, }]}>{G.LOGIN}</Text>
+                            <Text style={[styles.normalTxt, styles.specificMargin]}>{G.LOGIN}</Text>
                         </View>
                         <View
-                            style={[styles.Button, { backgroundColor: '#C0D0FF99' }]}
+                            style={[styles.Button, styles.specificColor]}
                             onStartShouldSetResponder={() => {
                                 this.props.navigation.navigate('PatientCodeScreen')
-
-                                //this.props.navigation.navigate('SignUpScreen')
-//                                this.props.navigation.navigate('SignUpHaveCode')
-                                
                             }}
                         >
-                            <Text style={[styles.normalTxt, { marginTop: 10, }]}>{G.SIGNUP}</Text>
+                            <Text style={[styles.normalTxt, styles.specificMargin]}>{G.SIGNUP}</Text>
                         </View>
                     </View>
 
@@ -144,7 +134,7 @@ class OnBoard extends Component {
                         onPress={() => {
                             this.props.navigation.navigate('PatientCodeScreen')
                         }}
-                        style={[styles.normalTxt, { color: '#0091FF', marginTop: 15 }]}>
+                        style={[styles.normalTxt, styles.questionCode]}>
                         {G.QUESTION_CODE}
                     </Text>
 

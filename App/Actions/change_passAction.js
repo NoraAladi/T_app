@@ -18,6 +18,8 @@ export const change_Pass = (
                 'accept': 'text/plain',
                 'Content-Type': 'application/json-patch+json',
                 'Authorization': `Bearer ${Token}`,
+                'authorizationKey': g.authorizationKey,
+
             },
             data:
             {

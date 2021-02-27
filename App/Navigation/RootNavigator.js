@@ -17,7 +17,6 @@ import DealsModelScreen from '../Screens/DealsScreen/Model';
 
 import VisitsScreen from '../Screens/VisitsScreen/Visits';
 
-import Test from '../Screens/test/Test';
 
 import SearchScreen from '../Screens/SearchScreen/Search';
 import SearchListScreen from '../Screens/SearchScreen/SearchList';
@@ -49,10 +48,6 @@ const { height, width } = Dimensions.get("window");
 
 const Navigator = createStackNavigator({
 
- /* Test:
-  {
-    screen: Test,
- ,*/
  
  HomeScreen:
  {

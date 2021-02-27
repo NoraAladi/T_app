@@ -41,6 +41,12 @@ class Visits extends Component {
 
 
         };
+        AsyncStorage.getItem('user').then(val => {
+            this.setState({
+               name: JSON.parse(val).patient.fullNameAr,
+               code: JSON.parse(val).patient.code
+           })
+       })
     }
 
     _close_model() {
@@ -100,8 +106,8 @@ class Visits extends Component {
                             <Image source={require('../../Images/profile.png')}
                                 style={headerStyle.userimg} />
                             <View style={headerStyle.view1}>
-                                <Text style={headerStyle.username}> هشام مهدي </Text>
-                                <Text style={headerStyle.code}>SA877832  </Text>
+                                <Text style={[headerStyle.username,{textAlign:'left'}]}> {' '+this.state.name} </Text>
+                                <Text style={headerStyle.code}>{this.state.code}  </Text>
                                 </View>
                                 </TouchableOpacity>
                         </View>

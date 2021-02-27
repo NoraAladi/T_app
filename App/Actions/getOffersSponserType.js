@@ -18,6 +18,8 @@ export const Get_offer_Types = (GovernorateId, CityId, typeId, page) => {
           headers:
           {
             'accept': 'text/plain',
+            'authorizationKey': g.authorizationKey,
+
           }
         })
       console.log('__ offresType ___');

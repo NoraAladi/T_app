@@ -11,6 +11,8 @@ export const Get_MicroInfo = (code) => {
                     headers:
                     {
                         'accept': 'text/plain',
+                        'authorizationKey': g.authorizationKey,
+
                     }
                 })
             console.log('______ GET_MICRO_INFO ______');

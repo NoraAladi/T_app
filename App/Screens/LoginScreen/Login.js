@@ -45,11 +45,7 @@ class Login extends Component {
                 keyboardVerticalOffset={Platform.OS === "ios" ? 64 : -200}>
                 <ScrollView >
 
-
-                    <View style={{
-                        flex: 0,
-                        marginTop: Platform.OS == "ios" ? hp('5%') : null
-                    }}
+                    <View style={styles.LoginContainer}
                     >
                         <Icon name="arrowright" type="AntDesign"
                             onPress={() => {
@@ -80,7 +76,7 @@ class Login extends Component {
                                 style={styles.input} />
                         </View>
 
-                        <Text style={[styles.username, { marginTop: hp('2%') }]}>
+                        <Text style={[styles.username, styles.enter2]}>
                             {g.PASSWORD}
                         </Text>
 
@@ -95,7 +91,7 @@ class Login extends Component {
                         </View>
 
                         <Text
-                            style={[styles.forget, { marginTop: hp('2%') }]}
+                            style={[styles.forget, styles.enter2]}
                             onPress={() => {
                                 this.props.navigation.navigate('ForgetScreen')
                             }}

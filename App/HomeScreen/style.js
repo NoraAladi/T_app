@@ -19,15 +19,15 @@ export default {
   dots: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-     width: 60,
+    width: 60,
     marginTop: 40,
-    marginLeft: (windowWidth/2)-30,
+    marginLeft: (windowWidth / 2) - 30,
 
   },
   shape: {
     width: 11, height: 11, borderRadius: 50, backgroundColor: '#C2C2C2'
   },
-  activeShape:{
+  activeShape: {
     width: 11, height: 11, borderRadius: 50, backgroundColor: '#273A70'
 
   },
@@ -40,12 +40,12 @@ export default {
   },
   header: {
     textAlign: 'right',
-    fontFamily: Platform.OS == "android" ?  G.Bold  : G.Regular , fontWeight : Platform.OS == "ios" ? "800": null , 
+    fontFamily: Platform.OS == "android" ? G.Bold : G.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
     color: 'black',
     fontSize: 24,
     paddingRight: 20,
     padding: 5,
-    marginTop : Platform.OS == "ios" ? hp('5%') : null 
+    marginTop: Platform.OS == "ios" ? hp('5%') : null
   },
   txt: {
     textAlign: 'right',
@@ -57,16 +57,16 @@ export default {
   },
   normalTxt: {
     textAlign: 'center',
-    fontFamily: Platform.OS == "android" ?  G.Bold  : G.Regular , fontWeight : Platform.OS == "ios" ? "800": null , 
+    fontFamily: Platform.OS == "android" ? G.Bold : G.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
     color: 'white',
     fontSize: 16,
-    
+
   },
   container: {
     flex: 1,
   },
   Button: {
-    width:155,
+    width: 155,
     height: 55,
     backgroundColor: '#273A70',
     borderRadius: 9,
@@ -113,6 +113,34 @@ export default {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center"
+  },
+  logoSize:
+  {
+    width: 100,
+    height: 100
+  },
+
+  slider: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+    width: windowWidth - 50,
+    marginTop: 20,
+    marginRight: 25,
+  },
+  specificMargin:
+  {
+    marginTop: 10,
+  },
+  specificColor: {
+    backgroundColor: '#C0D0FF99'
+  },
+  questionCode: {
+    color: '#0091FF',
+    marginTop: 15
+  },
+  fullScreen: {
+    width: '100%',
+    height: '100%'
   }
 
 };

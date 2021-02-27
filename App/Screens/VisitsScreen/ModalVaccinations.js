@@ -1,23 +1,13 @@
 import styleLogin from '../LoginScreen/style';
-import headerStyle from '../DealsScreen/style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, ImageBackground,
-    I18nManager, Modal, KeyboardAvoidingView, FlatList, Dimensions, Image, _View
+    Text, View, ScrollView,
+    TouchableOpacity, Platform, FlatList, Image, _View
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { Icon } from 'native-base';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import AsyncStorage from '@react-native-community/async-storage';
-import {
-
-    UIActivityIndicator,
-} from 'react-native-indicators';
-
 import VisitsStyle from './VisitsStyle';
 import { ArabicNumbers } from 'react-native-arabic-numbers';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 
 export default class ModalVaccinations extends Component {
@@ -33,258 +23,99 @@ export default class ModalVaccinations extends Component {
                 <ScrollView nestedScrollEnabled>
                     <TouchableOpacity activeOpacity={1} >
                         {/**content1 */}
-                        <View style={{ marginLeft: 'auto', paddingHorizontal: 40, marginTop: 10 }}>
-                            {/**light title */}
-                            <Text style={[VisitsStyle.txt, {
-                                fontSize: 12, color: g.Light_Gray,
-                            }]}>
-                                {g.BORN}
+                        {this.props.vaccine == '' ?
+                            <Text style={[VisitsStyle.txt, { marginLeft: widthPercentageToDP('40') }]}>
+                                {'لا يوجد'}
                             </Text>
-                            {/**Dark Details */}
-                            <FlatList
-                                key={(item) => {
-                                    item.id;
-                                }}
-                                showsVerticalScrollIndicator={false}
-                                data={[1, 1]}
-                                //   horizontal={true}
-                                renderItem={({ item, index }) => (
-                                    <View>
+                            :
+                            <View style=
+                                {{ marginLeft: 'auto', paddingHorizontal: 40, marginTop: 10 }}>
+                                {/**light title */}
+                                <Text style={[VisitsStyle.txt, {
+                                    fontSize: 12, color: g.Light_Gray,
+                                }]}>
+                                    {g.BORN}
+                                </Text>
+                                {/**Dark Details */}
 
-                                        <Text style={[VisitsStyle.txt, {}]}>
-                                            {ArabicNumbers('5 ديسمبر 2020')}
-                                        </Text>
-                                    </View>
-                                )}
-                            />
-                        </View>
+                                <FlatList
+                                    key={(item) => {
+                                        item.id;
+                                    }}
+                                    showsVerticalScrollIndicator={false}
+                                    data={this.props.vaccine}
+                                    //   horizontal={true}
+                                    renderItem={({ item, index }) => (
+                                        <View>
 
-                        {/**line */}
-                        <View style={{
-                            backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
-                            marginTop: 10, marginBottom: 10, marginLeft: 'auto', marginRight: 'auto'
-                        }} />
-
-                        {/**content2 */}
-                        <View style={{ marginLeft: 'auto', paddingHorizontal: 40, marginTop: 0 }}>
-                            {/**light title */}
-                            <Text style={[VisitsStyle.txt, {
-                                fontSize: 12, color: g.Light_Gray,
-                            }]}>
-                                {g.BORN_TWO_MONTHS}
-                            </Text>
-                            {/**Dark Details */}
-                            <FlatList
-                                key={(item) => {
-                                    item.id;
-                                }}
-                                showsVerticalScrollIndicator={false}
-                                data={[1, 1]}
-                                //   horizontal={true}
-                                renderItem={({ item, index }) => (
-                                    <View>
-
-                                        <Text style={[VisitsStyle.txt, {}]}>
-                                            {ArabicNumbers('5 ديسمبر 2020')}
-                                        </Text>
-                                    </View>
-                                )}
-                            />
-                        </View>
-
-
-
-                        {/**line */}
-                        <View style={{
-                            backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
-                            marginTop: 10, marginBottom: 10, marginLeft: 'auto', marginRight: 'auto'
-                        }} />
-
-                        {/**content3 */}
-                        <View style={{ marginLeft: 'auto', paddingHorizontal: 40, marginTop: 0 }}>
-                            {/**light title */}
-                            <Text style={[VisitsStyle.txt, {
-                                fontSize: 12, color: g.Light_Gray,
-                            }]}>
-                                {g.TWO_MONTHS}
-                            </Text>
-                            {/**Dark Details */}
-                            <FlatList
-                                key={(item) => {
-                                    item.id;
-                                }}
-                                showsVerticalScrollIndicator={false}
-                                data={[1, 1]}
-                                //   horizontal={true}
-                                renderItem={({ item, index }) => (
-                                    <View>
-
-                                        <Text style={[VisitsStyle.txt, {}]}>
-                                            {ArabicNumbers('5 ديسمبر 2020')}
-                                        </Text>
-                                    </View>
-                                )}
-                            />
-                        </View>
-
-
-
-
-
-                        {/**line */}
-                        <View style={{
-                            backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
-                            marginTop: 10, marginBottom: 10, marginLeft: 'auto', marginRight: 'auto'
-                        }} />
-
-                        {/**content4 */}
-                        <View style={{ marginLeft: 'auto', paddingHorizontal: 40, marginTop: 0 }}>
-                            {/**light title */}
-                            <Text style={[VisitsStyle.txt, {
-                                fontSize: 12, color: g.Light_Gray,
-                            }]}>
-                                {g.FOUR_MONTHS}
-                            </Text>
-                            {/**Dark Details */}
-                            <FlatList
-                                key={(item) => {
-                                    item.id;
-                                }}
-                                showsVerticalScrollIndicator={false}
-                                data={[1, 1]}
-                                //   horizontal={true}
-                                renderItem={({ item, index }) => (
-                                    <View>
-
-                                        <Text style={[VisitsStyle.txt, {}]}>
-                                            {ArabicNumbers('5 ديسمبر 2020')}
-                                        </Text>
-                                    </View>
-                                )}
-                            />
-                        </View>
-
-
-
-
-
-                        {/**line */}
-                        <View style={{
-                            backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
-                            marginTop: 10, marginBottom: 10, marginLeft: 'auto', marginRight: 'auto'
-                        }} />
-
-                        {/**content5 */}
-                        <View style={{ marginLeft: 'auto', paddingHorizontal: 40, marginTop: 0 }}>
-                            {/**light title */}
-                            <Text style={[VisitsStyle.txt, {
-                                fontSize: 12, color: g.Light_Gray,
-                            }]}>
-                                {g.SIX_MONTHS}
-                            </Text>
-                            {/**Dark Details */}
-                            <FlatList
-                                key={(item) => {
-                                    item.id;
-                                }}
-                                showsVerticalScrollIndicator={false}
-                                data={[1, 1]}
-                                //   horizontal={true}
-                                renderItem={({ item, index }) => (
-                                    <View>
-
-                                        <Text style={[VisitsStyle.txt, {}]}>
-                                            {ArabicNumbers('5 ديسمبر 2020')}
-                                        </Text>
-                                    </View>
-                                )}
-                            />
-                        </View>
-
-
-
-
-
-                        {/**line */}
-                        <View style={{
-                            backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
-                            marginTop: 10, marginBottom: 10, marginLeft: 'auto', marginRight: 'auto'
-                        }} />
-
-                        {/**content6 */}
-                        <View style={{ marginLeft: 'auto', paddingHorizontal: 40, marginTop: 0 }}>
-                            {/**light title */}
-                            <Text style={[VisitsStyle.txt, {
-                                fontSize: 12, color: g.Light_Gray,
-                            }]}>
-                                {g.NINE_MONTHS}
-                            </Text>
-                            {/**Dark Details */}
-                            <FlatList
-                                key={(item) => {
-                                    item.id;
-                                }}
-                                showsVerticalScrollIndicator={false}
-                                data={[1, 1]}
-                                //   horizontal={true}
-                                renderItem={({ item, index }) => (
-                                    <View>
-
-                                        <Text style={[VisitsStyle.txt, {}]}>
-                                            {ArabicNumbers('5 ديسمبر 2020')}
-                                        </Text>
-                                    </View>
-                                )}
-                            />
-                        </View>
-
-
-                        {/**line */}
-                        <View style={{
-                            backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
-                            marginTop: 10, marginBottom: 10, marginLeft: 'auto', marginRight: 'auto'
-                        }} />
-
-                        {/**content7 */}
-                        <View style={{ marginLeft: 'auto', paddingHorizontal: 40, marginTop: 0 }}>
-                            {/**light title */}
-                            <Text style={[styleLogin.login, {
-                                marginRight: 0, marginTop: 0,
-                                fontSize: 18
-                            }]}>
-                                {g.GROWTH_RATE}
-                            </Text>
-                            {/**Dark Details */}
-                            <View style={{ flexDirection: 'row-reverse' }}>
-                                <Image source={require('../../Images/headCircumference.png')}
-                                    style={{ width: 120, height: 120 }}
+                                            <Text style={[VisitsStyle.txt]}>
+                                                {ArabicNumbers('5 ديسمبر 2020')}
+                                            </Text>
+                                        </View>
+                                    )}
                                 />
-                                <View style={{ paddingHorizontal: 30 }}>
-                                    <Text style={[VisitsStyle.normalTxt,{color:g.Light_Gray,
-fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                        textAlign:'right'}]}>
-                                        {g.AGE}
-                                    </Text>
-                                    <Text style={[VisitsStyle.normalTxt,{
-fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                        textAlign:'right',fontSize:14}]}>
-                                        3 سنوات 
+
+                            </View>
+                        }
+                        {/**line */}
+                        <View style={{
+                            backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
+                            marginTop: 10, marginBottom: 10, marginLeft: 'auto', marginRight: 'auto'
+                        }} />
+
+                       
+                            <View style={{ paddingHorizontal: 30}}>
+                                {/**light title */}
+                                <Text style={[styleLogin.login, {
+                                    marginRight: 0, marginTop: 0,
+                                    fontSize: 18
+                                }]}>
+                                    {g.GROWTH_RATE}
+                                </Text>
+                                {/**Dark Details */}
+                                <View style={{ flexDirection: 'row-reverse' }}>
+                                    <Image source={require('../../Images/headCircumference.png')}
+                                        style={{ width: 120, height: 120 }}
+                                />
+                                 {this.props.ChildGrowth == '' ?
+                            <Text style={[VisitsStyle.txt, {  }]}>
+                                {'لا يوجد'}
+                            </Text>
+                            :
+
+                                    <View style={{ paddingHorizontal: 30 }}>
+                                        <Text style={[VisitsStyle.normalTxt, {
+                                            color: g.Light_Gray,
+                                            fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'right'
+                                        }]}>
+                                            {g.AGE}
+                                        </Text>
+                                        <Text style={[VisitsStyle.normalTxt, {
+                                            fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'right', fontSize: 14
+                                        }]}>
+                                            3 سنوات
                                     </Text>
 
-                                    <Text style={[VisitsStyle.normalTxt,{color:g.Light_Gray,
-fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                        textAlign:'right'}]}>
-                                        {g.HEAD}
-                                    </Text>
-                                    <Text style={[VisitsStyle.normalTxt,{
-fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,                                        textAlign:'right',fontSize:14}]}>
-                                        3.5 سم
+                                        <Text style={[VisitsStyle.normalTxt, {
+                                            color: g.Light_Gray,
+                                            fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'right'
+                                        }]}>
+                                            {g.HEAD}
+                                        </Text>
+                                        <Text style={[VisitsStyle.normalTxt, {
+                                            fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'right', fontSize: 14
+                                        }]}>
+                                            3.5 سم
                                     </Text>
 
-                                    
+
+                                    </View>
+                        }
                                 </View>
 
                             </View>
-                        </View>
 
-
+                        
 
                         <View style={{ height: 50 }}></View>
                     </TouchableOpacity>

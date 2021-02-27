@@ -2,11 +2,10 @@ import styles from './style';
 import React, { Component } from 'react';
 import {
     Text, View, TextInput,
-    TouchableOpacity, Platform, Keyboard,
+    TouchableOpacity, Keyboard,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
 import Spinner from '../../Navigation/Spinner'
 import { connect } from 'react-redux'
@@ -33,11 +32,8 @@ class Forget extends Component {
         return (
 
             <View>
-                <View style={{
-                    flexDirection: 'row', paddingHorizontal: 25,
-                    marginTop: Platform.OS == "ios" ? hp('5%') : null
-                }}>
-                    <Text style={[styles.change, { fontSize: 18, marginLeft: wp('25'), }]}>
+                <View style={styles.ViewContainer}>
+                    <Text style={[styles.change, styles.changePass]}>
                         {g.CHANGE_PASSWORD}
                     </Text>
                     <Icon name="arrowright" type="AntDesign"
@@ -55,12 +51,13 @@ class Forget extends Component {
                     {g.FORGET_PASSWORD_P1}
                 </Text>
 
-                <Text style={[styles.username, { marginTop: hp('2%') }]}>
+                <Text style={[styles.username, styles.enter2]}>
                     {g.EMAIL}
                 </Text>
 
                 <View style={styles.viewInput}>
                     <TextInput
+                        keyboardType='email-address'
                         onChangeText={(email) => { this.setState({ email }) }}
                         placeholder={g.ENTER_EMAIL}
                         placeholderTextColor={g.Light_Gray}
@@ -69,7 +66,7 @@ class Forget extends Component {
 
                 {
                     this.props.loading ?
-                        <View style={{ marginTop: '10%' }}>
+                        <View style={styles.SpinnerTopForget}>
                             <Spinner />
                         </View>
 
@@ -84,13 +81,22 @@ class Forget extends Component {
 
                                 }
                                 else {
-                                    this.toast.show(this.props.forget.message, 1000);
+                                    console.log('code: ' + this.props.forget);
+                                    // this.toast.show(this.props.forget, 1000);
+                                    if (this.props.forget == 'no account') {
+                                        this.toast.show(this.props.forget, 1000);
+
+                                    } else{
+                                        this.toast.show('The code has been sent successfully', 1000);
+
                                     setTimeout(() => {
-                                        this.props.navigation.navigate('VerificationScreen')
+                                        this.props.navigation.navigate('VerificationScreen',
+                                            { 'email': this.state.email }
+                                        )
 
                                     }, 1000);
 
-
+                                }
                                 }
 
                             }}>
@@ -101,7 +107,6 @@ class Forget extends Component {
                 <Toast
                     ref={(toast) => this.toast = toast}
                     style={{ backgroundColor: '#000' }}
-                    //    position='center'
                     positionValue={this.state.tabSelected_1 ? -(g.windowHeight + 100) : 200}
                     fadeInDuration={120}
                     fadeOutDuration={1000}

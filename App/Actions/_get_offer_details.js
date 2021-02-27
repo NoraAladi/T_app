@@ -13,12 +13,15 @@ export const Get_offer_details  = ( ID )=>
       {  
        headers:
        { 
-        'accept': 'text/plain',
-        'authorizationKey': g.authorizationKey,
+          'accept': 'text/plain',
+          'authorizationKey': g.authorizationKey,
+
       }
        })
       .then(response => {
           // If request is good...
+        console.log(`--- offerId${ID} ---`);
+        console.log(response.data);
           onhandleResponse( dispatch , response) 
 
        })

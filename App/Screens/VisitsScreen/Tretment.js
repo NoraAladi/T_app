@@ -1,5 +1,4 @@
 import VisitsStyle from './VisitsStyle';
-import styleLogin from '../LoginScreen/style';
 import React, { Component } from 'react';
 import {
     Text, View, FlatList, TouchableOpacity,
@@ -24,7 +23,7 @@ class Tretment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modal: false, clinicId: 0
+            modal: false, clinicId: 0,
         }
     }
 

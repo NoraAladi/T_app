@@ -1,14 +1,18 @@
 import styles from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, AppState, ImageBackground, I18nManager
+    Text, View, TextInput,
+    TouchableOpacity,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import i18n from '../../i18n';
+
+import Spinner from '../../Navigation/Spinner'
+import { connect } from 'react-redux'
+import { Reset_Pass } from '../../Actions/resetPass_action';
+import Toast from 'react-native-easy-toast'
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 class Enterpass extends Component {
     constructor(props) {
@@ -16,17 +20,16 @@ class Enterpass extends Component {
         this.state = {
             show: true,
             password: '', confirm_pass: ' ', show_confirm: true,
+            token: this.props.navigation.getParam('token')
         };
     }
+
 
     render() {
         return (
             <View>
-                <View style={{
-                    flexDirection: 'row', paddingHorizontal: 25,
-                    marginTop: Platform.OS == "ios" ? hp('5%') : null
-                }}>
-                    <Text style={[styles.change, { fontSize: 18, marginLeft: wp('25'), }]}>
+                <View style={styles.ViewContainer}>
+                    <Text style={[styles.change, styles.changePass]}>
                         {g.CHANGE_PASSWORD}
                     </Text>
                     <Icon name="arrowright" type="AntDesign"
@@ -45,20 +48,19 @@ class Enterpass extends Component {
                     {g.PLEASE}
                 </Text>
 
-                <Text style={[styles.username, { marginTop: hp('2%') }]}>
+                <Text style={[styles.username, styles.enter2]}>
                     {g.PASSWORD}
                 </Text>
 
-                <View style={[styles.viewInput, { flexDirection: 'row' }]}>
+                <View style={[styles.viewInput, styles.simpleRow]}>
 
                     <Icon name="eye-off-sharp" type="Ionicons"
-
                         onPress={() => {
                             this.setState({
                                 show: !this.state.show
                             })
                         }}
-                        style={[styles.show, { marginLeft: wp('5%'), color: this.state.show ? g.Light_Gray : g.Bold_blue }]} />
+                        style={[styles.show, styles.enter5, { color: this.state.show ? g.Light_Gray : g.Bold_blue }]} />
 
                     <TextInput
                         placeholder={g.PASSWORD}
@@ -73,14 +75,14 @@ class Enterpass extends Component {
 
                         }}
                         placeholderTextColor={g.Light_Gray}
-                        style={[styles.input, { width: wp('60%') }]} />
+                        style={[styles.input, styles.widthInput]} />
                 </View>
 
 
-                <Text style={[styles.username, { marginTop: hp('2%') }]}>
+                <Text style={[styles.username, styles.enter2]}>
                     {g.CONFIRM_PASS}
                 </Text>
-                <View style={[styles.viewInput, { flexDirection: 'row' }]}>
+                <View style={[styles.viewInput, styles.simpleRow]}>
 
                     <Icon name="eye-off-sharp" type="Ionicons"
 
@@ -89,7 +91,7 @@ class Enterpass extends Component {
                                 show_confirm: !this.state.show_confirm
                             })
                         }}
-                        style={[styles.show, { marginLeft: wp('5%'), color: this.state.show_confirm ? g.Light_Gray : g.Bold_blue }]} />
+                        style={[styles.show, styles.enter5, { color: this.state.show_confirm ? g.Light_Gray : g.Bold_blue }]} />
 
                     <TextInput
                         placeholder={g.CONFIRM_PASS}
@@ -104,7 +106,7 @@ class Enterpass extends Component {
 
                         }}
                         placeholderTextColor={g.Light_Gray}
-                        style={[styles.input, { width: wp('60%') }]} />
+                        style={[styles.input, styles.widthInput]} />
                 </View>
 
                 <TouchableOpacity
@@ -117,18 +119,56 @@ class Enterpass extends Component {
                         backgroundColor: this.state.password == this.state.confirm_pass &&
                             (this.state.password != '' || this.state.confirm_pass != '')
                             ? g.Bold_blue : g.Gray
-                    }]} onPress={() => {
+                    }]} onPress={async () => {
                         //alert(this.state.password)
-                        this.props.navigation.navigate('')
+                        await this.props.Reset_Pass(this.state.token,
+                            this.state.password,
+                            this.state.confirm_pass)
+                        this.toast.show(this.props.message, 1)
+                        if (this.props.message == 'Password reset successful, you can now login')
+                            setTimeout(() => {
+                                this.props.navigation.navigate('LoginScreen')
+                            }, 1000);
                     }}>
                     <Text style={styles.txt_btn}>{g.CONFIRM_PASS}</Text>
                 </TouchableOpacity>
 
+                {this.props.loading ?
+                    <View style={styles.SpinnerTopForget}>
+                        <Spinner />
+                    </View>
 
+                    : null}
+                <Toast
+                    ref={(toast) => this.toast = toast}
+                    style={{
+                        backgroundColor: '#000',
+                        width: widthPercentageToDP('85'),
+                        justifyContent: 'center',
+                        alignItems: 'center',
 
+                    }}
+                    positionValue={200}
+                    fadeInDuration={120}
+                    fadeOutDuration={1000}
+                    textStyle={{
+                        color: 'white',
+                        fontFamily: g.Regular,
+                        textAlign: 'center'
+                    }}
+                />
             </View>
         );
 
     }
 }
-export default withNavigation(Enterpass);
+const mapStateToProps = state => {
+    return {
+        message: state.resetPass.message,
+        loading: state.resetPass.loading,
+
+    }
+}
+
+export default connect(mapStateToProps, { Reset_Pass })(withNavigation(Enterpass));
+

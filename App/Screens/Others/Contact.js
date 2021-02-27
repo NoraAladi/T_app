@@ -3,7 +3,7 @@ import styleSignUp from '../SignupScreen/styleSignUp';
 import React, { Component } from 'react';
 import {
     Text, View, TextInput,
-    TouchableOpacity, FlatList
+    TouchableOpacity, FlatList,Keyboard
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -39,6 +39,7 @@ class Contact extends Component {
     }
 
     async send() {
+        Keyboard.dismiss()
         await this.props.contact_us(this.state.SupportTypesID, this.state.message)
         this.toast.show(this.props.contactResponse.message, 1000);
     }
@@ -90,6 +91,7 @@ class Contact extends Component {
                                         }}>
                                             <Text style={[styleSignUp.dropDownTxt, {
                                                 fontSize: 12,
+                                                padding: 2,
                                                 //  color: g.Light_Gray,
                                                 textAlign: 'right'
                                             }]}>{item.supportCaseTypeNameAR}</Text>

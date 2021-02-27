@@ -1,10 +1,10 @@
 
 import {
     Animated, Image,
+    Keyboard,
     Text, View,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import React, { useState, useEffect, useRef } from 'react';
 import { withNavigation } from "react-navigation";
 import G from '../../Gloabal';
 import {
@@ -24,7 +24,13 @@ import styles, {
     NOT_EMPTY_CELL_BG_COLOR,
 } from './verifyStyle';
 import { Icon } from 'native-base';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import axios from 'axios';
+import Toast from 'react-native-easy-toast'
+
+import { useSelector, useDispatch } from 'react-redux'
+import { forget_pass } from '../../Actions/forget_pass';
+
 
 const { Value, Text: AnimatedText } = Animated;
 
@@ -35,15 +41,73 @@ const animationsColor = [...new Array(CELL_COUNT)].map(() => new Value(0));
 const animationsScale = [...new Array(CELL_COUNT)].map(() => new Value(1));
 
 
+
 const Verification = ({ navigation }) => {
     const [value, setValue] = useState('');
     const [loader, setLoader] = useState(false);
+    const toast = useRef();
 
     const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({
         value,
         setValue,
     });
+
+
+    const propss = useSelector(state => state)
+    const dispatch = useDispatch()
+
+    const resend = async (email) => {
+        await dispatch(await forget_pass({ email }))
+        toast.current.show('تم إرسال الكود مرة اخرى', 1000);
+    }
+
+
+    useEffect(() => {
+        // alert(navigation.getParam('email'))
+    }, [])
+
+
+    const verifyApi = async () => {
+        Keyboard.dismiss()
+        setLoader(true)
+        try {
+            let response = await axios({
+                method: 'POST',
+                url: `${G.BASE_URL}/api/Accounts/validate-resetandforget-token`,
+                headers:
+                {
+                    'accept': '*/*',
+                    'Content-Type': 'application/json-patch+json',
+                    'authorizationKey': G.authorizationKey,
+                },
+                data:
+                {
+                    token: value,
+                },
+            })
+            console.log('---- Call Verification API ----');
+            console.log(response.data);
+            setLoader(false)
+            toast.current.show(response.data.message, 1000);
+            setTimeout(() => {
+                navigation.navigate('EnterpassScreen',{'token':value})
+            }, 1000);
+
+        } catch (error) {
+            setLoader(false)
+            console.log(error.response);
+
+            if (error.response.data.message) {
+                toast.current.show(error.response.data.message, 1000);
+            }
+            else {
+                toast.current.show(error.response.data.errors.Token[0], 1000);
+
+            }
+        }
+
+    }
 
     const renderCell = ({ index, symbol, isFocused }) => {
         const hasValue = Boolean(symbol);
@@ -80,22 +144,21 @@ const Verification = ({ navigation }) => {
         );
     };
 
+
+
     return (
         <>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{
-                    flex: 1, padding: 24,
-                    marginTop: Platform.OS == "ios" ? hp('5%') : null
-                }}>
+                <View style={styles.ViewContainer}>
 
                     <Icon name='arrowdown' type='AntDesign'
-                        style={{ fontsize: 25, marginLeft: 'auto', }}
+                        style={styles.iconStyle}
                         onPress={() => { navigation.pop() }}
                     />
                     <Text style={styles.title}>{G.SEND_CODE}</Text>
                     <Image style={styles.icon} source={source} />
                     <Text style={styles.subTitle}>
-                        {G.ENTER_CODE_VERIFICATION}
+                        {G.ENTER_CODE_VERIFICATION + '\n' + navigation.getParam('email')}
                     </Text>
 
                     <CodeField
@@ -105,41 +168,45 @@ const Verification = ({ navigation }) => {
                         onChangeText={setValue}
                         cellCount={CELL_COUNT}
                         rootStyle={styles.codeFieldRoot}
-                        keyboardType="number-pad"
+                        // keyboardType="number-pad"
                         textContentType="oneTimeCode"
+                        onSubmitEditing={() => {
+                            verifyApi()
+                        }}
                         onEndEditing={() => {
                             if (value.length === 5) {
-                                setLoader(true)
-                                setTimeout(() => {
-                                    setLoader(false)
-                                    navigation.navigate('EnterpassScreen')
-                                }, 3000);
+                                verifyApi()
                             }
-                            else { }
                         }}
                         renderCell={renderCell}
 
                     />
                     {loader ? <UIActivityIndicator color={NOT_EMPTY_CELL_BG_COLOR} size={30}
-                        style={{ marginTop: 50, }} /> : null}
+                        style={styles.spinner} /> : null}
 
-                    <View style={{
-                        flexDirection: 'row-reverse',
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
-                    }}>
+                    <View style={styles.notSend}>
                         <Text style={styles.subTitle}>
                             {G.NOT_SEND}{'  '}
                         </Text>
-                        <Text style={[styles.subTitle, {
-                            fontFamily: Platform.OS == "android" ? G.Bold : G.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, 
-                            color: G.Bold_blue
-                        }]}>
-                            {G.TRY_SEND}{'  '}
-                        </Text>
+                        <TouchableOpacity onPress={() => resend(navigation.getParam('email'))}>
+                            <Text style={[styles.subTitle, styles.trySend]}>
+                                {G.TRY_SEND}{'  '}
+                            </Text>
+                        </TouchableOpacity>
+
                     </View>
 
+                    <Toast
+                        ref={toast}
+                        style={{ backgroundColor: '#000' }}
+                        position='bottom'
+                        positionValue={200}
+                        fadeInDuration={120}
+                        fadeOutDuration={1000}
+                        textStyle={{ color: 'white', fontFamily: G.Regular }}
+                    />
                 </View>
+
 
             </ScrollView>
         </>

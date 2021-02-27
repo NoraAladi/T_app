@@ -40,7 +40,9 @@ export const Put_MicroInfo = (
                     headers:
                     {
                         'accept': 'text/plain',
-                        'Content-Type': 'application/json-patch+json'
+                        'Content-Type': 'application/json-patch+json',
+                        'authorizationKey': g.authorizationKey,
+
                     }
                 })
             console.log('______ PUT_MICRO_INFO_API ______');

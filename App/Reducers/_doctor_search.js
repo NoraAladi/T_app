@@ -1,4 +1,4 @@
-const INITIAL_STATE = { doctor : []  , loading_doctor : true }
+const INITIAL_STATE = { doctor : []  , loading_doctor : false }
 export default ( state = INITIAL_STATE , action ) =>
 {
     switch( action.type)
