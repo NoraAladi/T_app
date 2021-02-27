@@ -38,7 +38,9 @@ class Profile extends Component {
                 {
                     'Authorization': `Bearer ${Token}`,
                     'accept': '*/*',
-                    'Content-Type': 'application/json-patch+json'
+                    'Content-Type': 'application/json-patch+json',
+                    'authorizationKey': g.authorizationKey,
+
                 },
                 data:
                 {

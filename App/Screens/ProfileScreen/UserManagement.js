@@ -12,6 +12,8 @@ import HeaderNav from '../../Navigation/HeaderNav';
 import { Get_Dependants } from '../../Actions/getDependantsAction';
 import { connect } from 'react-redux'
 import Spinner from '../../Navigation/Spinner'
+import { delete_dependent } from '../../Actions/Del_Dependent_Action';
+import Toast from 'react-native-easy-toast'
 
 class UserManagement extends Component {
     constructor(props) {
@@ -24,12 +26,8 @@ class UserManagement extends Component {
         await this.props.Get_Dependants()
         this.setState({ Dependants: this.props.Dependants })
     }
-    // componentDidUpdate(prevProps) {
-    //     console.log(prevProps);
-    //     if (this.props.Dependants == prevProps.Dependants ) {
-    //     }
 
-    // }
+
     render() {
         return (
             <View>
@@ -60,7 +58,7 @@ class UserManagement extends Component {
                                         <Icon name='edit' type='MaterialIcons'
                                             style={[styles.icon, { marginLeft: 'auto', }]}
                                             onPress={() => {
-                                               // this.props.navigation.navigate('EditProfileScreen',{'id':item.id,})
+                                                // this.props.navigation.navigate('EditProfileScreen',{'id':item.id,})
                                             }}
                                         />
                                         <Image style={[styles.img, { borderRadius: wp('50'), }]}
@@ -77,10 +75,21 @@ class UserManagement extends Component {
                                                 justifyContent: 'center', marginBottom: -15,
                                                 borderBottomLeftRadius: 10,
                                                 borderBottomRightRadius: 10,
-
-
                                             }
                                         ]}
+                                            onPress={async () => {
+                                                await this.props.delete_dependent(item.id)
+                                                // alert(this.props.status)
+                                                if (this.props.status == 200) {
+                                                    this.toast.show(`تم مسح ${item.fullNameAr} بنجاح` )
+                                                    await this.props.Get_Dependants()
+                                                    this.setState({ Dependants: this.props.Dependants })
+                                                }
+                                                else
+                                                    this.toast.show('حدث خطأ حاول مرة اخرى', 1000)
+
+                                            }}
+
                                         >
                                             <Text style={[styles.txt_btn, { color: '#E02020' }]}>
                                                 {g.DELETE}</Text>
@@ -91,6 +100,15 @@ class UserManagement extends Component {
                             )} />
                     </View>
                 }
+
+                <Toast
+                    ref={(toast) => this.toast = toast}
+                    style={{ backgroundColor: '#000' }}
+                    positionValue={200}
+                    fadeInDuration={1000}
+                    fadeOutDuration={1000}
+                    textStyle={{ color: 'white', fontFamily: g.Regular }}
+                />
             </View>
         );
 
@@ -101,7 +119,10 @@ const mapStateToProps = state => {
     return {
         loading: state.Dependants.loading,
         Dependants: state.Dependants.Dependants,
+
+        loading_del: state.delDependent.loading_del,
+        status: state.delDependent.status,
     }
 }
 
-export default connect(mapStateToProps, { Get_Dependants })(withNavigation(UserManagement));
+export default connect(mapStateToProps, { Get_Dependants, delete_dependent })(withNavigation(UserManagement));

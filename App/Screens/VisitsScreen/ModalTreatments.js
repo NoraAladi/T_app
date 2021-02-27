@@ -10,14 +10,8 @@ import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import AsyncStorage from '@react-native-community/async-storage';
-import {
-
-    UIActivityIndicator,
-} from 'react-native-indicators';
 
 import VisitsStyle from './VisitsStyle';
-import { ArabicNumbers } from 'react-native-arabic-numbers';
 import ModalSearch from './ModalSearch';
 import { connect } from 'react-redux'
 import Spinner from '../../Navigation/Spinner'
@@ -32,8 +26,8 @@ class ModalTreatments extends Component {
             search_component: false
         };
     }
-    componentDidMount() {
-        this.props.Get_visit_Details(this.props.clinicId)
+    async componentDidMount() {
+        await this.props.Get_visit_Details(this.props.clinicId)
     }
 
     closeModal = () => {
@@ -136,12 +130,12 @@ class ModalTreatments extends Component {
                                                     <View style={{ paddingHorizontal: 20 }}>
                                                         {/**Dark Details */}
                                                         <Text style={[VisitsStyle.txt, { fontSize: 16 }]}>
-                                                          {this.props.visit_details.doctor.fullNameAr}
+                                                            {this.props.visit_details.doctor.titleAr + ' ' + this.props.visit_details.doctor.fullNameAr}
 
-                        </Text>
+                                                        </Text>
                                                         <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular }]}>
-                                                        {this.props.visit_details.doctor.speciality.specialityNameAr}    
-                        </Text>
+                                                            {this.props.visit_details.doctor.speciality.specialityNameAr}
+                                                        </Text>
                                                     </View>
                                                 </View>
                                                 {/**line */}
@@ -167,7 +161,7 @@ class ModalTreatments extends Component {
                                                     <Text style={[VisitsStyle.txt, {}]}
                                                     >
                                                         {this.props.visit_details.complain}
-                            </Text>
+                                                    </Text>
                                                 </View>
 
                                                 {/**line */}
@@ -195,8 +189,8 @@ class ModalTreatments extends Component {
                                                     {/**Dark Details */}
                                                     <Text style={[VisitsStyle.txt, {}]}
                                                     >
-                                                      {this.props.visit_details.diagnosis}
-                            </Text>
+                                                        {this.props.visit_details.diagnosis==null?'لا يوجد':this.props.visit_details.diagnosis}
+                                                    </Text>
                                                 </View>
 
                                                 {/**line */}
@@ -218,21 +212,35 @@ class ModalTreatments extends Component {
                                                     <Text style={[VisitsStyle.txt, {
                                                         fontSize: 12, color: g.Light_Gray,
                                                     }]}>
-                                                        {g.DIAGNOSIS}
+                                                        {'روشتة العلاج'}
                                                     </Text>
                                                     {/**Dark Details */}
-                                                    <Text style={[VisitsStyle.txt, {}]}
+                                                    <Text style={[VisitsStyle.txt]}
                                                     >
-                                                      {this.props.visit_details.prescriptionMedicine}  
-                            </Text>
+                                                        {this.props.visit_details.prescriptionMedicine == '' ? 'لا يوجد' :
+                                                            
+                                                            this.props.visit_details.prescriptionMedicine.map((item, index) => {
+                                                                return (
+                                                                    <Text style={VisitsStyle.txt}
+                                                                        key={index}
+                                                                    >
+                                                                        {item.medicine.medicineName + ' '
+                                                                            + item.prescribedMedicineDuration.medicineDuration +
+                                                                            ' مرات'
+                                                                        }
+                                                                    </Text>
+                                                                );
+                                                            })
+                                                        }
+                                                    </Text>
                                                 </View>
 
 
                                                 <TouchableOpacity style={[styleLogin.btn, { marginTop: hp('3') }]}
                                                     onPress={async () => {
                                                         this.setState({
-                                                            details_component: false,
-                                                            search_component: true
+                                                            //  details_component: false,
+                                                            //search_component: true
                                                         })
                                                     }}>
                                                     <Text style={[styleLogin.txt_btn,]}>

@@ -22,6 +22,8 @@ export const Get_visit_Details  = (ID)=>
        })
       .then(response => {
           // If request is good...
+        console.log('Treatments Api');
+        console.log(response.data);
           onhandleResponse( dispatch , response) 
 
        })

@@ -12,6 +12,7 @@ export const Get_Doctor_Search = (Filter, specialityId, GovernorateId, CityId) =
     dispatch({ type: 'GET_DOCTOR_SEARCH_ATTEMPT' });
     const Token = await AsyncStorage.getItem('app_Token');
     //call the backend 
+    //&specialityId=${specialityId}
     axios.get(`${g.BASE_URL}/api/PatientServiceProviders/ClinicSearch?governorateId=${GovernorateId}&cityId=${CityId}&specialityId=${specialityId}&doctorname=${Filter}&PageNumer=1&PageSize=10`,
       {
         headers:

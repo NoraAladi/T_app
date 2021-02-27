@@ -6,7 +6,6 @@ import {
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
 import g from '../Gloabal';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 class HeaderNav extends Component {
 

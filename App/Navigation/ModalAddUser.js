@@ -12,18 +12,23 @@ import g from '../../App/Gloabal';
 import Modal from 'react-native-modalbox';
 import { Get_Dependants } from '../Actions/getDependantsAction';
 import { connect } from 'react-redux'
+import AsyncStorage from '@react-native-community/async-storage';
 
 class ModalAddUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modal: true
+            modal: true,
+            selectedID: 0
         };
     }
 
     async componentDidMount() {
         await this.props.Get_Dependants()
         //   alert(JSON.stringify(this.props.Dependants))
+        const dependentId = await AsyncStorage.getItem('dependentId')
+        await this.setState({ selectedID: dependentId })
+      //  alert(this.state.selectedID)
     }
 
     renderListHeader = () => {
@@ -122,9 +127,16 @@ class ModalAddUser extends Component {
                                     onEndReached={() => { console.log('saad') }}
                                     data={this.props.Dependants}
                                     renderItem={({ item, index }) => (
-                                        <TouchableOpacity>
+                                        <TouchableOpacity
+                                            onPress={async () => {
+                                                await AsyncStorage.setItem('dependentId', String(item.id))
+                                                await this.setState({ selectedID: item.id })
+                                              
+                                            }}>
                                             <View>
-                                                <View style={styles.circle}>
+                                                <View style={[styles.circle, {
+                                                    borderWidth: item.id == this.state.selectedID ? 2 : 0
+                                                }]}>
                                                     <Image source={item.personalPhoto ? { uri: item.personalPhoto } : require('../Images/notFoundImage.png')}
 
                                                         style={{ width: 84, height: 84, borderRadius: 42 }} />
@@ -133,7 +145,7 @@ class ModalAddUser extends Component {
                                                     {item.fullNameEn == null ? item.fullNameAr : item.fullNameEn}
                                                 </Text>
                                                 <Text style={[styleLogin.txt_btn, styles.activeTxt, {
-                                                    color: 'black', marginTop: -5, width: 100, textAlign: 'center',paddingHorizontal:20
+                                                    color: 'black', marginTop: -5, width: 100, textAlign: 'center', paddingHorizontal: 20
                                                 }]}>
                                                     {item.code}
                                                 </Text>

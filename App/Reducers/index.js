@@ -34,6 +34,9 @@ import support_types_reducer from './support_types_reducer';
 import contact_Reducer from './contact_Reducer';
 import completeregister_newDependent_Reducer from './completeregister_newDependent_Reducer';
 import PharmacyOrderDetails_Reducer from './PharmacyOrderDetails_Reducer';
+import resetPass_Reducer from './resetPass_Reducer';
+import del_dependent_Reducer from './del_dependent_Reducer';
+import GenericReducer from './GenericReducer';
 
 
 
@@ -72,5 +75,8 @@ export default combineReducers({
     supportTypes:support_types_reducer,
     contactResponse: contact_Reducer,
     userDependent_completed: completeregister_newDependent_Reducer,
-    pharmacyOrderDetails:PharmacyOrderDetails_Reducer,
+    pharmacyOrderDetails: PharmacyOrderDetails_Reducer,
+    resetPass: resetPass_Reducer,
+    delDependent: del_dependent_Reducer,
+    GenericHealthProfile:GenericReducer,
 });

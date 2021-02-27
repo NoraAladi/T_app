@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   ViewContainer:{
-    flex: 1, padding: 24,
+    flex: 1, padding: 24,height:hp('100'),
     marginTop: Platform.OS == "ios" ? hp('5%') : null
   },
   spinner: {

@@ -5,28 +5,34 @@ import React, { Component } from 'react';
 import {
     Text, View, ScrollView, Image, Dimensions, FlatList,
     TouchableOpacity, Platform,
-    ImageBackground, I18nManager, KeyboardAvoidingView, Modal as ModalReactNative
-    , TouchableWithoutFeedback
+    Modal as ModalReactNative
+
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import i18n from '../../i18n';
 import ToggleSwitch from 'toggle-switch-react-native'
 import DataHidden from './DataHidden';
 import Modal from 'react-native-modalbox';
 import ModalVaccinations from "./ModalVaccinations";
+import { connect } from 'react-redux'
+import Spinner from '../../Navigation/Spinner'
+import { Get_GenericHealthProfile } from '../../Actions/GenericHealthProfile_Action';
+import RenderCard from './renderCard';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 const images = [require('../../Images/img2.png'),
-require('../../Images/img3.png'), require('../../Images/img4.png'),
-require('../../Images/img5.png'), require('../../Images/img1.png'),
+require('../../Images/img3.png'),
+require('../../Images/img4.png'),
+require('../../Images/img5.png'),
+require('../../Images/img1.png'),
 require('../../Images/img6.png'),
 require('../../Images/img7.png'), require('../../Images/img8.png'),
 require('../../Images/img9.png'), require('../../Images/img10.png'),
 require('../../Images/img11.png'),]
 
-const { width, height } = Dimensions.get("window");
 
 class Visit extends Component {
     constructor(props) {
@@ -34,10 +40,52 @@ class Visit extends Component {
         this.state = {
             toggle: false,
             ModalAlert: false,
-            modal: false
-        }
-    }
+            modal: false,
+            GenericHealthProfile: [],
+            HealthProfileCIMedecines: [],
+            HealthProfileChronicDiseases: [],
+            HealthProfilePrescribedMedicines: [],
 
+            ChildVaccination: [],
+            ChildGrowthChart:[],
+
+            loader: true
+        }
+        AsyncStorage.getItem('toggle').then(val => {
+            console.log(val);
+            if (val == 'true')
+                this.setState({ toggle: true })
+            else
+                this.setState({ toggle: false })
+        })
+    }
+    async componentDidMount() {
+        const id = await AsyncStorage.getItem('dependentId')
+        await this.props.Get_GenericHealthProfile('GenericHealthProfile')
+        await this.setState({ GenericHealthProfile: this.props.GenericHealthProfile })
+
+        await this.props.Get_GenericHealthProfile('HealthProfileCIMedecines')
+        await this.setState({ HealthProfileCIMedecines: this.props.GenericHealthProfile })
+
+        await this.props.Get_GenericHealthProfile('HealthProfileChronicDiseases')
+        await this.setState({ HealthProfileChronicDiseases: this.props.GenericHealthProfile })
+
+        await this.props.Get_GenericHealthProfile('HealthProfilePrescribedMedicines')
+        await this.setState({ HealthProfilePrescribedMedicines: this.props.GenericHealthProfile })
+
+        await this.props.Get_GenericHealthProfile(`ChildVaccination?dependantId=${id}`)
+        await this.setState({ ChildVaccination: this.props.GenericHealthProfile })
+
+        await this.props.Get_GenericHealthProfile(`ChildGrowthChart?dependantId=${id}`)
+        await this.setState({ ChildGrowthChart: this.props.GenericHealthProfile })
+
+        await this.setState({
+            loader: false
+        })
+    }
+    openModal = () => {
+        this.setState({modal:true})
+    }
     render() {
         return (
 
@@ -64,64 +112,99 @@ class Visit extends Component {
                                 this.setState({
                                     toggle: false
                                 })
+                                AsyncStorage.setItem('toggle', 'false')
+
                             }
 
                         }}
                     />
                 </View>
                 {this.state.toggle ? <DataHidden /> :
-                    <View style={{ height: hp('80%') }} >
-                        <FlatList
-                            key={(item) => { item.id }}
-                            showsVerticalScrollIndicator={false}
-                            nestedScrollEnabled
-                            data={[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
-                            renderItem={({ item, index }) => (
-                                <View style={VisitsStyle.card}>
-                                    <Image source={images[index % images.length]}
-                                        style={VisitsStyle.img} />
-                                    {
-                                        images[index % images.length] == 16 ?
-                                            <View >
-                                                <Text style={VisitsStyle.title}>
-                                                    الأدوية المصروفة في الثلاث شهور الماضية
-                                        </Text>
-                                                <TouchableOpacity style={VisitsStyle.btn}>
-                                                    <Text style={{
-                                                        fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginTop: -5, color: g.Blue,
-                                                        fontSize: 18
-                                                    }}> {i18n.t(g.OFFER_BTN)} </Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                            :
-                                            images[index % images.length] == 17 ?
-                                                <View >
-                                                    <Text style={VisitsStyle.title}>
-                                                        التطعيمات
-                                            </Text>
-                                                    <TouchableOpacity style={VisitsStyle.btn}
-                                                        onPress={() => {
-                                                            this.setState({
-                                                                modal: !this.state.modal
-                                                            })
-                                                        }}
-                                                    >
-                                                        <Text style={VisitsStyle.offer}> {i18n.t(g.OFFER_BTN)} </Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                                :
-                                                <View style={{ flexDirection: 'column' }}>
-                                                    <Text style={VisitsStyle.title}>
-                                                        الأمراض المزمنة </Text>
-                                                    <Text style={VisitsStyle.txt}>
-                                                        ارتفاع ضغط الدم
-                                                        ارتفاع مستوي السكر في الدم داء السكري
-                                  </Text>
-                                                </View>
-                                    }
-                                </View>
-                            )} />
-                    </View>
+                    this.state.loader ?
+                        <View style={{ marginTop: hp('35') }}>
+                            <Spinner />
+                        </View>
+                        :
+
+                        <ScrollView >
+                            <RenderCard
+                                title={'الامراض المزمنة'}
+                                show={'no'}
+                                data={this.state.HealthProfileChronicDiseases}
+                                image={images[0]}
+                            />
+                            <RenderCard
+                                title={'الادوية الممنوعة'}
+                                show={'no'}
+                                data={this.state.HealthProfileCIMedecines}
+                                image={images[1]}
+                            />
+
+                            <RenderCard
+                                title={'عمليات جراحية'}
+                                show={'no'}
+                                data={this.state.GenericHealthProfile.surgicalProcedures}
+                                image={images[2]}
+                            />
+
+                            <RenderCard
+                                title={'الاجراءات الغير جراحية'}
+                                show={'no'}
+                                data={this.state.GenericHealthProfile.nonInvasiveProcedures}
+                                image={images[3]}
+                            />
+
+                            <RenderCard
+                                title={'الحساسية'}
+                                show={'no'}
+                                data={this.state.GenericHealthProfile.allergies}
+                                image={images[4]}
+                            />
+
+                            <RenderCard
+                                title={'الامراض الوراثية'}
+                                show={'no'}
+                                data={this.state.GenericHealthProfile.genetics}
+                                image={images[5]}
+                            />
+
+
+                            <RenderCard
+                                title={'تاريخ العائلة'}
+                                show={'no'}
+                                data={this.state.GenericHealthProfile.familyHistory}
+                                image={images[6]}
+                            />
+
+                            <RenderCard
+                                title={'الأدوية المصروفة في الثلاث شهور الماضية'}
+                                show={'yes'}
+                                 data={this.state.HealthProfilePrescribedMedicines}
+                                image={images[7]}
+                            />
+
+                            <RenderCard
+                                title={'التطعيمات'}
+                                show={'yes'}
+                                data={this.state.GenericHealthProfile.vaccinations}
+                                image={images[8]}
+                                openModal={this.openModal}
+                            />
+
+                            <RenderCard
+                                title={'حامل'}
+                                show={'no'}
+                                data={this.state.GenericHealthProfile.pregnant == false ? 'لا' : 'نعم'}
+                                image={images[9]}
+                            />
+
+                            <RenderCard
+                                title={'مرضع'}
+                                show={'no'}
+                                data={this.state.GenericHealthProfile.breastFeeding == false ? 'لا' : 'نعم'}
+                                image={images[10]}
+                            />
+                        </ScrollView>
                 }
 
                 <ModalReactNative
@@ -188,6 +271,7 @@ class Visit extends Component {
                                             ModalAlert: false,
                                             toggle: true
                                         })
+                                        AsyncStorage.setItem('toggle', 'true')
                                     }}
                                     style={{
                                         fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
@@ -224,6 +308,9 @@ class Visit extends Component {
                 <Modal
                     isOpen={this.state.modal}
                     swipeToClose={true}
+                    onClosed={() => {
+                      this.setState({modal:false})  
+                    }}
                     backButtonClose={true}
                     coverScreen={true}
                     style={{
@@ -271,7 +358,11 @@ class Visit extends Component {
                                     }}
                                 />
                             </View>
-                            <ModalVaccinations />
+                            <ModalVaccinations
+                                vaccine={this.state.ChildVaccination}
+                                ChildGrowth={this.state.ChildGrowthChart}
+                            
+                            />
                         </View>
                     </View>
 
@@ -282,4 +373,12 @@ class Visit extends Component {
 
     }
 }
-export default withNavigation(Visit);
+const mapStateToProps = state => {
+    return {
+        GenericHealthProfile: state.GenericHealthProfile.GenericHealthProfile,
+
+    }
+}
+
+export default connect(mapStateToProps, { Get_GenericHealthProfile })(withNavigation(Visit));
+

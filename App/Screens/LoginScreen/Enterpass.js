@@ -8,14 +8,22 @@ import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
 import g from '../../Gloabal';
 
+import Spinner from '../../Navigation/Spinner'
+import { connect } from 'react-redux'
+import { Reset_Pass } from '../../Actions/resetPass_action';
+import Toast from 'react-native-easy-toast'
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+
 class Enterpass extends Component {
     constructor(props) {
         super(props);
         this.state = {
             show: true,
             password: '', confirm_pass: ' ', show_confirm: true,
+            token: this.props.navigation.getParam('token')
         };
     }
+
 
     render() {
         return (
@@ -111,16 +119,56 @@ class Enterpass extends Component {
                         backgroundColor: this.state.password == this.state.confirm_pass &&
                             (this.state.password != '' || this.state.confirm_pass != '')
                             ? g.Bold_blue : g.Gray
-                    }]} onPress={() => {
+                    }]} onPress={async () => {
                         //alert(this.state.password)
-                        this.props.navigation.navigate('')
+                        await this.props.Reset_Pass(this.state.token,
+                            this.state.password,
+                            this.state.confirm_pass)
+                        this.toast.show(this.props.message, 1)
+                        if (this.props.message == 'Password reset successful, you can now login')
+                            setTimeout(() => {
+                                this.props.navigation.navigate('LoginScreen')
+                            }, 1000);
                     }}>
                     <Text style={styles.txt_btn}>{g.CONFIRM_PASS}</Text>
                 </TouchableOpacity>
 
+                {this.props.loading ?
+                    <View style={styles.SpinnerTopForget}>
+                        <Spinner />
+                    </View>
+
+                    : null}
+                <Toast
+                    ref={(toast) => this.toast = toast}
+                    style={{
+                        backgroundColor: '#000',
+                        width: widthPercentageToDP('85'),
+                        justifyContent: 'center',
+                        alignItems: 'center',
+
+                    }}
+                    positionValue={200}
+                    fadeInDuration={120}
+                    fadeOutDuration={1000}
+                    textStyle={{
+                        color: 'white',
+                        fontFamily: g.Regular,
+                        textAlign: 'center'
+                    }}
+                />
             </View>
         );
 
     }
 }
-export default withNavigation(Enterpass);
+const mapStateToProps = state => {
+    return {
+        message: state.resetPass.message,
+        loading: state.resetPass.loading,
+
+    }
+}
+
+export default connect(mapStateToProps, { Reset_Pass })(withNavigation(Enterpass));
+
