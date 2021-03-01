@@ -27,7 +27,7 @@ class SearchList extends Component {
             Title: '', Irea: '', icon: '',
             heightWithScroll: g.windowHeight,
             modal: false, loading_stop: 1,
-            pharmaID:0
+            pharmaID: 0
         }
     }
     _callApi = async (countryId, cityID) => {
@@ -47,6 +47,9 @@ class SearchList extends Component {
 
     }
 
+    cloaseModal = () => {
+        this.setState({ modal: false })
+    }
     componentDidMount() {
         this._get_Design_Of_ONE_SCREEN()
     }
@@ -74,6 +77,10 @@ class SearchList extends Component {
         else if (TITLE == g.PHARMA_TITLE)
             this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, 1, 1)
 
+        else if (TITLE == g.ROSHETA_NAME) {
+            await this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, countryId, cityId)
+            // alert(JSON.stringify(this.props.lab_rad))
+        }
         else null
     }
 
@@ -92,6 +99,10 @@ class SearchList extends Component {
             this.props.Get_LAB_RAD_PAHRMA_Search('RadiologyCenterSearch', Filter_name, countryId, cityId)
         }
         else if (TITLE == g.PHARMA_TITLE) {
+            await this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, countryId, cityId)
+            // alert(JSON.stringify(this.props.lab_rad))
+        }
+        else if (TITLE == g.ROSHETA_NAME) {
             await this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, countryId, cityId)
             // alert(JSON.stringify(this.props.lab_rad))
         }
@@ -123,7 +134,10 @@ class SearchList extends Component {
                 {
                     this.state.Title == g.ROSHETA_NAME ?
                         <Text style={[style.Title,
-                        { marginLeft: wp('40%'), marginTop: hp('1%'), width: wp('50') }]}>
+                        {
+                            marginTop: hp('1%'), textAlign: 'right',
+                            marginLeft: 'auto', paddingHorizontal: 20, width: wp('100')
+                        }]}>
                             {g.CHOOSE_PHARMACY} </Text>
                         : null
                 }
@@ -175,42 +189,44 @@ class SearchList extends Component {
                                                 <Image source={this.state.icon}
                                                     style={{ width: 30, height: 30, marginTop: 0 }} />
                                             </View>
-                                            <TouchableOpacity onPress={async() => {
+                                            <TouchableOpacity onPress={async () => {
                                                 //    alert(this.state.Title)
                                                 if (this.state.Title == g.ROSHETA_NAME) {
-
-                                                    this.props.navigation.navigate('DispenseScreen')
+                                                    this.props.navigation.navigate('DispenseScreen', {
+                                                        'pharmaName': item.nameAr == null ? 'بدون اسم' : item.nameAr,
+                                                        'pharmaID': item.pharamcyId
+                                                    })
                                                 }
                                                 if ((this.state.Title == g.PHARMA_TITLE)) {
                                                     //   alert(g.PHRMA_NAME+'  '+ g.PHARMA_TITLE)
-                                                 await   this.setState({
+                                                    await this.setState({
                                                         modal: !this.state.modal,
-                                                        pharmaID:item.pharamcyId
-                                                 })
-                                                    console.log('pharmaID'+this.state.pharmaID);
+                                                        pharmaID: item.pharamcyId
+                                                    })
+                                                    console.log('pharmaID' + this.state.pharmaID);
 
                                                 }
                                             }}>
                                                 <Text style={style.doctor_name}>
-                                                    {this.state.Title == g.DOCTOR_TITLE ? item.doctorTitleAr+' '+item.doctorFullNameAr
+                                                    {this.state.Title == g.DOCTOR_TITLE ? item.doctorTitleAr + ' ' + item.doctorFullNameAr
                                                         : item.nameAr
-            
-                                                }
+
+                                                    }
                                                 </Text>
-                                                
+
                                                 {this.state.Title == g.DOCTOR_TITLE ?
                                                     <Text style={[style.doctor_name, { color: 'black', fontFamily: g.Regular }]}>
-                                                        {item.titlePreSpecialityAR+' '+item.doctorSpecialityAr} </Text>
+                                                        {item.titlePreSpecialityAR + ' ' + item.doctorSpecialityAr} </Text>
                                                     : null}
-                                                
+
                                                 <View style={{ flexDirection: 'row' }}>
                                                     <Text style={[style.doctor_name, { color: g.Gray, fontFamily: g.Regular }]}>
-                                                        {this.state.Title == g.DOCTOR_TITLE ||g.PHARMA_TITLE?
-                                                            item.street+' '+item.cityAr +' '+item.governateAr
+                                                        {this.state.Title == g.DOCTOR_TITLE || g.PHARMA_TITLE ?
+                                                            item.street + ' ' + item.cityAr + ' ' + item.governateAr
                                                             :
-                                                            item.street+' '+item.cityNameAr +' '+item.governateNameAr
-                                                            }
-                                                        </Text>
+                                                            item.street + ' ' + item.cityNameAr + ' ' + item.governateNameAr
+                                                        }
+                                                    </Text>
                                                     <Icon name="location-pin" type="MaterialIcons"
                                                         style={[style.arrow, { marginTop: 5, color: g.Gray }]} />
                                                 </View>
@@ -220,11 +236,11 @@ class SearchList extends Component {
                                                         color: g.Gray,
                                                         fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
                                                     }]}>
-                                                    {this.state.Title == g.DOCTOR_TITLE ?
+                                                        {this.state.Title == g.DOCTOR_TITLE ?
                                                             item.clinicPhoneNumber
                                                             :
                                                             item.phoneNumber
-                                                            }    
+                                                        }
                                                     </Text>
                                                     <Icon name="call" type="Ionicons" style={style.call} />
                                                 </View>
@@ -281,7 +297,7 @@ class SearchList extends Component {
                                     }}
                                 />
                             </View>
-                            <ModalCreateRequest />
+                            <ModalCreateRequest pharamcyId={this.state.pharmaID} cloaseModal={this.cloaseModal} />
                         </View>
                     </View>
 

@@ -171,16 +171,15 @@ class newUser extends Component {
                             flexDirection: 'row', paddingHorizontal: 25,
                             justifyContent: 'space-between'
                         }}>
-                            <View style={{ width: 25 }} />
 
-                            <Text style={[styleLogin.change, { fontSize: 18 }]}>
+                            <Text style={[styleLogin.change, { marginLeft: wp('22%'),fontSize: 18, }]}>
                                 {g.SIGNUP}
                             </Text>
                             <Icon name="arrowright" type="AntDesign"
                                 onPress={() => {
                                     this.props.navigation.pop()
                                 }}
-                                style={[styleLogin.arrow, ]} />
+                                style={[styleLogin.arrow,{marginLeft: -40} ]} />
                         </View>
 
                         <View style={{

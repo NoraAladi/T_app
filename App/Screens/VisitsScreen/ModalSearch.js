@@ -3,19 +3,13 @@ import style from '../SearchScreen/style';
 
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, ImageBackground,
-    I18nManager, Modal, KeyboardAvoidingView, FlatList, Dimensions, Image
+    Text, View, TextInput,
+    TouchableOpacity,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import AsyncStorage from '@react-native-community/async-storage';
-import {
 
-    UIActivityIndicator,
-} from 'react-native-indicators';
 import CountryRegion from '../../Navigation/CountryRegion';
 
 
@@ -24,7 +18,8 @@ class ModalSearch extends Component {
         super(props);
         this.state = {
             details_component: true,
-            search_component: false
+            search_component: false,
+            search:''
         };
     }
 
@@ -73,9 +68,12 @@ class ModalSearch extends Component {
                     onPress={async () => {
                         this.props.navigation.navigate('SearchListScreen' , {
 
-                            'TITLE' : g.ROSHETA_NAME , 'IREA' : g.PHARMA_IREA ,
+                            'TITLE': g.ROSHETA_NAME,
+                            'IREA': g.PHARMA_IREA,
                             'color' : g.Move ,
-                            'icon' : require('../../Images/listfour.png') , 
+                            'icon': require('../../Images/listfour.png'), 
+                            'Filter_name': this.state.search
+
     
                         })
                         this.props.closeModal()

@@ -1,29 +1,23 @@
-import styleLogin from '../LoginScreen/style';
 import headerStyle from '../DealsScreen/style';
 
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, ImageBackground,
-    I18nManager, KeyboardAvoidingView, FlatList, Dimensions, Image
+    Text, View, ScrollView, 
+    TouchableOpacity, Platform,  Dimensions, Image
 
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
 
     UIActivityIndicator,
 } from 'react-native-indicators';
-import BottomSheet from 'reanimated-bottom-sheet';
 import UserFooter from '../../Navigation/UserFooter';
 import Medical_Status from './Medical_Status';
 import Tretment from './Tretment';
 import Reportes from './Reportes';
-import VisitsStyle from './VisitsStyle';
-import { ArabicNumbers } from 'react-native-arabic-numbers';
 import Modal from 'react-native-modalbox';
 import ModalAddUser from '../../Navigation/ModalAddUser';
 class Visits extends Component {

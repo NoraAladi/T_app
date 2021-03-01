@@ -14,6 +14,7 @@ export const new_Register = (
     return async (dispatch) => {
         dispatch({ type: 'NEW_REGISTER_ATTEMPT' });
         const id = await AsyncStorage.getItem('LOGIN_ID')
+        const Token = await AsyncStorage.getItem('app_Token');
 
         try {
             // alert(
@@ -25,11 +26,13 @@ export const new_Register = (
 
             const response = await axios({
                 method: 'POST',
-                url: `${g.BASE_URL}/api/PatientProfile/register-newdependant?parentId=${id}`,
+                url: `${g.BASE_URL}/api/PatientProfile/register-newdependant`,
                 headers: {
                     'accept': 'text/plain',
                     'Content-Type': 'application/json-patch+json',
                     'authorizationKey': g.authorizationKey,
+                    'Authorization': `Bearer ${Token}`,
+
 
                 },
                 data:

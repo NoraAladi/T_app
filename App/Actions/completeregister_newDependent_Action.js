@@ -37,13 +37,14 @@ export const completeRegisterDependent = (
                 "healthProfile": healthProfile
             }
 
-            let resp = await axios.put(`${g.BASE_URL}/api/PatientProfile/completeregister-newdependant?parentId=${ID}`, data,
+            let resp = await axios.put(`${g.BASE_URL}/api/PatientProfile/completeregister-newdependant`, data,
                 {
                     headers:
                     {
                         'accept': 'text/plain',
                         'Content-Type': 'application/json-patch+json',
                         'authorizationKey': g.authorizationKey,
+                        'Authorization': `Bearer ${Token}`,
 
 
                     }
