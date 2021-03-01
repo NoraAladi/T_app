@@ -38,6 +38,8 @@ import resetPass_Reducer from './resetPass_Reducer';
 import del_dependent_Reducer from './del_dependent_Reducer';
 import GenericReducer from './GenericReducer';
 import getReports_Reducer from './getReports_Reducer';
+import postOrederReducer from './postOrederReducer';
+import getPrescribed_Reducer from './getPrescribed_Reducer';
 
 
 
@@ -80,5 +82,7 @@ export default combineReducers({
     resetPass: resetPass_Reducer,
     delDependent: del_dependent_Reducer,
     GenericHealthProfile: GenericReducer,
-    reportDetails:getReports_Reducer,
+    reportDetails: getReports_Reducer,
+    orderResponse: postOrederReducer,
+    Prescribed:getPrescribed_Reducer,
 });

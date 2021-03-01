@@ -40,7 +40,9 @@ class ModalAddUser extends Component {
                     // this.setState({
                     //     modal:!this.state.modal
                     // })
-                    this.props.navigation.navigate('NewUserScreen')
+                    this.props.navigation.navigate('PatientCodeScreen', {
+                        'dependents':'dependents'
+                    })
 
                 }}>
                 <View style={styles.center}>

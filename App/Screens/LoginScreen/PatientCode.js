@@ -27,7 +27,7 @@ class PatientCode extends Component {
         return (
             <View>
                 <View style={styles.patientContainer}>
-                    
+
                     <Icon name="arrowright" type="AntDesign"
                         onPress={() => {
                             this.props.navigation.pop()
@@ -36,7 +36,8 @@ class PatientCode extends Component {
                 </View>
 
                 <Text style={styles.login}>
-                    {g.QUESTION_CODE}
+                    {this.props.navigation.getParam('dependents') == 'dependents' ?
+                        'هل لديك كود المريض المضاف' : g.QUESTION_CODE}
                 </Text>
 
                 <Text style={styles.enter}>
@@ -62,7 +63,10 @@ class PatientCode extends Component {
 
                     <TouchableOpacity
                         style={styles.view2} onPress={() => {
-                            this.props.navigation.navigate('SignUpScreen')
+                            this.props.navigation.getParam('dependents') == 'dependents' ?
+                                this.props.navigation.navigate('NewUserScreen')
+                                :
+                                this.props.navigation.navigate('SignUpScreen')
                         }}>
                         <Text style={styles.txt1}>{g.NO}</Text>
                     </TouchableOpacity>
@@ -79,8 +83,12 @@ class PatientCode extends Component {
                             if (this.props.status == 200) {
                                 this.toast.show(this.props.message, 1000);
                                 setTimeout(() => {
-                                    this.props.navigation.navigate('SignUpHaveCode',
-                                        { 'patientCode':this.state.code})
+                                    this.props.navigation.getParam('dependents') == 'dependents' ?
+                                        this.props.navigation.navigate('NewUserScreen',
+                                            { 'patientCode': this.state.code })
+                                        :
+                                        this.props.navigation.navigate('SignUpHaveCode',
+                                            { 'patientCode': this.state.code })
                                 }, 1000);
 
                             }
@@ -94,15 +102,15 @@ class PatientCode extends Component {
                         <Text style={styles.txt3}>{g.YES}</Text>
                     </TouchableOpacity>
 
-                    
+
                 </View>
                 {
-                        this.props.loading ?
-                        <View style={ styles.SpinnerTopPatient}>
-                                <Spinner />
-                            </View>
-                     
-                            : null}
+                    this.props.loading ?
+                        <View style={styles.SpinnerTopPatient}>
+                            <Spinner />
+                        </View>
+
+                        : null}
                 <Toast
                     ref={(toast) => this.toast = toast}
                     style={{ backgroundColor: '#000' }}
@@ -121,7 +129,7 @@ const mapStateToProps = state => {
     return {
         status: state.patientCode.status,
         message: state.patientCode.message,
-        loading: state.patientCode.loading,        
+        loading: state.patientCode.loading,
     }
 }
 

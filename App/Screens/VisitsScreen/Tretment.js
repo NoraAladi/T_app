@@ -14,6 +14,7 @@ import { connect } from 'react-redux'
 import Spinner from '../../Navigation/Spinner'
 import { Get_visit } from '../../Actions/_get_visit';
 import { Get_visit_Details } from '../../Actions/_get_visit_details';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const colors = [g.Date1, g.Date1, g.Date1
@@ -71,6 +72,7 @@ class Tretment extends Component {
                                                     this.setState({
                                                         clinicId: item.clinicVisitId
                                                     })
+                                                    AsyncStorage.setItem('clinicId',String(item.clinicVisitId))
 
                                                 }}
                                             >

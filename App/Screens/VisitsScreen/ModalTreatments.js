@@ -2,9 +2,8 @@ import styleLogin from '../LoginScreen/style';
 import headerStyle from '../DealsScreen/style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, ImageBackground,
-    I18nManager, Modal, KeyboardAvoidingView, FlatList, Dimensions, Image
+    Text, View, ScrollView,
+    TouchableOpacity,  Image
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -239,8 +238,8 @@ class ModalTreatments extends Component {
                                                 <TouchableOpacity style={[styleLogin.btn, { marginTop: hp('3') }]}
                                                     onPress={async () => {
                                                         this.setState({
-                                                            //  details_component: false,
-                                                            //search_component: true
+                                                             details_component: false,
+                                                            search_component: true
                                                         })
                                                     }}>
                                                     <Text style={[styleLogin.txt_btn,]}>
@@ -253,7 +252,7 @@ class ModalTreatments extends Component {
                                     </View>
                                     :
 
-                                    <ModalSearch backModal={this.backModal} closeModal={this.closeModal} />
+                                    <ModalSearch backModal={this.backModal} closeModal={this.closeModal} clinicId={ this.props.clinicId}/>
 
                                 }
                             </View>

@@ -11,8 +11,14 @@ import g from '../../Gloabal';
 import Modal from 'react-native-modalbox';
 import axios from 'axios';
 import CheckBox from 'react-native-check-box'
+import AsyncStorage from '@react-native-community/async-storage';
+import { connect } from 'react-redux'
+import Spinner from '../../Navigation/Spinner'
+import { Post_order } from '../../Actions/PostOrderRequest';
+import Toast from 'react-native-easy-toast'
+import { withNavigation } from 'react-navigation';
 
-export default class ModalCreateRequest extends Component {
+class ModalCreateRequest extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,7 +36,10 @@ export default class ModalCreateRequest extends Component {
             ],
             medicineName: '',
             selectedID: 1,
-            selectIndex: 0
+            selectIndex: 0,
+            address: '',
+            additionalItems: '',
+            callMe: false
 
         };
     }
@@ -61,6 +70,11 @@ export default class ModalCreateRequest extends Component {
     }
 
     componentDidMount() {
+        AsyncStorage.getItem('user').then(val => {
+            this.setState({
+                address: JSON.parse(val).patient.address
+            })
+        })
         this.getMedicines()
     }
 
@@ -126,10 +140,8 @@ export default class ModalCreateRequest extends Component {
                                                                     specificItem.medicineId = this.state.selectedID
                                                                     specificItem.medicineName = item.medicineName;
                                                                     specificItem.quantity = this.state.quantity;
-
                                                                     items[this.state.selectIndex] = specificItem;
                                                                     await this.setState({ selectedMedicines: items });
-
                                                                     console.log(JSON.stringify(this.state.selectedMedicines))
                                                                 }
 
@@ -208,10 +220,10 @@ export default class ModalCreateRequest extends Component {
                                 <CheckBox
                                     onClick={() => {
                                         this.setState({
-                                            isChecked: !this.state.isChecked
+                                            callMe: !this.state.callMe
                                         })
                                     }}
-                                    isChecked={this.state.isChecked && this.state.selectedID == 0}
+                                    isChecked={this.state.callMe}
                                     checkBoxColor={g.Light_Gray}
                                     checkedCheckBoxColor={g.Light_Gray}
                                     leftText={g.CHECK_BOX_TEXT}
@@ -224,17 +236,33 @@ export default class ModalCreateRequest extends Component {
 
                             <View style={style.view5}>
                                 <TextInput
+                                    onChangeText={(val) => { this.setState({ additionalItems: val }) }}
                                     placeholder={g.WRITE_HERE}
                                     placeholderTextColor={g.Light_Gray}
                                     style={style.input} />
                             </View>
 
-                            <TouchableOpacity style={style.btn} onPress={() => {
+                            <TouchableOpacity style={style.btn} onPress={async () => {
                                 let pharmacyOrderDetail = this.state.selectedMedicines.map(function (item) {
                                     delete item.medicineName;
                                     return item;
                                 });
-                                console.log(pharmacyOrderDetail)
+                                await this.props.Post_order(this.props.pharamcyId,
+                                    this.state.additionalItems,
+                                    this.state.address,
+                                    null,
+                                    this.state.callMe,
+                                    pharmacyOrderDetail
+                                )
+                                if (this.props.orderResponse.status == 200) {
+                                    this.props.cloaseModal()
+                                    this.toast.show(this.props.orderResponse.data.message)
+                                    setTimeout(() => {
+                                        this.props.navigation.navigate('ThanksDispense')
+                                    }, 500);
+                                }
+                                else
+                                    this.toast.show(this.props.orderResponse.data.message)
 
                             }}>
                                 <Text style={style.txt_btn}>{g.SEND_REQUEST}</Text>
@@ -242,6 +270,15 @@ export default class ModalCreateRequest extends Component {
 
                         </ScrollView>
                         <View style={{ height: 50 }}></View>
+                        <Toast
+                            ref={(toast) => this.toast = toast}
+                            style={{ backgroundColor: '#000' }}
+                            //    position='center'
+                            positionValue={200}
+                            fadeInDuration={120}
+                            fadeOutDuration={1000}
+                            textStyle={{ color: 'white', fontFamily: g.Regular }}
+                        />
                     </TouchableOpacity>
                 </ScrollView>
 
@@ -274,8 +311,6 @@ export default class ModalCreateRequest extends Component {
                                         }}>
                                             <CheckBox
                                                 onClick={async () => {
-
-
                                                     let items = [...this.state.selectedMedicines];
                                                     let specificItem = { ...items[this.state.selectIndex] };
                                                     specificItem.medicineId = item.id;
@@ -315,3 +350,14 @@ export default class ModalCreateRequest extends Component {
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+        loading: state.orderResponse.loading,
+        orderResponse: state.orderResponse.orderResponse,
+
+
+    }
+}
+
+export default connect(mapStateToProps, { Post_order })(withNavigation(ModalCreateRequest));
+
