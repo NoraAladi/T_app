@@ -30,11 +30,11 @@ export const loginuser = ({ email, password }) => {
                 AsyncStorage.setItem('refreshToken', response.data.patient.refreshToken)
                 AsyncStorage.setItem('user',  JSON.stringify(response.data))
 
-
                 onhandleResponse(dispatch, response)
             }
         } catch (err) {
             // Handle Error Here
+            console.log(err.response.data);
             if (err.response.data.message) {
                 dispatch({ type: 'LOGIN_NOT', error: err.response.data.message })
 

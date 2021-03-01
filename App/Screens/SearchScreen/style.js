@@ -243,6 +243,11 @@ export default {
     textAlign: 'center', fontSize: 14,
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, padding: 10, width: wp('85%')
   },
+  inputMedicineName:
+  {
+    textAlign: 'left', fontSize: 14,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, padding: 10, width: wp('85%')
+  },
   view5:
   {
     height: hp('20%'), marginTop: hp('2%'), marginRight: 'auto',
@@ -316,6 +321,23 @@ export default {
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
     fontWeight: Platform.OS == "ios" ? "800" : null,
     textAlign: 'center', marginTop: 10
+  },
+  ModalContainer:
+  {
+    width: wp('80'), height: hp('40'),backgroundColor: 'white',
+    elevation: 4, borderRadius: 15, 
+    marginTop: hp('30%'),marginLeft: '10%',
   }
+  ,
+  modalText:
+  {
+    fontSize: 14, color: g.Gray, fontFamily: g.Regular, 
+    textAlign:'right', paddingHorizontal:  5,
+  },
+  titleModal:
+  {
+    fontSize: 16,  fontFamily: g.Bold, 
+    marginTop: hp('2%'),textAlign:'right', paddingHorizontal:  20,
+  },
 
 };

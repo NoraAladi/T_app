@@ -43,6 +43,14 @@ class SignUp extends Component {
     }
 
     componentDidMount() {
+        AsyncStorage.multiRemove([
+            'fullName', 'email',
+            'password', 'confirmPassword', 'date',
+            'sex', 'mobile', 'job', 'Jobname',
+            'address', 'region', 'isChecked',
+            'weight', 'height',
+            'smoking', 'married', 'pregnant'
+        ])
     }
 
     async getKeysData(keys) {
@@ -80,6 +88,7 @@ class SignUp extends Component {
 
                 if (this.props.status == 200) {
                     //alert(this.props.id)
+                   
                     this.setState({
                         createdUser_ID: this.props.id
                     })
@@ -99,11 +108,11 @@ class SignUp extends Component {
 
     async MedicalDataValidation() {
 
-       
+
 
         await this.getKeysData([
             'weight', 'height',
-            'smoking', 'married', 'pregnant'
+            'smoking', 'married', 'pregnant','email'
         ])
             .then(async (response) => {
                 console.log(response)
@@ -127,10 +136,13 @@ class SignUp extends Component {
                 )
                 if (this.props.statusComplete == 200) {
                     //alert(this.props.id)
-
+                   
                     this.toast.show('تم تسجيل البيانات الطبية بنجاح', 1000);
                     setTimeout(() => {
-                        this.props.navigation.replace('ThankUScreen')
+                        this.props.navigation.replace('VerificationScreen', {
+                            'flag': 'signUp',
+                            'email': response[5].email
+                        })
                     }, 1000);
                 }
                 else {

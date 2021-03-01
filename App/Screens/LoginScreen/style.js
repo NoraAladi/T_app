@@ -11,7 +11,7 @@ export default {
 
   arrow:
   {
-    color: g.BLACK, fontsize: 18, marginTop: hp('5%'), marginLeft: wp('85%')
+    color: g.BLACK, fontsize: 18, marginTop: hp('5%'), marginLeft: wp('80%')
   },
 
   show:

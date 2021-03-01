@@ -10,23 +10,23 @@ export const sign_up = (
     return async (dispatch) => {
         dispatch({ type: 'SIGN_UP_ATTEMPT' });
         try {
-            // alert
-            // ('fullNameAr : ' + fullNameAr + '\n' +
-            //     'dateofBirth : ' + dateofBirth + '\n' +
-            //     'gender : ' + gender + '\n' +
-            //     'mobileNumber : ' + mobileNumber + '\n' +
-            //     'profession : ' + profession + '\n' +
-            //     'jobFieldId : ' + jobFieldId + '\n' +
-            //     'cityId : ' + cityId + '\n' +
-            //     'addressDetails : ' + addressDetails + '\n' +
-            //     'email : ' + email + '\n' +
-            //     'password : ' + password + '\n' +
-            //     'confirmPassword : ' + confirmPassword + '\n' +
-            //     'acceptTerms : ' + acceptTerms + '\n'
-            // )
+            console.log
+            ('fullNameAr : ' + fullNameAr + '\n' +
+                'dateofBirth : ' + dateofBirth + '\n' +
+                'gender : ' + gender + '\n' +
+                'mobileNumber : ' + mobileNumber + '\n' +
+                'profession : ' + profession + '\n' +
+                'jobFieldId : ' + jobFieldId + '\n' +
+                'cityId : ' + cityId + '\n' +
+                'addressDetails : ' + addressDetails + '\n' +
+                'email : ' + email + '\n' +
+                'password : ' + password + '\n' +
+                'confirmPassword : ' + confirmPassword + '\n' +
+                'acceptTerms : ' + acceptTerms + '\n'
+            )
             let response = await axios({
                 method: 'POST',
-                url: `${g.BASE_URL}/api/Accounts/register-newpatient`,
+                url: `${g.BASE_URL}/api/Accounts/register-newpatient-token-inresponse`,
                 headers: {
                     'accept': 'text/plain',
                     'Content-Type': 'application/json-patch+json',
@@ -51,23 +51,33 @@ export const sign_up = (
             })
             console.log('----- SIGN UP -----');
             console.log(response.data);
+            console.log('----- code Verification -----');
+            console.log(response.data.token);
+
+            console.log(response.data);
             dispatch({
                 type: 'SIGN_UP_SUCCESS',
                 message: 'تم إنشاء المستخدم بنجاح',
                 status: response.status,
-                id: response.data.id
+                id: response.data.userId
             })
 
 
         } catch (error) {
-            console.log(error);
-            if (error.response) {
+            console.log(error.response.data);
+            if (error.response.data.message) {
                 dispatch({
                     type: 'SIGN_UP_FAIL',
-                    message: error.response.data.message.split('.')[0],
+                    message: error.response.data.message,
                     status: error.response.status
                 })
 
+            } else {
+                dispatch({
+                    type: 'SIGN_UP_FAIL',
+                    message: Object.values(error.response.data.errors)[0][0] ,
+                    status: error.response.status
+                })
             }
 
         }
