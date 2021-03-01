@@ -117,6 +117,8 @@ class OnBoard extends Component {
                     <View style={styles.slider}>
                         <View style={styles.Button} onStartShouldSetResponder={() => {
                             this.props.navigation.navigate('LoginScreen')
+                         //this.props.navigation.replace('VerificationScreen', { 'flag': 'signUp' })
+
                         }}>
                             <Text style={[styles.normalTxt, styles.specificMargin]}>{G.LOGIN}</Text>
                         </View>

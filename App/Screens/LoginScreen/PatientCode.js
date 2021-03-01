@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
 import { Get_PatientCode } from '../../Actions/patientCode_Action';
 import { connect } from 'react-redux'
@@ -28,8 +27,7 @@ class PatientCode extends Component {
         return (
             <View>
                 <View style={styles.patientContainer}>
-                    <Icon name="info" type="Feather"
-                        style={[styles.arrow]} />
+                    
                     <Icon name="arrowright" type="AntDesign"
                         onPress={() => {
                             this.props.navigation.pop()

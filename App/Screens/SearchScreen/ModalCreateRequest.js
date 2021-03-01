@@ -3,17 +3,13 @@ import style from './style';
 import React, { Component } from 'react';
 import {
     Text, View, ScrollView, TextInput,
-    TouchableOpacity, Platform, ImageBackground,
-    I18nManager, Modal, KeyboardAvoidingView, FlatList, Dimensions, Image, _View
+    TouchableOpacity, _View
 } from 'react-native';
 import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import AsyncStorage from '@react-native-community/async-storage';
-import {
-
-    UIActivityIndicator,
-} from 'react-native-indicators';
+import Modal from 'react-native-modalbox';
+import axios from 'axios';
 import CheckBox from 'react-native-check-box'
 
 export default class ModalCreateRequest extends Component {
@@ -21,8 +17,51 @@ export default class ModalCreateRequest extends Component {
         super(props);
         this.state = {
             quantity: 1,
-            isChecked: false
+            isChecked: false,
+            modal: false,
+            Medicines: [],
+            selectedMedicines: [
+                {
+                    "medicineId": 1,
+                    "medicineUsage": null,
+                    "quantity": 1,
+                    'medicineName': 'Med1'
+                }
+            ],
+            medicineName: '',
+            selectedID: 1,
+            selectIndex: 0
+
         };
+    }
+
+
+
+
+    async getMedicines() {
+        try {
+            let response = await axios.get(`${g.BASE_URL}/api/MasterData/SafeMedicines`,
+                {
+                    headers:
+                    {
+                        'accept': 'text/plain',
+                        'authorizationKey': g.authorizationKey,
+                    }
+                })
+            console.log('---- Call SAFE MEDICINE API ----');
+            console.log(response.data);
+            this.setState({
+                Medicines: response.data,
+                medicineName: response.data[0].medicineName
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
+    componentDidMount() {
+        this.getMedicines()
     }
 
     render() {
@@ -34,81 +73,135 @@ export default class ModalCreateRequest extends Component {
                             <Text style={[style.username1, { marginTop: hp('2%') }]}>
                                 {g.NAME_TYPE}
                             </Text>
-                            <View style={style.viewInput}>
-                                <Text
-                                    numberOfLines={1}
-                                    style={style.input1}>OxyContin: 500 MG FILM COATED TABLET, 500 MG</Text>
-                            </View>
 
-                            <View style={{
-                                flexDirection: 'row-reverse',
-                            }} >
-                                <Text style={[style.username1, { marginTop: hp('2.5%') }]}>
-                                    {g.QUANTITY}
-                                </Text>
-                                {/**Box counter */}
-                                <View style={{ padding: 10, }}>
-                                    <View style={{
-                                        flexDirection: 'row-reverse',
-                                        width: 135, height: 45,
-                                        borderRadius: 5, borderWidth: 1,
-                                        borderColor: g.Blue,
-                                        justifyContent: 'space-around',
-                                    }} >
-
-                                        {/**minues */}
-
-                                        <View style={{
-                                            alignItems: 'center', justifyContent: 'center',
-                                            borderLeftColor: g.Blue, borderLeftWidth: 1, width: 45
-                                        }} >
-                                            <TouchableOpacity onPress={() => {
-                                                if (this.state.quantity != 1) {
-                                                    this.setState({
-                                                        quantity: this.state.quantity - 1
+                            {
+                                this.state.selectedMedicines.map((item, index) => {
+                                    return (
+                                        <View>
+                                            <TouchableOpacity style={style.viewInput}
+                                                onPress={async () => {
+                                                    await this.setState({
+                                                        modal: true,
+                                                        selectIndex: index
                                                     })
-                                                }
-
-                                            }}>
-                                                <Icon name='minus' type='AntDesign'
-                                                    style={{ fontSize: 20, color: g.Blue }} />
+                                                }}
+                                            >
+                                                <Text
+                                                    numberOfLines={1}
+                                                    style={style.inputMedicineName}>{item.medicineName}</Text>
                                             </TouchableOpacity>
+
+                                            <View style={{
+                                                flexDirection: 'row-reverse',
+                                            }} >
+                                                <Text style={[style.username1, { marginTop: hp('2.5%') }]}>
+                                                    {g.QUANTITY}
+                                                </Text>
+                                                {/**Box counter */}
+                                                <View style={{ padding: 10, }}>
+                                                    <View style={{
+                                                        flexDirection: 'row-reverse',
+                                                        width: 135, height: 45,
+                                                        borderRadius: 5, borderWidth: 1,
+                                                        borderColor: g.Blue,
+                                                        justifyContent: 'space-around',
+                                                    }} >
+
+                                                        {/**minues */}
+
+                                                        <View style={{
+                                                            alignItems: 'center', justifyContent: 'center',
+                                                            borderLeftColor: g.Blue, borderLeftWidth: 1, width: 45
+                                                        }} >
+
+                                                            <TouchableOpacity onPress={async () => {
+                                                                if (this.state.quantity != 1) {
+                                                                    await this.setState({
+                                                                        selectIndex: index,
+                                                                        quantity: item.quantity - 1
+                                                                    })
+
+                                                                    let items = [...this.state.selectedMedicines];
+                                                                    let specificItem = { ...items[index] };
+                                                                    specificItem.medicineId = this.state.selectedID
+                                                                    specificItem.medicineName = item.medicineName;
+                                                                    specificItem.quantity = this.state.quantity;
+
+                                                                    items[this.state.selectIndex] = specificItem;
+                                                                    await this.setState({ selectedMedicines: items });
+
+                                                                    console.log(JSON.stringify(this.state.selectedMedicines))
+                                                                }
+
+                                                            }}>
+                                                                <Icon name='minus' type='AntDesign'
+                                                                    style={{ fontSize: 20, color: g.Blue }} />
+                                                            </TouchableOpacity>
+                                                        </View>
+
+                                                        {/**value */}
+                                                        <View style={{
+                                                            alignItems: 'center', justifyContent: 'center',
+                                                            width: 45
+                                                        }} >
+                                                            <Text style={{ fontSize: 18 }}>
+                                                                {this.state.selectedID == index ? this.state.quantity : item.quantity}
+                                                            </Text>
+                                                        </View>
+
+                                                        {/**plus */}
+                                                        <View style={{
+                                                            alignItems: 'center', justifyContent: 'center',
+                                                            borderRightColor: g.Blue, borderRightWidth: 1, width: 45
+                                                        }} >
+                                                            <TouchableOpacity onPress={async () => {
+                                                                await this.setState({
+                                                                    selectIndex: index,
+                                                                    quantity: item.quantity + 1
+                                                                })
+
+                                                                let items = [...this.state.selectedMedicines];
+                                                                let specificItem = { ...items[index] };
+                                                                specificItem.medicineId = this.state.selectedID;
+                                                                specificItem.medicineName = item.medicineName;
+                                                                specificItem.quantity = this.state.quantity;
+
+                                                                items[this.state.selectIndex] = specificItem;
+                                                                await this.setState({ selectedMedicines: items });
+
+                                                                console.log(JSON.stringify(this.state.selectedMedicines))
+                                                            }}>
+                                                                <Icon name='plus' type='AntDesign'
+                                                                    style={{ fontSize: 20, color: g.Blue }} />
+                                                            </TouchableOpacity>
+                                                        </View>
+
+
+                                                    </View>
+                                                </View>
+                                            </View>
                                         </View>
+                                    );
+                                })
+                            }
+                            <TouchableOpacity onPress={async () => {
+                                await this.setState({
+                                    selectIndex: 0,
+                                    quantity: 1,
+                                    selectedMedicines: [...this.state.selectedMedicines, {
+                                        "medicineId": 1,
+                                        "medicineUsage": null,
+                                        "quantity": 1,
+                                        'medicineName': 'Med1'
 
-                                        {/**value */}
-                                        <View style={{
-                                            alignItems: 'center', justifyContent: 'center',
-                                            width: 45
-                                        }} >
-                                            <Text style={{ fontSize: 18 }}>
-                                                {this.state.quantity}
-                                            </Text>
-                                        </View>
-
-                                        {/**plus */}
-                                        <View style={{
-                                            alignItems: 'center', justifyContent: 'center',
-                                            borderRightColor: g.Blue, borderRightWidth: 1, width: 45
-                                        }} >
-                                            <TouchableOpacity onPress={() => {
-                                                this.setState({
-                                                    quantity: this.state.quantity + 1
-                                                })
-                                            }}>
-                                                <Icon name='plus' type='AntDesign'
-                                                    style={{ fontSize: 20, color: g.Blue }} />
-                                            </TouchableOpacity>
-                                        </View>
-
-
-                                    </View>
-                                </View>
-                            </View>
-
-                            <Text style={[style.username1, style.add, { fontFamily: g.Bold }]}>
-                                {g.ADD}
-                            </Text>
-
+                                    }]
+                                })
+                                console.log(JSON.stringify(this.state.selectedMedicines))
+                            }}>
+                                <Text style={[style.username1, style.add, { fontFamily: g.Bold }]}>
+                                    {g.ADD}
+                                </Text>
+                            </TouchableOpacity>
                             <View />
 
                             <View style={{ padding: 30, }}>
@@ -118,7 +211,7 @@ export default class ModalCreateRequest extends Component {
                                             isChecked: !this.state.isChecked
                                         })
                                     }}
-                                    isChecked={this.state.isChecked}
+                                    isChecked={this.state.isChecked && this.state.selectedID == 0}
                                     checkBoxColor={g.Light_Gray}
                                     checkedCheckBoxColor={g.Light_Gray}
                                     leftText={g.CHECK_BOX_TEXT}
@@ -137,18 +230,86 @@ export default class ModalCreateRequest extends Component {
                             </View>
 
                             <TouchableOpacity style={style.btn} onPress={() => {
-                               
+                                let pharmacyOrderDetail = this.state.selectedMedicines.map(function (item) {
+                                    delete item.medicineName;
+                                    return item;
+                                });
+                                console.log(pharmacyOrderDetail)
 
                             }}>
                                 <Text style={style.txt_btn}>{g.SEND_REQUEST}</Text>
                             </TouchableOpacity>
+
                         </ScrollView>
-
-
-
                         <View style={{ height: 50 }}></View>
                     </TouchableOpacity>
                 </ScrollView>
+
+                <Modal
+                    isOpen={this.state.modal}
+                    swipeToClose={false}
+                    backButtonClose={true}
+                    coverScreen={true}
+                    style={{
+                        width: g.windowWidth,
+                        height: g.windowHeight,
+                        backgroundColor: '#00000001',
+                    }}
+                    onClosed={() => {
+                        this.setState({ modal: false })
+                    }}
+                >
+                    <View style={style.ModalContainer}>
+                        <Text style={[style.titleModal]}>
+                            {g.NAME_TYPE}
+                        </Text>
+                        <ScrollView nestedScrollEnabled
+                            style={{ height: hp('40') }}>
+                            {
+                                this.state.Medicines.map((item, index) => {
+                                    return (
+
+                                        <View style={{
+                                            paddingHorizontal: 25, marginTop: hp('1'),
+                                        }}>
+                                            <CheckBox
+                                                onClick={async () => {
+
+
+                                                    let items = [...this.state.selectedMedicines];
+                                                    let specificItem = { ...items[this.state.selectIndex] };
+                                                    specificItem.medicineId = item.id;
+                                                    specificItem.medicineName = item.medicineName;
+                                                    specificItem.quantity = this.state.quantity;
+
+                                                    items[this.state.selectIndex] = specificItem;
+                                                    await this.setState({ selectedMedicines: items });
+
+                                                    console.log(JSON.stringify(this.state.selectedMedicines));
+                                                    await this.setState({
+                                                        selectedID: item.id,
+                                                        medicineName: item.medicineName,
+                                                        modal: false,
+                                                    })
+
+
+                                                }}
+                                                isChecked={this.state.selectedID == item.id}
+                                                checkBoxColor={g.Light_Gray}
+                                                //    checkedCheckBoxColor={g.Light_Gray}
+                                                leftText={item.medicineName}
+                                                leftTextStyle={[style.modalText,]}
+                                            />
+                                        </View>
+
+                                    );
+                                })
+                            }
+                            <View style={{ height: hp('2') }} />
+
+                        </ScrollView>
+                    </View>
+                </Modal>
             </View>
 
         );

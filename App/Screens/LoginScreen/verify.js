@@ -34,15 +34,18 @@ import { forget_pass } from '../../Actions/forget_pass';
 
 const { Value, Text: AnimatedText } = Animated;
 
-const CELL_COUNT = 5;
-const source = require('../../Images/succSign.png');
-
-const animationsColor = [...new Array(CELL_COUNT)].map(() => new Value(0));
-const animationsScale = [...new Array(CELL_COUNT)].map(() => new Value(1));
 
 
 
 const Verification = ({ navigation }) => {
+
+    const CELL_COUNT = navigation.getParam('flag') ? 6 : 5;
+    const source = require('../../Images/succSign.png');
+
+    const animationsColor = [...new Array(CELL_COUNT)].map(() => new Value(0));
+    const animationsScale = [...new Array(CELL_COUNT)].map(() => new Value(1));
+
+
     const [value, setValue] = useState('');
     const [loader, setLoader] = useState(false);
     const toast = useRef();
@@ -91,7 +94,7 @@ const Verification = ({ navigation }) => {
             setLoader(false)
             toast.current.show(response.data.message, 1000);
             setTimeout(() => {
-                navigation.navigate('EnterpassScreen',{'token':value})
+                navigation.navigate('EnterpassScreen', { 'token': value })
             }, 1000);
 
         } catch (error) {
@@ -108,6 +111,38 @@ const Verification = ({ navigation }) => {
         }
 
     }
+
+    const verifyApiSignUp = async () => {
+        Keyboard.dismiss()
+        setLoader(true)
+        try {
+            let response = await axios.get(`${G.BASE_URL}/api/Accounts/verify-email?token=${value}`,
+                {
+                    headers:
+                    {
+                        'accept': 'text/plain',
+                        'authorizationKey': G.authorizationKey,
+
+                    }
+                })
+            console.log('---- Call Verification API ----');
+            console.log(response.data);
+            setLoader(false)
+            toast.current.show(response.data.message, 1000);
+            setTimeout(() => {
+                navigation.navigate('ThankUScreen')
+            }, 1000);
+
+        } catch (error) {
+            setLoader(false)
+            console.log(error.response);
+            toast.current.show(error.response.data.message, 1000);
+        }
+
+    }
+
+
+
 
     const renderCell = ({ index, symbol, isFocused }) => {
         const hasValue = Boolean(symbol);
@@ -171,11 +206,17 @@ const Verification = ({ navigation }) => {
                         // keyboardType="number-pad"
                         textContentType="oneTimeCode"
                         onSubmitEditing={() => {
-                            verifyApi()
+                            if (navigation.getParam('flag'))
+                                verifyApiSignUp()
+                            else
+                                verifyApi()
                         }}
                         onEndEditing={() => {
-                            if (value.length === 5) {
-                                verifyApi()
+                            if (value.length === CELL_COUNT) {
+                                if (navigation.getParam('flag'))
+                                    verifyApiSignUp()
+                                else
+                                    verifyApi()
                             }
                         }}
                         renderCell={renderCell}

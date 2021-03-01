@@ -18,6 +18,7 @@ import { connect } from 'react-redux'
 import Spinner from '../../Navigation/Spinner'
 import { Get_Reportes } from '../../Actions/_get_reportes';
 import moment from 'moment'
+import { get_reportDetails } from '../../Actions/get_reportDetails';
 
 const colors = [g.Date1, g.Date1, g.Date1
     , g.Date2, g.Date2, g.Date3, g.Date4, g.Date4, g.Date4]
@@ -28,7 +29,8 @@ class Reportes extends Component {
         this.state = {
             tab_1: true,
             tab_2: false,
-            modal: false
+            modal: false,
+            date: moment().format('DD-MM-YYYY')
         }
 
     }
@@ -128,9 +130,11 @@ class Reportes extends Component {
                                     renderItem={({ item, index }) => (
                                         <View style={{ flexDirection: 'row', marginLeft: 10 }}>
                                             <TouchableWithoutFeedback
-                                                onPress={() => {
+                                                onPress={async () => {
+                                                    await this.props.get_reportDetails(item.reportType, item.reportIds)
                                                     //   this.props.handlePress()
                                                     this.setState({
+                                                        date: moment(item.clinicVisitDate).format('YYYY-MM-DD'),
                                                         modal: !this.state.modal
                                                     })
                                                 }}>
@@ -250,9 +254,9 @@ class Reportes extends Component {
 
                     <View>
                         <View style={{
-                            backgroundColor: g.white, height: g.windowHeight - 250,
+                            backgroundColor: g.white, height: g.windowHeight - 50,
                             borderTopLeftRadius: 35, borderTopRightRadius: 35,
-                            marginTop: g.windowHeight - (g.windowHeight - 250),
+                            marginTop: g.windowHeight - (g.windowHeight - 50),
                         }}>
                             <View
                                 onStartShouldSetResponder={() => {
@@ -287,7 +291,9 @@ class Reportes extends Component {
                                     }}
                                 />
                             </View>
-                            <ModalReportes />
+                            <ModalReportes reportDetails={this.props.reportDetails}
+                                date={this.state.date}
+                            />
                         </View>
                     </View>
 
@@ -302,11 +308,12 @@ const mapStateToProps = state => {
     return {
         loading: state.report.loading,
         reportes: state.report.reportes,
+        reportDetails: state.reportDetails.reportDetails,
 
         user: state.auth.user,
 
     }
 }
 
-export default connect(mapStateToProps, { Get_Reportes })(withNavigation(Reportes));
+export default connect(mapStateToProps, { Get_Reportes, get_reportDetails })(withNavigation(Reportes));
 
