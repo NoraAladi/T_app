@@ -2,7 +2,7 @@ import styles from './style';
 import React, { Component } from 'react';
 import {
     Text, View, TextInput,
-    TouchableOpacity, Platform, Keyboard
+    TouchableOpacity, Keyboard
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';

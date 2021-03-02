@@ -43,9 +43,11 @@ class RenderCard extends Component {
                                 </Text>
                                 <TouchableOpacity style={VisitsStyle.btn}
                                     onPress={() => {
-                                        this.props.title=='التطعيمات'?
-                                            this.props.openModal()
-                                            :null
+                                        this.props.title == 'التطعيمات' ?
+                                            this.props.openModal(true)
+                                            : this.props.title == 'الأدوية المصروفة في الثلاث شهور الماضية' ?
+                                                this.props.openModal(false)
+                                                : null
                                     }}
                                 >
                                     <Text style={VisitsStyle.offer}> {i18n.t(g.OFFER_BTN)} </Text>
@@ -56,7 +58,7 @@ class RenderCard extends Component {
                                 <Text style={VisitsStyle.title}>
                                     {this.props.title}
                                 </Text>
-                                {this.props.data == ''||this.props.data == null ?
+                                {this.props.data == '' || this.props.data == null ?
                                     <Text style={VisitsStyle.txt}
                                     >
                                         {'لا يوجد'}
@@ -68,25 +70,25 @@ class RenderCard extends Component {
                                         </Text>
                                         :
                                         this.props.title == 'الامراض المزمنة' ?
-                                        this.props.data.map((item, index) => {
-                                        return (
-                                            <Text style={VisitsStyle.txt}
-                                                key={index}
-                                            >
-                                                {item.diseaseName}
-                                            </Text>
-                                        );
-                                    })
-                                        :
-                                        this.props.data.map((item, index) => {
-                                            return (
-                                                <Text style={VisitsStyle.txt}
-                                                    key={index}
-                                                >
-                                                    {item}
-                                                </Text>
-                                            );
-                                        })
+                                            this.props.data.map((item, index) => {
+                                                return (
+                                                    <Text style={VisitsStyle.txt}
+                                                        key={index}
+                                                    >
+                                                        {item.diseaseName}
+                                                    </Text>
+                                                );
+                                            })
+                                            :
+                                            this.props.data.map((item, index) => {
+                                                return (
+                                                    <Text style={VisitsStyle.txt}
+                                                        key={index}
+                                                    >
+                                                        {item}
+                                                    </Text>
+                                                );
+                                            })
 
                                 }
                             </View>

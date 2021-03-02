@@ -18,7 +18,11 @@ import {
 import MedicalData from '../SignupScreen/MedicalData';
 
 import { new_Register } from '../../Actions/newRegister_action';
+import { Put_DependentPersonal } from '../../Actions/Put_DependentPersonal_Action';
+
 import { completeRegisterDependent } from '../../Actions/completeregister_newDependent_Action';
+import { Put_DependentHealth } from '../../Actions/Put_DependentHealth_Action';
+
 
 import { connect } from 'react-redux'
 import Toast, { DURATION } from 'react-native-easy-toast'
@@ -35,17 +39,27 @@ class newUser extends Component {
             selected: false,
 
             newUserID: 120,
-            healthProfile: {}
-
+            healthProfile: {},
+            editID: 0
         };
     }
     componentDidMount() {
-        const { navigation } = this.props;
-        navigation.addListener('willFoucs', () => {
-            console.log("willFocus runs") // calling it here to make sure it is logged at every time screen is focused after initial start
-        });
+        
+        AsyncStorage.multiRemove([
+            'fullName', 'email',
+            'password', 'confirmPassword', 'date',
+            'sex', 'mobile', 'job', 'Jobname',
+            'address', 'region', 'isChecked',
+            'weight', 'height',
+            'smoking', 'married', 'pregnant'
+        ])
     }
 
+    setID = (id) => {
+        this.setState({
+            editID: id
+        })
+    }
     async getKeysData(keys) {
         const stores = await AsyncStorage.multiGet(keys);
         return stores.map(([key, value]) => ({ [key]: value }))
@@ -58,17 +72,33 @@ class newUser extends Component {
             'relation', 'jobName'])
             .then(async (response) => {
                 console.log(response)
+                if (this.props.navigation.getParam('edit') == 'edit' ||
+                    this.props.navigation.getParam('patientCode') 
+                ) {
 
-                await this.props.new_Register(
-                    response[0].sonName,
-                    response[1].date,
-                    response[3].jobName,
-                    parseInt(response[2].relation),
-                )
-                //      this.toast.show('تمت الاضافة بنجاح ', 1000);
-                this.setState({
-                    newUserID: this.props.newRegister.id
-                })
+                    await this.props.Put_DependentPersonal(
+                        this.state.editID,
+                        //  this.props.dependantPersonal,
+                        response[0].sonName,
+                        response[1].date,
+                        response[3].jobName,
+                        parseInt(response[2].relation),
+                    )
+                    if (this.props.putPersonalResponse.status == 200)
+                        this.toast.show('تم التعديل بيانات المستخدم بنجاح ', 1000);
+                }
+                else {
+                    await this.props.new_Register(
+                        response[0].sonName,
+                        response[1].date,
+                        response[3].jobName,
+                        parseInt(response[2].relation),
+                    )
+                    //      this.toast.show('تمت الاضافة بنجاح ', 1000);
+                    this.setState({
+                        newUserID: this.props.newRegister.id
+                    })
+                }
             })
 
         this.setState({
@@ -87,34 +117,61 @@ class newUser extends Component {
         ])
             .then(async (response) => {
                 console.log(response)
+
                 await this.setState({
                     healthProfile: {
-                        id: this.state.newUserID,
+                        id: this.props.navigation.getParam('edit') ||
+                            this.props.navigation.getParam('patientCode') ?
+                            this.state.editID :
+                            this.state.newUserID,
                         pregnant: response[4].pregnant == '0' ? true : false,
                         breastFeeding: response[4].pregnant == '0' ? true : false,
 
                     }
                 })
-
-                await this.props.completeRegisterDependent(
-                   parseInt(this.state.newUserID),
-                    response[0].weight,
-                    response[1].height,
-                    response[2].smoking == '0' ? true : false,
-                    response[3].married == '0' ? true : false,
-                    this.state.healthProfile
-
-                )
-                if (this.props.status == 200) {
-                    //alert(this.props.id)
-
-                    this.toast.show('تم تسجيل البيانات الطبية بنجاح', 1000);
-                    setTimeout(() => {
-                         this.props.navigation.replace('UserManagementScreen')
-                    }, 1000);
+                if (this.props.navigation.getParam('edit') ||
+                    this.props.navigation.getParam('patientCode') ) {
+                    await this.props.Put_DependentHealth(
+                        this.state.editID,
+                        //this.props.navigation.getParam('dependentId'),
+                        response[0].weight,
+                        response[1].height,
+                        response[2].smoking == '0' ? true : false,
+                        response[3].married == '0' ? true : false,
+                        this.state.healthProfile
+                    )
+                    if (this.props.putHealthResponse.status == 200) {
+                        this.toast.show('تم تسجيل البيانات الطبية بنجاح', 1000);
+                        setTimeout(() => {
+                            this.props.navigation.replace('UserManagementScreen')
+                        }, 1000);
+                    }
+                    else {
+                        this.toast.show('حدث مشكلة ، حاول مرة اخرى', 1000);
+                    }
                 }
+
                 else {
-                    this.toast.show('حدث مشكلة ، حاول مرة اخرى', 1000);
+                    await this.props.completeRegisterDependent(
+                        parseInt(this.state.newUserID),
+                        response[0].weight,
+                        response[1].height,
+                        response[2].smoking == '0' ? true : false,
+                        response[3].married == '0' ? true : false,
+                        this.state.healthProfile
+
+                    )
+                    if (this.props.status == 200) {
+                        //alert(this.props.id)
+
+                        this.toast.show('تم تسجيل البيانات الطبية بنجاح', 1000);
+                        setTimeout(() => {
+                            this.props.navigation.replace('UserManagementScreen')
+                        }, 1000);
+                    }
+                    else {
+                        this.toast.show('حدث مشكلة ، حاول مرة اخرى', 1000);
+                    }
                 }
             })
 
@@ -172,14 +229,14 @@ class newUser extends Component {
                             justifyContent: 'space-between'
                         }}>
 
-                            <Text style={[styleLogin.change, { marginLeft: wp('22%'),fontSize: 18, }]}>
-                                {g.SIGNUP}
+                            <Text style={[styleLogin.change, { marginLeft: wp('22%'), fontSize: 18, }]}>
+                                {this.props.navigation.getParam('edit') ? 'تعديل بيانات المستخدم' : g.SIGNUP}
                             </Text>
                             <Icon name="arrowright" type="AntDesign"
                                 onPress={() => {
                                     this.props.navigation.pop()
                                 }}
-                                style={[styleLogin.arrow,{marginLeft: -40} ]} />
+                                style={[styleLogin.arrow, { marginLeft: -40 }]} />
                         </View>
 
                         <View style={{
@@ -230,9 +287,17 @@ class newUser extends Component {
 
                         {
                             this.state.tabSelected_1 ?
-                                <UserData />
+                                <UserData
+                                    setID={this.setID}
+                                    dependentId={this.props.navigation.getParam('dependentId')}
+                                    dependentCode={this.props.navigation.getParam('patientCode')}
+                                />
                                 : this.state.tabSelected_2 ?
-                                    <MedicalData handlePress={this.handlePress} />
+                                    <MedicalData
+
+                                        dependentId={this.props.navigation.getParam('dependentId')}
+                                        dependentCode={this.props.navigation.getParam('patientCode')}
+                                    />
 
                                     : null
                         }
@@ -289,7 +354,13 @@ const mapStateToProps = state => {
         loading1: state.userDependent_completed.loading,
         status: state.userDependent_completed.status,
 
+        putHealthResponse: state.putHealthResponse.putHealthResponse,
+
+        putPersonalResponse: state.putPersonalResponse.putPersonalResponse,
+
+        dependantPersonal: state.dependantPersonal.dependantPersonal
+
     }
 }
 
-export default connect(mapStateToProps, { new_Register, completeRegisterDependent })(withNavigation(newUser));
+export default connect(mapStateToProps, { new_Register, completeRegisterDependent, Put_DependentHealth, Put_DependentPersonal })(withNavigation(newUser));

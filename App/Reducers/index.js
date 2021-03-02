@@ -40,6 +40,12 @@ import GenericReducer from './GenericReducer';
 import getReports_Reducer from './getReports_Reducer';
 import postOrederReducer from './postOrederReducer';
 import getPrescribed_Reducer from './getPrescribed_Reducer';
+import dependentPersonal_Reducer from './dependentPersonal_Reducer';
+import dependentHealth_Reducer from './dependentHealth_Reducer';
+import putDependentPersonal_Reducer from './putDependentPersonal_Reducer';
+import putDependentHealth_Reducer from './putDependentHealth_Reducer';
+
+
 
 
 
@@ -75,7 +81,7 @@ export default combineReducers({
     user_completed: completeregister_newpatient_Reducer,
     microInfo: get_microInfo_Reducer,
     microInfo_updated: Put_MicroInfo_Reducer,
-    supportTypes:support_types_reducer,
+    supportTypes: support_types_reducer,
     contactResponse: contact_Reducer,
     userDependent_completed: completeregister_newDependent_Reducer,
     pharmacyOrderDetails: PharmacyOrderDetails_Reducer,
@@ -84,5 +90,9 @@ export default combineReducers({
     GenericHealthProfile: GenericReducer,
     reportDetails: getReports_Reducer,
     orderResponse: postOrederReducer,
-    Prescribed:getPrescribed_Reducer,
+    Prescribed: getPrescribed_Reducer,
+    dependantPersonal: dependentPersonal_Reducer,
+    dependantHealth: dependentHealth_Reducer,
+    putPersonalResponse: putDependentPersonal_Reducer,
+    putHealthResponse:putDependentHealth_Reducer,
 });

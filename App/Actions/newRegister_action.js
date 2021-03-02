@@ -17,12 +17,11 @@ export const new_Register = (
         const Token = await AsyncStorage.getItem('app_Token');
 
         try {
-            // alert(
-            //     'id : ' + id + '\n' +
-            //     'fullNameAr : ' + fullNameAr + '\n' +
-            //     'dateofBirth : ' + dateofBirth + '\n' +
-            //     'profession : ' + profession + '\n' +
-            //     'relativeTypeId : ' + relativeTypeId)
+            console.log(
+                'fullNameAr : ' + fullNameAr + '\n' +
+                'dateofBirth : ' + dateofBirth + '\n' +
+                'profession : ' + profession + '\n' +
+                'relativeTypeId : ' + relativeTypeId)
 
             const response = await axios({
                 method: 'POST',

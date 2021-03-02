@@ -113,7 +113,7 @@ class Profile extends Component {
                                 source={require('../../Images/user.png')}
                             />
 
-                            <Image style={[styles.icon, { marginTop: -15, marginLeft: 44 }]}
+                            <Image style={[{ marginTop: -15, marginLeft: 44 }]}
                                 source={require('../../Images/camIcon.png')}
                             />
                             <Text style={[styles.txtBold, { fontSize: 16, marginTop: -5, }]}>{this.props.mini.fullNameEn}</Text>

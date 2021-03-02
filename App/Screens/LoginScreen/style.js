@@ -11,12 +11,12 @@ export default {
 
   arrow:
   {
-    color: g.BLACK, fontsize: 18, marginTop: hp('5%'), marginLeft: wp('80%')
+    color: g.BLACK, fontSize: 18, marginTop: hp('5%'), marginLeft: wp('80%')
   },
 
   show:
   {
-    fontsize: 18, marginTop: hp('2%'), marginLeft: wp('3%')
+    fontSize: 18, marginTop: hp('2%'), marginLeft: wp('3%')
   },
 
   login:
@@ -94,7 +94,7 @@ export default {
 
   change:
   {
-    color: g.BLACK, fontsize: 20, marginTop: hp('4%'), marginLeft: wp('40%')
+    color: g.BLACK, fontSize: 20, marginTop: hp('4%'), marginLeft: wp('40%')
     , fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginRight: wp('10'),
 
 
@@ -102,7 +102,7 @@ export default {
 
   change_title:
   {
-    color: g.BLACK, fontsize: 20, marginTop: hp('4%'), marginRight: wp('35%'),
+    color: g.BLACK, fontSize: 20, marginTop: hp('4%'), marginRight: wp('35%'),
     textAlign: 'center',
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginRight: wp('10'),
 
