@@ -47,9 +47,10 @@ class Visit extends Component {
             HealthProfilePrescribedMedicines: [],
 
             ChildVaccination: [],
-            ChildGrowthChart:[],
+            ChildGrowthChart: [],
 
-            loader: true
+            loader: true,
+            typeModal: true
         }
         AsyncStorage.getItem('toggle').then(val => {
             console.log(val);
@@ -83,8 +84,12 @@ class Visit extends Component {
             loader: false
         })
     }
-    openModal = () => {
-        this.setState({modal:true})
+    openModal = (type) => {
+        this.setState({
+            modal: true,
+            typeModal: type
+        })
+
     }
     render() {
         return (
@@ -179,8 +184,10 @@ class Visit extends Component {
                             <RenderCard
                                 title={'الأدوية المصروفة في الثلاث شهور الماضية'}
                                 show={'yes'}
-                                 data={this.state.HealthProfilePrescribedMedicines}
+                                data={this.state.HealthProfilePrescribedMedicines}
                                 image={images[7]}
+                                openModal={this.openModal}
+
                             />
 
                             <RenderCard
@@ -309,7 +316,7 @@ class Visit extends Component {
                     isOpen={this.state.modal}
                     swipeToClose={true}
                     onClosed={() => {
-                      this.setState({modal:false})  
+                        this.setState({ modal: false })
                     }}
                     backButtonClose={true}
                     coverScreen={true}
@@ -347,7 +354,7 @@ class Visit extends Component {
                                     marginRight: 0, marginTop: 15,
                                     fontSize: 20
                                 }]}>
-                                    {g.Vaccinations}
+                                    {this.state.typeModal ? g.Vaccinations : 'الادوية المصروفة'}
                                 </Text>
                                 <Icon name='close' type='Ionicons'
                                     style={{ fontSize: 22, marginTop: 15, }}
@@ -358,11 +365,17 @@ class Visit extends Component {
                                     }}
                                 />
                             </View>
-                            <ModalVaccinations
-                                vaccine={this.state.ChildVaccination}
-                                ChildGrowth={this.state.ChildGrowthChart}
-                            
-                            />
+                            {this.state.typeModal ?
+                                <ModalVaccinations
+                                    vaccine={this.state.ChildVaccination}
+                                    ChildGrowth={this.state.ChildGrowthChart}
+                                />
+                                :
+                                <Text style={[styleLogin.login, {
+                                    marginTop: 15, textAlign: 'center',
+                                    fontSize: 16, color: g.Gray, marginRight: 0,
+                                }]}>لا يوجد بيانات</Text>}
+
                         </View>
                     </View>
 

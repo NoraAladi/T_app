@@ -58,7 +58,11 @@ class UserManagement extends Component {
                                         <Icon name='edit' type='MaterialIcons'
                                             style={[styles.icon, { marginLeft: 'auto', }]}
                                             onPress={() => {
-                                                // this.props.navigation.navigate('EditProfileScreen',{'id':item.id,})
+                                                this.props.navigation.navigate('NewUserScreen',
+                                                    {
+                                                        'edit': 'edit',
+                                                        'dependentId':item.id
+                                                    })
                                             }}
                                         />
                                         <Image style={[styles.img, { borderRadius: wp('50'), }]}
