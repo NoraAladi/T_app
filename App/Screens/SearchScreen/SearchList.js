@@ -143,7 +143,10 @@ class SearchList extends Component {
                 }
 
                 {/* // Content  */}
-                <CountryRegion callApi={this.getCountryAndCityIds} />
+                <CountryRegion callApi={this.getCountryAndCityIds}
+                    cityId={this.props.navigation.getParam('cityId')}
+                    countryId={this.props.navigation.getParam('countryId')}
+                />
 
                 {
                     this.props.loading_doctor ||

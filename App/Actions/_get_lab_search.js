@@ -11,8 +11,8 @@ export const Get_LAB_RAD_PAHRMA_Search = (type, Filter, GovernorateId, CityId) =
     'CityId: ' + CityId
   );
   return async (dispatch) => {
-    console.log(type);
-    //  alert( Filter  + " " +  type  + " " +   GovernorateId  + " " +   CityId )
+    //console.log(type);
+   //   alert( Filter  + " " +  type  + " " +   GovernorateId  + " " +   CityId )
     dispatch({ type: 'GET_LAB_RAD_SEARCH_ATTEMPT' });
     const Token = await AsyncStorage.getItem('app_Token');
     //call the backend 

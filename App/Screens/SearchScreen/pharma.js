@@ -4,10 +4,8 @@ import {
     Text, View, TouchableOpacity, TextInput
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Icon } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
-import i18n from '../../i18n';
 import CountryRegion from '../../Navigation/CountryRegion';
 
 
@@ -15,10 +13,18 @@ class Pharma extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            Filter_name: ''
+            Filter_name: '',
+            cityId:1,
+            countryId:1,
         }
     }
 
+    getCountryAndCityIds = async (countryId, cityId) => {
+        await this.setState({
+            cityId: cityId,
+            countryId: countryId
+        })
+    }
     render() {
         return (
 
@@ -36,14 +42,17 @@ class Pharma extends Component {
                     />
                 </View>
 
-                <CountryRegion />
+                <CountryRegion callApi={this.getCountryAndCityIds} />
 
                 <TouchableOpacity style={style.btn} onPress={() => {
                     this.props.navigation.navigate('SearchListScreen', {
                         'TITLE': g.PHARMA_TITLE, 'IREA': g.PHARMA_IREA,
                         'color': g.Move,
                         'icon': require('../../Images/listfour.png'),
-                        'Filter_name': this.state.Filter_name
+                        'Filter_name': this.state.Filter_name,
+                        'cityId': this.state.cityId,
+                        'countryId': this.state.countryId,
+
                     })
 
                 }}>

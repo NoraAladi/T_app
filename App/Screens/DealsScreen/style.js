@@ -41,7 +41,7 @@ export default {
   {
     textAlign: 'center',
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
-
+ 
   },
 
   offer:

@@ -85,7 +85,7 @@ class newUser extends Component {
                         parseInt(response[2].relation),
                     )
                     if (this.props.putPersonalResponse.status == 200)
-                        this.toast.show('تم التعديل بيانات المستخدم بنجاح ', 1000);
+                        this.toast.show('تم التعديل بيانات المستخدم بنجاح ', 10000);
                 }
                 else {
                     await this.props.new_Register(
@@ -141,13 +141,13 @@ class newUser extends Component {
                         this.state.healthProfile
                     )
                     if (this.props.putHealthResponse.status == 200) {
-                        this.toast.show('تم تسجيل البيانات الطبية بنجاح', 1000);
+                        this.toast.show('تم تسجيل البيانات الطبية بنجاح', 10000);
                         setTimeout(() => {
                             this.props.navigation.replace('UserManagementScreen')
                         }, 1000);
                     }
                     else {
-                        this.toast.show('حدث مشكلة ، حاول مرة اخرى', 1000);
+                        this.toast.show('حدث مشكلة ، حاول مرة اخرى', 10000);
                     }
                 }
 
@@ -164,13 +164,13 @@ class newUser extends Component {
                     if (this.props.status == 200) {
                         //alert(this.props.id)
 
-                        this.toast.show('تم تسجيل البيانات الطبية بنجاح', 1000);
+                        this.toast.show('تم تسجيل البيانات الطبية بنجاح', 10000);
                         setTimeout(() => {
                             this.props.navigation.replace('UserManagementScreen')
                         }, 1000);
                     }
                     else {
-                        this.toast.show('حدث مشكلة ، حاول مرة اخرى', 1000);
+                        this.toast.show('حدث مشكلة ، حاول مرة اخرى', 10000);
                     }
                 }
             })

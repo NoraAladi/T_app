@@ -577,7 +577,7 @@ class EditUserData extends Component {
                                         )
                                         //  alert(this.props.status)
                                         if (this.props.status == 200) {
-                                            this.toast.show('تم تعديل البيانات الشخصية بنجاح', 1000);
+                                            this.toast.show('تم تعديل البيانات الشخصية بنجاح', 10000);
                                         }
 
                                     }}

@@ -12,7 +12,7 @@ import CountryRegion from '../../Navigation/CountryRegion';
 import Spinner from '../../Navigation/Spinner'
 import { Get_offer } from '../../Actions/_get_offer';
 import { connect } from 'react-redux'
-
+ 
 import { Get_offer_Types } from '../../Actions/getOffersSponserType';
 
 
@@ -177,11 +177,8 @@ const mapStateToProps = state => {
     return {
         loading: state.offer.loading,
         offers: state.offer.offers,
-
         loadingType: state.offersType.loadingType,
         offersType: state.offersType.offersType,
-
-
     }
 }
 

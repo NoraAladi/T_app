@@ -12,6 +12,7 @@ import { Get_Country } from '../Actions/getCountryAction';
 import { Get_City } from '../Actions/getCityAction';
 
 import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 
@@ -92,199 +93,211 @@ class CountryRegion extends Component {
     }
 
     async componentDidMount() {
-        this.props.Get_City(1)
+
         if (this.props.countries == '') {
             this.props.Get_Country()
         }
-        else {
-            this.setState({
-                region: this.props.cities[0].cityNameAr,
-                country: this.props.countries[0].nameAr,
-
-            });
+        if (this.props.cities == '') {
+            this.props.Get_City(1)
         }
+
+        AsyncStorage.getItem('countryIdKey').then(val => {
+            if (val) {
+                this.setState({
+                    country: this.props.countries[parseInt(val)].nameAr,
+                    countryId: parseInt(val)
+                })
+            }
+            })
+    
+        this.setState({
+            region: this.props.cities[0].cityNameAr,
+            country: this.props.countries[0].nameAr,
+
+        });
+
+    
+
+}
+
+componentDidUpdate(prevProps) {
+
+    if (prevProps.cities !== this.props.cities) {
+        this.setState({
+            region: this.props.cities[0].cityNameAr,
+        });
 
     }
+    //alert(this.state.region+'\n'+this.state.countries)
+}
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.countries !== this.props.countries) {
-            this.setState({
-                country: this.props.countries[0].nameAr,
-                //cities: this.props.cities[0].cityNameAr,
-            });
-        }
-        if (prevProps.cities !== this.props.cities) {
-            this.setState({
-                region: this.props.cities[0].cityNameAr,
-            });
-
-        }
-        //alert(this.state.region+'\n'+this.state.countries)
-    }
-
-    render() {
-        return (
-            <View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10, }}>
-                    <View style={{ marginLeft: wp('0%') }}>
-                        <Text style={style.irea}>{g.IREA}</Text>
-                        <View style={[style.container, style.pouns, {
-                            justifyContent: 'space-between', elevation: 2,
-                            paddingHorizontal: 15,
-                        }]}>
-                            <Icon name={this.state.showRegion ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                                style={[style.arrow, { marginTop: 0 }]}
-                                onPress={async () => {
-                                    await this.setState({
-                                        showRegion: !this.state.showRegion
+render() {
+    return (
+        <View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10, }}>
+                <View style={{ marginLeft: wp('0%') }}>
+                    <Text style={style.irea}>{g.IREA}</Text>
+                    <View style={[style.container, style.pouns, {
+                        justifyContent: 'space-between', elevation: 2,
+                        paddingHorizontal: 15,
+                    }]}>
+                        <Icon name={this.state.showRegion ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                            style={[style.arrow, { marginTop: 0 }]}
+                            onPress={async () => {
+                                await this.setState({
+                                    showRegion: !this.state.showRegion
+                                })
+                                if (this.state.showRegion) {
+                                    this.setState({
+                                        showCountry: false
                                     })
-                                    if (this.state.showRegion) {
-                                        this.setState({
-                                            showCountry: false
-                                        })
 
-                                    }
-                                }} />
-                            <Text style={style.city}>{this.state.region}</Text>
-                        </View>
-                        {this.state.showCountry ?
-                            <View style={styleSignUp.staticHeight} />
-                            : null}
-
-                        {/****dropdown */}
-
-                        {this.state.showRegion ?
-                            <View style={[styleSignUp.dropDownView, {
-                                marginTop: -18,
-                                borderBottomLeftRadius: 10,
-                                borderBottomRightRadius: 10,
-                                height: 120,
-                                width: wp('42.5')
-                            }]}>
-                                <FlatList
-                                    ListFooterComponent={() => <Text>{ }</Text>}
-
-                                    nestedScrollEnabled
-                                    // showsVerticalScrollIndicator={false}
-                                    style={{ padding: 10 }}
-                                    data={this.props.cities}
-                                    renderItem={({ item, index }) => (
-                                        <View
-                                        >
-                                            <TouchableOpacity onPress={async () => {
-                                                await this.setState({
-                                                    region: item.cityNameAr,
-                                                    showRegion: false,
-                                                    regionId: item.id
-                                                })
-                                                await this._callApi()
-                                            }}>
-                                                <Text style={[styleSignUp.dropDownTxt, {
-                                                    fontSize: 12,
-                                                    //   color: g.Light_Gray,
-                                                    textAlign: 'right'
-                                                }]}>{item.cityNameAr}</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    )}
-                                />
-                            </View>
-                            : null}
+                                }
+                            }} />
+                        <Text style={style.city}>{this.state.region}</Text>
                     </View>
+                    {this.state.showCountry ?
+                        <View style={styleSignUp.staticHeight} />
+                        : null}
 
+                    {/****dropdown */}
 
-
-
-
-
-
-
-
-
-
-
-                    <View style={{ marginLeft: wp('5%') }}>
-                        <Text style={[style.irea, { marginLeft: wp('22%') }]}>{g.CITY}</Text>
-                        <View style={[style.container, style.pouns, {
-                            justifyContent: 'space-between', elevation: 2,
-                            paddingHorizontal: 15,
+                    {this.state.showRegion ?
+                        <View style={[styleSignUp.dropDownView, {
+                            marginTop: -18,
+                            borderBottomLeftRadius: 10,
+                            borderBottomRightRadius: 10,
+                            height: 120,
+                            width: wp('42.5')
                         }]}>
-                            <Icon name={this.state.showCountry ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                                style={[style.arrow, { marginTop: 0 }]}
-                                onPress={async () => {
-                                    await this.setState({
-                                        showCountry: !this.state.showCountry
-                                    })
-                                    if (this.state.showCountry) {
-                                        this.setState({
-                                            showRegion: false
-                                        })
+                            <FlatList
+                                ListFooterComponent={() => <Text>{ }</Text>}
 
-                                    }
-                                }}
+                                nestedScrollEnabled
+                                // showsVerticalScrollIndicator={false}
+                                style={{ padding: 10 }}
+                                data={this.props.cities}
+                                renderItem={({ item, index }) => (
+                                    <View
+                                    >
+                                        <TouchableOpacity onPress={async () => {
+                                            await this.setState({
+                                                region: item.cityNameAr,
+                                                showRegion: false,
+                                                regionId: item.id
+                                            })
+                                            AsyncStorage.setItem('cityIdKey', String(item.id))
+                                            await this._callApi()
+                                        }}>
+                                            <Text style={[styleSignUp.dropDownTxt, {
+                                                fontSize: 12,
+                                                //   color: g.Light_Gray,
+                                                textAlign: 'right'
+                                            }]}>{item.cityNameAr}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                )}
                             />
-                            <Text style={[style.city]}>{this.state.country}</Text>
                         </View>
-
-                        {this.state.showRegion ?
-                            <View style={styleSignUp.staticHeight} />
-                            : null}
-
-                        {this.state.showCountry ?
-                            <View style={[styleSignUp.dropDownView, {
-                                marginTop: -15,
-                                borderBottomLeftRadius: 10,
-                                borderBottomRightRadius: 10,
-                                height: 120,
-                                width: wp('42.5')
-                            }]}>
-                                <FlatList
-                                    ListFooterComponent={() => <Text>{ }</Text>}
-
-                                    nestedScrollEnabled
-                                    //   showsVerticalScrollIndicator={false}
-                                    style={{ padding: 10, }}
-                                    data={this.props.countries}
-                                    renderItem={({ item, index }) => (
-                                        <View >
-                                            <TouchableOpacity onPress={async () => {
-                                                this.setState({
-                                                    country: item.nameAr,
-                                                    showCountry: false,
-                                                    countryId: item.id,
-
-                                                })
-                                                await this.props.Get_City(item.id)
-                                                await this.setState({
-                                                    regionId: this.props.cities[0].id
-                                                })
-                                                await this._callApi()
-
-                                            }}>
-                                                <Text style={[styleSignUp.dropDownTxt, {
-                                                    fontSize: 12,
-                                                    //color: g.Light_Gray,
-                                                    textAlign: 'right'
-                                                }]}>{item.nameAr}</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    )}
-                                />
-                            </View>
-                            : null}
-
-
-
-                    </View>
-
+                        : null}
                 </View>
 
 
 
-            </View>
-        );
 
-    }
+
+
+
+
+
+
+
+
+                <View style={{ marginLeft: wp('5%') }}>
+                    <Text style={[style.irea, { marginLeft: wp('22%') }]}>{g.CITY}</Text>
+                    <View style={[style.container, style.pouns, {
+                        justifyContent: 'space-between', elevation: 2,
+                        paddingHorizontal: 15,
+                    }]}>
+                        <Icon name={this.state.showCountry ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                            style={[style.arrow, { marginTop: 0 }]}
+                            onPress={async () => {
+                                await this.setState({
+                                    showCountry: !this.state.showCountry
+                                })
+                                if (this.state.showCountry) {
+                                    this.setState({
+                                        showRegion: false
+                                    })
+
+                                }
+                            }}
+                        />
+                        <Text style={[style.city]}>{this.state.country}</Text>
+                    </View>
+
+                    {this.state.showRegion ?
+                        <View style={styleSignUp.staticHeight} />
+                        : null}
+
+                    {this.state.showCountry ?
+                        <View style={[styleSignUp.dropDownView, {
+                            marginTop: -15,
+                            borderBottomLeftRadius: 10,
+                            borderBottomRightRadius: 10,
+                            height: 120,
+                            width: wp('42.5')
+                        }]}>
+                            <FlatList
+                                ListFooterComponent={() => <Text>{ }</Text>}
+
+                                nestedScrollEnabled
+                                //   showsVerticalScrollIndicator={false}
+                                style={{ padding: 10, }}
+                                data={this.props.countries}
+                                renderItem={({ item, index }) => (
+                                    <View >
+                                        <TouchableOpacity onPress={async () => {
+                                            this.setState({
+                                                country: item.nameAr,
+                                                showCountry: false,
+                                                countryId: item.id,
+
+                                            })
+                                            AsyncStorage.setItem('countryIdKey', String(item.id))
+                                            await this.props.Get_City(item.id)
+                                            await this.setState({
+                                                regionId: this.props.cities[0].id
+                                            })
+                                            AsyncStorage.setItem('cityIdKey', String(this.props.cities[0].id))
+
+                                            await this._callApi()
+
+                                        }}>
+                                            <Text style={[styleSignUp.dropDownTxt, {
+                                                fontSize: 12,
+                                                //color: g.Light_Gray,
+                                                textAlign: 'right'
+                                            }]}>{item.nameAr}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                )}
+                            />
+                        </View>
+                        : null}
+
+
+
+                </View>
+
+            </View>
+
+
+
+        </View>
+    );
+
+}
 }
 
 const mapStateToProps = (state) => {

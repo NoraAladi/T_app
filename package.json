@@ -23,6 +23,7 @@
     "react-native-calendar-picker": "^7.0.8",
     "react-native-check-box": "^2.1.7",
     "react-native-confirmation-code-field": "^7.0.0",
+    "react-native-date-picker": "^3.2.10",
     "react-native-easy-toast": "^2.0.0",
     "react-native-flexi-radio-button": "^0.2.2",
     "react-native-gesture-handler": "^1.6.0",
@@ -43,6 +44,8 @@
     "react-native-simple-bottom-sheet": "^1.0.1",
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-vector-icons": "^7.1.0",
+    "react-native-wheel-pick": "^1.1.0",
+    "react-native-wheel-scrollview-picker": "^1.0.1",
     "react-navigation": "^4.1.1",
     "react-navigation-drawer": "^2.4.13",
     "react-navigation-stack": "^2.7.0",
@@ -50,6 +53,7 @@
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "styled-components": "^5.2.1",
     "toggle-switch-react-native": "^2.3.0"
   },
   "devDependencies": {

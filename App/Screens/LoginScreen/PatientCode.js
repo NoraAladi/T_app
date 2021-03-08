@@ -81,7 +81,7 @@ class PatientCode extends Component {
                             Keyboard.dismiss()
                             await this.props.Get_PatientCode(this.state.code)
                             if (this.props.status == 200) {
-                                this.toast.show(this.props.message, 1000);
+                                this.toast.show(this.props.message, 10000);
                                 setTimeout(() => {
                                     this.props.navigation.getParam('dependents') == 'dependents' ?
                                         this.props.navigation.navigate('NewUserScreen',
@@ -93,7 +93,7 @@ class PatientCode extends Component {
 
                             }
                             else {
-                                this.toast.show(this.props.message, 1000);
+                                this.toast.show(this.props.message, 10000);
                             }
                             //
 

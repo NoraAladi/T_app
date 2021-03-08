@@ -318,10 +318,10 @@ class DispenseScreen extends Component {
                                         pharmacyOrderDetail
                                     )
                                     if (this.props.orderResponse.status == 200) {
-                                        this.toast.show(this.props.orderResponse.data.message)
+                                        this.toast.show(this.props.orderResponse.data.message,10000)
                                         setTimeout(() => {
                                             this.props.navigation.navigate('ThanksDispense')
-                                        }, 500);
+                                        }, 10000);
                                     }
                                     else
                                         this.toast.show(this.props.orderResponse.data.message)

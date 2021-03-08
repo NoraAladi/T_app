@@ -128,7 +128,7 @@ class Enterpass extends Component {
                         if (this.props.message == 'Password reset successful, you can now login')
                             setTimeout(() => {
                                 this.props.navigation.navigate('LoginScreen')
-                            }, 1000);
+                            }, 10000);
                     }}>
                     <Text style={styles.txt_btn}>{g.CONFIRM_PASS}</Text>
                 </TouchableOpacity>
