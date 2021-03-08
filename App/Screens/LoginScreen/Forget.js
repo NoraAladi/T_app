@@ -77,17 +77,17 @@ class Forget extends Component {
                                 await this._on_ForgetPass()
 
                                 if (this.props.error) {
-                                    this.toast.show(this.props.error, 1000);
+                                    this.toast.show(this.props.error, 10000);
 
                                 }
                                 else {
                                     console.log('code: ' + this.props.forget);
                                     // this.toast.show(this.props.forget, 1000);
                                     if (this.props.forget == 'no account') {
-                                        this.toast.show(this.props.forget, 1000);
+                                        this.toast.show(this.props.forget, 10000);
 
                                     } else{
-                                        this.toast.show('The code has been sent successfully', 1000);
+                                        this.toast.show('The code has been sent successfully', 10000);
 
                                     setTimeout(() => {
                                         this.props.navigation.navigate('VerificationScreen',

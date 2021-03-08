@@ -1,4 +1,5 @@
 import styleLogin from '../LoginScreen/style';
+import styleSignUp from './styleSignUp';
 import React, { Component } from 'react';
 import {
     Text, View, ScrollView,
@@ -38,10 +39,27 @@ class SignUp extends Component {
             user_data_arr: [],
             gender: 1,
             createdUser_ID: 114,
-            healthProfile: {}
+            healthProfile: {},
+            active: false,
+            empty:true
         };
     }
 
+    empty = () => {
+        this.setState({
+            empty:false
+        })
+    }
+    activeBtn = () => {
+        this.setState({
+            active: true,
+        })
+    }
+    deactiveBtn = () => {
+        this.setState({
+            active: false
+        })
+    }
     componentDidMount() {
         AsyncStorage.multiRemove([
             'fullName', 'email',
@@ -88,20 +106,20 @@ class SignUp extends Component {
 
                 if (this.props.status == 200) {
                     //alert(this.props.id)
-                   
+
                     this.setState({
                         createdUser_ID: this.props.id
                     })
-                    this.toast.show(this.props.message, 1000);
+                    this.toast.show(this.props.message, 3000);
                     setTimeout(() => {
                         this.setState({
                             tabSelected_1: false,
                             tabSelected_2: true,
                         })
-                    }, 1000);
+                    }, 3000);
                 }
                 else {
-                    this.toast.show(this.props.message, 1000);
+                    this.toast.show(this.props.message, 3000);
                 }
             })
     }
@@ -112,7 +130,7 @@ class SignUp extends Component {
 
         await this.getKeysData([
             'weight', 'height',
-            'smoking', 'married', 'pregnant','email'
+            'smoking', 'married', 'pregnant', 'email'
         ])
             .then(async (response) => {
                 console.log(response)
@@ -136,17 +154,17 @@ class SignUp extends Component {
                 )
                 if (this.props.statusComplete == 200) {
                     //alert(this.props.id)
-                   
-                    this.toast.show('تم تسجيل البيانات الطبية بنجاح', 1000);
+
+                    this.toast.show('تم تسجيل البيانات الطبية بنجاح', 2000);
                     setTimeout(() => {
                         this.props.navigation.replace('VerificationScreen', {
                             'flag': 'signUp',
                             'email': response[5].email
                         })
-                    }, 1000);
+                    }, 2000);
                 }
                 else {
-                    this.toast.show('حدث مشكلة ، حاول مرة اخرى', 1000);
+                    this.toast.show('حدث مشكلة ، حاول مرة اخرى', 10000);
                 }
             })
 
@@ -181,6 +199,7 @@ class SignUp extends Component {
                 behavior={Platform.OS === "ios" ? "padding" : 'position'}
                 keyboardVerticalOffset={Platform.OS === "ios" ? 64 : -270}>
                 <ScrollView
+                    nestedScrollEnabled
                     onContentSizeChange={(width, height) => {
                         if (this.state.tabSelected_2) {
                             this.scrollListReftop.scrollTo({ x: 0, y: 0, animated: true })
@@ -257,21 +276,29 @@ class SignUp extends Component {
 
                         {
                             this.state.tabSelected_1 ?
-                                <UserData haveCode={false} />
+                                <UserData haveCode={false} activeBtn={this.activeBtn} deactiveBtn={this.deactiveBtn} empty={ this.empty}/>
                                 : this.state.tabSelected_2 ?
                                     <MedicalData handlePress={this.handlePress} gender={this.state.gender} />
 
                                     : null
                         }
 
-                        <TouchableOpacity style={[styleLogin.btn, { marginTop: hp('3') }]}
-                            disabled={this.state.loader}
+                        <TouchableOpacity style={[styleLogin.btn, {
+                            marginTop: hp('3'),
+                            backgroundColor: this.state.active ? g.Bold_blue : g.Light_Gray
+                        }]}
+                            disabled={!this.state.active}
                             onPress={async () => {
                                 await this.nextTap()
                             }}>
                             <Text style={[styleLogin.txt_btn,]}>
                                 {this.state.tabSelected_2 ? g.COMPLETE_PROFILE : g.NEXT}</Text>
                         </TouchableOpacity>
+                        {this.state.empty ?
+                            <Text style={styleSignUp.error}>
+                                {'* جميع البيانات مطلوبة'}
+                            </Text>
+                            : null}
                         <View style={{ height: 50 }} />
 
                         <Modal

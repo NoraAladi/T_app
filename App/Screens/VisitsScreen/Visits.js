@@ -99,7 +99,7 @@ class Visits extends Component {
                              }}>
                             <Image source={require('../../Images/profile.png')}
                                 style={headerStyle.userimg} />
-                            <View style={headerStyle.view1}>
+                            <View style={headerStyle.viewHeader}>
                                 <Text style={[headerStyle.username,{textAlign:'left'}]}> {' '+this.state.name} </Text>
                                 <Text style={headerStyle.code}>{this.state.code}  </Text>
                                 </View>

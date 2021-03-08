@@ -85,12 +85,12 @@ class UserManagement extends Component {
                                                 await this.props.delete_dependent(item.id)
                                                 // alert(this.props.status)
                                                 if (this.props.status == 200) {
-                                                    this.toast.show(`تم مسح ${item.fullNameAr} بنجاح` )
+                                                    this.toast.show(`تم مسح ${item.fullNameAr} بنجاح` ,10000)
                                                     await this.props.Get_Dependants()
                                                     this.setState({ Dependants: this.props.Dependants })
                                                 }
                                                 else
-                                                    this.toast.show('حدث خطأ حاول مرة اخرى', 1000)
+                                                    this.toast.show('حدث خطأ حاول مرة اخرى', 10000)
 
                                             }}
 

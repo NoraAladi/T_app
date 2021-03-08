@@ -101,7 +101,7 @@ class Deal extends Component {
                     showsVerticalScrollIndicator={false}
                 >
                     <View
-                        style={{zIndex: -1}}>
+                        style={{ zIndex: -1 }}>
                         {
                             this.props.loadingType ?
                                 <View style={style.spinner} >
@@ -130,21 +130,23 @@ class Deal extends Component {
                                                             'ID': item.id, 'Name': item.placeName
                                                         })
                                                     }}>
-                                                        <Image source={require('../../Images/ads.png')}
-                                                            style={style.imageCard} />
+                                                        <Image source={{ uri: item.imageEn }}
+                                                            style={style.imageCard}
+                                                            resizeMode='contain'
+                                                        />
                                                     </TouchableOpacity>
                                                     <Image
                                                         source={require('../../Images/user.png')}
                                                         style={style.logo}
                                                     />
                                                     <Text style={[style.irea, style.minusMargin]}>
-                                                        {item.titleEn}</Text>
+                                                        {item.placeName}</Text>
 
-                                                    <View style={style.simpleRowRevers}>
+                                                    <View style={[style.simpleRowRevers,style.rowTitle]}>
                                                         <Text style={[style.txt]}>
-                                                            {item.placeName}</Text>
+                                                            {item.titleEn}</Text>
 
-                                                        <View >
+                                                        <View style={{width:'30%'}} >
                                                             <Text
                                                                 style={[style.txt, style.txt1]}>
                                                                 {item.priceBefore} {g.POUND}</Text>
@@ -154,7 +156,7 @@ class Deal extends Component {
                                                     </View>
 
                                                     <View style={style.discount}>
-                                                        <Text style={[style.txt, style.sale]}>
+                                                        <Text style={[ style.sale]}>
                                                             {item.discount}{g.DISCOUNT}</Text>
                                                         <Text style={[style.txt, style.txt2]}>
                                                             {g.OFFERS_SARY}   {item.toDate.split('T')[0]}</Text>
@@ -177,11 +179,8 @@ const mapStateToProps = state => {
     return {
         loading: state.offer.loading,
         offers: state.offer.offers,
-
         loadingType: state.offersType.loadingType,
         offersType: state.offersType.offersType,
-
-
     }
 }
 

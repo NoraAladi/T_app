@@ -190,12 +190,7 @@ class DispenseScreen extends Component {
                                                 </View>
                                             )} />
 
-                                        <Text style={{
-                                            textAlign: 'right', fontSize: 16,
-                                            fontFamily: g.Regular, color: g.Gray,
-                                            marginLeft: 'auto',
-
-                                        }}> {'الإجمالي : '}{this.state.total} {'جـ'}</Text>
+                                        
 
                                     </View>
 
@@ -318,10 +313,10 @@ class DispenseScreen extends Component {
                                         pharmacyOrderDetail
                                     )
                                     if (this.props.orderResponse.status == 200) {
-                                        this.toast.show(this.props.orderResponse.data.message)
+                                        this.toast.show(this.props.orderResponse.data.message,10000)
                                         setTimeout(() => {
                                             this.props.navigation.navigate('ThanksDispense')
-                                        }, 500);
+                                        }, 10000);
                                     }
                                     else
                                         this.toast.show(this.props.orderResponse.data.message)

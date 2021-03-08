@@ -6,6 +6,8 @@ export const Get_offer_Types = (GovernorateId, CityId, typeId, page) => {
   return async (dispatch) => {
     dispatch({ type: 'GET_OFFERS_TYPE_ATTEMPT' });
     const Token = await AsyncStorage.getItem('app_Token');
+    const countryId = await AsyncStorage.getItem('countryIdKey')
+    const cityId = await AsyncStorage.getItem('cityIdKey')
     //  alert(Token)
     //call the backend 
     console.log('type:' + typeId + '\n' +
@@ -13,7 +15,7 @@ export const Get_offer_Types = (GovernorateId, CityId, typeId, page) => {
       'CityId:' + CityId
     );
     try {
-      let response = await axios.get(`${g.BASE_URL}/api/Offers/AllOffers?GovernorateId=${GovernorateId}&CityId=${CityId}&SponserTypeId=${typeId}&PageNumer=1&PageSize=10`,
+      let response = await axios.get(`${g.BASE_URL}/api/Offers/AllOffers?GovernorateId=${countryId}&CityId=${cityId}&SponserTypeId=${typeId}&PageNumer=1&PageSize=10`,
         {
           headers:
           {

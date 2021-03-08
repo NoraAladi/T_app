@@ -28,13 +28,24 @@ class Doctor extends Component {
         this.state = {
             showSpecialist: false,
             specialist: '',
-            doctor_name: '', error: '', special_id: 1
+            doctor_name: '',
+            error: '',
+            special_id: 1,
+            cityId: 1,
+            countryId: 1,
         }
     }
+
+    getCountryAndCityIds = async (countryId, cityId) => {
+        await this.setState({
+            cityId: cityId,
+            countryId: countryId
+        })
+    }
     async componentDidMount() {
-        if (this.props.specialist=='') {
+        if (this.props.specialist == '') {
             await this.props.Get_Specialist()
-            
+
         }
         else {
             await this.setState({
@@ -103,7 +114,7 @@ class Doctor extends Component {
                             renderItem={({ item, index }) => (
                                 <View >
                                     <TouchableOpacity onPress={async () => {
-                                    await    this.setState({
+                                        await this.setState({
                                             specialist: item.specialityNameAr,
                                             showSpecialist: false,
                                             special_id: item.id
@@ -121,18 +132,18 @@ class Doctor extends Component {
                     </View>
                     : null}
 
-                <CountryRegion />
+                <CountryRegion callApi={this.getCountryAndCityIds} />
 
 
                 <TouchableOpacity style={style.btn} onPress={() => {
                     console.log(this.state.special_id);
-                        this.props.navigation.navigate('SearchListScreen', {
-                            'TITLE': g.DOCTOR_TITLE, 'IREA': g.IREA,
-                            'icon': require('../../Images/listone.png'),
-                            'Filter_name': this.state.doctor_name,
-                            'Special': this.state.special_id,
-                        })
-                    
+                    this.props.navigation.navigate('SearchListScreen', {
+                        'TITLE': g.DOCTOR_TITLE, 'IREA': g.IREA,
+                        'icon': require('../../Images/listone.png'),
+                        'Filter_name': this.state.doctor_name,
+                        'Special': this.state.special_id,
+                    })
+
                 }}>
                     <Text style={style.txt_btn}>{g.SEARCH}</Text>
                 </TouchableOpacity>

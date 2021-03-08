@@ -12,6 +12,7 @@ import { Get_Country } from '../Actions/getCountryAction';
 import { Get_City } from '../Actions/getCityAction';
 
 import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 
@@ -91,32 +92,61 @@ class CountryRegion extends Component {
 
     }
 
-    async componentDidMount() {
-        this.props.Get_City(1)
-        if (this.props.countries == '') {
-            this.props.Get_Country()
-        }
-        else {
-            this.setState({
-                region: this.props.cities[0].cityNameAr,
-                country: this.props.countries[0].nameAr,
+    async saving() {
 
-            });
+        AsyncStorage.getItem('countryIdKey').then(val => {
+          //  console.log('countryIdKey: ' + val);
+            if (val) {
+                this.setState({
+
+                    country: this.props.countries.find(x => x.id == parseInt(val)).nameAr,
+                    countryId: parseInt(val),
+                })
+                AsyncStorage.getItem('cityIdKey').then(val => {
+               //     console.log('cityIdKey: ' + val);
+                    //  alert(this.props.cities.find(x => x.id == parseInt(val)).cityNameAr)
+                    this.setState({
+                        region: this.props.cities.find(x => x.id == parseInt(val)).cityNameAr,
+                        regionId: parseInt(val),
+
+                    })
+
+                })
+            }
+            else {
+                this.setState({
+                    region: this.props.cities[0].cityNameAr,
+                    country: this.props.countries[0].nameAr,
+
+                });
+                AsyncStorage.setItem('cityIdKey','1')
+                AsyncStorage.setItem('countryIdKey','1')
+
+
+            }
+        })
+    }
+    async componentDidMount() {
+        // AsyncStorage.removeItem('cityIdKey')
+        // AsyncStorage.removeItem('countryIdKey')
+
+        if (this.props.countries == '') {
+            await this.props.Get_Country()
         }
+        if (this.props.cities == '') {
+            const id = await AsyncStorage.getItem('countryIdKey')
+            await this.props.Get_City(id ? parseInt(id) : 1)
+        }
+        this.saving()
+
 
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.countries !== this.props.countries) {
-            this.setState({
-                country: this.props.countries[0].nameAr,
-                //cities: this.props.cities[0].cityNameAr,
-            });
-        }
+      //  console.log('--- Did Update Country Region ----');
+       
         if (prevProps.cities !== this.props.cities) {
-            this.setState({
-                region: this.props.cities[0].cityNameAr,
-            });
+            this.saving()
 
         }
         //alert(this.state.region+'\n'+this.state.countries)
@@ -177,6 +207,7 @@ class CountryRegion extends Component {
                                                     showRegion: false,
                                                     regionId: item.id
                                                 })
+                                                AsyncStorage.setItem('cityIdKey', String(item.id))
                                                 await this._callApi()
                                             }}>
                                                 <Text style={[styleSignUp.dropDownTxt, {
@@ -254,10 +285,15 @@ class CountryRegion extends Component {
                                                     countryId: item.id,
 
                                                 })
+                                                AsyncStorage.setItem('countryIdKey', String(item.id))
                                                 await this.props.Get_City(item.id)
                                                 await this.setState({
-                                                    regionId: this.props.cities[0].id
+                                                    regionId: this.props.cities[0].id,
+                                                    region: this.props.cities[0].cityNameAr,
+
                                                 })
+                                                AsyncStorage.setItem('cityIdKey', String(this.props.cities[0].id))
+
                                                 await this._callApi()
 
                                             }}>

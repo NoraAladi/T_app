@@ -76,7 +76,9 @@ class DealsModelScreen extends Component {
                             <View style={style.viewBranch}>
                                 <Text style={style.branch}>{i18n.t(g.BRANCH)}</Text>
                                 <View style={[style.view1, style.enter2]}>
-                                    <Text style={[style.username, style.txtIOS]}>   {this.props.offer_detail.placeName} </Text>
+                                    <Text style={[style.username,
+                                        style.txtIOS,{textAlign:'right'}]}>
+                                        {this.props.offer_detail.placeName} </Text>
                                     <Text style={[style.code, style.txt6]}>{this.props.offer_detail.titleEn}  </Text>
                                 </View>
                                 <Image source={require('../../Images/profile.png')}
@@ -107,8 +109,8 @@ class DealsModelScreen extends Component {
                     renderContent={this.renderContent}
                 />
                 <View style={style.view2}>
-                    <Image source={require('../../Images/ads.png')}
-                        resizeMode='cover'
+                    <Image source={{uri:this.props.offer_detail.imageEn}}
+                        resizeMode='contain'
                         style={style.img} />
                     <View onStartShouldSetResponder={() => {
                         this.props.navigation.pop()

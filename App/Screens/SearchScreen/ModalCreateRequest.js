@@ -256,13 +256,13 @@ class ModalCreateRequest extends Component {
                                 )
                                 if (this.props.orderResponse.status == 200) {
                                     this.props.cloaseModal()
-                                    this.toast.show(this.props.orderResponse.data.message)
+                                    this.toast.show(this.props.orderResponse.data.message,10000)
                                     setTimeout(() => {
                                         this.props.navigation.navigate('ThanksDispense')
-                                    }, 500);
+                                    }, 1000);
                                 }
                                 else
-                                    this.toast.show(this.props.orderResponse.data.message)
+                                    this.toast.show(this.props.orderResponse.data.message,10000)
 
                             }}>
                                 <Text style={style.txt_btn}>{g.SEND_REQUEST}</Text>

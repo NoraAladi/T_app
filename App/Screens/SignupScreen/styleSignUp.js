@@ -41,5 +41,9 @@ export default {
         height: 120,
         width: wp('42.5')
 
+    },
+    error: {
+        fontFamily: g.Regular, color: 'red', fontSize: 12,
+        textAlign: 'right', paddingHorizontal: 45,marginTop: 5,
     }
 };

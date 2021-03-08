@@ -41,7 +41,7 @@ class Contact extends Component {
     async send() {
         Keyboard.dismiss()
         await this.props.contact_us(this.state.SupportTypesID, this.state.message)
-        this.toast.show(this.props.contactResponse.message, 1000);
+        this.toast.show(this.props.contactResponse.message, 10000);
     }
     render() {
         return (

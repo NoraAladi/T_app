@@ -29,9 +29,12 @@ export default {
 
   view1:
   {
-    flexDirection: 'column', marginLeft: wp('5%'), marginTop: hp('1%')
+    flexDirection: 'column', marginTop: hp('1%'), width: '70%'
   },
+  viewHeader: {
+    flexDirection: 'column', marginLeft: wp('5%'), marginTop: hp('1%')
 
+  },
   username:
   {
     textAlign: 'center', fontFamily: g.Regular, marginTop: -10
@@ -57,7 +60,6 @@ export default {
     fontFamily: g.Regular,
     color: g.Gray,
     fontSize: 16,
-    marginLeft: wp('-10%'),
     width: wp('50')
   },
 
@@ -116,19 +118,24 @@ export default {
 
   logo:
   {
-    width: 60, height: 60, borderRadius: 60, marginTop: hp('-5'), marginLeft: wp('60%')
+    width: 60, height: 60, borderRadius: 60, marginTop: hp('-5'), marginLeft: 'auto',
+    marginRight: 10,
   },
 
   txt:
   {
-    textAlign: 'center',
-    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginLeft: wp('5%'), width: 200
+    textAlign: 'right',
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
+    fontWeight: Platform.OS == "ios" ? "800" : null, width: '68%', marginRight: wp('2')
   },
 
+  rowTitle: {
+    width: '100%',
+  },
   txt1:
   {
     textDecorationLine: 'line-through',
-    width: 50, fontSize: 12, color: g.Ferany, fontFamily: g.Regular
+    width: 50, fontSize: 12, color: g.Ferany, fontFamily: g.Regular, marginLeft: 20
   },
 
   txt2:
@@ -138,8 +145,8 @@ export default {
   },
   sale:
   {
-    backgroundColor: g.sale, borderRadius: 20
-    , width: 90, height: 30, color: g.red
+    backgroundColor: '#F64E4E50', borderRadius: 20, color: '#F64E4E'
+    , width: 90, height: 30, fontFamily: g.Regular, textAlign: 'center'
   },
   img:
   {
@@ -171,7 +178,7 @@ export default {
 
   branch:
   {
-    marginRight: wp('20%'), fontSize: 14,
+    marginRight: wp('0%'), fontSize: 14, width: '25%',
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, color: g.Blue, marginTop: hp('2%')
 
   },
@@ -193,7 +200,7 @@ export default {
 
   txt6:
   {
-    color: g.Gray, fontFamily: g.Regular
+    color: g.Gray, fontFamily: g.Regular, textAlign: 'right'
   },
 
   txt7:
@@ -211,7 +218,7 @@ export default {
 
   semi:
   {
-    width: wp('15%'), marginTop: hp('2%'), marginRight: 'auto',
+    width: wp('15%'), marginTop: hp('1%'), marginRight: 'auto',
     marginLeft: 'auto', borderRadius: 20,
     height: 5, backgroundColor: g.Light_Gray
   },
@@ -254,7 +261,7 @@ export default {
     borderTopLeftRadius: 10
   },
   minusMargin: {
-    marginTop: hp('-4%'),
+    marginTop: hp('-2%'),
     color: g.Ferany
   },
 
@@ -264,16 +271,20 @@ export default {
 
   specificTxt: {
     width: 70,
-    fontSize: 16,
+    fontSize: 14,
     color: g.Blue
   },
   discount:
   {
     flexDirection: 'row-reverse',
-    marginTop: hp('1%')
+    marginTop: hp('.5%'),
+    width: '100%',
+    justifyContent: 'space-between',
+    paddingLeft: 10,
+    paddingRight: 25,
   },
   flatListHeight: {
-     height: g.windowHeight - 55 
+    height: g.windowHeight - 55
   },
   flag: {
     flexDirection: 'row',
@@ -297,7 +308,10 @@ export default {
   },
   viewBranch: {
     flexDirection: 'row',
-    margin: 20
+    margin: 20,
+    width: '100%',
+    paddingRight: '5%',
+    paddingLeft: '5%',
   }
   ,
   txtIOS: {
@@ -305,7 +319,7 @@ export default {
     fontWeight: Platform.OS == "ios" ? "800" : null,
 
   },
-  popModal:{
-    flexDirection: 'row', marginLeft : 'auto'
-}
+  popModal: {
+    flexDirection: 'row', marginLeft: 'auto',
+  }
 };

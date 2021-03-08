@@ -53,7 +53,7 @@ class header extends Component {
                     }}>
                         <Image source={require('../../Images/profile.png')}
                             style={style.userimg} />
-                        <View style={style.view1}>
+                        <View style={style.viewHeader}>
                             <Text style={[style.username,{textAlign:'left'}]}> {' '+this.state.name} </Text>
                             <Text style={style.code}>{this.state.code}  </Text>
                         </View>
