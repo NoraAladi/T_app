@@ -190,12 +190,7 @@ class DispenseScreen extends Component {
                                                 </View>
                                             )} />
 
-                                        <Text style={{
-                                            textAlign: 'right', fontSize: 16,
-                                            fontFamily: g.Regular, color: g.Gray,
-                                            marginLeft: 'auto',
-
-                                        }}> {'الإجمالي : '}{this.state.total} {'جـ'}</Text>
+                                        
 
                                     </View>
 

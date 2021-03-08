@@ -13,10 +13,18 @@ class Rad extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            rad_name:''
+            rad_name: '',
+            cityId: 1,
+            countryId:1,
         }
     }
 
+    getCountryAndCityIds = async (countryId, cityId) => {
+        await this.setState({
+            cityId: cityId,
+            countryId: countryId
+        })
+    }
     render() {
         return (
 
@@ -33,7 +41,7 @@ class Rad extends Component {
                 </View>
 
 
-               <CountryRegion/>
+                <CountryRegion callApi={this.getCountryAndCityIds} />
 
                 <TouchableOpacity style={style.btn} onPress={() => {
                     this.props.navigation.navigate('SearchListScreen' , {

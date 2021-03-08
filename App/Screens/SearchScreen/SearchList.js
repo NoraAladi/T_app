@@ -224,10 +224,12 @@ class SearchList extends Component {
 
                                                 <View style={{ flexDirection: 'row' }}>
                                                     <Text style={[style.doctor_name, { color: g.Gray, fontFamily: g.Regular }]}>
-                                                        {this.state.Title == g.DOCTOR_TITLE || g.PHARMA_TITLE ?
+                                                        {this.state.Title == g.DOCTOR_TITLE || this.state.Title == g.PHARMA_TITLE ?
                                                             item.street + ' ' + item.cityAr + ' ' + item.governateAr
-                                                            :
-                                                            item.street + ' ' + item.cityNameAr + ' ' + item.governateNameAr
+                                                            :this.state.Title == g.LAB_TITLE ?
+                                                             item.street + ' ' + item.cityNameAr + ' ' + item.governatesNameAr
+                                                           
+                                                            : item.street + ' ' + item.cityNameAr + ' ' + item.governateNameAr
                                                         }
                                                     </Text>
                                                     <Icon name="location-pin" type="MaterialIcons"

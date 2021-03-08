@@ -13,15 +13,23 @@ class Lab extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            lab_name : '' , error : ''
+            lab_name: '', error: '',
+            cityId: 1,
+            countryId: 1,
         }
     }
 
+    getCountryAndCityIds = async (countryId, cityId) => {
+        await this.setState({
+            cityId: cityId,
+            countryId: countryId
+        })
+    }
     render() {
         return (
 
             <View>
-                <Text style={[style.username1, { marginTop: hp('2%') , textAlign : 'right'  }]}>
+                <Text style={[style.username1, { marginTop: hp('2%'), textAlign: 'right' }]}>
                     {g.Lab_NAME}
                 </Text>
 
@@ -34,20 +42,20 @@ class Lab extends Component {
                 </View>
 
 
-               <CountryRegion/>
+                <CountryRegion callApi={this.getCountryAndCityIds} />
 
                 <TouchableOpacity style={style.btn} onPress={() => {
-                 
-                    this.props.navigation.navigate('SearchListScreen' , {
-                        'TITLE' : g.LAB_TITLE  , 'IREA' : g.LAB_IREA ,
-                        'icon' : require('../../Images/listtwo.png') , 
-                        'Filter_name' : this.state.lab_name , 
+
+                    this.props.navigation.navigate('SearchListScreen', {
+                        'TITLE': g.LAB_TITLE, 'IREA': g.LAB_IREA,
+                        'icon': require('../../Images/listtwo.png'),
+                        'Filter_name': this.state.lab_name,
                     })
-                
+
                 }}>
                     <Text style={style.txt_btn}>{g.SEARCH}</Text>
                 </TouchableOpacity>
-                <Text style={[style.error , { marginTop : -30 , marginBottom : 50}]}>{this.state.error}</Text>
+                <Text style={[style.error, { marginTop: -30, marginBottom: 50 }]}>{this.state.error}</Text>
 
             </View>
         );

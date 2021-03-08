@@ -12,11 +12,16 @@ export const Get_LAB_RAD_PAHRMA_Search = (type, Filter, GovernorateId, CityId) =
   );
   return async (dispatch) => {
     //console.log(type);
-   //   alert( Filter  + " " +  type  + " " +   GovernorateId  + " " +   CityId )
+    //   alert( Filter  + " " +  type  + " " +   GovernorateId  + " " +   CityId )
     dispatch({ type: 'GET_LAB_RAD_SEARCH_ATTEMPT' });
     const Token = await AsyncStorage.getItem('app_Token');
+
+    const countryId = await AsyncStorage.getItem('countryIdKey')
+    const cityId = await AsyncStorage.getItem('cityIdKey')
+
+
     //call the backend 
-    let response = await axios.get(`${g.BASE_URL}/api/PatientServiceProviders/${type}?governorateId=${GovernorateId}&cityId=${CityId}&name=${Filter}&PageNumer=1&PageSize=10`,
+    let response = await axios.get(`${g.BASE_URL}/api/PatientServiceProviders/${type}?governorateId=${countryId}&cityId=${cityId}&name=${Filter}&PageNumer=1&PageSize=10`,
       {
         headers:
         {

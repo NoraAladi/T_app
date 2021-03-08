@@ -110,13 +110,13 @@ class SignUp extends Component {
                     this.setState({
                         createdUser_ID: this.props.id
                     })
-                    this.toast.show(this.props.message, 10000);
+                    this.toast.show(this.props.message, 3000);
                     setTimeout(() => {
                         this.setState({
                             tabSelected_1: false,
                             tabSelected_2: true,
                         })
-                    }, 1000);
+                    }, 3000);
                 }
                 else {
                     this.toast.show(this.props.message, 3000);
@@ -155,13 +155,13 @@ class SignUp extends Component {
                 if (this.props.statusComplete == 200) {
                     //alert(this.props.id)
 
-                    this.toast.show('تم تسجيل البيانات الطبية بنجاح', 10000);
+                    this.toast.show('تم تسجيل البيانات الطبية بنجاح', 2000);
                     setTimeout(() => {
                         this.props.navigation.replace('VerificationScreen', {
                             'flag': 'signUp',
                             'email': response[5].email
                         })
-                    }, 1000);
+                    }, 2000);
                 }
                 else {
                     this.toast.show('حدث مشكلة ، حاول مرة اخرى', 10000);
