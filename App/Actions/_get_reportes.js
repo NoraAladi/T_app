@@ -1,43 +1,42 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import axios from 'axios' ;
+import axios from 'axios';
 import g from '../Gloabal'
+var isDependent = ''
 
-export const Get_Reportes  = (page)=> 
-{
-   return async (dispatch) =>
-   {
-     const Token = await AsyncStorage.getItem('app_Token');
+export const Get_Reportes = (page) => {
+  return async (dispatch) => {
+    const Token = await AsyncStorage.getItem('app_Token');
+    const dependentId = await AsyncStorage.getItem('dependentId');
+    console.log('----- Treatments api call -----');
+    console.log('dependentId: ' + dependentId);
+    if (dependentId) {
+      isDependent = `dependantId=${dependentId}`
+    }
+    else {
+      isDependent = ''
+    }
+    dispatch({ type: 'GET_REPORTES_ATTEMPT' });
+    try {
+      let resp = await axios.get(`${g.BASE_URL}/api/PatientMedicalFile/AllReports?PageNumer=${page}&PageSize=10&${isDependent}`,
+        {
+          headers:
+          {
+            'Authorization': `Bearer ${Token}`,
+            'accept': 'text/plain',
+            'authorizationKey': g.authorizationKey,
+          }
+        })
+      
+      console.log('__ Reports ___');
+      console.log(resp.data.results );
+      dispatch({ type: 'GET_REPORTES_SUCCESS', reportes: resp.data.results })
 
-    dispatch({ type : 'GET_REPORTES_ATTEMPT'});
-    
-    //call the backend 
-      axios.get(`${g.BASE_URL}/api/PatientMedicalFile/AllReports?PageNumer=${page}&PageSize=10`,
-      {  
-       headers:
-       { 
-        'Authorization' : `Bearer ${Token}` ,
-        'accept': 'text/plain',
-        'authorizationKey': g.authorizationKey,
-      }
-       })
-      .then(response => {
-          // If request is good...
-          console.log('__ Reports ___');
-          console.log(response.data.results);        
-          onhandleResponse( dispatch , response) 
+    }
+    catch (error) {
+      console.log(error);
+    }
+    //call the backend
 
-       })
-   }
-   
-}
-const onhandleResponse = ( dispatch , data) =>
-{
-    onGetcategories( dispatch , data.data.results )
-    // console.log('OFFERS');
-    // console.log(data.data );
-}
+  }
 
-const onGetcategories= ( dispatch , reportes    ) => 
-{
-        dispatch({ type : 'GET_REPORTES_SUCCESS' , reportes  }) 
 }

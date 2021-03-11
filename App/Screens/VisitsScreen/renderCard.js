@@ -80,6 +80,17 @@ class RenderCard extends Component {
                                                 );
                                             })
                                             :
+                                        this.props.title == 'الادوية الممنوعة' ?
+                                            this.props.data.map((item, index) => {
+                                                return (
+                                                    <Text style={VisitsStyle.txt}
+                                                        key={index}
+                                                    >
+                                                        {item.medicineName}
+                                                    </Text>
+                                                );
+                                            })
+                                            :
                                             this.props.data.map((item, index) => {
                                                 return (
                                                     <Text style={VisitsStyle.txt}

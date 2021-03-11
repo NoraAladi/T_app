@@ -284,10 +284,10 @@ class EditMedicalData extends Component {
 
                                     )
                                     if (this.props.status == 200) {
-                                        this.toast.show('تم تعديل البيانات الطبية بنجاح', 10000);
+                                        this.toast.show('تم تعديل البيانات الطبية بنجاح', 5000);
                                     }
                                     else {
-                                        this.toast.show('البيانات غير صحيحة ', 10000);
+                                        this.toast.show('البيانات غير صحيحة ', 5000);
 
                                     }
 

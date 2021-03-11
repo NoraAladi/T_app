@@ -103,7 +103,6 @@ class DispenseScreen extends Component {
                                             key={(item) => { item.id }}
                                             showsVerticalScrollIndicator={false}
                                             onEndReachedThreshold={.5}
-                                            onEndReached={() => { console.log('hegazy') }}
                                             data={this.state.selectedMedicines}
                                             renderItem={({ item, index }) => (
                                                 <View style={{ flexDirection: 'column', }}>
@@ -112,7 +111,7 @@ class DispenseScreen extends Component {
                                                             <Image source={img[index % img.length]}
                                                                 style={{ width: 32, height: 31, marginTop: 0 }} />
                                                         </View>
-                                                        <Text style={style.txt3}> {item.medicineName + '\n' + item.medicineUsage}  </Text>
+                                                        <Text style={style.txt3}> {item.medicineName }  </Text>
                                                     </View>
 
                                                     <View style={{ flexDirection: 'row-reverse', margin: hp('1%') }}>

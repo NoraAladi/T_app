@@ -7,7 +7,10 @@ export default ( state = INITIAL_STATE , action ) =>
             return {...state , loading  : true }
         
         case 'GET_Dependants_SUCCESS':
+            return { ...INITIAL_STATE, Dependants: action.Dependants, loading: false }
+            case 'GET_Dependants_FAIL':
                 return {...INITIAL_STATE ,  Dependants : action.Dependants , loading  : false }
+    
     
         
         default : 

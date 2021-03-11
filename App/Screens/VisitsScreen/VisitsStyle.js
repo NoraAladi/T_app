@@ -98,7 +98,7 @@ export default {
 
     date_txt:
     {
-        fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'center',
+        fontFamily: Platform.OS == "android" ? g.Regular : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'center',
         color: g.COLOR_NO, height: 20
     },
 

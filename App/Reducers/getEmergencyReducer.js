@@ -3,10 +3,10 @@ export default ( state = INITIAL_STATE , action ) =>
 {
     switch( action.type)
     {
-        case 'GET_Dependants_ATTEMPT':
+        case 'GET_Emergency_ATTEMPT':
             return {...state , loading  : true }
         
-        case 'GET_Dependants_SUCCESS':
+        case 'GET_Emergency_SUCCESS':
                 return {...INITIAL_STATE ,  Emergency : action.Emergency , loading  : false }
     
         

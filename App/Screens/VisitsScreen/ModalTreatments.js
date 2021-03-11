@@ -51,7 +51,7 @@ class ModalTreatments extends Component {
 
                         :
                         this.props.visit_details == '' ?
-                            <Text style={style.no_data}>
+                            <Text style={VisitsStyle.no_data}>
                                 {g.NO_DATA}
                             </Text>
                             :
@@ -235,7 +235,12 @@ class ModalTreatments extends Component {
                                                 </View>
 
 
-                                                <TouchableOpacity style={[styleLogin.btn, { marginTop: hp('3') }]}
+                                                <TouchableOpacity
+                                                    disabled={this.props.visit_details.prescriptionMedicine == ''}
+                                                    style={[styleLogin.btn, {
+                                                        marginTop: hp('3'),
+                                                        backgroundColor: this.props.visit_details.prescriptionMedicine == '' ? g.Light_Gray:g.Bold_blue
+                                                    }]}
                                                     onPress={async () => {
                                                         this.setState({
                                                              details_component: false,

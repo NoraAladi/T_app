@@ -7,7 +7,7 @@ export const Get_Specialist = () => {
     dispatch({ type: 'GET_SPECIALIST_ATTEMPT' });
     const token = await AsyncStorage.getItem('app_Token')
     //call the backend 
-    axios.get(`${g.BASE_URL}/api/MasterData/Specialties`,
+    let res = await axios.get(`${g.BASE_URL}/api/MasterData/Specialties`,
       {
         headers:
         {
@@ -16,20 +16,12 @@ export const Get_Specialist = () => {
           'Authorization': `Bearer ${token}`,
         }
       })
-      .then(response => {
+
         // If request is good...
         console.log('----- Specialist -----');
-        console.log(response.data);
-        onhandleResponse(dispatch, response)
+        console.log(res.data);
+        dispatch({ type: 'GET_SPECIALIST_SUCCESS', specialist:res.data })
 
-      })
   }
 
-}
-const onhandleResponse = (dispatch, data) => {
-  onGetcategories(dispatch, data.data)
-}
-
-const onGetcategories = (dispatch, specialist) => {
-  dispatch({ type: 'GET_SPECIALIST_SUCCESS', specialist })
 }

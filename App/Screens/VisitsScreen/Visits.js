@@ -2,8 +2,8 @@ import headerStyle from '../DealsScreen/style';
 
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, 
-    TouchableOpacity, Platform,  Dimensions, Image
+    Text, View, ScrollView,
+    TouchableOpacity, Platform, Dimensions, Image
 
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
@@ -35,12 +35,17 @@ class Visits extends Component {
 
 
         };
-        AsyncStorage.getItem('user').then(val => {
+        AsyncStorage.getItem('patientCode').then(val => {
             this.setState({
-               name: JSON.parse(val).patient.fullNameAr,
-               code: JSON.parse(val).patient.code
-           })
-       })
+                code: val
+            })
+        })
+
+        AsyncStorage.getItem('patientName').then(val => {
+            this.setState({
+                name: val
+            })
+        })
     }
 
     _close_model() {
@@ -68,7 +73,12 @@ class Visits extends Component {
     }
 
 
-
+    setData = (name, code) => {
+        this.setState({
+            name: name,
+            code: code,
+        })
+    }
     render() {
 
         return (
@@ -94,16 +104,16 @@ class Visits extends Component {
                                 <Icon name="arrow-drop-down" type="MaterialIcons"
                                     style={headerStyle.arrow} />
                             </TouchableOpacity>
-                            <TouchableOpacity  style = {{ flexDirection : 'row'}} onPress = {()=>{
-                                 this.props.navigation.navigate('ProfileScreen')
-                             }}>
-                            <Image source={require('../../Images/profile.png')}
-                                style={headerStyle.userimg} />
-                            <View style={headerStyle.viewHeader}>
-                                <Text style={[headerStyle.username,{textAlign:'left'}]}> {' '+this.state.name} </Text>
-                                <Text style={headerStyle.code}>{this.state.code}  </Text>
+                            <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => {
+                                this.props.navigation.navigate('ProfileScreen')
+                            }}>
+                                <Image source={require('../../Images/profile.png')}
+                                    style={headerStyle.userimg} />
+                                <View style={headerStyle.viewHeader}>
+                                    <Text style={[headerStyle.username, { textAlign: 'left' }]}> {' ' + this.state.name} </Text>
+                                    <Text style={headerStyle.code}>{this.state.code}  </Text>
                                 </View>
-                                </TouchableOpacity>
+                            </TouchableOpacity>
                         </View>
                         <Text style={[headerStyle.offer, {
                             marginTop: 'auto',
@@ -249,9 +259,11 @@ class Visits extends Component {
                 </ScrollView>
                 <UserFooter tab={2} />
                 {
-                   this.state.Flag ? 
-                   <ModalAddUser  closeModel = {()=>this._close_model()} /> : null 
-               }
+                    this.state.Flag ?
+                        <ModalAddUser
+                            setData={this.setData}
+                            closeModel={() => this._close_model()} /> : null
+                }
             </View>
         );
 

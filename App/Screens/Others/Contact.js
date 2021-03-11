@@ -3,7 +3,7 @@ import styleSignUp from '../SignupScreen/styleSignUp';
 import React, { Component } from 'react';
 import {
     Text, View, TextInput,
-    TouchableOpacity, FlatList,Keyboard
+    TouchableOpacity, FlatList, Keyboard
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -18,6 +18,7 @@ import HeaderNav from '../../Navigation/HeaderNav';
 import Spinner from '../../Navigation/Spinner'
 
 import Toast from 'react-native-easy-toast'
+import ScrollPicker from "react-native-wheel-scrollview-picker";
 
 class Contact extends Component {
     constructor(props) {
@@ -26,7 +27,8 @@ class Contact extends Component {
             SupportTypesName: '',
             SupportTypesID: 1,
             ShowTypes: false,
-            message: ''
+            message: '',
+            SupportTypesArray: []
 
         };
     }
@@ -36,6 +38,10 @@ class Contact extends Component {
             SupportTypesName: this.props.supportTypes[0].supportCaseTypeNameAR,
             SupportTypesID: this.props.supportTypes[0].id,
         })
+        this.props.supportTypes.map(item => {
+            this.state.SupportTypesArray.push(item.supportCaseTypeNameAR)
+        })
+        console.log(JSON.stringify(this.state.SupportTypesArray));
     }
 
     async send() {
@@ -45,59 +51,47 @@ class Contact extends Component {
     }
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View>
                 <HeaderNav title={g.CONTACT} />
 
-                <View style={{ zIndex: -1, alignItems: 'center', justifyContent: 'center', }}>
+                <View style={{ alignItems: 'center', justifyContent: 'center', }}>
                     {/***SupportTypes***/}
                     <View>
                         <Text style={[styles.txt, { marginTop: hp('2%'), color: g.Gray }]}>
                             {g.SupportTypes}
                         </Text>
+                        <TouchableOpacity
+                            activeOpacity={1}
+                            onPress={() => {
+                                this.setState({
+                                    ShowTypes: !this.state.ShowTypes
+                                })
+                            }}>
+                            <View style={styleSignUp.dropDownView}>
+                                <Text style={styleSignUp.dropDownTxt}>{this.state.SupportTypesName}</Text>
+                                <Icon name={this.state.ShowTypes ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                                    style={styleSignUp.dropDownIcon}
 
-                        <View style={styleSignUp.dropDownView}>
-                            <Text style={styleSignUp.dropDownTxt}>{this.state.SupportTypesName}</Text>
-                            <Icon name={this.state.ShowTypes ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                                style={styleSignUp.dropDownIcon}
-                                onPress={() => {
-                                    this.setState({
-                                        ShowTypes: !this.state.ShowTypes
-                                    })
-                                }}
-                            />
-                        </View>
+                                />
+                            </View>
+                        </TouchableOpacity>
                     </View>
 
                     {this.state.ShowTypes ?
-                        <View style={[styleSignUp.dropDownView, {
-                            marginTop: -15,
-                            borderBottomLeftRadius: 10,
-                            borderBottomRightRadius: 10,
-                            height: 120
-                        }]}>
-                            <FlatList
-                                // showsVerticalScrollIndicator={false}
-                                style={{ padding: 10, }}
-                                ListFooterComponent={() => <Text>{ }</Text>}
-                                data={this.props.supportTypes}
-                                renderItem={({ item, index }) => (
-                                    <View >
-                                        <TouchableOpacity onPress={async () => {
-                                            this.setState({
-                                                SupportTypesName: item.supportCaseTypeNameAR,
-                                                SupportTypesID: item.id,
-                                                ShowTypes: false
-                                            })
-                                        }}>
-                                            <Text style={[styleSignUp.dropDownTxt, {
-                                                fontSize: 12,
-                                                padding: 2,
-                                                //  color: g.Light_Gray,
-                                                textAlign: 'right'
-                                            }]}>{item.supportCaseTypeNameAR}</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                )}
+                        <View style={{ height: 150 }}>
+                            <ScrollPicker
+                                dataSource={this.state.SupportTypesArray}
+                                selectedIndex={this.state.SupportTypesID - 1}
+                                itemHeight={40}
+                                wrapperHeight={150}
+                                highlightColor={g.Light_Gray}
+                                onValueChange={async (data, selectedIndex) => {
+                                    this.setState({
+                                        SupportTypesName: data,
+                                        SupportTypesID: this.props.supportTypes[selectedIndex].id,
+                                        //      ShowTypes: false
+                                    })
+                                }}
                             />
                         </View>
                         : null}

@@ -22,18 +22,14 @@ class Login extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.user && this.state.email) {
+  
+    async _onLogin() {
+        const { email, password } = this.state;
+        await this.props.loginuser({ email, password })
+        if ( this.props.status == 200) {
             this.props.navigation.replace('SearchScreen');
         }
-        else null
-    }
-
-
-    async _onLogin() {
-            const { email, password } = this.state;
-            await this.props.loginuser({ email, password })
-            Keyboard.dismiss()
+        Keyboard.dismiss()
     }
 
 
@@ -104,14 +100,14 @@ class Login extends Component {
                                 <Spinner />
                                 :
                                 <TouchableOpacity style={styles.btn}
-                                    onPress={this._onLogin.bind(this)}>
+                                    onPress={()=>{this._onLogin()}}>
                                     <Text style={styles.txt_btn}>{g.LOGIN}</Text>
                                 </TouchableOpacity>
                         }
-                             
+
                         <Text style={styles.error}>
-                         {this.props.error}
-                         </Text>
+                            {this.props.error}
+                        </Text>
 
                         <View style={styles.row}>
                             <Text style={styles.sign}
@@ -139,6 +135,7 @@ const mapStateToProps = state => {
         loading: state.auth.loading,
         user: state.auth.user,
         message: state.auth.message,
+        status: state.auth.status,
 
     }
 }

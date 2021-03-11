@@ -116,7 +116,7 @@ class Profile extends Component {
                             <Image style={[{ marginTop: -15, marginLeft: 44 }]}
                                 source={require('../../Images/camIcon.png')}
                             />
-                            <Text style={[styles.txtBold, { fontSize: 16, marginTop: -5, }]}>{this.props.mini.fullNameEn}</Text>
+                            <Text style={[styles.txtBold, { fontSize: 16, marginTop: -5, }]}>{this.props.mini.fullNameAr}</Text>
                             <Text style={[styles.txtBold, { fontSize: 12, marginTop: -5, }]}>{this.props.mini.code}</Text>
                         </View>
 
@@ -133,7 +133,7 @@ class Profile extends Component {
                                     </Text>
 
                                     <Text style={[styles.txt, { fontSize: 16, marginTop: -5, }]}>
-                                        {this.props.mini.fullNameEn}
+                                        {this.props.mini.fullNameAr}
                                     </Text>
 
                                     <Text style={[styles.txt, { color: g.Gray, fontSize: 12 }]}>

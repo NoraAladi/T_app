@@ -59,17 +59,17 @@ class UserData extends Component {
             showClender: false,
 
             showSex: false,
-            sex: g.MALE,
+            sex: 'اختر النوع',
             gender: 1,
 
-            dateInAr: this.arabicDate(moment().format('DD MMMM YYYY')),
+            dateInAr: 'اختر تاريخ الميلاد',
             realDate: moment().format('YYYY-MM-DD'),
 
-            country: '',
+            country: 'اختر المحافظة',
             countryID: 1,
             showCountry: false,
 
-            region: '',
+            region: 'اختر المنطقة',
             regionId: 1,
             showRegion: false,
 
@@ -83,6 +83,9 @@ class UserData extends Component {
             emailError: false,
             passError: false,
             confirmPassError: false,
+
+            countryNameArray: [],
+            cityNameArray: []
         };
     }
 
@@ -125,14 +128,31 @@ class UserData extends Component {
             await this.props.Get_Country()
             await this.props.Get_City(1)
             this.setState({
-                country: this.props.countries[0].nameAr,
+                //  country: this.props.countries[0].nameAr,
                 countryID: this.props.countries[0].id,
 
-                region: this.props.cities[0].cityNameAr,
+                // region: this.props.cities[0].cityNameAr,
                 regionId: this.props.cities[0].id,
             })
+
             await this.setDefault()
         }
+
+        this.props.countries.map(item => {
+            this.setState({
+                countryNameArray: [...this.state.countryNameArray, item.nameAr]
+            })
+
+        })
+        console.log('countryNameArray: ' + this.state.countryNameArray);
+
+        this.props.cities.map(item => {
+            this.setState({
+                cityNameArray: [...this.state.cityNameArray, item.cityNameAr]
+            })
+
+        })
+        console.log('cityNameArray: ' + this.state.cityNameArray);
     }
 
     async _Put_MicroInfo() {
@@ -398,17 +418,21 @@ class UserData extends Component {
                     <Text style={[styles.username, { marginTop: hp('2%') }]}>
                         {g.DATE}
                     </Text>
-                    <View style={styleSignUp.dropDownView}>
-                        <Text style={styleSignUp.dropDownTxt}>{this.state.dateInAr}</Text>
-                        <Icon name={this.state.showClender ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                            style={styleSignUp.dropDownIcon}
-                            onPress={() => {
-                                this.setState({
-                                    showClender: !this.state.showClender
-                                })
-                            }}
-                        />
-                    </View>
+                    <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => {
+                            this.setState({
+                                showClender: !this.state.showClender
+                            })
+                        }}>
+                        <View style={styleSignUp.dropDownView}>
+                            <Text style={styleSignUp.dropDownTxt}>{this.state.dateInAr}</Text>
+                            <Icon name={this.state.showClender ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                                style={styleSignUp.dropDownIcon}
+
+                            />
+                        </View>
+                    </TouchableOpacity>
                 </View>
 
 
@@ -449,40 +473,43 @@ class UserData extends Component {
                             <Text style={[styles.username, { marginTop: hp('2%') }]}>
                                 {g.SEX}
                             </Text>
-                            <View style={styleSignUp.dropDownView}>
-                                <Text style={styleSignUp.dropDownTxt}>{this.state.sex}</Text>
-                                <Icon name={this.state.showSex ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                                    style={styleSignUp.dropDownIcon}
-                                    onPress={() => {
-                                        this.setState({
-                                            showSex: !this.state.showSex
-                                        })
-                                    }}
-                                />
-                            </View>
+                            <TouchableOpacity
+                                activeOpacity={1}
+                                onPress={() => {
+                                    this.setState({
+                                        showSex: !this.state.showSex
+                                    })
+                                }}>
+                                <View style={styleSignUp.dropDownView}>
+                                    <Text style={styleSignUp.dropDownTxt}>{this.state.sex}</Text>
+                                    <Icon name={this.state.showSex ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                                        style={styleSignUp.dropDownIcon}
+
+                                    />
+                                </View>
+                            </TouchableOpacity>
                         </View>
 
 
                         {this.state.showSex ?
-                            
-                                <ScrollPicker
-                                    style={{backgroundColor: 'red',}}
-                                    ref={(sp) => { this.sp = sp }}
-                                    dataSource={sex}
-                                    selectedIndex={0}
-                                    itemHeight={40}
-                                    wrapperHeight={100}
-                                    highlightColor={g.Light_Gray}
-                                    onValueChange={async (data, selectedIndex) => {
-                                        this.setState({
-                                            sex: data,
-                                            gender: selectedIndex,
-                                        })
-                                        await AsyncStorage.setItem('sex', String(selectedIndex))
-                                    }}
-                                />
-                            : null}
 
+                            <ScrollPicker
+                                style={{ backgroundColor: 'red', }}
+                                ref={(sp) => { this.sp = sp }}
+                                dataSource={sex}
+                                selectedIndex={0}
+                                itemHeight={40}
+                                wrapperHeight={100}
+                                highlightColor={g.Light_Gray}
+                                onValueChange={async (data, selectedIndex) => {
+                                    this.setState({
+                                        sex: data,
+                                        gender: selectedIndex == 0 ? 1 : 0,
+                                    })
+                                    await AsyncStorage.setItem('sex', String(selectedIndex))
+                                }}
+                            />
+                            : null}
 
                         {/**mobile*/}
                         <View>
@@ -554,61 +581,61 @@ class UserData extends Component {
 
 
 
-                        {/*****job country*/}
+                        {/***** country*/}
                         <View>
                             <Text style={[styles.username, { marginTop: hp('2%') }]}>
                                 {g.COUNTRY}
                             </Text>
-                            <View style={styleSignUp.dropDownView}>
-                                <Text style={styleSignUp.dropDownTxt}>{this.state.country}</Text>
-                                <Icon name={this.state.showCountry ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                                    style={styleSignUp.dropDownIcon}
-                                    onPress={() => {
-                                        this.setState({
-                                            showCountry: !this.state.showCountry
-                                        })
-                                    }}
-                                />
-                            </View>
+                            <TouchableOpacity
+                                activeOpacity={1}
+                                onPress={() => {
+                                    this.setState({
+                                        showCountry: !this.state.showCountry
+                                    })
+                                }}>
+
+                                <View style={styleSignUp.dropDownView}>
+                                    <Text style={styleSignUp.dropDownTxt}>{this.state.country}</Text>
+                                    <Icon name={this.state.showCountry ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                                        style={styleSignUp.dropDownIcon}
+
+                                    />
+                                </View>
+                            </TouchableOpacity>
+
                         </View>
 
                         {this.state.showCountry ?
-                            <View style={[styleSignUp.dropDownView, {
-                                marginTop: -15,
-                                borderBottomLeftRadius: 10,
-                                borderBottomRightRadius: 10,
-                                height: 120
-                            }]}>
-                                <FlatList
-                                    //showsVerticalScrollIndicator={false}
-                                    ListFooterComponent={() => <Text>{ }</Text>}
-                                    style={{ padding: 10, }}
-                                    data={this.props.countries}
-                                    renderItem={({ item, index }) => (
-                                        <View >
-                                            <TouchableOpacity onPress={async () => {
-                                                this.setState({
-                                                    country: item.nameAr,
-                                                    showCountry: false
-                                                })
-                                                await AsyncStorage.setItem('country', String(item.id))
-                                                await this.props.Get_City(item.id)
-                                                await this.setState({
-                                                    region: this.props.cities[0].cityNameAr,
-                                                    regionId: this.props.cities[0].id
-                                                })
-                                                await AsyncStorage.setItem('region', String(this.state.regionId))
+                            <ScrollPicker
+                                ref={(sp) => { this.sp = sp }}
+                                dataSource={this.state.countryNameArray}
+                                selectedIndex={0}
+                                itemHeight={40}
+                                wrapperHeight={100}
+                                highlightColor={g.Light_Gray}
+                                onValueChange={async (data, selectedIndex) => {
+                                    this.setState({
+                                        country: data,
+                                        //  showCountry: false
+                                    })
+                                    await AsyncStorage.setItem('country', String(this.props.countries[selectedIndex].id))
+                                    await this.props.Get_City(this.props.countries[selectedIndex].id)
+                                    await this.setState({
+                                        region: this.props.cities[0].cityNameAr,
+                                        regionId: this.props.cities[0].id,
+                                        cityNameArray: []
+                                    })
+                                    await AsyncStorage.setItem('region', String(this.state.regionId))
+                                    this.props.cities.map(item => {
+                                        this.setState({
+                                            cityNameArray: [...this.state.cityNameArray, item.cityNameAr]
+                                        })
 
-                                            }}>
-                                                <Text style={[styleSignUp.dropDownTxt, {
-                                                    fontSize: 12,
-                                                    textAlign: 'right'
-                                                }]}>{item.nameAr}</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    )}
-                                />
-                            </View>
+                                    })
+                                    console.log('cityNameArray: ' + this.state.cityNameArray);
+                                }}
+                            />
+
                             : null}
 
                         {/*****region*/}
@@ -616,52 +643,40 @@ class UserData extends Component {
                             <Text style={[styles.username, { marginTop: hp('2%') }]}>
                                 {g.REGION}
                             </Text>
-                            <View style={styleSignUp.dropDownView}>
-                                <Text style={styleSignUp.dropDownTxt}>{this.state.region}</Text>
-                                <Icon name={this.state.showRegion ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                                    style={styleSignUp.dropDownIcon}
-                                    onPress={() => {
-                                        this.setState({
-                                            showRegion: !this.state.showRegion
-                                        })
-                                    }}
-                                />
-                            </View>
+                            <TouchableOpacity
+                                activeOpacity={1}
+                                onPress={() => {
+                                    this.setState({
+                                        showRegion: !this.state.showRegion
+                                    })
+                                }}>
+                                <View style={styleSignUp.dropDownView}>
+                                    <Text style={styleSignUp.dropDownTxt}>{this.state.region}</Text>
+                                    <Icon name={this.state.showRegion ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                                        style={styleSignUp.dropDownIcon}
+
+                                    />
+                                </View>
+                            </TouchableOpacity>
                         </View>
 
                         {this.state.showRegion ?
-                            <View style={[styleSignUp.dropDownView, {
-                                marginTop: -15,
-                                borderBottomLeftRadius: 10,
-                                borderBottomRightRadius: 10,
-                                height: 120
-                            }]}>
-                                <FlatList
-                                    // showsVerticalScrollIndicator={false}
-                                    ListFooterComponent={() => <Text>{ }</Text>}
+                            <ScrollPicker
+                                ref={(sp) => { this.sp = sp }}
+                                dataSource={this.state.cityNameArray}
+                                selectedIndex={0}
+                                itemHeight={40}
+                                wrapperHeight={100}
+                                highlightColor={g.Light_Gray}
+                                onValueChange={async (data, selectedIndex) => {
+                                    console.log(this.props.cities[selectedIndex].id);
+                                    this.setState({
+                                        region: data,
+                                    })
+                                    await AsyncStorage.setItem('region', String(this.props.cities[selectedIndex].id))
+                                }}
+                            />
 
-                                    style={{ padding: 10, }}
-                                    data={this.props.cities}
-                                    renderItem={({ item, index }) => (
-                                        <View >
-                                            <TouchableOpacity onPress={async () => {
-                                                this.setState({
-                                                    region: item.cityNameAr,
-
-                                                    showRegion: false
-                                                })
-                                                await AsyncStorage.setItem('region', String(item.id))
-                                            }}>
-                                                <Text style={[styleSignUp.dropDownTxt, {
-                                                    fontSize: 12,
-                                                    //   color: g.Light_Gray,
-                                                    textAlign: 'right'
-                                                }]}>{item.cityNameAr}</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    )}
-                                />
-                            </View>
                             : null}
 
 

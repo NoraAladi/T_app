@@ -272,7 +272,7 @@ export default {
     textAlign: 'right', marginRight: wp('5%'), fontSize: 16,
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
     fontWeight: Platform.OS == "ios" ? "800" : null
-    , width: 230
+    , width: 230,marginTop: 15,
   },
 
   line: {

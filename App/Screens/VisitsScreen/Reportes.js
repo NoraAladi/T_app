@@ -30,20 +30,29 @@ class Reportes extends Component {
             tab_1: true,
             tab_2: false,
             modal: false,
-            date: moment().format('DD-MM-YYYY')
+            date: moment().format('DD-MM-YYYY'),
+            reportes: [],
+            isRefresh: false
         }
 
     }
 
-    componentDidMount() {
-        if (this.props.reportes == '') {
-            this.props.Get_Reportes(1)
-        }
+    async componentDidMount() {
+        await this.props.Get_Reportes(1)
+        await this.setState({
+            reportes: this.props.reportes
+        })
+
     }
-    // componentWillReceiveProps(nextProps) {
-    //     if (this.props.reportes !== nextProps.content) {
-    //     }
-    //   }
+
+    async onRefresh() {
+        this.setState({ isRefresh: true, })
+        await this.props.Get_Reportes(1)
+        await this.setState({
+            reportes: this.props.reportes,
+            isRefresh: false
+        })
+    }
     render() {
 
         return (
@@ -116,7 +125,8 @@ class Reportes extends Component {
                         </View>
 
                         :
-                        this.props.reportes == '' ?
+                        this.state.reportes == ''
+                            ?
                             <Text style={style.no_data}>
                                 {g.NO_DATA}
                             </Text>
@@ -124,9 +134,11 @@ class Reportes extends Component {
                             <View style={{ height: hp('80%') }} >
                                 <FlatList
                                     key={(item) => { item.id }}
+                                    onRefresh={() => this.onRefresh()}
+                                    refreshing={this.state.isRefresh}
                                     showsVerticalScrollIndicator={false}
                                     nestedScrollEnabled
-                                    data={this.props.reportes}
+                                    data={this.state.reportes}
                                     renderItem={({ item, index }) => (
                                         <View style={{ flexDirection: 'row', marginLeft: 10 }}>
                                             <TouchableWithoutFeedback
@@ -140,28 +152,35 @@ class Reportes extends Component {
                                                 }}>
                                                 <View style={[VisitsStyle.card, {
                                                     width: wp('60%'), height: hp('13%'),
-                                                    alignItems: 'center'
+                                                    justifyContent: 'space-between', alignItems: 'center'
                                                 }]}>
                                                     <Icon name="left" type="AntDesign"
                                                         style={[VisitsStyle.arrow, { fontSize: 18, }]}
 
                                                     />
                                                     <View style={{
-                                                        flexDirection: 'column', marginLeft: wp('-30%')
+                                                        width: 200,
+                                                        padding: 10,
+                                                        paddingHorizontal: 25,
+
                                                     }}>
-                                                        <Text style={[VisitsStyle.doctor_name, {
-                                                            marginLeft: wp('13%'), width: 200
-                                                        }]}>
+                                                        <Text style={{
+                                                            textAlign: 'right',
+                                                            fontFamily: g.Regular,
+                                                            color: g.Blue,
+                                                            marginBottom: 5,
+                                                        }}>
                                                             {item.reportNames} </Text>
-                                                        <Text style={[VisitsStyle.txt, { fontSize: 12 }]}>
-                                                            {item.reportType}
-                                                        </Text>
 
-                                                        <Text style={[VisitsStyle.txt, {
-                                                            fontSize: 12, color: g.Light_Gray,
-                                                        }]}>
 
-                                                            {item.doctorName}
+                                                        <Text style={{
+                                                            textAlign: 'right',
+                                                            fontFamily: g.Regular,
+                                                            fontSize: 12,
+                                                            color: g.Light_Gray,
+                                                        }}>
+
+                                                            {item.doctorTitle + ' '} {item.doctorName}
 
                                                         </Text>
 
@@ -191,7 +210,7 @@ class Reportes extends Component {
                                                         <Text style={[VisitsStyle.date_txt, {
                                                             color: 'white',
                                                             height: 100, padding: 0
-                                                        }]}>تحليل</Text>
+                                                        }]}>{item.reportType == 'RAD' ? 'تحليل' : 'اشعة'}</Text>
                                                     </View>
                                                     <Text style={VisitsStyle.date_txt}>{moment(item.clinicVisitDate).format('DD')} </Text>
                                                     <Text style={[VisitsStyle.month, { marginRight: 10, }]}>  {moment(item.clinicVisitDate).format('MMM')}

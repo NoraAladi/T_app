@@ -17,17 +17,29 @@ class header extends Component {
             Flag: false,
             
         }
-        AsyncStorage.getItem('user').then(val => {
+        AsyncStorage.getItem('patientCode').then(val => {
              this.setState({
-                name: JSON.parse(val).patient.fullNameAr,
-                code: JSON.parse(val).patient.code
+                code: val
             })
         })
+
+        AsyncStorage.getItem('patientName').then(val => {
+            this.setState({
+               name: val
+           })
+       })
     }
 
     _close_model() {
         this.setState({
             Flag: false,
+        })
+    }
+
+    setData = (name,code) => {
+        this.setState({
+            name:name,
+            code:code,
         })
     }
     
@@ -68,7 +80,9 @@ class header extends Component {
                 }
                 {
                     this.state.Flag ?
-                        <ModalAddUser closeModel={() => this._close_model()} /> : null
+                        <ModalAddUser closeModel={() => this._close_model()}
+                        setData={this.setData}
+                        /> : null
                 }
             </View>
 

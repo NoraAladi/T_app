@@ -263,6 +263,42 @@ class UserData extends Component {
                                         }}
                                     />
                                 </View>
+
+                                <View>
+                                <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
+                                    {'هل انت مرضع ...'}
+                                </Text>
+
+                                <View style={{
+                                    flexDirection: 'row',
+                                    transform: [{ rotate: '180deg' }],
+                                    paddingHorizontal: 40,
+                                    marginTop: 10,
+                                }}>
+                                    <RadioForm
+                                        radio_props={radio_props_three}
+                                        initial={this.state.pregnant}
+                                        formHorizontal={true}
+                                        labelHorizontal={true}
+                                        buttonSize={11}
+                                        labelStyle={[styleSignUp.dropDownTxt,
+                                        {
+                                            transform: [{
+                                                rotate: '180deg',
+                                            }],
+                                            paddingHorizontal: 10,
+
+
+                                        }]}
+                                        selectedButtonColor={'red'}
+                                        buttonColor={'#000'}
+                                        animation={false}
+                                        onPress={async (value) => {
+                                            await AsyncStorage.setItem('pregnant', String(value))
+                                        }}
+                                    />
+                                </View>
+                            </View>
                             </View>
 
                             : null}

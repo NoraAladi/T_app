@@ -19,6 +19,10 @@ import ModalVaccinations from "./ModalVaccinations";
 import { connect } from 'react-redux'
 import Spinner from '../../Navigation/Spinner'
 import { Get_GenericHealthProfile } from '../../Actions/GenericHealthProfile_Action';
+import { getHealthStatus } from '../../Actions/getStatus';
+import { putHealthStatus } from '../../Actions/putStatus';
+
+
 import RenderCard from './renderCard';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -52,15 +56,14 @@ class Visit extends Component {
             loader: true,
             typeModal: true
         }
-        AsyncStorage.getItem('toggle').then(val => {
-            console.log(val);
-            if (val == 'true')
-                this.setState({ toggle: true })
-            else
-                this.setState({ toggle: false })
-        })
+
+
     }
     async componentDidMount() {
+
+        await this.props.getHealthStatus()
+        this.setState({ toggle: this.props.healthStatus })
+
         const id = await AsyncStorage.getItem('dependentId')
         await this.props.Get_GenericHealthProfile('GenericHealthProfile')
         await this.setState({ GenericHealthProfile: this.props.GenericHealthProfile })
@@ -74,10 +77,10 @@ class Visit extends Component {
         await this.props.Get_GenericHealthProfile('HealthProfilePrescribedMedicines')
         await this.setState({ HealthProfilePrescribedMedicines: this.props.GenericHealthProfile })
 
-        await this.props.Get_GenericHealthProfile(`ChildVaccination?dependantId=${id}`)
+        await this.props.Get_GenericHealthProfile(`ChildVaccination`)
         await this.setState({ ChildVaccination: this.props.GenericHealthProfile })
 
-        await this.props.Get_GenericHealthProfile(`ChildGrowthChart?dependantId=${id}`)
+        await this.props.Get_GenericHealthProfile(`ChildGrowthChart`)
         await this.setState({ ChildGrowthChart: this.props.GenericHealthProfile })
 
         await this.setState({
@@ -113,12 +116,15 @@ class Visit extends Component {
                                     ModalAlert: true,
                                 })
                             }
-                            else {
-                                this.setState({
-                                    toggle: false
-                                })
-                                AsyncStorage.setItem('toggle', 'false')
-
+                            else {                               
+                                await this.props.putHealthStatus(!this.props.healthStatus)
+                                //   alert(this.props.status)
+                                   if (this.props.status == 200) {
+                                       await this.props.getHealthStatus()
+                                       this.setState({
+                                           toggle: this.props.healthStatus
+                                       }) 
+                                   }
                             }
 
                         }}
@@ -217,7 +223,6 @@ class Visit extends Component {
                 <ModalReactNative
                     //   animationType="slide"
                     transparent={true}
-
                     visible={this.state.ModalAlert}
                 >
 
@@ -273,12 +278,18 @@ class Visit extends Component {
 
                                 }}>
                                 <Text
-                                    onPress={() => {
-                                        this.setState({
-                                            ModalAlert: false,
-                                            toggle: true
-                                        })
-                                        AsyncStorage.setItem('toggle', 'true')
+                                    onPress={async () => {
+                                        //callApi    
+                                        await this.props.putHealthStatus(!this.props.healthStatus)
+                                     //   alert(this.props.status)
+                                        if (this.props.status == 200) {
+                                            await this.props.getHealthStatus()
+                                            this.setState({
+                                                ModalAlert: false,
+                                                toggle: this.props.healthStatus
+                                            }) 
+                                        }
+
                                     }}
                                     style={{
                                         fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
@@ -389,9 +400,10 @@ class Visit extends Component {
 const mapStateToProps = state => {
     return {
         GenericHealthProfile: state.GenericHealthProfile.GenericHealthProfile,
-
+        healthStatus: state.healthStatus.healthStatus,
+        status: state.editStatus.status
     }
 }
 
-export default connect(mapStateToProps, { Get_GenericHealthProfile })(withNavigation(Visit));
+export default connect(mapStateToProps, { Get_GenericHealthProfile, getHealthStatus, putHealthStatus })(withNavigation(Visit));
 
