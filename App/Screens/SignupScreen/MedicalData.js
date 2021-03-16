@@ -36,8 +36,14 @@ class UserData extends Component {
             married: radio_props_two[0].value,
             elevation: true,
             pregnant: radio_props_three[0].value,
+            breastFeeding: 0,
             flag: true
         };
+        AsyncStorage.getItem('gender').then(async (val) => {
+            await this.setState({
+                gender: val
+            })
+        })
     }
 
 
@@ -47,6 +53,8 @@ class UserData extends Component {
         await AsyncStorage.setItem('smoking', String(this.state.smoking))
         await AsyncStorage.setItem('married', String(this.state.married))
         await AsyncStorage.setItem('pregnant', String(this.state.pregnant))
+        await AsyncStorage.setItem('breastFeeding', String(this.state.breastFeeding))
+
 
     }
     async componentDidMount() {
@@ -59,6 +67,7 @@ class UserData extends Component {
                 smoking: this.props.dependantHealth.smoker == true ? 0 : 1,
                 married: this.props.dependantHealth.married == true ? 0 : 1,
                 pregnant: this.props.dependantHealth.healthProfile.pregnant == true ? 0 : 1,
+                breastFeeding: this.props.dependantHealth.healthProfile.breastFeeding == true ? 0 : 1,
 
             })
         }
@@ -66,7 +75,7 @@ class UserData extends Component {
         else if (this.props.dependentId) {
             //call get Api
             await this.props.Get_Dependant_Health('dependentId', this.props.dependentId)
-          //  alert(this.props.dependantHealth)
+            //  alert(this.props.dependantHealth)
             await this.setState({
                 height: this.props.dependantHealth.height,
                 weight: this.props.dependantHealth.weight,
@@ -228,7 +237,7 @@ class UserData extends Component {
 
 
                         {/***حامل  */}
-                        {this.props.gender != 1 ?
+                        {this.state.gender == 2 ?
                             <View>
                                 <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
                                     {g.pregnant}
@@ -265,40 +274,41 @@ class UserData extends Component {
                                 </View>
 
                                 <View>
-                                <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
-                                    {'هل انت مرضع ...'}
-                                </Text>
+                                    <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
+                                        {'هل انت مرضع ...'}
+                                    </Text>
 
-                                <View style={{
-                                    flexDirection: 'row',
-                                    transform: [{ rotate: '180deg' }],
-                                    paddingHorizontal: 40,
-                                    marginTop: 10,
-                                }}>
-                                    <RadioForm
-                                        radio_props={radio_props_three}
-                                        initial={this.state.pregnant}
-                                        formHorizontal={true}
-                                        labelHorizontal={true}
-                                        buttonSize={11}
-                                        labelStyle={[styleSignUp.dropDownTxt,
-                                        {
-                                            transform: [{
-                                                rotate: '180deg',
-                                            }],
-                                            paddingHorizontal: 10,
+                                    <View style={{
+                                        flexDirection: 'row',
+                                        transform: [{ rotate: '180deg' }],
+                                        paddingHorizontal: 40,
+                                        marginTop: 10,
+                                    }}>
+                                        <RadioForm
+                                            radio_props={radio_props_three}
+                                            initial={this.state.breastFeeding}
+                                            formHorizontal={true}
+                                            labelHorizontal={true}
+                                            buttonSize={11}
+                                            labelStyle={[styleSignUp.dropDownTxt,
+                                            {
+                                                transform: [{
+                                                    rotate: '180deg',
+                                                }],
+                                                paddingHorizontal: 10,
 
 
-                                        }]}
-                                        selectedButtonColor={'red'}
-                                        buttonColor={'#000'}
-                                        animation={false}
-                                        onPress={async (value) => {
-                                            await AsyncStorage.setItem('pregnant', String(value))
-                                        }}
-                                    />
+                                            }]}
+                                            selectedButtonColor={'red'}
+                                            buttonColor={'#000'}
+                                            animation={false}
+                                            onPress={async (value) => {
+                                                await AsyncStorage.setItem('breastFeeding', String(value))
+                                            }}
+                                        />
+                                    </View>
                                 </View>
-                            </View>
+
                             </View>
 
                             : null}

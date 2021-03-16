@@ -64,7 +64,7 @@ class SignUp extends Component {
         AsyncStorage.multiRemove([
             'fullName', 'email',
             'password', 'confirmPassword', 'date',
-            'sex', 'mobile', 'job', 'Jobname',
+            'gender', 'mobile', 'job', 'Jobname',
             'address', 'region', 'isChecked',
             'weight', 'height',
             'smoking', 'married', 'pregnant'
@@ -87,12 +87,12 @@ class SignUp extends Component {
             .then(async (response) => {
                 console.log(response)
                 this.setState({
-                    gender: parseInt(response[5].sex),
+                    gender: parseInt(response[5].gender),
                 })
                 await this.props.sign_up(
                     response[0].fullName,
                     response[4].date,
-                    parseInt(response[5].sex),
+                    parseInt(response[5].gender),
                     response[6].mobile,
                     response[8].Jobname,
                     parseInt(response[7].job),

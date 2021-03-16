@@ -22,6 +22,8 @@ export const Get_mini_Profile  = ()=>
        })
       .then(response => {
           // If request is good...
+        console.log('--Mini Profile---');
+        console.log(response.data);
           onhandleResponse( dispatch , response) 
 
        })

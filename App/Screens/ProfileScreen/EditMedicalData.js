@@ -3,7 +3,7 @@ import styles from '../LoginScreen/style';
 import React, { Component } from 'react';
 import {
     Text, View, TextInput,
-    TouchableOpacity,
+    TouchableOpacity, ScrollView
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -43,6 +43,7 @@ class EditMedicalData extends Component {
             smoking: radio_props_one[1].value,
             married: radio_props_two[1].value,
             pregnant: radio_props_three[1].value,
+            breastFeeding: 1,
 
             healthProfile: {},
 
@@ -53,8 +54,11 @@ class EditMedicalData extends Component {
             heightWithScroll: g.windowHeight,
             Diseases: [],
             selected: false,
-            elevation: 2, loading: true
+            elevation: 2, loading: true,
         };
+        AsyncStorage.getItem('genderLoginId').then(async (val) => {
+            await this.setState({ gender: val })
+        })
     }
 
     async componentDidMount() {
@@ -66,6 +70,8 @@ class EditMedicalData extends Component {
             smoking: this.props.user_i.smoker ? 0 : 1,
             married: this.props.user_i.married ? 0 : 1,
             pregnant: this.props.user_i.healthProfile.pregnant ? 0 : 1,
+            breastFeeding: this.props.user_i.healthProfile.breastFeeding ? 0 : 1,
+
             healthProfile: {
                 id: parseInt(id),
                 pregnant: this.props.user_i.healthProfile.pregnant,
@@ -93,211 +99,259 @@ class EditMedicalData extends Component {
                         </View>
 
                         :
-                        <View>
-
-
-                            {/**weight */}
+                        <ScrollView style={{ height: hp('85') }}>
                             <View>
-                                <Text style={[styles.username, { marginTop: hp('2%') }]}>
-                                    {g.WEIGHT}
-                                </Text>
 
-                                <View style={[styles.viewInput]}>
+                                {/**weight */}
+                                <View>
+                                    <Text style={[styles.username, { marginTop: hp('2%') }]}>
+                                        {g.WEIGHT}
+                                    </Text>
 
-                                    <TextInput
-                                        defaultValue={this.state.weight}
-                                        placeholder={this.state.weight + ' KG'}
-                                        keyboardType={'number-pad'}
-                                        onChangeText={(weight) => {
-                                            this.setState({
-                                                weight: weight,
-                                            })
+                                    <View style={[styles.viewInput]}>
 
-                                        }}
+                                        <TextInput
+                                            defaultValue={this.state.weight}
+                                            placeholder={this.state.weight + ' KG'}
+                                            keyboardType={'number-pad'}
+                                            onChangeText={(weight) => {
+                                                this.setState({
+                                                    weight: weight,
+                                                })
 
-                                        placeholderTextColor={g.Light_Gray}
-                                        style={[styles.input]} />
+                                            }}
+
+                                            placeholderTextColor={g.Light_Gray}
+                                            style={[styles.input]} />
+                                    </View>
                                 </View>
-                            </View>
 
-                            {/**height */}
-                            <View>
-                                <Text style={[styles.username, { marginTop: hp('2%') }]}>
-                                    {g.HEIGHT}
-                                </Text>
+                                {/**height */}
+                                <View>
+                                    <Text style={[styles.username, { marginTop: hp('2%') }]}>
+                                        {g.HEIGHT}
+                                    </Text>
 
-                                <View style={[styles.viewInput]}>
+                                    <View style={[styles.viewInput]}>
 
-                                    <TextInput
-                                        defaultValue={this.state.height}
-                                        placeholder={this.state.height + ' KG'}
-                                        keyboardType={'number-pad'}
-                                        onChangeText={(height) => {
-                                            this.setState({
-                                                height: height,
-                                            })
+                                        <TextInput
+                                            defaultValue={this.state.height}
+                                            placeholder={this.state.height + ' KG'}
+                                            keyboardType={'number-pad'}
+                                            onChangeText={(height) => {
+                                                this.setState({
+                                                    height: height,
+                                                })
 
-                                        }}
-                                        onEndEditing={async () => {
+                                            }}
+                                            onEndEditing={async () => {
 
-                                        }}
-                                        placeholderTextColor={g.Light_Gray}
-                                        style={[styles.input]} />
+                                            }}
+                                            placeholderTextColor={g.Light_Gray}
+                                            style={[styles.input]} />
+                                    </View>
                                 </View>
-                            </View>
 
 
 
-                            {/*****Smoking */}
-                            <View>
-                                <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
-                                    {g.U_SMOKING}
-                                </Text>
+                                {/*****Smoking */}
+                                <View>
+                                    <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
+                                        {g.U_SMOKING}
+                                    </Text>
 
-                                <View style={{
-                                    flexDirection: 'row',
-                                    transform: [{ rotate: '180deg' }],
-                                    paddingHorizontal: 40,
-                                    marginTop: 10,
-                                }}>
-                                    <RadioForm
-                                        radio_props={radio_props_one}
-                                        initial={this.state.smoking}
-                                        formHorizontal={true}
-                                        labelHorizontal={true}
-                                        buttonSize={11}
-                                        labelStyle={[styleSignUp.dropDownTxt,
-                                        {
-                                            transform: [{
-                                                rotate: '180deg',
-                                            }],
-                                            paddingHorizontal: 10,
+                                    <View style={{
+                                        flexDirection: 'row',
+                                        transform: [{ rotate: '180deg' }],
+                                        paddingHorizontal: 40,
+                                        marginTop: 10,
+                                    }}>
+                                        <RadioForm
+                                            radio_props={radio_props_one}
+                                            initial={this.state.smoking}
+                                            formHorizontal={true}
+                                            labelHorizontal={true}
+                                            buttonSize={11}
+                                            labelStyle={[styleSignUp.dropDownTxt,
+                                            {
+                                                transform: [{
+                                                    rotate: '180deg',
+                                                }],
+                                                paddingHorizontal: 10,
 
 
-                                        }]}
-                                        selectedButtonColor={'red'}
-                                        buttonColor={'#000'}
-                                        animation={false}
-                                        onPress={async (value) => {
-                                            this.setState({ smoking: value })
-                                        }}
-                                    />
+                                            }]}
+                                            selectedButtonColor={'red'}
+                                            buttonColor={'#000'}
+                                            animation={false}
+                                            onPress={async (value) => {
+                                                this.setState({ smoking: value })
+                                            }}
+                                        />
+                                    </View>
                                 </View>
-                            </View>
 
-                            {/***Married */}
-                            <View>
-                                <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
-                                    {g.U_MARRIED}
-                                </Text>
+                                {/***Married */}
+                                <View>
+                                    <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
+                                        {g.U_MARRIED}
+                                    </Text>
 
-                                <View style={{
-                                    flexDirection: 'row',
-                                    transform: [{ rotate: '180deg' }],
-                                    paddingHorizontal: 40,
-                                    marginTop: 10,
-                                }}>
-                                    <RadioForm
-                                        animation={true}
+                                    <View style={{
+                                        flexDirection: 'row',
+                                        transform: [{ rotate: '180deg' }],
+                                        paddingHorizontal: 40,
+                                        marginTop: 10,
+                                    }}>
+                                        <RadioForm
+                                            animation={true}
 
-                                        radio_props={radio_props_two}
-                                        initial={this.state.married}
-                                        formHorizontal={true}
-                                        labelHorizontal={true}
-                                        buttonSize={11}
-                                        labelStyle={[styleSignUp.dropDownTxt,
-                                        {
-                                            transform: [{
-                                                rotate: '180deg',
-                                            }],
-                                            paddingHorizontal: 10,
+                                            radio_props={radio_props_two}
+                                            initial={this.state.married}
+                                            formHorizontal={true}
+                                            labelHorizontal={true}
+                                            buttonSize={11}
+                                            labelStyle={[styleSignUp.dropDownTxt,
+                                            {
+                                                transform: [{
+                                                    rotate: '180deg',
+                                                }],
+                                                paddingHorizontal: 10,
 
-                                        }]}
-                                        selectedButtonColor={'red'}
-                                        buttonColor={'#000'}
-                                        animation={false}
-                                        onPress={async (value) => {
-                                            this.setState({ married: value })
-                                        }}
-                                    />
+                                            }]}
+                                            selectedButtonColor={'red'}
+                                            buttonColor={'#000'}
+                                            animation={false}
+                                            onPress={async (value) => {
+                                                this.setState({ married: value })
+                                            }}
+                                        />
+                                    </View>
                                 </View>
+                                
+                                {this.state.gender == 2 ?
+                                    <View>
+                                        <View>
+                                            <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
+                                                {g.pregnant}
+                                            </Text>
+
+                                            <View style={{
+                                                flexDirection: 'row',
+                                                transform: [{ rotate: '180deg' }],
+                                                paddingHorizontal: 40,
+                                                marginTop: 10,
+                                            }}>
+                                                <RadioForm
+                                                    radio_props={radio_props_three}
+                                                    initial={this.state.pregnant}
+                                                    formHorizontal={true}
+                                                    labelHorizontal={true}
+                                                    buttonSize={11}
+                                                    labelStyle={[styleSignUp.dropDownTxt,
+                                                    {
+                                                        transform: [{
+                                                            rotate: '180deg',
+                                                        }],
+                                                        paddingHorizontal: 10,
+
+
+                                                    }]}
+                                                    selectedButtonColor={'red'}
+                                                    buttonColor={'#000'}
+                                                    animation={false}
+                                                    onPress={async (value) => {
+                                                        await this.setState({
+                                                            pregnant: value,
+                                                            healthProfile: {
+                                                                id: parseInt(id),
+                                                                pregnant: value == 0 ? true : false,
+                                                                breastFeeding: this.state.breastFeeding == 0 ? true : false,
+
+                                                            }
+                                                        })
+                                                        //                                            alert(JSON.stringify(this.state.healthProfile))
+                                                    }}
+                                                />
+                                            </View>
+                                        </View>
+
+                                        <View>
+                                            <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
+                                                {'هل انت مرضع ...'}
+                                            </Text>
+
+                                            <View style={{
+                                                flexDirection: 'row',
+                                                transform: [{ rotate: '180deg' }],
+                                                paddingHorizontal: 40,
+                                                marginTop: 10,
+                                            }}>
+                                                <RadioForm
+                                                    radio_props={radio_props_three}
+                                                    initial={this.state.breastFeeding}
+                                                    formHorizontal={true}
+                                                    labelHorizontal={true}
+                                                    buttonSize={11}
+                                                    labelStyle={[styleSignUp.dropDownTxt,
+                                                    {
+                                                        transform: [{
+                                                            rotate: '180deg',
+                                                        }],
+                                                        paddingHorizontal: 10,
+
+
+                                                    }]}
+                                                    selectedButtonColor={'red'}
+                                                    buttonColor={'#000'}
+                                                    animation={false}
+                                                    onPress={async (value) => {
+                                                        await this.setState({
+                                                            breastFeeding: value,
+                                                            healthProfile: {
+                                                                id: parseInt(id),
+                                                                pregnant: this.state.pregnant == 0 ? true : false,
+                                                                breastFeeding: value == 0 ? true : false,
+
+                                                            }
+                                                        })
+                                                        //                                            alert(JSON.stringify(this.state.healthProfile))
+                                                    }}
+                                                />
+                                            </View>
+                                        </View>
+
+                                    </View>
+
+                                    : null}
+
+
+                                <TouchableOpacity style={[styles.btn, { marginTop: hp('6') }]}
+                                    onPress={async () => {
+                                        await this.props.Edit_MedicalData(
+                                            this.state.height,
+                                            this.state.weight,
+                                            this.state.married == 0 ? true : false,
+                                            this.state.smoking == 0 ? true : false,
+                                            this.state.healthProfile,
+
+                                        )
+                                        if (this.props.status == 200) {
+                                            this.toast.show('تم تعديل البيانات الطبية بنجاح', 5000);
+                                        }
+                                        else {
+                                            this.toast.show('البيانات غير صحيحة ', 5000);
+
+                                        }
+
+                                    }}
+                                >
+                                    <Text style={[styles.txt_btn,]}>
+                                        {g.SAVE}</Text>
+                                </TouchableOpacity>
+
                             </View>
-
-
-                            {/***pregnant */}
-                            <View>
-                                <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
-                                    {g.pregnant}
-                                </Text>
-
-                                <View style={{
-                                    flexDirection: 'row',
-                                    transform: [{ rotate: '180deg' }],
-                                    paddingHorizontal: 40,
-                                    marginTop: 10,
-                                }}>
-                                    <RadioForm
-                                        radio_props={radio_props_three}
-                                        initial={this.state.pregnant}
-                                        formHorizontal={true}
-                                        labelHorizontal={true}
-                                        buttonSize={11}
-                                        labelStyle={[styleSignUp.dropDownTxt,
-                                        {
-                                            transform: [{
-                                                rotate: '180deg',
-                                            }],
-                                            paddingHorizontal: 10,
-
-
-                                        }]}
-                                        selectedButtonColor={'red'}
-                                        buttonColor={'#000'}
-                                        animation={false}
-                                        onPress={async (value) => {
-                                            await this.setState({
-                                                pregnant: value,
-                                                healthProfile: {
-                                                    id: parseInt(id),
-                                                    pregnant: value == 0 ? true : false,
-                                                    breastFeeding: value == 0 ? true : false,
-
-                                                }
-                                            })
-//                                            alert(JSON.stringify(this.state.healthProfile))
-                                        }}
-                                    />
-                                </View>
-                            </View>
-
-
-
-
-                            <TouchableOpacity style={[styles.btn, { marginTop: hp('6') }]}
-                                onPress={async () => {
-                                    await this.props.Edit_MedicalData(
-                                        this.state.height,
-                                        this.state.weight,
-                                        this.state.married == 0 ? true : false,
-                                        this.state.smoking == 0 ? true : false,
-                                        this.state.healthProfile,
-
-                                    )
-                                    if (this.props.status == 200) {
-                                        this.toast.show('تم تعديل البيانات الطبية بنجاح', 5000);
-                                    }
-                                    else {
-                                        this.toast.show('البيانات غير صحيحة ', 5000);
-
-                                    }
-
-                                }}
-                            >
-                                <Text style={[styles.txt_btn,]}>
-                                    {g.SAVE}</Text>
-                            </TouchableOpacity>
-
-                        </View>
+                        </ScrollView>
                 }
                 <Toast
                     ref={(toast) => this.toast = toast}
@@ -308,6 +362,7 @@ class EditMedicalData extends Component {
                     fadeOutDuration={1000}
                     textStyle={{ color: 'white', fontFamily: g.Regular }}
                 />
+
             </View>
         );
 

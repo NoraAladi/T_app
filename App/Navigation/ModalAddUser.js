@@ -149,14 +149,19 @@ class ModalAddUser extends Component {
                                                 await this.setState({ selectedID: item.id })
                                                 await AsyncStorage.setItem('patientCode', item.code)
                                                 await AsyncStorage.setItem('patientName', item.fullNameAr)
-                                                this.props.setData(item.fullNameAr, item.code)
+                                                await AsyncStorage.setItem('gender', String(item.gender))
+                                                await AsyncStorage.setItem('personalPhoto',String(item.personalPhoto))
+
+                                                this.props.setData(item.fullNameAr, item.code, item.personalPhoto)
                                                 this.props.closeModel()
+
+                                                this.props.refreshKey()
                                             }}>
                                             <View>
                                                 <View style={[styles.circle, {
                                                     borderWidth: item.id == this.state.selectedID ? 2 : 0
                                                 }]}>
-                                                    <Image source={false ? { uri: item.personalPhoto } : require('../Images/noUser.png')}
+                                                    <Image source={item.personalPhoto ? { uri: item.personalPhoto } : require('../Images/noUser.png')}
 
                                                         style={{ width: 84, height: 84, borderRadius: 42 }} />
                                                 </View>

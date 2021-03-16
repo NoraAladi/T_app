@@ -22,13 +22,13 @@ class UserManagement extends Component {
         super(props);
         this.state = {
             Dependants: [],
-            userLoginId:0,
+            userLoginId: 0,
         };
         AsyncStorage.getItem('LOGIN_ID').then(val => {
             this.setState({
-                userLoginId:val
+                userLoginId: val
             })
-            
+
         })
     }
     async componentDidMount() {
@@ -46,7 +46,7 @@ class UserManagement extends Component {
                     <View style={{ marginTop: hp('35%') }} >
                         <Spinner />
                     </View>
-                    : this.props.Dependants == '' || this.props.Dependants.length==1?
+                    : this.props.Dependants == '' || this.props.Dependants.length == 1 ?
                         <View style={{
                             height: 200,
                             alignItems: 'center',
@@ -73,57 +73,71 @@ class UserManagement extends Component {
                                 onEndReached={() => { console.log('saad') }}
                                 data={this.state.Dependants}
                                 renderItem={({ item, index }) => (
-                                <>
-                                    {this.state.userLoginId!=item.id ?
+                                    <>
 
-                                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                                        <View style={styles.box}>
-                                            <Icon name='edit' type='MaterialIcons'
-                                                style={[styles.icon, { marginLeft: 'auto', }]}
-                                                onPress={() => {
-                                                    this.props.navigation.navigate('NewUserScreen',
+                                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                            <View style={styles.box}>
+                                                <Icon name='edit' type='MaterialIcons'
+                                                    style={[styles.icon, { marginLeft: 'auto', }]}
+                                                    onPress={() => {
+                                                        if (this.state.userLoginId == item.id) {
+                                                            this.props.navigation.navigate('EditProfileScreen', {
+                                                                'id': item.id
+                                                            })
+
+                                                        }
+                                                        else {
+                                                            this.props.navigation.navigate('NewUserScreen',
+                                                                {
+                                                                    'edit': 'edit',
+                                                                    'dependentId': item.id
+                                                                })
+                                                        }
+                                                        AsyncStorage.setItem('gender', String(item.gender))
+
+                                                    }}
+                                                />
+                                                <Image style={[styles.img, { borderRadius: wp('50'), }]}
+                                                    resizeMode="contain"
+                                                    source={item.personalPhoto ? { uri: item.personalPhoto } : require('../../Images/noUser.png')}
+                                                />
+                                                <Text style={[styles.txtBold, { fontSize: 16, marginTop: -5, }]}>{item.fullNameAr}</Text>
+                                                <Text style={[styles.txtBold, { fontSize: 12, marginTop: -5, }]}>{item.code}</Text>
+                                                {this.state.userLoginId != item.id ?
+
+                                                    <TouchableOpacity style={[
                                                         {
-                                                            'edit': 'edit',
-                                                            'dependentId': item.id
-                                                        })
-                                                }}
-                                            />
-                                            <Image style={[styles.img, { borderRadius: wp('50'), }]}
-                                                resizeMode="contain"
-                                                source={require('../../Images/user.png')}
-                                            />
-                                            <Text style={[styles.txtBold, { fontSize: 16, marginTop: -5, }]}>{item.fullNameAr}</Text>
-                                            <Text style={[styles.txtBold, { fontSize: 12, marginTop: -5, }]}>{item.code}</Text>
+                                                            width: wp('45'), backgroundColor: '#FFDBDB80',
+                                                            padding: 10, alignItems: 'center', marginTop: 15,
+                                                            justifyContent: 'center', marginBottom: -15,
+                                                            borderBottomLeftRadius: 10,
+                                                            borderBottomRightRadius: 10,
+                                                        }
+                                                    ]}
+                                                        onPress={async () => {
+                                                            await this.props.delete_dependent(item.id)
+                                                            // alert(this.props.status)
+                                                            if (this.props.status == 200) {
+                                                                this.toast.show(`تم مسح ${item.fullNameAr} بنجاح`, 10000)
+                                                                await this.props.Get_Dependants()
+                                                                this.setState({ Dependants: this.props.Dependants })
+                                                            }
+                                                            else
+                                                                this.toast.show('حدث خطأ حاول مرة اخرى', 10000)
 
-                                            <TouchableOpacity style={[
-                                                {
-                                                    width: wp('45'), backgroundColor: '#FFDBDB80',
-                                                    padding: 10, alignItems: 'center', marginTop: 15,
-                                                    justifyContent: 'center', marginBottom: -15,
-                                                    borderBottomLeftRadius: 10,
-                                                    borderBottomRightRadius: 10,
-                                                }
-                                            ]}
-                                                onPress={async () => {
-                                                    await this.props.delete_dependent(item.id)
-                                                    // alert(this.props.status)
-                                                    if (this.props.status == 200) {
-                                                        this.toast.show(`تم مسح ${item.fullNameAr} بنجاح`, 10000)
-                                                        await this.props.Get_Dependants()
-                                                        this.setState({ Dependants: this.props.Dependants })
-                                                    }
-                                                    else
-                                                        this.toast.show('حدث خطأ حاول مرة اخرى', 10000)
+                                                        }}
 
-                                                }}
-
-                                            >
-                                                <Text style={[styles.txt_btn, { color: '#E02020' }]}>
-                                                    {g.DELETE}</Text>
-                                            </TouchableOpacity>
+                                                    >
+                                                        <Text style={[styles.txt_btn, { color: '#E02020' }]}>
+                                                            {g.DELETE}</Text>
+                                                    </TouchableOpacity>
+                                                    : <View style={[
+                                                        {
+                                                            width: wp('45'), height: hp('6.5')
+                                                        }
+                                                    ]} />}
+                                            </View>
                                         </View>
-                                    </View>
-                                    :null}
                                     </>
                                 )} />
                         </View>

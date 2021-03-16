@@ -31,7 +31,10 @@ class Visits extends Component {
             heightWithScroll: g.windowHeight,
             elevation: true,
             modal: false,
-            Flag: false
+            Flag: false,
+            refreshKey: false,
+            personalPhoto: ''
+
 
 
         };
@@ -46,6 +49,16 @@ class Visits extends Component {
                 name: val
             })
         })
+
+        AsyncStorage.getItem('personalPhoto').then(val => {
+            if (val != 'null') {
+                this.setState({
+                    personalPhoto: val
+                })
+            }
+
+
+        })
     }
 
     _close_model() {
@@ -53,6 +66,13 @@ class Visits extends Component {
             Flag: false
         })
     }
+
+    refreshKey = () => {
+        this.setState({
+            refreshKey: !this.state.refreshKey
+        })
+    }
+
 
     componentDidMount() {
         this.props.navigation.addListener('willFoucs', () => {
@@ -73,10 +93,11 @@ class Visits extends Component {
     }
 
 
-    setData = (name, code) => {
+    setData = (name, code, personalPhoto) => {
         this.setState({
             name: name,
             code: code,
+            personalPhoto: personalPhoto
         })
     }
     render() {
@@ -107,7 +128,9 @@ class Visits extends Component {
                             <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => {
                                 this.props.navigation.navigate('ProfileScreen')
                             }}>
-                                <Image source={require('../../Images/profile.png')}
+                                <Image
+                                    key={this.state.personalPhoto}
+                                    source={this.state.personalPhoto ? { uri: this.state.personalPhoto } : require('../../Images/noUser.png')}
                                     style={headerStyle.userimg} />
                                 <View style={headerStyle.viewHeader}>
                                     <Text style={[headerStyle.username, { textAlign: 'left' }]}> {' ' + this.state.name} </Text>
@@ -228,11 +251,11 @@ class Visits extends Component {
 
                         {
                             this.state.tabSelected_1 ?
-                                <Medical_Status />
+                                <Medical_Status key={this.state.refreshKey} />
                                 : this.state.tabSelected_2 ?
-                                    <Tretment />
+                                    <Tretment key={this.state.refreshKey} />
                                     : this.state.tabSelected_3 ?
-                                        <Reportes />
+                                        <Reportes key={this.state.refreshKey} />
                                         : null
                         }
                         <View style={{ height: 50 }} />
@@ -261,6 +284,7 @@ class Visits extends Component {
                 {
                     this.state.Flag ?
                         <ModalAddUser
+                            refreshKey={this.refreshKey}
                             setData={this.setData}
                             closeModel={() => this._close_model()} /> : null
                 }

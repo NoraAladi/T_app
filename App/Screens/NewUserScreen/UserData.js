@@ -20,6 +20,8 @@ import { Get_Dependant_Personal } from '../../Actions/getDependant_Personal_Acti
 
 import { connect } from 'react-redux'
 import Spinner from '../../Navigation/Spinner'
+import ScrollPicker from "react-native-wheel-scrollview-picker";
+import DatePicker from 'react-native-date-picker'
 
 var months = ["يناير", "فبراير", "مارس", "إبريل", "مايو", "يونيو",
     "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
@@ -38,11 +40,12 @@ class UserData extends Component {
             jobName: '',
             showClender: false,
             showRelation: false,
-            relationName: '',
+            relationName: 'اختر صلة القرابة',
             relationId: 0,
-            dateInAr: this.arabicDate(moment().format('DD MMMM YYYY')),
+            dateInAr: 'اختر تاريخ الميلاد',
             loading: true,
-            realDate: moment().format('YYYY-MM-DD')
+            realDate: moment().format('YYYY-MM-DD'),
+            relationNameArray: []
 
 
         };
@@ -66,11 +69,15 @@ class UserData extends Component {
     }
     async componentDidMount() {
         await this.props.Get_Relation()
+        this.props.relation.map(item => {
+            this.state.relationNameArray.push(item.typeNameAR)
+        })
 
         //   alert(this.state.relationId)
         if (this.props.dependentCode) {
             //call get Api
             await this.props.Get_Dependant_Personal('dependentCode', this.props.dependentCode)
+
             await this.setState({
                 sonName: this.props.dependantPersonal.fullNameAr,
                 realDate: moment(this.props.dependantPersonal.dateofBirth).format('YYYY-MM-DD'),
@@ -80,6 +87,7 @@ class UserData extends Component {
                 relationName: this.props.dependantPersonal.relativeType.typeNameAR,
 
             })
+
             this.props.setID(this.props.dependantPersonal.id)
         }
 
@@ -137,49 +145,42 @@ class UserData extends Component {
                                 <Text style={[styles.username, { marginTop: hp('2%') }]}>
                                     {g.RELATION}
                                 </Text>
-                                <View style={styleNewUser.dropDownView}>
-                                    <Text style={styleNewUser.dropDownTxt}>{this.state.relationName}</Text>
-                                    <Icon name={this.state.showRelation ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                                        style={styleNewUser.dropDownIcon}
-                                        onPress={() => {
-                                            this.setState({
-                                                showRelation: !this.state.showRelation
-                                            })
-                                        }}
-                                    />
-                                </View>
+                                <TouchableOpacity
+                                    activeOpacity={1}
+                                    onPress={() => {
+                                        this.setState({
+                                            showRelation: !this.state.showRelation
+                                        })
+                                    }}>
+                                    <View style={styleNewUser.dropDownView}>
+                                        <Text style={styleNewUser.dropDownTxt}>{this.state.relationName}</Text>
+                                        <Icon name={this.state.showRelation ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                                            style={styleNewUser.dropDownIcon}
+
+                                        />
+                                    </View>
+                                </TouchableOpacity>
                             </View>
 
                             {this.state.showRelation ?
-                                <View style={[styleNewUser.dropDownView, {
-                                    marginTop: -15,
-                                    borderBottomLeftRadius: 10,
-                                    borderBottomRightRadius: 10,
-                                    height: 100
-                                }]}>
-                                    <FlatList
-                                        ListFooterComponent={() => <Text>{ }</Text>}
-                                        style={{ padding: 7, }}
-                                        data={this.props.relation}
-                                        renderItem={({ item, index }) => (
-                                            <View >
-                                                <TouchableOpacity onPress={async () => {
-                                                    this.setState({
-                                                        relationName: item.typeNameAR,
-                                                        relationId: item.id,
-                                                        showRelation: false
-                                                    })
-                                                    await AsyncStorage.setItem('relation', String(item.id))
-                                                }}>
-                                                    <Text style={[styleNewUser.dropDownTxt, {
-                                                        fontSize: 12,
-                                                        // color: g.Light_Gray,
-                                                    }]}>{item.typeNameAR}</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        )}
-                                    />
-                                </View>
+
+                                <ScrollPicker
+                                    ref={(sp) => { this.sp = sp }}
+                                    dataSource={this.state.relationNameArray}
+                                    selectedIndex={0}
+                                    itemHeight={40}
+                                    wrapperHeight={100}
+                                    highlightColor={g.Light_Gray}
+                                    onValueChange={async (data, selectedIndex) => {
+                                        this.setState({
+                                            relationName: data,
+                                            relationId: this.props.relation[selectedIndex].id,
+                                        })
+                                        await AsyncStorage.setItem('relation', String(this.props.relation[selectedIndex].id))
+
+                                    }}
+                                />
+
                                 : null}
 
 
@@ -216,38 +217,35 @@ class UserData extends Component {
                                 <Text style={[styles.username, { marginTop: hp('2%') }]}>
                                     {g.DATE}
                                 </Text>
-                                <View style={styleNewUser.dropDownView}>
-                                    <Text style={styleNewUser.dropDownTxt}>{this.state.dateInAr}</Text>
-                                    <Icon name={this.state.showClender ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                                        style={styleNewUser.dropDownIcon}
-                                        onPress={() => {
-                                            this.setState({
-                                                showClender: !this.state.showClender
-                                            })
-                                        }}
-                                    />
-                                </View>
+                                <TouchableOpacity
+                                    activeOpacity={1}
+                                    onPress={() => {
+                                        this.setState({
+                                            showClender: !this.state.showClender
+                                        })
+                                    }}>
+                                    <View style={styleNewUser.dropDownView}>
+                                        <Text style={styleNewUser.dropDownTxt}>{this.state.dateInAr}</Text>
+                                        <Icon name={this.state.showClender ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                                            style={styleNewUser.dropDownIcon}
+
+                                        />
+                                    </View>
+                                </TouchableOpacity>
                             </View>
 
                             {this.state.showClender ?
-                                <View style={{ marginTop: 10, }}>
-                                    <CalendarPicker
-                                        months={months}
-                                        weekdays={days}
-                                        previousTitle={'السابق'}
-                                        nextTitle={'التالي'}
-                                        selectMonthTitle={'الشهر'}
-                                        selectYearTitle={'السنة'}
-                                        textStyle={{
-                                            fontFamily: g.Regular
-                                        }}
-                                        previousTitleStyle={{
-                                            fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
-                                        }}
-                                        nextTitleStyle={{
-                                            fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
-                                        }}
-
+                                <View style={{
+                                    marginTop: 10,
+                                    marginLeft: 'auto',
+                                    marginRight: 'auto',
+                                }}>
+                                    <DatePicker
+                                        androidVariant='nativeAndroid'
+                                        // onDateChange={setDate}
+                                        date={new Date(moment().format('YYYY-MM-DD'))}
+                                        mode={'date'}
+                                        maximumDate={new Date(moment().format('YYYY-MM-DD'))}
                                         onDateChange={async (date) => {
                                             var date = new Date(date)
                                             var dateFormat = moment(date).format('YYYY-MM-DD')
@@ -256,15 +254,13 @@ class UserData extends Component {
 
                                             this.setState({
                                                 dateInAr: this.arabicDate(dateFormat2),
-                                                showClender: false
+                                                //  showClender: false
                                             })
                                             //   
                                         }}
-                                        selectedDayColor={g.Blue}
-                                        height={300}
-                                        width={g.windowWidth - 85}
                                     />
                                 </View>
+
                                 : null}
 
                             {/**son */}

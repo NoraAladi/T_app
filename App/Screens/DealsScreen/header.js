@@ -15,19 +15,24 @@ class header extends Component {
         super()
         this.state = {
             Flag: false,
-            
+            personalPhoto: ''
+
         }
         AsyncStorage.getItem('patientCode').then(val => {
-             this.setState({
+            this.setState({
                 code: val
             })
         })
 
         AsyncStorage.getItem('patientName').then(val => {
             this.setState({
-               name: val
-           })
-       })
+                name: val
+            })
+        })
+
+
+
+
     }
 
     _close_model() {
@@ -36,13 +41,25 @@ class header extends Component {
         })
     }
 
-    setData = (name,code) => {
+    setData = (name, code, personalPhoto) => {
         this.setState({
-            name:name,
-            code:code,
+            name: name,
+            code: code,
+            personalPhoto: personalPhoto
         })
     }
-    
+    componentDidMount() {
+        AsyncStorage.getItem('personalPhoto').then(val => {
+
+            if (val != 'null') {
+                this.setState({
+                    personalPhoto: val
+                })
+            }
+
+
+        })
+    }
     render() {
         return (
             <View
@@ -63,10 +80,10 @@ class header extends Component {
                     <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => {
                         this.props.navigation.navigate('ProfileScreen')
                     }}>
-                        <Image source={require('../../Images/profile.png')}
+                        <Image source={this.state.personalPhoto ? { uri: this.state.personalPhoto } : require('../../Images/noUser.png')}
                             style={style.userimg} />
                         <View style={style.viewHeader}>
-                            <Text style={[style.username,{textAlign:'left'}]}> {' '+this.state.name} </Text>
+                            <Text style={[style.username, { textAlign: 'left' }]}> {' ' + this.state.name} </Text>
                             <Text style={style.code}>{this.state.code}  </Text>
                         </View>
                     </TouchableOpacity>
@@ -81,7 +98,7 @@ class header extends Component {
                 {
                     this.state.Flag ?
                         <ModalAddUser closeModel={() => this._close_model()}
-                        setData={this.setData}
+                            setData={this.setData}
                         /> : null
                 }
             </View>

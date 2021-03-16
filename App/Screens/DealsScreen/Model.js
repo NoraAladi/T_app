@@ -11,7 +11,8 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import { connect } from 'react-redux'
 import Spinner from '../../Navigation/Spinner'
 import { Get_offer_details } from '../../Actions/_get_offer_details';
-
+import { ArabicNumbers } from 'react-native-arabic-numbers';
+import moment from 'moment';
 
 class DealsModelScreen extends Component {
     constructor(props) {
@@ -67,32 +68,25 @@ class DealsModelScreen extends Component {
                             </Text>
 
 
-                            <Text style={[style.txt, style.txt2, style.enter2]}>
+                            <Text style={[style.txt2, style.enter2]}>
                                 {g.OFFERS_SARY}
-                                {this.props.offer_detail.toDate.split('T')[0]}
+                                {'  ' + ArabicNumbers(moment(this.props.offer_detail.toDate).format('DD-MM-YYYY'))}
                             </Text>
 
                             <View style={style.line} />
                             <View style={style.viewBranch}>
-                                <Text style={style.branch}>{i18n.t(g.BRANCH)}</Text>
-                                <View style={[style.view1, style.enter2]}>
+                                <View style={[style.view1, style.enter2, { marginLeft: '25%' }]}>
                                     <Text style={[style.username,
-                                        style.txtIOS,{textAlign:'right'}]}>
-                                        {this.props.offer_detail.placeName} </Text>
+                                    style.txtIOS, { textAlign: 'right', marginTop: -15 }]}>
+                                        {this.props.offer_detail.titleEn} </Text>
+
                                     <Text style={[style.code, style.txt6]}>{this.props.offer_detail.titleEn}  </Text>
                                 </View>
-                                <Image source={require('../../Images/profile.png')}
+                                <Image source={{ uri: this.props.offer_detail.placeLogo }}
                                     style={[style.userimg]} />
 
                             </View>
-                            <View style={[style.line]} />
-                            <Text style={[style.txt, style.txt7]}>
-                                {i18n.t(g.HOWGETOFFER)}
-                            </Text>
 
-                            <Text style={[style.txt, style.txt8]}>
-                                {this.props.offer_detail.descriptionEn}
-                            </Text>
                         </View>
             }
         </View>
@@ -108,13 +102,16 @@ class DealsModelScreen extends Component {
                     borderRadius={20}
                     renderContent={this.renderContent}
                 />
-                <View style={style.view2}>
-                    <Image source={{uri:this.props.offer_detail.imageEn}}
+                <View style={[style.view2]}>
+                    <Image source={{ uri: this.props.offer_detail.imageEn }}
                         resizeMode='contain'
                         style={style.img} />
-                    <View onStartShouldSetResponder={() => {
-                        this.props.navigation.pop()
-                    }} style={style.popModal}>
+                    <View
+                        style={style.popModal}
+
+                        onStartShouldSetResponder={() => {
+                            this.props.navigation.pop()
+                        }} >
                         <Text style={[style.title3]}> {this.state.Name}</Text>
                         <Icon name="arrowdown" type="AntDesign"
                             style={[style.arrow, style.down]} />

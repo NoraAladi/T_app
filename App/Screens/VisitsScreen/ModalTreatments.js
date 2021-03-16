@@ -3,7 +3,7 @@ import headerStyle from '../DealsScreen/style';
 import React, { Component } from 'react';
 import {
     Text, View, ScrollView,
-    TouchableOpacity,  Image
+    TouchableOpacity, Image
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -122,18 +122,25 @@ class ModalTreatments extends Component {
                                                     flexDirection: 'row-reverse', marginTop: 5, paddingHorizontal: 40,
                                                     justifyContent: 'center'
                                                 }}>
-                                                    <Image source={require('../../Images/user.png')}
-                                                        style={{ width: 55, height: 55, borderRadius: 25 }}
-                                                    />
+                                                    <View style={{
+                                                        width: 70, height: 70, borderColor: g.Light_Gray,
+                                                        borderWidth: .5, borderRadius: 35, alignItems: 'center',
+                                                        justifyContent: 'center', marginRight: 30
+                                                    }}>
+                                                        <Image source={{ uri: this.props.visit_details.doctor.personalPhoto }}
+                                                            style={{ width: 45, height: undefined, aspectRatio: 1 }}
+                                                            resizeMode='contain'
+                                                        />
+                                                    </View>
 
-                                                    <View style={{ paddingHorizontal: 20 }}>
+                                                    <View style={{ paddingHorizontal: 20, paddingVertical: 10 }}>
                                                         {/**Dark Details */}
                                                         <Text style={[VisitsStyle.txt, { fontSize: 16 }]}>
                                                             {this.props.visit_details.doctor.titleAr + ' ' + this.props.visit_details.doctor.fullNameAr}
 
                                                         </Text>
                                                         <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular }]}>
-                                                            {this.props.visit_details.doctor.speciality.specialityNameAr}
+                                                            {this.props.visit_details.doctor.titlePreSpecialityAR + ' ' + this.props.visit_details.doctor.speciality.specialityNameAr}
                                                         </Text>
                                                     </View>
                                                 </View>
@@ -188,7 +195,7 @@ class ModalTreatments extends Component {
                                                     {/**Dark Details */}
                                                     <Text style={[VisitsStyle.txt, {}]}
                                                     >
-                                                        {this.props.visit_details.diagnosis==null?'لا يوجد':this.props.visit_details.diagnosis}
+                                                        {this.props.visit_details.diagnosis == null ? 'لا يوجد' : this.props.visit_details.diagnosis}
                                                     </Text>
                                                 </View>
 
@@ -217,15 +224,20 @@ class ModalTreatments extends Component {
                                                     <Text style={[VisitsStyle.txt]}
                                                     >
                                                         {this.props.visit_details.prescriptionMedicine == '' ? 'لا يوجد' :
-                                                            
+
                                                             this.props.visit_details.prescriptionMedicine.map((item, index) => {
                                                                 return (
-                                                                    <Text style={VisitsStyle.txt}
+                                                                    <Text style={[VisitsStyle.txt]}
                                                                         key={index}
                                                                     >
-                                                                        {item.medicine.medicineName + ' '
-                                                                            + item.prescribedMedicineDuration.medicineDuration +
-                                                                            ' مرات'
+                                                                        {
+                                                                            item.medicine.medicineName + '\n' +
+                                                                            item.prescribedMedicineRoute.medicineRouteAR + ' ' +
+                                                                            item.doze + ' كل ' +
+                                                                            item.prescribedMedicineFrequency.frequencyNameAR + ' ' +
+                                                                            item.prescribedMedicineFoodCondition.foodConditionAR + ' لمدة ' +
+                                                                            item.prescribedMedicineDuration.medicineDuration + ' يوم'
+
                                                                         }
                                                                     </Text>
                                                                 );
@@ -239,11 +251,11 @@ class ModalTreatments extends Component {
                                                     disabled={this.props.visit_details.prescriptionMedicine == ''}
                                                     style={[styleLogin.btn, {
                                                         marginTop: hp('3'),
-                                                        backgroundColor: this.props.visit_details.prescriptionMedicine == '' ? g.Light_Gray:g.Bold_blue
+                                                        backgroundColor: this.props.visit_details.prescriptionMedicine == '' ? g.Light_Gray : g.Bold_blue
                                                     }]}
                                                     onPress={async () => {
                                                         this.setState({
-                                                             details_component: false,
+                                                            details_component: false,
                                                             search_component: true
                                                         })
                                                     }}>
@@ -257,7 +269,7 @@ class ModalTreatments extends Component {
                                     </View>
                                     :
 
-                                    <ModalSearch backModal={this.backModal} closeModal={this.closeModal} clinicId={ this.props.clinicId}/>
+                                    <ModalSearch backModal={this.backModal} closeModal={this.closeModal} clinicId={this.props.clinicId} />
 
                                 }
                             </View>

@@ -32,7 +32,8 @@ class Reportes extends Component {
             modal: false,
             date: moment().format('DD-MM-YYYY'),
             reportes: [],
-            isRefresh: false
+            isRefresh: false,
+            typeOfReport:''
         }
 
     }
@@ -146,6 +147,7 @@ class Reportes extends Component {
                                                     await this.props.get_reportDetails(item.reportType, item.reportIds)
                                                     //   this.props.handlePress()
                                                     this.setState({
+                                                        typeOfReport:item.reportType,
                                                         date: moment(item.clinicVisitDate).format('YYYY-MM-DD'),
                                                         modal: !this.state.modal
                                                     })
@@ -161,7 +163,7 @@ class Reportes extends Component {
                                                     <View style={{
                                                         width: 200,
                                                         padding: 10,
-                                                        paddingHorizontal: 25,
+                                                        paddingHorizontal: 34,
 
                                                     }}>
                                                         <Text style={{
@@ -169,7 +171,9 @@ class Reportes extends Component {
                                                             fontFamily: g.Regular,
                                                             color: g.Blue,
                                                             marginBottom: 5,
-                                                        }}>
+                                                        }}
+                                                        numberOfLines={2}
+                                                        >
                                                             {item.reportNames} </Text>
 
 
@@ -210,7 +214,7 @@ class Reportes extends Component {
                                                         <Text style={[VisitsStyle.date_txt, {
                                                             color: 'white',
                                                             height: 100, padding: 0
-                                                        }]}>{item.reportType == 'RAD' ? 'تحليل' : 'اشعة'}</Text>
+                                                        }]}>{item.reportType == 'RAD' ? 'اشعة' : 'تحليل'}</Text>
                                                     </View>
                                                     <Text style={VisitsStyle.date_txt}>{moment(item.clinicVisitDate).format('DD')} </Text>
                                                     <Text style={[VisitsStyle.month, { marginRight: 10, }]}>  {moment(item.clinicVisitDate).format('MMM')}
@@ -312,6 +316,7 @@ class Reportes extends Component {
                             </View>
                             <ModalReportes reportDetails={this.props.reportDetails}
                                 date={this.state.date}
+                                typeOfReport={this.state.typeOfReport}
                             />
                         </View>
                     </View>

@@ -98,7 +98,7 @@ class myOrder extends Component {
                                                         selectIndex: index
                                                     })
                                                     if (this.state.dropDown)
-                                                        this.props.Get_PharmacyOrderDetails(item.pharmacy.id)
+                                                        this.props.Get_PharmacyOrderDetails(item.id)
 
                                                 }}>
                                                     <Icon
@@ -117,7 +117,7 @@ class myOrder extends Component {
                                                 </Text>
 
                                                 <Text style={[styles.txt, { fontSize: 16, marginTop: -5, width: wp('35') }]}>
-                                                    {item.pharmacy.nameEn}{'\n'}
+                                                    {item.pharmacy.nameAr}{'\n'}
                                                 </Text>
 
 
@@ -133,7 +133,7 @@ class myOrder extends Component {
                                                     <View style={{ flexDirection: 'row-reverse' }}>
                                                         <Text style={[styles.txt, {
                                                             fontSize: 16, color: '#e02020', marginTop: -5
-                                                        }]}>تم رفض الطلب</Text>
+                                                        }]}>{this.props.pharmacyOrderDetails.status}</Text>
                                                         <Text style={[styles.txt, { fontSize: 12 }]}>{'   '}{g.NOT_AVALIABLE}</Text>
                                                     </View>
 
@@ -147,16 +147,12 @@ class myOrder extends Component {
                                                         scrollEnabled
                                                         style={{ height: hp('28'), width: '100%' }}>
                                                         <TouchableWithoutFeedback onPress={() => { }}>
-
-
                                                             <FlatList
-
-
                                                                 showsVerticalScrollIndicator={false}
                                                                 nestedScrollEnabled
                                                                 onEndReachedThreshold={.1}
                                                                 onEndReached={() => { console.log('saad') }}
-                                                                data={this.props.pharmacyOrderDetails}
+                                                                data={this.props.pharmacyOrderDetails.pharmacyOrderDetails}
                                                                 renderItem={({ item, index }) => (
                                                                     <View>
                                                                         <View style={{ flexDirection: 'row-reverse', margin: 10, }}>

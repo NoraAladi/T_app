@@ -7,24 +7,27 @@ export const Get_Jobs = (countryId, CityId, page, loadmore) => {
         dispatch({ type: 'GET_JOBS_ATTEMPT' });
         const countryId = await AsyncStorage.getItem('countryIdKey')
         const cityId = await AsyncStorage.getItem('cityIdKey')
+        const Token = await AsyncStorage.getItem('app_Token');
+
         try {
-            let resp = await axios.get(`${g.BASE_URL}/api/Careers/PostedCareers?GovernorateId=${countryId}&CityId=${cityId}&jobfield=${1}&PageNumer=${page}&PageSize=${3}`,
+            let resp = await axios.get(`${g.BASE_URL}/api/Careers/PostedCareers?GovernorateId=${countryId}&CityId=${cityId}&PageNumer=${page}&PageSize=${3}`,
                 {
                     headers:
                     {
                         'accept': 'text/plain',
                         'authorizationKey': g.authorizationKey,
+                        'Authorization': `Bearer ${Token}`,
 
                     }
                 })
             console.log('______ JOBS ______');
             console.log(resp.data);
-            var totalNumberOfPages=resp.data.totalNumberOfPages
+            var totalNumberOfPages = resp.data.totalNumberOfPages
             if (loadmore == 1) {
                 jobs = [...jobs, ...resp.data.results]
             }
             else {
-                jobs=resp.data.results
+                jobs = resp.data.results
             }
             dispatch({ type: 'GET_JOBS_SUCCESS', jobs, totalNumberOfPages })
 

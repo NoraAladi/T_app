@@ -27,7 +27,7 @@ export const Get_PharmacyOrderDetails = (id) => {
             if (response.data) {
                 console.log('--- PharmacyOrderDetails API ----');
                 console.log(response.data);
-                dispatch({ type: 'PharmacyOrderDetails_SUCCESS', pharmacyOrderDetails: response.data.pharmacyOrderDetails })
+                dispatch({ type: 'PharmacyOrderDetails_SUCCESS', pharmacyOrderDetails: response.data })
             }
         } catch (err) {
             console.log(err);

@@ -100,7 +100,7 @@ class Tretment extends Component {
                                                         <Text style={VisitsStyle.doctor_name}>
                                                             {item.titleAr+' '+item.doctorNameAr}</Text>
                                                         <Text style={[VisitsStyle.txt, { fontSize: 12 }]}>
-                                                            {item.doctorSpecilityAr}
+                                                            {item.titlePreSpecialityAR+' '+item.doctorSpecilityAr}
                                                         </Text>
                                                     </View>
 

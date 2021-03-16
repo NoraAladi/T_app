@@ -268,6 +268,7 @@ class DispenseScreen extends Component {
                                             <View style={{ flexDirection: 'row' }}>
                                                 <TextInput
                                                     editable={this.state.isUpdate}
+                                                    multiline
                                                     style={[style.doctor_name, {
                                                         color: 'black', fontFamily: g.Regular, marginTop: 5,
                                                         borderWidth: this.state.isUpdate ? .5 : 0, borderColor: g.Gray, borderRadius: 5,
@@ -312,10 +313,10 @@ class DispenseScreen extends Component {
                                         pharmacyOrderDetail
                                     )
                                     if (this.props.orderResponse.status == 200) {
-                                        this.toast.show(this.props.orderResponse.data.message,10000)
+                                       // this.toast.show(this.props.orderResponse.data.message,10000)
                                         setTimeout(() => {
                                             this.props.navigation.navigate('ThanksDispense')
-                                        }, 10000);
+                                        }, 0);
                                     }
                                     else
                                         this.toast.show(this.props.orderResponse.data.message)

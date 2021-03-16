@@ -9,7 +9,7 @@ export const Get_MyOrder = () => {
         const ID = await AsyncStorage.getItem('LOGIN_ID');
         dispatch({ type: 'GET_MyOrder_ATTEMPT' });
         try {
-            let resp = await axios.get(`${g.BASE_URL}/api/PatientServiceProviders/PharmacyOrders?patientId=${ID}&PageNumer=1&PageSize=5`,
+            let resp = await axios.get(`${g.BASE_URL}/api/PatientServiceProviders/PharmacyOrders?dependentId=${ID}&PageNumer=1&PageSize=5`,
                 {
                     headers:
                     {

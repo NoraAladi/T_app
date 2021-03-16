@@ -115,7 +115,7 @@ class Jobs extends Component {
                                                 </Text>
 
                                                 <Text style={[styles.txt, {}]}>
-                                                    {item.placeName}
+                                                    {item.placeNameAR}
                                                 </Text>
 
                                                 <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5, width: wp('55') }]}>

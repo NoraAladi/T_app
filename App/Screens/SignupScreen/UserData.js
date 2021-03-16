@@ -104,7 +104,7 @@ class UserData extends Component {
         await AsyncStorage.setItem('password', this.state.password)
         await AsyncStorage.setItem('confirmPassword', this.state.confirmPassword)
         await AsyncStorage.setItem('date', String(moment().format('YYYY-MM-DD')))
-        await AsyncStorage.setItem('sex', String(this.state.gender))
+        await AsyncStorage.setItem('gender', String(this.state.gender))
         await AsyncStorage.setItem('mobile', this.state.mobile)
         await AsyncStorage.setItem('job', String(9))
         await AsyncStorage.setItem('region', String(this.state.regionId))
@@ -494,7 +494,6 @@ class UserData extends Component {
                         {this.state.showSex ?
 
                             <ScrollPicker
-                                style={{ backgroundColor: 'red', }}
                                 ref={(sp) => { this.sp = sp }}
                                 dataSource={sex}
                                 selectedIndex={0}
@@ -504,9 +503,9 @@ class UserData extends Component {
                                 onValueChange={async (data, selectedIndex) => {
                                     this.setState({
                                         sex: data,
-                                        gender: selectedIndex == 0 ? 1 : 0,
+                                        gender: selectedIndex == 0 ? 1 : 2,
                                     })
-                                    await AsyncStorage.setItem('sex', String(selectedIndex))
+                                    await AsyncStorage.setItem('gender', String(selectedIndex))
                                 }}
                             />
                             : null}
