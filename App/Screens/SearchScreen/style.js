@@ -182,7 +182,7 @@ export default {
   {
     textAlign: 'right', marginLeft: wp('40%'), fontSize: 16,
     fontFamily: g.Regular, marginTop: hp('1%'), color: g.Gray
-    , width: 200 , margin : 10 
+    , width: 200, margin: 10
   },
 
   info:
@@ -245,8 +245,9 @@ export default {
   },
   inputMedicineName:
   {
-    textAlign: 'left', fontSize: 14,
-    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, padding: 10, width: wp('85%')
+    textAlign: 'right', fontSize: 14,
+    fontFamily: g.Regular,
+    padding: 10, width: wp('85%')
   },
   view5:
   {
@@ -272,7 +273,7 @@ export default {
     textAlign: 'right', marginRight: wp('5%'), fontSize: 16,
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
     fontWeight: Platform.OS == "ios" ? "800" : null
-    , width: 230
+    , width: 230, marginTop: 15,
   },
 
   line: {
@@ -296,7 +297,7 @@ export default {
     width: wp('100%'),
   },
 
-  view8 : 
+  view8:
   {
     padding: 10,
     marginTop: wp('2%'),
@@ -305,39 +306,39 @@ export default {
     borderRadius: 10,
     marginBottom: 5,
     backgroundColor: g.white,
-    borderColor : g.Light_Gray , borderBottomWidth : .5 ,
+    borderColor: g.Light_Gray, borderBottomWidth: .5,
     alignItems: 'center',
     flexDirection: 'row-reverse', width: wp('90%'),
   },
-  no_data : 
+  no_data:
   {
     marginTop: hp('30%'),
     textAlign: 'center', fontFamily: g.Regular, color: g.Gray, fontSize: 20,
-  
+
   },
   error:
   {
-     color: 'red',
+    color: 'red',
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
     fontWeight: Platform.OS == "ios" ? "800" : null,
     textAlign: 'center', marginTop: 10
   },
   ModalContainer:
   {
-    width: wp('80'), height: hp('40'),backgroundColor: 'white',
-    elevation: 4, borderRadius: 15, 
-    marginTop: hp('30%'),marginLeft: '10%',
+    width: wp('80'), height: hp('40'), backgroundColor: 'white',
+    elevation: 4, borderRadius: 15,
+    marginTop: hp('30%'), marginLeft: '10%',
   }
   ,
   modalText:
   {
-    fontSize: 14, color: g.Gray, fontFamily: g.Regular, 
-    textAlign:'right', paddingHorizontal:  5,
+    fontSize: 14, color: g.Gray, fontFamily: g.Regular,
+    textAlign: 'right', paddingHorizontal: 5,
   },
   titleModal:
   {
-    fontSize: 16,  fontFamily: g.Bold, 
-    marginTop: hp('2%'),textAlign:'right', paddingHorizontal:  20,
+    fontSize: 16, fontFamily: g.Bold,
+    marginTop: hp('2%'), textAlign: 'right', paddingHorizontal: 20,
   },
 
 };

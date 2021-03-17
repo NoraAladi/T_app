@@ -22,7 +22,7 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            image: false
         };
     }
 
@@ -72,8 +72,9 @@ class Profile extends Component {
 
     }
 
-    componentDidMount() {
-        this.props.Get_mini_Profile()
+    async componentDidMount() {
+        await this.props.Get_mini_Profile()
+        this.setState({ image: true })
     }
 
     render() {
@@ -110,13 +111,13 @@ class Profile extends Component {
                                 marginTop: Platform.OS == "android" ? -55 : 0
                             }]}
                                 resizeMode="contain"
-                                source={require('../../Images/user.png')}
+                                source={this.state.image && this.props.mini.personalPhoto ? { uri: this.props.mini.personalPhoto } : require('../../Images/noUser.png')}
                             />
 
                             <Image style={[{ marginTop: -15, marginLeft: 44 }]}
                                 source={require('../../Images/camIcon.png')}
                             />
-                            <Text style={[styles.txtBold, { fontSize: 16, marginTop: -5, }]}>{this.props.mini.fullNameEn}</Text>
+                            <Text style={[styles.txtBold, { fontSize: 16, marginTop: -5, }]}>{this.props.mini.fullNameAr}</Text>
                             <Text style={[styles.txtBold, { fontSize: 12, marginTop: -5, }]}>{this.props.mini.code}</Text>
                         </View>
 
@@ -133,7 +134,7 @@ class Profile extends Component {
                                     </Text>
 
                                     <Text style={[styles.txt, { fontSize: 16, marginTop: -5, }]}>
-                                        {this.props.mini.fullNameEn}
+                                        {this.props.mini.fullNameAr}
                                     </Text>
 
                                     <Text style={[styles.txt, { color: g.Gray, fontSize: 12 }]}>

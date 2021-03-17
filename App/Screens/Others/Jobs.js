@@ -73,78 +73,88 @@ class Jobs extends Component {
                         this.props.jobs == '' ?
                             <Text style={styles.noFound}>لا توجد بيانات</Text>
                             :
-                        <View>
-                            <FlatList
-                                style={{ height: hp('70') }}
-                                key={(item) => { item.id }}
-                                showsVerticalScrollIndicator={false}
-                                onEndReachedThreshold={.01}
-                                onEndReached={() => {
-                                    console.log('saad')
-                                    if (this.page < this.props.totalNumberOfPages) {
-                                        this.setState({
-                                            loadmore: true
-                                        })
-                                        this.page = this.page + 1
-                                        this.props.Get_Jobs(this.state.countryId, this.state.cityId, this.page, 1)
-                                    }
-                                }}
-                                data={this.state.jobs}
-                                // ListHeaderComponent={this.renderListHeader}
+                            <View>
+                                <FlatList
+                                    style={{ height: hp('70') }}
+                                    key={(item) => { item.id }}
+                                    showsVerticalScrollIndicator={false}
+                                    onEndReachedThreshold={.01}
+                                    onEndReached={() => {
+                                        console.log('saad')
+                                        if (this.page < this.props.totalNumberOfPages) {
+                                            this.setState({
+                                                loadmore: true
+                                            })
+                                            this.page = this.page + 1
+                                            this.props.Get_Jobs(this.state.countryId, this.state.cityId, this.page, 1)
+                                        }
+                                    }}
+                                    data={this.state.jobs}
+                                    // ListHeaderComponent={this.renderListHeader}
 
-                                renderItem={({ item, index }) => (
-                                    <View style={styles.card}>
-                                        <View>
-                                            <Image source={{ uri: item.placeLogo }}
-                                                style={styles.img} />
-                                        </View>
+                                    renderItem={({ item, index }) => (
+                                        <View style={styles.card}>
+                                            <View style={[styles.img, {
+                                                alignItems: "center",
+                                                justifyContent: 'center'
+                                            }]} >
+                                                <Image source={{ uri: item.placeLogo }}
+                                                   // resizeMode={'contain'}
+                                                    // style={{
+                                                    //     width: 60, height: 60,
+                                                    // }}
+                                                  style=  {{ width: '65%',
+                                                  height: undefined,
+                                                  aspectRatio: 1}} 
+                                                />
+                                            </View>
 
-                                        <View style={{ paddingHorizontal: 10, width: wp('60') }}>
-                                            <Text style={[styles.txtBold, { color: g.Blue }]}>
-                                                {item.titleEn}
-                                            </Text>
+                                            <View style={{ paddingHorizontal: 10, width: wp('60') }}>
+                                                <Text style={[styles.txtBold, { color: g.Blue }]}>
+                                                    {item.titleEn}
+                                                </Text>
 
-                                            <Text style={[styles.txt, {}]}>
-                                                {item.placeName}
-                                            </Text>
+                                                <Text style={[styles.txt, {}]}>
+                                                    {item.placeNameAR}
+                                                </Text>
 
-                                            <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5, width: wp('55') }]}>
-                                                {item.descriptionEn}
-                                            </Text>
+                                                <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5, width: wp('55') }]}>
+                                                    {item.descriptionEn}
+                                                </Text>
 
-                                            <View style={{
-                                                flexDirection: 'row-reverse',
-                                                // paddingHorizontal: 88,
-                                            }}>
-                                                <View style={{ width: wp('20') }}>
-                                                    <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5 }]}>
-                                                        المرتب
+                                                <View style={{
+                                                    flexDirection: 'row-reverse',
+                                                    // paddingHorizontal: 88,
+                                                }}>
+                                                    <View style={{ width: wp('20') }}>
+                                                        <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5 }]}>
+                                                            المرتب
                                         </Text>
 
-                                                    <Text style={[styles.txtBold, { fontSize: 15 }]}>
-                                                        {item.salary}
-                                                    </Text>
-                                                </View>
+                                                        <Text style={[styles.txtBold, { fontSize: 15 }]}>
+                                                            {item.salary}
+                                                        </Text>
+                                                    </View>
 
-                                                <View style={{ width: wp('40') }}>
-                                                    <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5 }]}>
-                                                        التواصل
+                                                    <View style={{ width: wp('40') }}>
+                                                        <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5 }]}>
+                                                            التواصل
                                         </Text>
 
-                                                    <Text style={[styles.txtBold, { fontSize: 15 }]}>
-                                                        {item.contactEmail}
-                                                    </Text>
+                                                        <Text style={[styles.txtBold, { fontSize: 15 }]}>
+                                                            {item.contactEmail}
+                                                        </Text>
+                                                    </View>
+
                                                 </View>
 
                                             </View>
 
                                         </View>
 
-                                    </View>
 
-
-                                )} />
-                        </View>
+                                    )} />
+                            </View>
                     }
                     {this.props.loading && this.state.loadmore ?
                         <ActivityIndicator size='small' color='gray' style={{ marginTop: -5 }} />

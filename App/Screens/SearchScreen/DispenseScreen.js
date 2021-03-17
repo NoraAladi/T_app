@@ -103,7 +103,6 @@ class DispenseScreen extends Component {
                                             key={(item) => { item.id }}
                                             showsVerticalScrollIndicator={false}
                                             onEndReachedThreshold={.5}
-                                            onEndReached={() => { console.log('hegazy') }}
                                             data={this.state.selectedMedicines}
                                             renderItem={({ item, index }) => (
                                                 <View style={{ flexDirection: 'column', }}>
@@ -112,7 +111,7 @@ class DispenseScreen extends Component {
                                                             <Image source={img[index % img.length]}
                                                                 style={{ width: 32, height: 31, marginTop: 0 }} />
                                                         </View>
-                                                        <Text style={style.txt3}> {item.medicineName + '\n' + item.medicineUsage}  </Text>
+                                                        <Text style={style.txt3}> {item.medicineName }  </Text>
                                                     </View>
 
                                                     <View style={{ flexDirection: 'row-reverse', margin: hp('1%') }}>
@@ -269,6 +268,7 @@ class DispenseScreen extends Component {
                                             <View style={{ flexDirection: 'row' }}>
                                                 <TextInput
                                                     editable={this.state.isUpdate}
+                                                    multiline
                                                     style={[style.doctor_name, {
                                                         color: 'black', fontFamily: g.Regular, marginTop: 5,
                                                         borderWidth: this.state.isUpdate ? .5 : 0, borderColor: g.Gray, borderRadius: 5,
@@ -313,10 +313,10 @@ class DispenseScreen extends Component {
                                         pharmacyOrderDetail
                                     )
                                     if (this.props.orderResponse.status == 200) {
-                                        this.toast.show(this.props.orderResponse.data.message,10000)
+                                       // this.toast.show(this.props.orderResponse.data.message,10000)
                                         setTimeout(() => {
                                             this.props.navigation.navigate('ThanksDispense')
-                                        }, 10000);
+                                        }, 0);
                                     }
                                     else
                                         this.toast.show(this.props.orderResponse.data.message)

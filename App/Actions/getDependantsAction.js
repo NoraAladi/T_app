@@ -9,7 +9,7 @@ export const Get_Dependants = () => {
         const ID = await AsyncStorage.getItem('LOGIN_ID');
         dispatch({ type: 'GET_Dependants_ATTEMPT' });
         try {
-            let resp = await axios.get(`${g.BASE_URL}/api/PatientProfile/Dependants?patientId=${ID}`,
+            let resp = await axios.get(`${g.BASE_URL}/api/PatientProfile/AllUsers`,
                 {
                     headers:
                     {
@@ -21,9 +21,12 @@ export const Get_Dependants = () => {
                 })
             console.log('______ Dependants ______');
             console.log(resp.data);
-            onhandleResponse(dispatch, resp.data)
+            dispatch({ type: 'GET_Dependants_SUCCESS', Dependants: resp.data })
 
         } catch (error) {
+            console.log(error);
+            dispatch({ type: 'GET_Dependants_FAIL', Dependants: [] })
+
             if (error.response) {
                 console.log(error.response.status);
             }
@@ -31,12 +34,4 @@ export const Get_Dependants = () => {
 
     }
 
-}
-const onhandleResponse = (dispatch, data) => {
-    onGetDependants(dispatch, data)
-
-}
-
-const onGetDependants = (dispatch, Dependants) => {
-    dispatch({ type: 'GET_Dependants_SUCCESS', Dependants })
 }

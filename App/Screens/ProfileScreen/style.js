@@ -104,5 +104,10 @@ export default {
   {
     zIndex: 1, marginLeft: 'auto', margin: 20,
     marginTop: Platform.OS == "ios" ? hp('5%') : null
-  }
+  },
+  noData:
+  {
+    fontSize: 16, color: g.Gray,
+    fontFamily:g.Regular ,  textAlign: 'center'
+  },
 };

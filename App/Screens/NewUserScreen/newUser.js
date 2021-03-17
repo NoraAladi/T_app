@@ -75,7 +75,6 @@ class newUser extends Component {
                 if (this.props.navigation.getParam('edit') == 'edit' ||
                     this.props.navigation.getParam('patientCode') 
                 ) {
-
                     await this.props.Put_DependentPersonal(
                         this.state.editID,
                         //  this.props.dependantPersonal,
@@ -85,7 +84,7 @@ class newUser extends Component {
                         parseInt(response[2].relation),
                     )
                     if (this.props.putPersonalResponse.status == 200)
-                        this.toast.show('تم التعديل بيانات المستخدم بنجاح ', 10000);
+                        this.toast.show('تم التعديل بيانات المستخدم بنجاح ', 2000);
                 }
                 else {
                     await this.props.new_Register(
@@ -113,7 +112,7 @@ class newUser extends Component {
 
         await this.getKeysData([
             'weight', 'height',
-            'smoking', 'married', 'pregnant'
+            'smoking', 'married', 'pregnant','breastFeeding'
         ])
             .then(async (response) => {
                 console.log(response)
@@ -125,12 +124,12 @@ class newUser extends Component {
                             this.state.editID :
                             this.state.newUserID,
                         pregnant: response[4].pregnant == '0' ? true : false,
-                        breastFeeding: response[4].pregnant == '0' ? true : false,
+                        breastFeeding: response[5].pregnant == '0' ? true : false,
 
                     }
                 })
                 if (this.props.navigation.getParam('edit') ||
-                    this.props.navigation.getParam('patientCode') ) {
+                    this.props.navigation.getParam('patientCode')) {
                     await this.props.Put_DependentHealth(
                         this.state.editID,
                         //this.props.navigation.getParam('dependentId'),
@@ -141,10 +140,10 @@ class newUser extends Component {
                         this.state.healthProfile
                     )
                     if (this.props.putHealthResponse.status == 200) {
-                        this.toast.show('تم تسجيل البيانات الطبية بنجاح', 10000);
+                        this.toast.show('تم تسجيل البيانات الطبية بنجاح', 2000);
                         setTimeout(() => {
                             this.props.navigation.replace('UserManagementScreen')
-                        }, 1000);
+                        }, 2000);
                     }
                     else {
                         this.toast.show('حدث مشكلة ، حاول مرة اخرى', 10000);
@@ -164,13 +163,13 @@ class newUser extends Component {
                     if (this.props.status == 200) {
                         //alert(this.props.id)
 
-                        this.toast.show('تم تسجيل البيانات الطبية بنجاح', 10000);
+                        this.toast.show('تم تسجيل البيانات الطبية بنجاح', 3000);
                         setTimeout(() => {
                             this.props.navigation.replace('UserManagementScreen')
-                        }, 1000);
+                        }, 3000);
                     }
                     else {
-                        this.toast.show('حدث مشكلة ، حاول مرة اخرى', 10000);
+                        this.toast.show('حدث مشكلة ، حاول مرة اخرى', 3000);
                     }
                 }
             })
@@ -294,7 +293,6 @@ class newUser extends Component {
                                 />
                                 : this.state.tabSelected_2 ?
                                     <MedicalData
-
                                         dependentId={this.props.navigation.getParam('dependentId')}
                                         dependentCode={this.props.navigation.getParam('patientCode')}
                                     />

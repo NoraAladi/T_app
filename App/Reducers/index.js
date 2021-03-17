@@ -44,7 +44,8 @@ import dependentPersonal_Reducer from './dependentPersonal_Reducer';
 import dependentHealth_Reducer from './dependentHealth_Reducer';
 import putDependentPersonal_Reducer from './putDependentPersonal_Reducer';
 import putDependentHealth_Reducer from './putDependentHealth_Reducer';
-
+import getStatusREducer from './getStatusREducer';
+import putStatusReducer from './putStatusReducer';
 
 
 
@@ -73,7 +74,7 @@ export default combineReducers({
     register: sign_upReducer,
     CHange: chande_passReducer,
     jobs: _JobsReducer,
-    editStatus: EditUserDataReducer,
+    editStatusUserData: EditUserDataReducer,
     editMedicalData: EditMedicalDataReducer,
     relation: getRelation,
     newRegister: newRegister_Reducer,
@@ -94,5 +95,7 @@ export default combineReducers({
     dependantPersonal: dependentPersonal_Reducer,
     dependantHealth: dependentHealth_Reducer,
     putPersonalResponse: putDependentPersonal_Reducer,
-    putHealthResponse:putDependentHealth_Reducer,
+    putHealthResponse: putDependentHealth_Reducer,
+    healthStatus: getStatusREducer,
+    editStatus: putStatusReducer,
 });

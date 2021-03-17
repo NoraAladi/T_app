@@ -30,7 +30,7 @@ class myOrder extends Component {
         this.state = {
             dropDown: false,
             nameSelected: '',
-            selectIndex:0
+            selectIndex: 0
         };
     }
     async componentDidMount() {
@@ -61,138 +61,144 @@ class myOrder extends Component {
                             <Spinner />
                         </View>
 
-                        :
-                        <View style={styles.FlatListHeight}>
-                            <FlatList
+                        : this.props.MyOrder == '' ?
+                            <View style={{
+                                height: 200,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}>
+                                <Text style={styles.noData}>
+                                    {'لم يتم عمل طلبات بعد'}
+                                </Text>
+                            </View>
+                            :
+                            <View style={styles.FlatListHeight}>
+                                <FlatList
 
-                                showsVerticalScrollIndicator={false}
-                                nestedScrollEnabled
-                                onEndReachedThreshold={.1}
-                                onEndReached={() => { console.log('saad') }}
-                                data={this.props.MyOrder}
-                                renderItem={({ item, index }) => (
+                                    showsVerticalScrollIndicator={false}
+                                    nestedScrollEnabled
+                                    onEndReachedThreshold={.1}
+                                    onEndReached={() => { console.log('saad') }}
+                                    data={this.props.MyOrder}
+                                    renderItem={({ item, index }) => (
 
-                                    <View style={[styles.card, { flexDirection: 'column' }]}>
-                                        <View style={{ flexDirection: 'row-reverse', }}>
-                                            <Text style={[styles.txt, styles.dateRequest]}>
-                                                {g.REQUEST_DATE}
-                                            </Text>
-                                            <Text style={[styles.txt, styles.provider]}>
-                                                {g.PROVIDER}
-                                            </Text>
-
-                                            <TouchableOpacity onPress={async () => {
-
-                                                await this.setState({
-                                                    dropDown: !this.state.dropDown,
-                                                    selectIndex: index
-                                                })
-                                                if(this.state.dropDown)
-                                                this.props.Get_PharmacyOrderDetails(item.pharmacy.id)
-
-                                            }}>
-                                                <Icon
-                                                    name={this.state.dropDown&&this.state.selectIndex == index ? 'up' : 'down'} type='AntDesign'
-                                                    style={[styles.icon, styles.iconSize]} />
-                                            </TouchableOpacity>
-
-                                        </View>
-
-                                        <View style={styles.viewValues}>
-                                            <Text style={[styles.txt, { fontSize: 16, marginTop: -5, width: wp('40') }]}>
-
-                                                {ArabicNumbers(this.arabicDate(moment(item.created).format('DD MMMM YYYY')))
-                                                }
-                                                {'\n'}
-                                            </Text>
-
-                                            <Text style={[styles.txt, { fontSize: 16, marginTop: -5, width: wp('35') }]}>
-                                                {item.pharmacy.nameEn}{'\n'}
-                                            </Text>
-
-                                          
-                                        </View>
-
-
-                                        {/*** dropDown*/}
-                                        {this.state.dropDown && this.state.selectIndex == index ?
-                                            <View style={{ flex: 1 }}>
-                                                <Text style={[styles.txt, { color: g.Gray, fontSize: 12 }]}>
-                                                    {g.STATUS}
+                                        <View style={[styles.card, { flexDirection: 'column' }]}>
+                                            <View style={{ flexDirection: 'row-reverse', }}>
+                                                <Text style={[styles.txt, styles.dateRequest]}>
+                                                    {g.REQUEST_DATE}
                                                 </Text>
-                                                <View style={{ flexDirection: 'row-reverse' }}>
-                                                    <Text style={[styles.txt, {
-                                                        fontSize: 16, color: '#e02020', marginTop: -5
-                                                    }]}>تم رفض الطلب</Text>
-                                                    <Text style={[styles.txt, { fontSize: 12 }]}>{'   '}{g.NOT_AVALIABLE}</Text>
-                                                </View>
-
-                                                <Text style={[styles.txt, { color: g.Gray, fontSize: 12 }]}>
-                                                    {g.REQURIED_ITEMS}
+                                                <Text style={[styles.txt, styles.provider]}>
+                                                    {g.PROVIDER}
                                                 </Text>
 
+                                                <TouchableOpacity onPress={async () => {
 
-                                                <ScrollView
-                                                    nestedScrollEnabled
-                                                    scrollEnabled
-                                                    style={{ height: hp('28'), width: '100%' }}>
-                                                    <TouchableWithoutFeedback onPress={() => { }}>
+                                                    await this.setState({
+                                                        dropDown: !this.state.dropDown,
+                                                        selectIndex: index
+                                                    })
+                                                    if (this.state.dropDown)
+                                                        this.props.Get_PharmacyOrderDetails(item.id)
 
+                                                }}>
+                                                    <Icon
+                                                        name={this.state.dropDown && this.state.selectIndex == index ? 'up' : 'down'} type='AntDesign'
+                                                        style={[styles.icon, styles.iconSize]} />
+                                                </TouchableOpacity>
 
-                                                        <FlatList
+                                            </View>
 
+                                            <View style={styles.viewValues}>
+                                                <Text style={[styles.txt, { fontSize: 16, marginTop: -5, width: wp('40') }]}>
 
-                                                            showsVerticalScrollIndicator={false}
-                                                            nestedScrollEnabled
-                                                            onEndReachedThreshold={.1}
-                                                            onEndReached={() => { console.log('saad') }}
-                                                            data={this.props.pharmacyOrderDetails}
-                                                            renderItem={({ item, index }) => (
-                                                                <View>
-                                                                    <View style={{ flexDirection: 'row-reverse', margin: 10, }}>
-                                                                        <View style={{
-                                                                            width: 50, height: 50,
-                                                                            justifyContent: 'center',
-                                                                            alignItems: 'center',
-                                                                            backgroundColor: '#c2eaff'
-                                                                        }}>
-                                                                            <Image source={require('../../Images/drugs.png')}
-                                                                                resizeMode='center'
-                                                                            />
-                                                                        </View>
+                                                    {ArabicNumbers(this.arabicDate(moment(item.created).format('DD MMMM YYYY')))
+                                                    }
+                                                    {'\n'}
+                                                </Text>
 
-                                                                        <View style={{ marginRight: 15, width: wp('55') }}>
-
-                                                                            <Text style={[styles.txt, { fontSize: 14, }]}>
-                                                                                {item.medicineUsage}
-                                                                            </Text>
-                                                                            <Text style={[styles.txt, { fontSize: 14, marginTop: -5, }]}>
-                                                                                {item.medicine.medicineName}
-                                                                            </Text>
-                                                                        </View>
-
-                                                                        <Text style={[styles.txt, { fontSize: 14, }]}>
-                                                                            {ArabicNumbers(item.quantity+'×')}
-                                                                        </Text>
-
-                                                                    </View>
-
-                                                                </View>
-                                                            )} />
-                                                    </TouchableWithoutFeedback>
-                                                </ScrollView>
-
+                                                <Text style={[styles.txt, { fontSize: 16, marginTop: -5, width: wp('35') }]}>
+                                                    {item.pharmacy.nameAr}{'\n'}
+                                                </Text>
 
 
                                             </View>
-                                            : null}
+
+
+                                            {/*** dropDown*/}
+                                            {this.state.dropDown && this.state.selectIndex == index ?
+                                                <View style={{ flex: 1 }}>
+                                                    <Text style={[styles.txt, { color: g.Gray, fontSize: 12 }]}>
+                                                        {g.STATUS}
+                                                    </Text>
+                                                    <View style={{ flexDirection: 'row-reverse' }}>
+                                                        <Text style={[styles.txt, {
+                                                            fontSize: 16, color: '#e02020', marginTop: -5
+                                                        }]}>{this.props.pharmacyOrderDetails.status}</Text>
+                                                        <Text style={[styles.txt, { fontSize: 12 }]}>{'   '}{g.NOT_AVALIABLE}</Text>
+                                                    </View>
+
+                                                    <Text style={[styles.txt, { color: g.Gray, fontSize: 12 }]}>
+                                                        {g.REQURIED_ITEMS}
+                                                    </Text>
+
+
+                                                    <ScrollView
+                                                        nestedScrollEnabled
+                                                        scrollEnabled
+                                                        style={{ height: hp('28'), width: '100%' }}>
+                                                        <TouchableWithoutFeedback onPress={() => { }}>
+                                                            <FlatList
+                                                                showsVerticalScrollIndicator={false}
+                                                                nestedScrollEnabled
+                                                                onEndReachedThreshold={.1}
+                                                                onEndReached={() => { console.log('saad') }}
+                                                                data={this.props.pharmacyOrderDetails.pharmacyOrderDetails}
+                                                                renderItem={({ item, index }) => (
+                                                                    <View>
+                                                                        <View style={{ flexDirection: 'row-reverse', margin: 10, }}>
+                                                                            <View style={{
+                                                                                width: 50, height: 50,
+                                                                                justifyContent: 'center',
+                                                                                alignItems: 'center',
+                                                                                backgroundColor: '#c2eaff'
+                                                                            }}>
+                                                                                <Image source={require('../../Images/drugs.png')}
+                                                                                    resizeMode='center'
+                                                                                />
+                                                                            </View>
+
+                                                                            <View style={{ marginRight: 15, width: wp('55') }}>
+
+                                                                                <Text style={[styles.txt, { fontSize: 14, }]}>
+                                                                                    {item.medicineUsage}
+                                                                                </Text>
+                                                                                <Text style={[styles.txt, { fontSize: 14, marginTop: -5, }]}>
+                                                                                    {item.medicine.medicineName}
+                                                                                </Text>
+                                                                            </View>
+
+                                                                            <Text style={[styles.txt, { fontSize: 14, }]}>
+                                                                                {ArabicNumbers(item.quantity + '×')}
+                                                                            </Text>
+
+                                                                        </View>
+
+                                                                    </View>
+                                                                )} />
+                                                        </TouchableWithoutFeedback>
+                                                    </ScrollView>
 
 
 
-                                    </View>
-                                )}
-                            />
-                        </View>
+                                                </View>
+                                                : null}
+
+
+
+                                        </View>
+                                    )}
+                                />
+                            </View>
 
                     }
                 </ScrollView>
@@ -212,8 +218,8 @@ const mapStateToProps = state => {
         pharmacyOrderDetails: state.pharmacyOrderDetails.pharmacyOrderDetails,
         loading2: state.pharmacyOrderDetails.loading,
 
-        
+
     }
 }
-export default connect(mapStateToProps, { Get_MyOrder,Get_PharmacyOrderDetails })(withNavigation(myOrder));
+export default connect(mapStateToProps, { Get_MyOrder, Get_PharmacyOrderDetails })(withNavigation(myOrder));
 

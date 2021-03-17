@@ -6,7 +6,7 @@ export const Get_LAB_RAD_PAHRMA_Search = (type, Filter, GovernorateId, CityId) =
 
   console.log(
     'type: ' + type + '\n' +
-    'Filter: ' + Filter + '\n' +
+    'Filter: ' + JSON.stringify(Filter) + '\n' +
     'GovernorateId: ' + GovernorateId + '\n' +
     'CityId: ' + CityId
   );
@@ -18,10 +18,12 @@ export const Get_LAB_RAD_PAHRMA_Search = (type, Filter, GovernorateId, CityId) =
 
     const countryId = await AsyncStorage.getItem('countryIdKey')
     const cityId = await AsyncStorage.getItem('cityIdKey')
+    console.log(`/api/PatientServiceProviders/${type}?governorateId=${countryId}&cityId=${cityId}`)
 
 
     //call the backend 
     let response = await axios.get(`${g.BASE_URL}/api/PatientServiceProviders/${type}?governorateId=${countryId}&cityId=${cityId}&name=${Filter}&PageNumer=1&PageSize=10`,
+    
       {
         headers:
         {

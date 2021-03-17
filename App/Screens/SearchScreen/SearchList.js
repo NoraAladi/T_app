@@ -1,7 +1,7 @@
 import style from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, FlatList, Image, ScrollView, TextInput, Platform
+    Text, View, FlatList, Image, Linking, Platform
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon, Title } from 'native-base';
@@ -78,7 +78,7 @@ class SearchList extends Component {
             this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, 1, 1)
 
         else if (TITLE == g.ROSHETA_NAME) {
-            await this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, countryId, cityId)
+            await this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, 1, 1)
             // alert(JSON.stringify(this.props.lab_rad))
         }
         else null
@@ -179,19 +179,6 @@ class SearchList extends Component {
                                     data={TITLE == g.DOCTOR_TITLE ? this.props.doctor : this.props.lab_rad}
                                     renderItem={({ item, index }) => (
                                         <View style={style.info}>
-                                            <View style={[style.view_img, {
-                                                backgroundColor:
-                                                    this.state.Title == g.DOCTOR_TITLE ? g.Samawe
-                                                        :
-                                                        this.state.Title == g.LAB_TITLE ? g.pink
-                                                            :
-                                                            this.state.Title == g.RAD_TITLE ? g.Peag
-                                                                :
-                                                                g.Move
-                                            }]}>
-                                                <Image source={this.state.icon}
-                                                    style={{ width: 30, height: 30, marginTop: 0 }} />
-                                            </View>
                                             <TouchableOpacity onPress={async () => {
                                                 //    alert(this.state.Title)
                                                 if (this.state.Title == g.ROSHETA_NAME) {
@@ -210,6 +197,21 @@ class SearchList extends Component {
 
                                                 }
                                             }}>
+                                                <View style={[style.view_img, {
+                                                    backgroundColor:
+                                                        this.state.Title == g.DOCTOR_TITLE ? g.Samawe
+                                                            :
+                                                            this.state.Title == g.LAB_TITLE ? g.pink
+                                                                :
+                                                                this.state.Title == g.RAD_TITLE ? g.Peag
+                                                                    :
+                                                                    g.Move
+                                                }]}>
+                                                    <Image source={{ uri: this.state.Title == g.DOCTOR_TITLE ? item.personalPhoto : item.logo }}
+                                                        style={{ width: 30, height: 30, marginTop: 0 }} />
+                                                </View>
+                                            </TouchableOpacity>
+                                            <View>
                                                 <Text style={style.doctor_name}>
                                                     {this.state.Title == g.DOCTOR_TITLE ? item.doctorTitleAr + ' ' + item.doctorFullNameAr
                                                         : item.nameAr
@@ -224,19 +226,27 @@ class SearchList extends Component {
 
                                                 <View style={{ flexDirection: 'row' }}>
                                                     <Text style={[style.doctor_name, { color: g.Gray, fontFamily: g.Regular }]}>
-                                                        {this.state.Title == g.DOCTOR_TITLE || this.state.Title == g.PHARMA_TITLE ?
+                                                        {this.state.Title == g.DOCTOR_TITLE || this.state.Title == g.ROSHETA_NAME || this.state.Title == g.PHARMA_TITLE ?
                                                             item.street + ' ' + item.cityAr + ' ' + item.governateAr
-                                                            :this.state.Title == g.LAB_TITLE ?
-                                                             item.street + ' ' + item.cityNameAr + ' ' + item.governatesNameAr
-                                                           
-                                                            : item.street + ' ' + item.cityNameAr + ' ' + item.governateNameAr
+                                                            : this.state.Title == g.LAB_TITLE ?
+                                                                item.street + ' ' + item.cityNameAr + ' ' + item.governatesNameAr
+
+                                                                : item.street + ' ' + item.cityNameAr + ' ' + item.governateNameAr
                                                         }
                                                     </Text>
                                                     <Icon name="location-pin" type="MaterialIcons"
                                                         style={[style.arrow, { marginTop: 5, color: g.Gray }]} />
                                                 </View>
 
-                                                <View style={{ flexDirection: 'row' }}>
+                                                <TouchableOpacity style={{ flexDirection: 'row' }}
+                                                    onPress={() => {
+                                                        Linking.openURL(`tel:${this.state.Title == g.DOCTOR_TITLE ?
+                                                            item.clinicPhoneNumber
+                                                            :
+                                                            item.phoneNumber
+                                                            }`)
+
+                                                    }}>
                                                     <Text style={[style.doctor_name, {
                                                         color: g.Gray,
                                                         fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
@@ -248,8 +258,8 @@ class SearchList extends Component {
                                                         }
                                                     </Text>
                                                     <Icon name="call" type="Ionicons" style={style.call} />
-                                                </View>
-                                            </TouchableOpacity>
+                                                </TouchableOpacity>
+                                            </View>
                                         </View>
 
                                     )} />

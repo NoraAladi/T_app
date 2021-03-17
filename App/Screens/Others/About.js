@@ -1,7 +1,7 @@
 import styles from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, Image,
+    Text, View, ScrollView, Image, TouchableOpacity, Linking
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -46,7 +46,7 @@ class About extends Component {
                             <View style={{ zIndex: -1 }}>
                                 <View style={{
                                     marginLeft: 'auto', paddingHorizontal: 10,
-                                    width: 120, height: 80, 
+                                    width: 120, height: 80,
                                     justifyContent: 'center', alignItems: 'center'
                                 }}>
 
@@ -79,14 +79,22 @@ class About extends Component {
                                 }} >
                                     <Text style={styles.txtBold}>للمتابعة عبر وسائل التواصل</Text>
                                     <View style={{
-                                        flexDirection: 'row-reverse', marginTop: 10, marginBottom: 5,
+                                        flexDirection: 'row', marginTop: 10, marginBottom: 5,
                                         justifyContent: 'space-around', width: wp('40')
                                     }}>
+                                        {this.props.social.map(item => {
+                                            return (
+                                                <TouchableOpacity onPress={() => {
+                                                    Linking.openURL(item.channelLinkEN)
+                                                }}>
+                                                    <Icon name={item.channelNameEN == 'linkedIn' ? 'linkedin-square':item.channelNameEN }
+                                                        type={item.channelNameEN == 'facebook' ? 'FontAwesome' : 'AntDesign'}
+                                                        style={[styles.icon1, { color: g.Gray }]} />
+                                                </TouchableOpacity>
+                                            )
+                                        })}
 
-                                        <Icon name='youtube' type='AntDesign' style={[styles.icon1, { color: g.Gray }]} />
-                                        <Icon name='instagram' type='AntDesign' style={[styles.icon1, { color: g.Gray }]} />
-                                        <Icon name='twitter' type='AntDesign' style={[styles.icon1, { color: g.Gray }]} />
-                                        <Icon name='facebook-f' type='FontAwesome' style={[styles.icon1, { color: g.Gray }]} />
+
 
                                     </View>
                                 </View>

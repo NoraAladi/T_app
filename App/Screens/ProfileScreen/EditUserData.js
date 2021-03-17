@@ -24,6 +24,8 @@ import { Get_Country } from '../../Actions/getCountryAction';
 import { Edit_UserData } from '../../Actions/EditUserData';
 
 import Toast, { DURATION } from 'react-native-easy-toast'
+import DatePicker from 'react-native-date-picker'
+import ScrollPicker from "react-native-wheel-scrollview-picker";
 
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -52,13 +54,8 @@ const region = ['السلام',
 
 ]
 
-const sex = [{
-    'id': 1,
-    'type': g.MALE
-}, {
-    'id': 0,
-    'type': g.FAMLE
-}]
+const sex = [g.MALE, g.FAMLE]
+
 var months = ["يناير", "فبراير", "مارس", "إبريل", "مايو", "يونيو",
     "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
 var monthsEn = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -66,8 +63,8 @@ var monthsEn = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
 var days = ["اﻷحد", "اﻷثنين", "الثلاثاء", "اﻷربعاء", "الخميس", "الجمعة", "السبت"];
 
 var radio_props = [
-    { label: g.INSIDE, value: 0 },
-    { label: g.OUTSIDE, value: 1 }
+    { label: g.INSIDE, value: 9 },
+    { label: g.OUTSIDE, value: 8 }
 ];
 
 
@@ -94,7 +91,9 @@ class EditUserData extends Component {
             showRegion: false,
             countryID: 0,
             regionID: 0,
-            realDate: ''
+            realDate: '',
+            countryNameArray: [],
+            cityNameArray: [],
 
         };
     }
@@ -103,7 +102,6 @@ class EditUserData extends Component {
     async componentDidMount() {
         if (this.props.navigation.getParam('id')) {
             await this.props.Get_USER_DATA(this.props.navigation.getParam('id'))
-
         }
         else {
             const ID = await AsyncStorage.getItem('LOGIN_ID')
@@ -111,7 +109,7 @@ class EditUserData extends Component {
         }
 
 
-        this.setState({
+      await  this.setState({
             fullName: this.props.user_d.fullNameAr,
             email: this.props.user_d.email,
             mobile: this.props.user_d.mobileNumber,
@@ -127,9 +125,16 @@ class EditUserData extends Component {
             sex: this.props.user_d.gender == 1 ? g.MALE : g.FAMLE
         })
         await this.props.Get_Country()
-        await this.props.Get_City(1)
+        await this.props.Get_City(this.state.countryID)
 
+        this.props.countries.map(item => {
+            this.state.countryNameArray.push(item.nameAr)
+        })
 
+        this.props.cities.map(item => {
+            this.state.cityNameArray.push(item.cityNameAr)
+
+        })
 
     }
 
@@ -221,38 +226,36 @@ class EditUserData extends Component {
                                     <Text style={[styles.username, { marginTop: hp('2%') }]}>
                                         {g.DATE}
                                     </Text>
-                                    <View style={styleSignUp.dropDownView}>
-                                        <Text style={styleSignUp.dropDownTxt}>{this.state.dateInAr}</Text>
-                                        <Icon name={this.state.showClender ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                                            style={styleSignUp.dropDownIcon}
-                                            onPress={() => {
-                                                this.setState({
-                                                    showClender: !this.state.showClender
-                                                })
-                                            }}
-                                        />
-                                    </View>
+                                    <TouchableOpacity
+                                        activeOpacity={1}
+                                        onPress={() => {
+                                            this.setState({
+                                                showClender: !this.state.showClender
+                                            })
+                                        }}>
+                                        <View style={styleSignUp.dropDownView}>
+                                            <Text style={styleSignUp.dropDownTxt}>{this.state.dateInAr}</Text>
+                                            <Icon name={this.state.showClender ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                                                style={styleSignUp.dropDownIcon}
+
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
                                 </View>
 
                                 {this.state.showClender ?
-                                    <View style={{ marginTop: 10, }}>
-                                        <CalendarPicker
-                                            months={months}
-                                            weekdays={days}
-                                            previousTitle={'السابق'}
-                                            nextTitle={'التالي'}
-                                            selectMonthTitle={'الشهر'}
-                                            selectYearTitle={'السنة'}
-                                            textStyle={{
-                                                fontFamily: g.Regular
-                                            }}
-                                            previousTitleStyle={{
-                                                fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
-                                            }}
-                                            nextTitleStyle={{
-                                                fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
-                                            }}
 
+                                    <View style={{
+                                        marginTop: 10,
+                                        marginLeft: 'auto',
+                                        marginRight: 'auto',
+                                    }}>
+                                        <DatePicker
+                                            androidVariant='nativeAndroid'
+                                            // onDateChange={setDate}
+                                            date={new Date(moment().format('YYYY-MM-DD'))}
+                                            mode={'date'}
+                                            maximumDate={new Date(moment().format('YYYY-MM-DD'))}
                                             onDateChange={async (date) => {
                                                 var date = new Date(date)
                                                 var dateFormat = moment(date).format('YYYY-MM-DD')
@@ -260,14 +263,11 @@ class EditUserData extends Component {
 
                                                 this.setState({
                                                     dateInAr: this.arabicDate(dateFormat2),
-                                                    showClender: false,
+                                                    //showClender: false,
                                                     realDate: dateFormat
                                                 })
                                                 //   
                                             }}
-                                            selectedDayColor={g.Blue}
-                                            height={300}
-                                            width={g.windowWidth - 85}
                                         />
                                     </View>
                                     : null}
@@ -277,47 +277,44 @@ class EditUserData extends Component {
                                     <Text style={[styles.username, { marginTop: hp('2%') }]}>
                                         {g.SEX}
                                     </Text>
-                                    <View style={styleSignUp.dropDownView}>
-                                        <Text style={styleSignUp.dropDownTxt}>{this.state.sex}</Text>
-                                        <Icon name={this.state.showSex ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                                            style={styleSignUp.dropDownIcon}
-                                            onPress={() => {
-                                                this.setState({
-                                                    showSex: !this.state.showSex
-                                                })
-                                            }}
-                                        />
-                                    </View>
+                                    <TouchableOpacity
+                                        activeOpacity={1}
+                                        onPress={() => {
+                                            this.setState({
+                                                showSex: !this.state.showSex
+                                            })
+                                        }}>
+
+
+                                        <View style={styleSignUp.dropDownView}>
+                                            <Text style={styleSignUp.dropDownTxt}>{this.state.sex}</Text>
+                                            <Icon name={this.state.showSex ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                                                style={styleSignUp.dropDownIcon}
+
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
                                 </View>
 
                                 {this.state.showSex ?
-                                    <View style={[styleSignUp.dropDownView, {
-                                        marginTop: -15,
-                                        borderBottomLeftRadius: 10,
-                                        borderBottomRightRadius: 10,
-                                        height: 80
-                                    }]}>
-                                        <FlatList
-                                            style={{ height: 65, padding: 10, }}
-                                            data={sex}
-                                            renderItem={({ item, index }) => (
-                                                <View >
-                                                    <TouchableOpacity onPress={async () => {
-                                                        this.setState({
-                                                            sexID: item.id,
-                                                            sex: item.type,
-                                                            showSex: false
-                                                        })
-                                                    }}>
-                                                        <Text style={[styleSignUp.dropDownTxt, {
-                                                            fontSize: 12,
-                                                            //     color: g.Light_Gray,
-                                                        }]}>{item.type}</Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            )}
-                                        />
-                                    </View>
+                                    <ScrollPicker
+                                        style={{ backgroundColor: 'red', }}
+                                        ref={(sp) => { this.sp = sp }}
+                                        dataSource={sex}
+                                        selectedIndex={0}
+                                        itemHeight={40}
+                                        wrapperHeight={100}
+                                        highlightColor={g.Light_Gray}
+                                        onValueChange={async (data, selectedIndex) => {
+                                            this.setState({
+                                                sexID: selectedIndex == 0 ? 1 : 0,
+                                                sex: data,
+                                                //   showSex: false
+                                            })
+
+                                        }}
+                                    />
+
                                     : null}
 
 
@@ -376,61 +373,13 @@ class EditUserData extends Component {
                                             buttonColor={'#000'}
                                             animation={false}
                                             onPress={async (value) => {
-                                                this.setState({ JobType: radio_props[value].label })
-                                            }}
-                                        />
-                                    </View>
-                                </View>
-
-                                {/*****job name*/}
-                                <View>
-                                    <Text style={[styles.username, { marginTop: hp('2%') }]}>
-                                        {g.JOP}
-                                    </Text>
-                                    <View style={styleSignUp.dropDownView}>
-                                        <Text style={styleSignUp.dropDownTxt}>{this.state.Jobname}</Text>
-                                        <Icon name={this.state.showJobs ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                                            style={styleSignUp.dropDownIcon}
-                                            onPress={() => {
                                                 this.setState({
-                                                    showJobs: !this.state.showJobs
+                                                    JobType: radio_props[value].label,
                                                 })
                                             }}
                                         />
                                     </View>
                                 </View>
-
-                                {this.state.showJobs ?
-                                    <View style={[styleSignUp.dropDownView, {
-                                        marginTop: -15,
-                                        borderBottomLeftRadius: 10,
-                                        borderBottomRightRadius: 10,
-                                        height: 120
-                                    }]}>
-                                        <FlatList
-                                            // showsVerticalScrollIndicator={false}
-                                            style={{ padding: 10, }}
-                                            ListFooterComponent={() => <Text>{ }</Text>}
-                                            data={Jobs}
-                                            renderItem={({ item, index }) => (
-                                                <View >
-                                                    <TouchableOpacity onPress={async () => {
-                                                        this.setState({
-                                                            Jobname: item,
-                                                            showJobs: false
-                                                        })
-                                                    }}>
-                                                        <Text style={[styleSignUp.dropDownTxt, {
-                                                            fontSize: 12,
-                                                            //  color: g.Light_Gray,
-                                                            textAlign: 'right'
-                                                        }]}>{item}</Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            )}
-                                        />
-                                    </View>
-                                    : null}
 
 
                                 {/*****job country*/}
@@ -438,53 +387,53 @@ class EditUserData extends Component {
                                     <Text style={[styles.username, { marginTop: hp('2%') }]}>
                                         {g.COUNTRY}
                                     </Text>
+                                    <TouchableOpacity
+                                        activeOpacity={1}
+                                     onPress={() => {
+                                        this.setState({
+                                            showCountry: !this.state.showCountry
+                                        })
+                                    }}>
+
                                     <View style={styleSignUp.dropDownView}>
                                         <Text style={styleSignUp.dropDownTxt}>{this.state.country}</Text>
                                         <Icon name={this.state.showCountry ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
                                             style={styleSignUp.dropDownIcon}
-                                            onPress={() => {
-                                                this.setState({
-                                                    showCountry: !this.state.showCountry
-                                                })
-                                            }}
+                                           
                                         />
                                     </View>
+                                    </TouchableOpacity>
+
                                 </View>
 
                                 {this.state.showCountry ?
-                                    <View style={[styleSignUp.dropDownView, {
-                                        marginTop: -15,
-                                        borderBottomLeftRadius: 10,
-                                        borderBottomRightRadius: 10,
-                                        height: 120
-                                    }]}>
-                                        <FlatList
-                                            ListFooterComponent={() => <Text>{ }</Text>}
-                                            style={{ padding: 10, }}
-                                            data={this.props.countries}
-                                            renderItem={({ item, index }) => (
-                                                <View >
-                                                    <TouchableOpacity onPress={async () => {
-                                                        this.setState({
-                                                            countryID: item.id,
-                                                            country: item.nameAr,
-                                                            showCountry: false
-                                                        })
-                                                        await this.props.Get_City(item.id)
-                                                        this.setState({
-                                                            region: this.props.cities[0].cityNameAr
-                                                        })
-                                                    }}>
-                                                        <Text style={[styleSignUp.dropDownTxt, {
-                                                            fontSize: 12,
-                                                            //    color: g.Light_Gray,
-                                                            textAlign: 'right'
-                                                        }]}>{item.nameAr}</Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            )}
-                                        />
-                                    </View>
+                                    <ScrollPicker
+                                        ref={(sp) => { this.sp = sp }}
+                                        dataSource={this.state.countryNameArray}
+                                        selectedIndex={this.state.countryID-1}
+                                        itemHeight={40}
+                                        wrapperHeight={100}
+                                        highlightColor={g.Light_Gray}
+                                        onValueChange={async (data, selectedIndex) => {
+
+                                            this.setState({
+                                                countryID: this.props.countries[selectedIndex].id,
+                                                country: data,
+                                            })
+                                            await this.props.Get_City(this.props.countries[selectedIndex].id)
+                                            this.setState({
+                                                region: this.props.cities[0].cityNameAr,
+                                                cityNameArray: [],
+                                                regionID:this.props.cities[0].id
+                                            })
+                                            this.props.cities.map(item => {
+                                                this.state.cityNameArray.push(item.cityNameAr)
+                                            })
+
+
+                                        }}
+                                    />
+
                                     : null}
 
                                 {/*****region*/}
@@ -492,49 +441,42 @@ class EditUserData extends Component {
                                     <Text style={[styles.username, { marginTop: hp('2%') }]}>
                                         {g.REGION}
                                     </Text>
+                                    <TouchableOpacity
+                                        activeOpacity={1}
+                                        onPress={() => {
+                                            this.setState({
+                                                showRegion: !this.state.showRegion
+                                            })
+                                        }}
+                                    >
+
                                     <View style={styleSignUp.dropDownView}>
                                         <Text style={styleSignUp.dropDownTxt}>{this.state.region}</Text>
                                         <Icon name={this.state.showRegion ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
                                             style={styleSignUp.dropDownIcon}
-                                            onPress={() => {
-                                                this.setState({
-                                                    showRegion: !this.state.showRegion
-                                                })
-                                            }}
+                                          
                                         />
                                     </View>
+                                        </TouchableOpacity>
                                 </View>
 
                                 {this.state.showRegion ?
-                                    <View style={[styleSignUp.dropDownView, {
-                                        marginTop: -15,
-                                        borderBottomLeftRadius: 10,
-                                        borderBottomRightRadius: 10,
-                                        height: 120
-                                    }]}>
-                                        <FlatList
-                                            ListFooterComponent={() => <Text>{ }</Text>}
-                                            style={{ padding: 10, }}
-                                            data={this.props.cities}
-                                            renderItem={({ item, index }) => (
-                                                <View >
-                                                    <TouchableOpacity onPress={async () => {
-                                                        this.setState({
-                                                            regionID: item.id,
-                                                            region: item.cityNameAr,
-                                                            showRegion: false
-                                                        })
-                                                    }}>
-                                                        <Text style={[styleSignUp.dropDownTxt, {
-                                                            fontSize: 12,
-                                                            //color: g.Light_Gray,
-                                                            textAlign: 'right'
-                                                        }]}>{item.cityNameAr}</Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            )}
-                                        />
-                                    </View>
+                                    <ScrollPicker
+                                    ref={(sp) => { this.sp = sp }}
+                                    dataSource={this.state.cityNameArray}
+                                    selectedIndex={0}
+                                    itemHeight={40}
+                                    wrapperHeight={100}
+                                    highlightColor={g.Light_Gray}
+                                        onValueChange={async (data, selectedIndex) => {
+                                            this.setState({
+                                                regionID: this.props.cities[selectedIndex].id,
+                                                region: data,
+                                            })
+                                      
+                                    }}
+                                />
+                                   
                                     : null}
 
 
@@ -570,14 +512,13 @@ class EditUserData extends Component {
                                             this.state.mobile,
                                             this.state.Jobname,
                                             //jobFieldId
-                                            1,
+                                            8,
                                             this.state.regionID,
                                             this.state.address,
                                             this.state.email,
                                         )
-                                        //  alert(this.props.status)
                                         if (this.props.status == 200) {
-                                            this.toast.show('تم تعديل البيانات الشخصية بنجاح', 10000);
+                                            this.toast.show('تم تعديل البيانات الشخصية بنجاح', 4000);
                                         }
 
                                     }}
@@ -613,8 +554,8 @@ const mapStateToProps = state => {
         countries: state.countries.countries,
         cities: state.cities.cities,
 
-        status: state.editStatus.status,
-        Edit_loading: state.editStatus.Edit_loading,
+        status: state.editStatusUserData.status,
+        Edit_loading: state.editStatusUserData.Edit_loading,
 
 
     }

@@ -9,7 +9,7 @@ import {
 
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Icon } from 'native-base';
+import { Icon, Item } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
 import ToggleSwitch from 'toggle-switch-react-native'
@@ -19,8 +19,14 @@ import ModalVaccinations from "./ModalVaccinations";
 import { connect } from 'react-redux'
 import Spinner from '../../Navigation/Spinner'
 import { Get_GenericHealthProfile } from '../../Actions/GenericHealthProfile_Action';
+import { getHealthStatus } from '../../Actions/getStatus';
+import { putHealthStatus } from '../../Actions/putStatus';
+
+
 import RenderCard from './renderCard';
 import AsyncStorage from '@react-native-community/async-storage';
+import { ArabicNumbers } from 'react-native-arabic-numbers';
+import moment from 'moment';
 
 
 const images = [require('../../Images/img2.png'),
@@ -52,15 +58,14 @@ class Visit extends Component {
             loader: true,
             typeModal: true
         }
-        AsyncStorage.getItem('toggle').then(val => {
-            console.log(val);
-            if (val == 'true')
-                this.setState({ toggle: true })
-            else
-                this.setState({ toggle: false })
-        })
+
+
     }
     async componentDidMount() {
+
+        await this.props.getHealthStatus()
+        this.setState({ toggle: this.props.healthStatus })
+
         const id = await AsyncStorage.getItem('dependentId')
         await this.props.Get_GenericHealthProfile('GenericHealthProfile')
         await this.setState({ GenericHealthProfile: this.props.GenericHealthProfile })
@@ -74,10 +79,10 @@ class Visit extends Component {
         await this.props.Get_GenericHealthProfile('HealthProfilePrescribedMedicines')
         await this.setState({ HealthProfilePrescribedMedicines: this.props.GenericHealthProfile })
 
-        await this.props.Get_GenericHealthProfile(`ChildVaccination?dependantId=${id}`)
+        await this.props.Get_GenericHealthProfile(`ChildVaccination`)
         await this.setState({ ChildVaccination: this.props.GenericHealthProfile })
 
-        await this.props.Get_GenericHealthProfile(`ChildGrowthChart?dependantId=${id}`)
+        await this.props.Get_GenericHealthProfile(`ChildGrowthChart`)
         await this.setState({ ChildGrowthChart: this.props.GenericHealthProfile })
 
         await this.setState({
@@ -114,11 +119,14 @@ class Visit extends Component {
                                 })
                             }
                             else {
-                                this.setState({
-                                    toggle: false
-                                })
-                                AsyncStorage.setItem('toggle', 'false')
-
+                                await this.props.putHealthStatus(!this.props.healthStatus)
+                                //   alert(this.props.status)
+                                if (this.props.status == 200) {
+                                    await this.props.getHealthStatus()
+                                    this.setState({
+                                        toggle: this.props.healthStatus
+                                    })
+                                }
                             }
 
                         }}
@@ -217,7 +225,6 @@ class Visit extends Component {
                 <ModalReactNative
                     //   animationType="slide"
                     transparent={true}
-
                     visible={this.state.ModalAlert}
                 >
 
@@ -273,12 +280,18 @@ class Visit extends Component {
 
                                 }}>
                                 <Text
-                                    onPress={() => {
-                                        this.setState({
-                                            ModalAlert: false,
-                                            toggle: true
-                                        })
-                                        AsyncStorage.setItem('toggle', 'true')
+                                    onPress={async () => {
+                                        //callApi    
+                                        await this.props.putHealthStatus(!this.props.healthStatus)
+                                        //   alert(this.props.status)
+                                        if (this.props.status == 200) {
+                                            await this.props.getHealthStatus()
+                                            this.setState({
+                                                ModalAlert: false,
+                                                toggle: this.props.healthStatus
+                                            })
+                                        }
+
                                     }}
                                     style={{
                                         fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
@@ -371,10 +384,37 @@ class Visit extends Component {
                                     ChildGrowth={this.state.ChildGrowthChart}
                                 />
                                 :
-                                <Text style={[styleLogin.login, {
-                                    marginTop: 15, textAlign: 'center',
-                                    fontSize: 16, color: g.Gray, marginRight: 0,
-                                }]}>لا يوجد بيانات</Text>}
+                                this.state.HealthProfilePrescribedMedicines == '' ?
+                                    <Text style={[styleLogin.login, {
+                                        marginTop: 15, textAlign: 'center',
+                                        fontSize: 16, color: g.Gray, marginRight: 0,
+                                    }]}>لا يوجد بيانات</Text>
+                                    :
+                                    this.state.HealthProfilePrescribedMedicines.map(item => {
+                                        return (
+                                            <View style={{
+                                                width: '100%', marginLeft: 'auto',
+                                                justifyContent: 'space-between', paddingHorizontal: 25,
+                                                flexDirection: 'row-reverse', paddingVertical: 5,
+                                            }}>
+                                                <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Gray }}>
+                                                    {item.medicineName}
+                                                </Text>
+                                                <View style={{ flexDirection: 'row-reverse' }}>
+                                                    <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Gray }}>
+                                                        {'بتاريخ     '}
+                                                    </Text>
+                                                    <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Blue }}>
+                                                        {
+                                                            ArabicNumbers(moment(item.created).format('YYYY-MM-DD'))
+                                                        }
+                                                    </Text>
+                                                </View>
+                                            </View>
+                                        )
+                                    })
+
+                            }
 
                         </View>
                     </View>
@@ -389,9 +429,10 @@ class Visit extends Component {
 const mapStateToProps = state => {
     return {
         GenericHealthProfile: state.GenericHealthProfile.GenericHealthProfile,
-
+        healthStatus: state.healthStatus.healthStatus,
+        status: state.editStatus.status
     }
 }
 
-export default connect(mapStateToProps, { Get_GenericHealthProfile })(withNavigation(Visit));
+export default connect(mapStateToProps, { Get_GenericHealthProfile, getHealthStatus, putHealthStatus })(withNavigation(Visit));
 

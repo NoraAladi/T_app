@@ -25,6 +25,8 @@ class Tretment extends Component {
         super(props);
         this.state = {
             modal: false, clinicId: 0,
+            visit: [],
+            isRefresh: false
         }
     }
 
@@ -34,10 +36,20 @@ class Tretment extends Component {
         })
     }
 
-    componentDidMount() {
-        if (this.props.visit=='') {
-            this.props.Get_visit(1)
-        }
+    async componentDidMount() {
+        await this.props.Get_visit(1)
+        this.setState({
+            visit: this.props.visit
+        })
+
+    }
+    async onRefresh() {
+        this.setState({ isRefresh: true, })
+        await this.props.Get_visit(1)
+        await this.setState({
+            visit: this.props.visit,
+            isRefresh: false
+        })
     }
 
     render() {
@@ -51,17 +63,19 @@ class Tretment extends Component {
                         </View>
 
                         :
-                        this.props.visit == '' ?
-                            <Text style={style.no_data}>
+                        this.state.visit == '' ?
+                            <Text style={VisitsStyle.no_data}>
                                 {g.NO_DATA}
                             </Text>
                             :
                             <View style={{ height: hp('80%') }} >
                                 <FlatList
+                                    onRefresh={() => this.onRefresh()}
+                                    refreshing={this.state.isRefresh}
                                     key={(item) => { item.id }}
                                     showsVerticalScrollIndicator={false}
                                     nestedScrollEnabled
-                                    data={this.props.visit}
+                                    data={this.state.visit}
                                     renderItem={({ item, index }) => (
                                         <View style={{ flexDirection: 'row', marginLeft: 10 }}>
                                             <TouchableOpacity activeOpacity={1}
@@ -72,7 +86,7 @@ class Tretment extends Component {
                                                     this.setState({
                                                         clinicId: item.clinicVisitId
                                                     })
-                                                    AsyncStorage.setItem('clinicId',String(item.clinicVisitId))
+                                                    AsyncStorage.setItem('clinicId', String(item.clinicVisitId))
 
                                                 }}
                                             >
@@ -84,9 +98,9 @@ class Tretment extends Component {
                                                         style={[VisitsStyle.arrow, { fontSize: 18 }]} />
                                                     <View style={{ flexDirection: 'column', marginLeft: 'auto' }}>
                                                         <Text style={VisitsStyle.doctor_name}>
-                                                            {item.doctorNameAr}</Text>
+                                                            {item.titleAr+' '+item.doctorNameAr}</Text>
                                                         <Text style={[VisitsStyle.txt, { fontSize: 12 }]}>
-                                                            {item.doctorSpecilityAr}
+                                                            {item.titlePreSpecialityAR+' '+item.doctorSpecilityAr}
                                                         </Text>
                                                     </View>
 

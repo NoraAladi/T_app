@@ -14,7 +14,10 @@ import { Get_offer } from '../../Actions/_get_offer';
 import { connect } from 'react-redux'
 
 import { Get_offer_Types } from '../../Actions/getOffersSponserType';
+import { ArabicNumbers } from 'react-native-arabic-numbers';
+import moment from 'moment';
 
+import FitImage from 'react-native-fit-image';
 
 
 
@@ -127,26 +130,32 @@ class Deal extends Component {
                                                     ]}>
                                                     <TouchableOpacity onPress={() => {
                                                         this.props.navigation.navigate('DealsModelScreen', {
-                                                            'ID': item.id, 'Name': item.placeName
+                                                            'ID': item.id, 'Name': item.placeNameAR
                                                         })
                                                     }}>
                                                         <Image source={{ uri: item.imageEn }}
-                                                            style={style.imageCard}
+                                                            style={[style.imageCard]}
                                                             resizeMode='contain'
                                                         />
                                                     </TouchableOpacity>
-                                                    <Image
-                                                        source={require('../../Images/user.png')}
-                                                        style={style.logo}
-                                                    />
-                                                    <Text style={[style.irea, style.minusMargin]}>
-                                                        {item.placeName}</Text>
 
-                                                    <View style={[style.simpleRowRevers,style.rowTitle]}>
-                                                        <Text style={[style.txt]}>
+                                                    <View style={{ marginLeft: 'auto', marginRight: 15, }}>
+                                                        <FitImage
+                                                            source={{ uri: item.placeLogo }}
+                                                            style={style.fitImageWithSize}
+                                                        />
+                                                    </View>
+
+                                                    <Text style={[style.irea, style.minusMargin]}>
+                                                        {item.placeNameAR}</Text>
+
+                                                    <View style={[style.simpleRowRevers, style.rowTitle]}>
+                                                        <Text
+                                                            numberOfLines={2}
+                                                            style={[style.txt, { marginTop: 10 }]}>
                                                             {item.titleEn}</Text>
 
-                                                        <View style={{width:'30%'}} >
+                                                        <View style={{ width: '30%' }} >
                                                             <Text
                                                                 style={[style.txt, style.txt1]}>
                                                                 {item.priceBefore} {g.POUND}</Text>
@@ -156,10 +165,10 @@ class Deal extends Component {
                                                     </View>
 
                                                     <View style={style.discount}>
-                                                        <Text style={[ style.sale]}>
+                                                        <Text style={[style.sale]}>
                                                             {item.discount}{g.DISCOUNT}</Text>
-                                                        <Text style={[style.txt, style.txt2]}>
-                                                            {g.OFFERS_SARY}   {item.toDate.split('T')[0]}</Text>
+                                                        <Text style={[style.txt2]}>
+                                                            {g.OFFERS_SARY}   {ArabicNumbers(moment(item.toDate).format('DD-MM-YYYY'))}</Text>
                                                     </View>
                                                 </View>
                                             )} />

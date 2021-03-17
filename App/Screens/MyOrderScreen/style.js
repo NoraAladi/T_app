@@ -114,6 +114,11 @@ export default {
   viewValues:{
     flexDirection: 'row-reverse'
     , marginBottom: -10,
-}
+  },
+  noData:
+  {
+    fontSize: 16, color: g.Gray,
+    fontFamily:g.Regular ,  textAlign: 'center'
+  },
   
 };

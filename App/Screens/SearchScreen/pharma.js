@@ -38,7 +38,7 @@ class Pharma extends Component {
                         placeholder={g.PHRMA_NAME}
                         placeholderTextColor={g.Light_Gray}
                         style={style.input}
-                        onChange={(value) => this.setState({ Filter_name: value })}
+                        onChangeText={(value) => this.setState({ Filter_name: value })}
                     />
                 </View>
 

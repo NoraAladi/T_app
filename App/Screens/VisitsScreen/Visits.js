@@ -2,8 +2,8 @@ import headerStyle from '../DealsScreen/style';
 
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, 
-    TouchableOpacity, Platform,  Dimensions, Image
+    Text, View, ScrollView,
+    TouchableOpacity, Platform, Dimensions, Image
 
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
@@ -31,16 +31,34 @@ class Visits extends Component {
             heightWithScroll: g.windowHeight,
             elevation: true,
             modal: false,
-            Flag: false
+            Flag: false,
+            refreshKey: false,
+            personalPhoto: ''
+
 
 
         };
-        AsyncStorage.getItem('user').then(val => {
+        AsyncStorage.getItem('patientCode').then(val => {
             this.setState({
-               name: JSON.parse(val).patient.fullNameAr,
-               code: JSON.parse(val).patient.code
-           })
-       })
+                code: val
+            })
+        })
+
+        AsyncStorage.getItem('patientName').then(val => {
+            this.setState({
+                name: val
+            })
+        })
+
+        AsyncStorage.getItem('personalPhoto').then(val => {
+            if (val != 'null') {
+                this.setState({
+                    personalPhoto: val
+                })
+            }
+
+
+        })
     }
 
     _close_model() {
@@ -48,6 +66,13 @@ class Visits extends Component {
             Flag: false
         })
     }
+
+    refreshKey = () => {
+        this.setState({
+            refreshKey: !this.state.refreshKey
+        })
+    }
+
 
     componentDidMount() {
         this.props.navigation.addListener('willFoucs', () => {
@@ -68,7 +93,13 @@ class Visits extends Component {
     }
 
 
-
+    setData = (name, code, personalPhoto) => {
+        this.setState({
+            name: name,
+            code: code,
+            personalPhoto: personalPhoto
+        })
+    }
     render() {
 
         return (
@@ -94,16 +125,18 @@ class Visits extends Component {
                                 <Icon name="arrow-drop-down" type="MaterialIcons"
                                     style={headerStyle.arrow} />
                             </TouchableOpacity>
-                            <TouchableOpacity  style = {{ flexDirection : 'row'}} onPress = {()=>{
-                                 this.props.navigation.navigate('ProfileScreen')
-                             }}>
-                            <Image source={require('../../Images/profile.png')}
-                                style={headerStyle.userimg} />
-                            <View style={headerStyle.viewHeader}>
-                                <Text style={[headerStyle.username,{textAlign:'left'}]}> {' '+this.state.name} </Text>
-                                <Text style={headerStyle.code}>{this.state.code}  </Text>
+                            <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => {
+                                this.props.navigation.navigate('ProfileScreen')
+                            }}>
+                                <Image
+                                    key={this.state.personalPhoto}
+                                    source={this.state.personalPhoto ? { uri: this.state.personalPhoto } : require('../../Images/noUser.png')}
+                                    style={headerStyle.userimg} />
+                                <View style={headerStyle.viewHeader}>
+                                    <Text style={[headerStyle.username, { textAlign: 'left' }]}> {' ' + this.state.name} </Text>
+                                    <Text style={headerStyle.code}>{this.state.code}  </Text>
                                 </View>
-                                </TouchableOpacity>
+                            </TouchableOpacity>
                         </View>
                         <Text style={[headerStyle.offer, {
                             marginTop: 'auto',
@@ -218,11 +251,11 @@ class Visits extends Component {
 
                         {
                             this.state.tabSelected_1 ?
-                                <Medical_Status />
+                                <Medical_Status key={this.state.refreshKey} />
                                 : this.state.tabSelected_2 ?
-                                    <Tretment />
+                                    <Tretment key={this.state.refreshKey} />
                                     : this.state.tabSelected_3 ?
-                                        <Reportes />
+                                        <Reportes key={this.state.refreshKey} />
                                         : null
                         }
                         <View style={{ height: 50 }} />
@@ -249,9 +282,12 @@ class Visits extends Component {
                 </ScrollView>
                 <UserFooter tab={2} />
                 {
-                   this.state.Flag ? 
-                   <ModalAddUser  closeModel = {()=>this._close_model()} /> : null 
-               }
+                    this.state.Flag ?
+                        <ModalAddUser
+                            refreshKey={this.refreshKey}
+                            setData={this.setData}
+                            closeModel={() => this._close_model()} /> : null
+                }
             </View>
         );
 

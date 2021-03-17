@@ -37,7 +37,9 @@ class Rad extends Component {
                     <TextInput
                         placeholder={g.RAD_NAME}
                         placeholderTextColor={g.Light_Gray}
-                        style={style.input} />
+                        style={style.input}
+                    onChangeText={(val)=>this.setState({rad_name:val})}
+                    />
                 </View>
 
 

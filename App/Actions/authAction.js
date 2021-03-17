@@ -26,39 +26,33 @@ export const loginuser = ({ email, password }) => {
             if (response.data) {
                 console.log('----- Login Success -----');
                 console.log(response.data);
-                AsyncStorage.setItem('patientCode', response.data.patient.code)
-                AsyncStorage.setItem('refreshToken', response.data.patient.refreshToken)
-                AsyncStorage.setItem('user',  JSON.stringify(response.data))
+                dispatch({ type: 'LOGIN_SUCCESS', user: response.data, status: response.status })
 
-                onhandleResponse(dispatch, response)
+                await AsyncStorage.setItem('patientCode', response.data.patient.code)
+                await AsyncStorage.setItem('patientName', response.data.patient.fullNameAr)
+                await AsyncStorage.setItem('gender', String(response.data.patient.gender))
+                await AsyncStorage.setItem('genderLoginId', String(response.data.patient.gender))
+                await AsyncStorage.setItem('personalPhoto',String(response.data.patient.personalPhoto))
+
+
+                await AsyncStorage.setItem('refreshToken', response.data.refreshToken)
+                await AsyncStorage.setItem('user', JSON.stringify(response.data))
+                AsyncStorage.removeItem('dependentId')
+                await AsyncStorage.setItem('app_Token', response.data.jwtToken)
+                await AsyncStorage.setItem('ROLE', response.data.role)
+                await AsyncStorage.setItem('LOGIN_ID', String(response.data.id))
+
+
             }
         } catch (err) {
             // Handle Error Here
             console.log(err.response.data);
             if (err.response.data.message) {
-                dispatch({ type: 'LOGIN_NOT', error: err.response.data.message })
+                dispatch({ type: 'LOGIN_NOT', error: err.response.data.message, status: err.response.status })
 
             }
             else
-                dispatch({ type: 'LOGIN_NOT', error: Object.values(err.response.data.errors)[0][0] })
+                dispatch({ type: 'LOGIN_NOT', error: Object.values(err.response.data.errors)[0][0], status: err.response.status })
         }
     }
-}
-
-const onhandleResponse = (dispatch, data) => {
-    onLoginSuccess(dispatch, data.data, data.data.jwtToken, data.data.role, data.data.id)
-    //  console.log(data.data)
-}
-
-const onLoginSuccess = (dispatch, user, jwtToken, role, id) => {
-    AsyncStorage.setItem('app_Token', jwtToken)
-        .then(() => {
-            dispatch({ type: 'LOGIN_SUCCESS', user })
-        });
-
-    AsyncStorage.setItem('ROLE', role)
-    AsyncStorage.setItem('LOGIN_ID', String(id))
-
-
-
 }

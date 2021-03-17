@@ -1,7 +1,7 @@
 import styleLogin from '../Screens/LoginScreen/style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, TextInput,
+    Text, View,
     TouchableOpacity, StyleSheet,
     Image, FlatList
 } from 'react-native';
@@ -19,16 +19,24 @@ class ModalAddUser extends Component {
         super(props);
         this.state = {
             modal: true,
-            selectedID: 0
+            selectedID: 0,
         };
+        AsyncStorage.getItem('LOGIN_ID').then(val => {
+            this.setState({
+                selectedID: parseInt(val),
+                userLoginId: val
+            })
+
+        })
     }
 
     async componentDidMount() {
         await this.props.Get_Dependants()
-        //   alert(JSON.stringify(this.props.Dependants))
         const dependentId = await AsyncStorage.getItem('dependentId')
-        await this.setState({ selectedID: dependentId })
-      //  alert(this.state.selectedID)
+        if (dependentId) {
+            await this.setState({ selectedID: dependentId })
+
+        }
     }
 
     renderListHeader = () => {
@@ -41,7 +49,7 @@ class ModalAddUser extends Component {
                     //     modal:!this.state.modal
                     // })
                     this.props.navigation.navigate('PatientCodeScreen', {
-                        'dependents':'dependents'
+                        'dependents': 'dependents'
                     })
 
                 }}>
@@ -131,15 +139,29 @@ class ModalAddUser extends Component {
                                     renderItem={({ item, index }) => (
                                         <TouchableOpacity
                                             onPress={async () => {
-                                                await AsyncStorage.setItem('dependentId', String(item.id))
+                                                if (this.state.userLoginId == item.id) {
+                                                    await AsyncStorage.removeItem('dependentId')
+                                                }
+                                                else {
+                                                    await AsyncStorage.setItem('dependentId', String(item.id))
+                                                }
+
                                                 await this.setState({ selectedID: item.id })
-                                              
+                                                await AsyncStorage.setItem('patientCode', item.code)
+                                                await AsyncStorage.setItem('patientName', item.fullNameAr)
+                                                await AsyncStorage.setItem('gender', String(item.gender))
+                                                await AsyncStorage.setItem('personalPhoto',String(item.personalPhoto))
+
+                                                this.props.setData(item.fullNameAr, item.code, item.personalPhoto)
+                                                this.props.closeModel()
+
+                                                this.props.refreshKey()
                                             }}>
                                             <View>
                                                 <View style={[styles.circle, {
                                                     borderWidth: item.id == this.state.selectedID ? 2 : 0
                                                 }]}>
-                                                    <Image source={item.personalPhoto ? { uri: item.personalPhoto } : require('../Images/notFoundImage.png')}
+                                                    <Image source={item.personalPhoto ? { uri: item.personalPhoto } : require('../Images/noUser.png')}
 
                                                         style={{ width: 84, height: 84, borderRadius: 42 }} />
                                                 </View>

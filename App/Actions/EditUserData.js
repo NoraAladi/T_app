@@ -55,10 +55,11 @@ export const Edit_UserData = (
                 })
             console.log('______ EDIT USER DATA CALL ______');
             console.log(resp.data);
-            var status = resp.status
-            dispatch({ type: 'EDIT_USER_DATA_SUCCESS', status })
+            console.log(resp.status);
+            dispatch({ type: 'EDIT_USER_DATA_SUCCESS', status: resp.status })
 
         } catch (error) {
+            console.log(error);
             if (error.response) {
                 console.log(error.response.status);
             }

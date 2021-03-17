@@ -3,7 +3,10 @@ import { Platform } from 'react-native';
 import g from '../../Gloabal';
 
 export default {
-
+  fitImageWithSize: {
+    height: 60,
+    width: 60,
+  },
   container:
   {
     flexDirection: 'row', alignItems: 'center',
@@ -118,7 +121,7 @@ export default {
 
   logo:
   {
-    width: 60, height: 60, borderRadius: 60, marginTop: hp('-5'), marginLeft: 'auto',
+    width: 60, height: 60, borderRadius: 60, marginTop: -30, marginLeft: 'auto',
     marginRight: 10,
   },
 
@@ -130,7 +133,7 @@ export default {
   },
 
   rowTitle: {
-    width: '100%',
+    width: '100%',paddingHorizontal: 15,
   },
   txt1:
   {
@@ -140,8 +143,8 @@ export default {
 
   txt2:
   {
-    fontFamily: g.Regular, marginTop: hp('.5%'),
-    width: 150, fontSize: 12, color: g.Gray, marginLeft: 0
+    fontFamily: g.Regular,
+    fontSize: 13, color: g.Gray, 
   },
   sale:
   {
@@ -154,15 +157,16 @@ export default {
   },
   title3:
   {
-    marginTop: hp('-31%'), marginRight: wp('1%'), fontSize: 18,
+     marginRight: wp('1%'), fontSize: 18,
     color: g.white,
-    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
-    textAlign: 'right'
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
+    fontWeight: Platform.OS == "ios" ? "800" : null,
+    textAlign: 'right',marginLeft: wp('2%')
   },
 
   down:
   {
-    marginTop: hp('-30%'), height: 40, color: g.white
+    marginTop: hp('1%'),  color: g.white
   },
 
   view2:
@@ -228,7 +232,7 @@ export default {
     marginTop: hp('-.5%'),
     fontSize: 14, fontFamily: g.Regular,
     transform: Platform.OS == "ios" ? [{ rotateY: '0deg' }] : [{ rotateY: '180deg' }],
-    fontSize: 12, width: 60
+    fontSize: 12, width: 70
   },
 
   view3:
@@ -250,18 +254,20 @@ export default {
     marginTop: hp('35%')
   },
   specificCard: {
-    height: 300,
+   // height: 300,
     flexDirection: 'column',
-    marginBottom: 5
+    marginBottom: 5,
+    paddingBottom: 15,
   },
   imageCard: {
     width: wp('90%'),
     height: hp('20%'),
     borderTopRightRadius: 10,
-    borderTopLeftRadius: 10
+    borderTopLeftRadius: 10,
+    
   },
   minusMargin: {
-    marginTop: hp('-2%'),
+    marginTop: -30,
     color: g.Ferany
   },
 
@@ -320,6 +326,8 @@ export default {
 
   },
   popModal: {
-    flexDirection: 'row', marginLeft: 'auto',
+    flexDirection: 'row', marginLeft: 'auto',padding:5,paddingRight: 10,
+    backgroundColor: '#00000070', borderRadius: 15, position: 'absolute',
+    top:'15%',right:'2%'
   }
 };

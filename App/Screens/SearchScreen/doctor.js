@@ -14,14 +14,9 @@ import g from '../../Gloabal';
 import CountryRegion from '../../Navigation/CountryRegion';
 import { Get_Specialist } from '../../Actions/get_specialist';
 import { connect } from 'react-redux';
+import ScrollPicker from "react-native-wheel-scrollview-picker";
 
-const specialists = ['السلام',
-    'مدينة نصر',
-    'الهرم',
-    'مصر الجديدة',
-    'السيدة عائشة',
-    'المهندسين'
-]
+
 class Doctor extends Component {
     constructor(props) {
         super(props);
@@ -30,9 +25,10 @@ class Doctor extends Component {
             specialist: '',
             doctor_name: '',
             error: '',
-            special_id: 1,
+            special_id: 2,
             cityId: 1,
             countryId: 1,
+            specialistArray: []
         }
     }
 
@@ -47,11 +43,12 @@ class Doctor extends Component {
             await this.props.Get_Specialist()
 
         }
-        else {
-            await this.setState({
-                specialist: this.props.specialist[0].specialityNameAr
-            })
-        }
+        this.setState({ specialist: this.props.specialist[0].specialityNameAr });
+
+        this.props.specialist.map(item => {
+            this.state.specialistArray.push(item.specialityNameAr)
+
+        })
 
         // await this.setState({
         //     specialist: this.props.specialist[0].specialityNameAr
@@ -59,11 +56,7 @@ class Doctor extends Component {
 
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.specialist !== this.props.specialist) {
-            this.setState({ specialist: this.props.specialist[0].specialityNameAr });
-        }
-    }
+
     render() {
         return (
 
@@ -84,52 +77,40 @@ class Doctor extends Component {
                     <Text style={[styles.username, { marginTop: hp('2%') }]}>
                         {'امراض باطنة'}
                     </Text>
-                    <View style={[styleSignUp.dropDownView, { width: wp('90') }]}>
-                        <Text style={[styleSignUp.dropDownTxt]}>{this.state.specialist}</Text>
-                        <Icon name={this.state.showSpecialist ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                            style={styleSignUp.dropDownIcon}
-                            onPress={() => {
-                                this.setState({
-                                    showSpecialist: !this.state.showSpecialist
-                                })
-                            }}
-                        />
-                    </View>
+                    <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => {
+                            this.setState({
+                                showSpecialist: !this.state.showSpecialist
+                            })
+                        }}>
+                        <View style={[styleSignUp.dropDownView, { width: wp('90') }]}>
+                            <Text style={[styleSignUp.dropDownTxt]}>{this.state.specialist}</Text>
+                            <Icon name={this.state.showSpecialist ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                                style={styleSignUp.dropDownIcon}
+
+                            />
+                        </View>
+                    </TouchableOpacity>
                 </View>
 
                 {this.state.showSpecialist ?
-                    <View style={[styleSignUp.dropDownView, {
-                        width: wp('90'),
-                        marginTop: -15,
-                        borderBottomLeftRadius: 10,
-                        borderBottomRightRadius: 10,
-                        height: 110
-                    }]}>
-                        <FlatList
-                            ListFooterComponent={() => <Text>{ }</Text>}
-                            nestedScrollEnabled
-                            //  showsVerticalScrollIndicator={false}
-                            style={{ padding: 10, }}
-                            data={this.props.specialist}
-                            renderItem={({ item, index }) => (
-                                <View >
-                                    <TouchableOpacity onPress={async () => {
-                                        await this.setState({
-                                            specialist: item.specialityNameAr,
-                                            showSpecialist: false,
-                                            special_id: item.id
-                                        })
-                                    }}>
-                                        <Text style={[styleSignUp.dropDownTxt, {
-                                            fontSize: 12,
-                                            //    color: g.Light_Gray,
-                                            textAlign: 'right'
-                                        }]}>{item.specialityNameAr}</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            )}
-                        />
-                    </View>
+                    <ScrollPicker
+                        ref={(sp) => { this.sp = sp }}
+                        dataSource={this.state.specialistArray}
+                        selectedIndex={this.state.special_id - 2}
+                        itemHeight={40}
+                        wrapperHeight={100}
+                        highlightColor={g.Light_Gray}
+                        onValueChange={async (data, selectedIndex) => {
+                            await this.setState({
+                                specialist: data,
+                                // showSpecialist: false,
+                                special_id: this.props.specialist[selectedIndex].id
+                            })
+                        }}
+                    />
+
                     : null}
 
                 <CountryRegion callApi={this.getCountryAndCityIds} />
