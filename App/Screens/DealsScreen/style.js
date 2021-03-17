@@ -254,9 +254,10 @@ export default {
     marginTop: hp('35%')
   },
   specificCard: {
-    height: 300,
+   // height: 300,
     flexDirection: 'column',
-    marginBottom: 5
+    marginBottom: 5,
+    paddingBottom: 15,
   },
   imageCard: {
     width: wp('90%'),

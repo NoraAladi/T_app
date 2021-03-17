@@ -98,12 +98,15 @@ export default class ModalReportes extends Component {
                 </View>
 
 
-                {/**Recomand labs */}
+
+
+
+                {/**الطبيب اللي تم زيارته */}
                 {/**light title */}
                 <Text style={[VisitsStyle.txt, {
-                    fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40,
+                    fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40, width: undefined
                 }]}>
-                    {'المعمل الموصي به'}
+                    {this.props.typeOfReport == 'MIC' ? '  المعمل الذي قام بعمل التحاليل' : 'المركز الذي قام بعمل الاشعات'}
                 </Text>
 
                 <View style={{
@@ -117,7 +120,108 @@ export default class ModalReportes extends Component {
                         borderWidth: .5, borderRadius: 35, alignItems: 'center',
                         justifyContent: 'center', marginRight: 30
                     }}>
-                        <Image source={require('../../Images/listtwo.png')}
+                        <Image source={{
+                            uri: this.props.typeOfReport == 'MIC' ?
+                                this.props.reportDetails[0].microLab.logo :
+                                this.props.reportDetails[0].radiologyCenter.logo
+                        }}
+                            style={{ width: 45, height: undefined, aspectRatio: 1 }}
+                            resizeMode='contain'
+                        />
+                    </View>
+                    {!this.props.reportDetails[0].microLab &&
+                        !this.props.reportDetails[0].recommendedCenter
+
+                        ?
+                        <View style={{ paddingHorizontal: 20 }}>
+                            <Text style={[VisitsStyle.txt, { fontSize: 12, marginTop: 25 }]} >
+                                لا يوجد بيانات
+                                </Text>
+                        </View>
+
+                        : <View style={{ paddingHorizontal: 20 }}>
+                            {/**Dark Details */}
+                            <Text style={[VisitsStyle.txt, { fontSize: 16 }]}>
+                                {this.props.typeOfReport == 'MIC' ? this.props.reportDetails[0].microLab.nameAr :
+                                    this.props.reportDetails[0].radiologyCenter.nameAr}
+                            </Text>
+
+                            <View style={{ flexDirection: 'row-reverse' }}>
+                                <Icon name='location' type='Ionicons' style={{ color: g.Gray, fontSize: 15, marginTop: 5, marginLeft: 5, }} />
+
+                                <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular }]}>
+
+                                    {this.props.typeOfReport == 'MIC' ?
+                                        this.props.reportDetails[0].microLab.locatoin.city.governate.nameAr + ' - ' +
+                                        this.props.reportDetails[0].microLab.locatoin.city.cityNameAr + ' - ' +
+                                        this.props.reportDetails[0].microLab.locatoin.street
+                                        :
+                                        this.props.reportDetails[0].radiologyCenter.locatoin.city.governate.nameAr + ' - ' +
+                                        this.props.reportDetails[0].radiologyCenter.locatoin.city.cityNameAr + ' - ' +
+                                        this.props.reportDetails[0].radiologyCenter.locatoin.street
+                                    }
+                                </Text>
+                            </View>
+                            <TouchableOpacity
+                                onPress={() => Linking.openURL(`tel:${this.props.reportDetails[0].microLab.phoneNumber}`)}
+                                style={{ flexDirection: 'row-reverse' }}>
+                                <Icon name='call' type='MaterialIcons' style={{ color: g.Gray, fontSize: 15, marginTop: 5, marginLeft: 5, }} />
+
+                                <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular, color: g.Blue }]}>
+                                    {
+                                        this.props.typeOfReport == 'MIC' ?
+                                            this.props.reportDetails[0].microLab.phoneNumber :
+                                            this.props.reportDetails[0].radiologyCenter.phoneNumber
+                                    }
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    }
+                </View>
+
+
+                {/**line */}
+                <View style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: g.windowWidth
+                }}>
+                    <View style={{
+                        backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
+                        marginTop: 10, marginBottom: 10,
+                    }} />
+                </View>
+
+
+
+
+
+
+
+                {/**Recomand labs */}
+                {/**light title */}
+                <Text style={[VisitsStyle.txt, {
+                    fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40, width: undefined
+                }]}>
+                    {this.props.typeOfReport == 'MIC' ? 'المعمل الموصي به من قبل الطبيب' : 'المركز الموصى به من قبل الطبيب'}
+                </Text>
+
+                <View style={{
+                    flexDirection: 'row-reverse',
+                    marginTop: 5,
+                    paddingHorizontal: 40,
+                    justifyContent: 'center'
+                }}>
+                    <View style={{
+                        width: 70, height: 70, borderColor: g.Light_Gray,
+                        borderWidth: .5, borderRadius: 35, alignItems: 'center',
+                        justifyContent: 'center', marginRight: 30
+                    }}>
+                        <Image source={{
+                            uri: this.props.typeOfReport == 'MIC' ?
+                                this.props.reportDetails[0].recommendedMicroLab.logo :
+                                this.props.reportDetails[0].recommendedCenter.logo
+                        }}
                             style={{ width: 45, height: undefined, aspectRatio: 1 }}
                             resizeMode='contain'
                         />
@@ -127,7 +231,7 @@ export default class ModalReportes extends Component {
 
                         ?
                         <View style={{ paddingHorizontal: 20 }}>
-                            <Text style={[VisitsStyle.txt, { fontSize: 12,marginTop:25 }]} >
+                            <Text style={[VisitsStyle.txt, { fontSize: 12, marginTop: 25 }]} >
                                 لا يوجد بيانات
                                 </Text>
                         </View>

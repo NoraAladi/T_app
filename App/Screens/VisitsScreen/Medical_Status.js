@@ -9,7 +9,7 @@ import {
 
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Icon } from 'native-base';
+import { Icon, Item } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import g from '../../Gloabal';
 import ToggleSwitch from 'toggle-switch-react-native'
@@ -25,6 +25,8 @@ import { putHealthStatus } from '../../Actions/putStatus';
 
 import RenderCard from './renderCard';
 import AsyncStorage from '@react-native-community/async-storage';
+import { ArabicNumbers } from 'react-native-arabic-numbers';
+import moment from 'moment';
 
 
 const images = [require('../../Images/img2.png'),
@@ -116,15 +118,15 @@ class Visit extends Component {
                                     ModalAlert: true,
                                 })
                             }
-                            else {                               
+                            else {
                                 await this.props.putHealthStatus(!this.props.healthStatus)
                                 //   alert(this.props.status)
-                                   if (this.props.status == 200) {
-                                       await this.props.getHealthStatus()
-                                       this.setState({
-                                           toggle: this.props.healthStatus
-                                       }) 
-                                   }
+                                if (this.props.status == 200) {
+                                    await this.props.getHealthStatus()
+                                    this.setState({
+                                        toggle: this.props.healthStatus
+                                    })
+                                }
                             }
 
                         }}
@@ -281,13 +283,13 @@ class Visit extends Component {
                                     onPress={async () => {
                                         //callApi    
                                         await this.props.putHealthStatus(!this.props.healthStatus)
-                                     //   alert(this.props.status)
+                                        //   alert(this.props.status)
                                         if (this.props.status == 200) {
                                             await this.props.getHealthStatus()
                                             this.setState({
                                                 ModalAlert: false,
                                                 toggle: this.props.healthStatus
-                                            }) 
+                                            })
                                         }
 
                                     }}
@@ -382,10 +384,37 @@ class Visit extends Component {
                                     ChildGrowth={this.state.ChildGrowthChart}
                                 />
                                 :
-                                <Text style={[styleLogin.login, {
-                                    marginTop: 15, textAlign: 'center',
-                                    fontSize: 16, color: g.Gray, marginRight: 0,
-                                }]}>لا يوجد بيانات</Text>}
+                                this.state.HealthProfilePrescribedMedicines == '' ?
+                                    <Text style={[styleLogin.login, {
+                                        marginTop: 15, textAlign: 'center',
+                                        fontSize: 16, color: g.Gray, marginRight: 0,
+                                    }]}>لا يوجد بيانات</Text>
+                                    :
+                                    this.state.HealthProfilePrescribedMedicines.map(item => {
+                                        return (
+                                            <View style={{
+                                                width: '100%', marginLeft: 'auto',
+                                                justifyContent: 'space-between', paddingHorizontal: 25,
+                                                flexDirection: 'row-reverse', paddingVertical: 5,
+                                            }}>
+                                                <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Gray }}>
+                                                    {item.medicineName}
+                                                </Text>
+                                                <View style={{ flexDirection: 'row-reverse' }}>
+                                                    <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Gray }}>
+                                                        {'بتاريخ     '}
+                                                    </Text>
+                                                    <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Blue }}>
+                                                        {
+                                                            ArabicNumbers(moment(item.created).format('YYYY-MM-DD'))
+                                                        }
+                                                    </Text>
+                                                </View>
+                                            </View>
+                                        )
+                                    })
+
+                            }
 
                         </View>
                     </View>

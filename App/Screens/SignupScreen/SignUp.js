@@ -81,7 +81,7 @@ class SignUp extends Component {
         await this.getKeysData([
             'fullName', 'email',
             'password', 'confirmPassword', 'date',
-            'sex', 'mobile', 'job', 'Jobname',
+            'gender', 'mobile', 'job', 'Jobname',
             'address', 'region', 'isChecked'
         ])
             .then(async (response) => {

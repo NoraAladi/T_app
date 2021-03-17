@@ -501,11 +501,11 @@ class UserData extends Component {
                                 wrapperHeight={100}
                                 highlightColor={g.Light_Gray}
                                 onValueChange={async (data, selectedIndex) => {
-                                    this.setState({
+                                   await this.setState({
                                         sex: data,
                                         gender: selectedIndex == 0 ? 1 : 2,
                                     })
-                                    await AsyncStorage.setItem('gender', String(selectedIndex))
+                                    await AsyncStorage.setItem('gender', String(selectedIndex == 0 ? 1 : 2))
                                 }}
                             />
                             : null}
