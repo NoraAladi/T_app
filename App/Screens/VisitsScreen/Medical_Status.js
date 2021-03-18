@@ -245,7 +245,7 @@ class Visit extends Component {
                                 justifyContent: 'center',
 
                             }}>
-                            <ScrollView>
+                            <ScrollView showsVerticalScrollIndicator={false}>
                                 <Image
                                     style={{
                                         width: 50, height: 50,

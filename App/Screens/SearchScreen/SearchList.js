@@ -109,6 +109,23 @@ class SearchList extends Component {
         else null
     }
 
+    async clickCard(item) {
+        if (this.state.Title == g.ROSHETA_NAME) {
+            this.props.navigation.navigate('DispenseScreen', {
+                'pharmaName': item.nameAr == null ? 'بدون اسم' : item.nameAr,
+                'pharmaID': item.pharamcyId
+            })
+        }
+        if ((this.state.Title == g.PHARMA_TITLE)) {
+            //   alert(g.PHRMA_NAME+'  '+ g.PHARMA_TITLE)
+            await this.setState({
+                modal: !this.state.modal,
+                pharmaID: item.pharamcyId
+            })
+            console.log('pharmaID' + this.state.pharmaID);
+
+        }
+    }
     render() {
 
         return (
@@ -179,23 +196,8 @@ class SearchList extends Component {
                                     data={TITLE == g.DOCTOR_TITLE ? this.props.doctor : this.props.lab_rad}
                                     renderItem={({ item, index }) => (
                                         <View style={style.info}>
-                                            <TouchableOpacity onPress={async () => {
-                                                //    alert(this.state.Title)
-                                                if (this.state.Title == g.ROSHETA_NAME) {
-                                                    this.props.navigation.navigate('DispenseScreen', {
-                                                        'pharmaName': item.nameAr == null ? 'بدون اسم' : item.nameAr,
-                                                        'pharmaID': item.pharamcyId
-                                                    })
-                                                }
-                                                if ((this.state.Title == g.PHARMA_TITLE)) {
-                                                    //   alert(g.PHRMA_NAME+'  '+ g.PHARMA_TITLE)
-                                                    await this.setState({
-                                                        modal: !this.state.modal,
-                                                        pharmaID: item.pharamcyId
-                                                    })
-                                                    console.log('pharmaID' + this.state.pharmaID);
-
-                                                }
+                                            <TouchableOpacity onPress={() => {
+                                                this.clickCard(item)
                                             }}>
                                                 <View style={[style.view_img, {
                                                     backgroundColor:
@@ -212,31 +214,42 @@ class SearchList extends Component {
                                                 </View>
                                             </TouchableOpacity>
                                             <View>
-                                                <Text style={style.doctor_name}>
+                                                <Text style={style.doctor_name}
+                                                    onPress={() => {
+                                                        this.clickCard(item)
+                                                    }}>
                                                     {this.state.Title == g.DOCTOR_TITLE ? item.doctorTitleAr + ' ' + item.doctorFullNameAr
                                                         : item.nameAr
-
                                                     }
                                                 </Text>
 
                                                 {this.state.Title == g.DOCTOR_TITLE ?
-                                                    <Text style={[style.doctor_name, { color: 'black', fontFamily: g.Regular }]}>
+                                                    <Text
+                                                        onPress={() => {
+                                                            this.clickCard(item)
+                                                        }}
+                                                        style={[style.doctor_name, { color: 'black', fontFamily: g.Regular }]}>
                                                         {item.titlePreSpecialityAR + ' ' + item.doctorSpecialityAr} </Text>
                                                     : null}
+                                                <TouchableOpacity
+                                                    activeOpacity={1}
+                                                    onPress={() => {
+                                                    this.clickCard(item)
+                                                }}>
+                                                    <View style={{ flexDirection: 'row' }}>
+                                                        <Text style={[style.doctor_name, { color: g.Gray, fontFamily: g.Regular }]}>
+                                                            {this.state.Title == g.DOCTOR_TITLE || this.state.Title == g.ROSHETA_NAME || this.state.Title == g.PHARMA_TITLE ?
+                                                                item.street + ' ' + item.cityAr + ' ' + item.governateAr
+                                                                : this.state.Title == g.LAB_TITLE ?
+                                                                    item.street + ' ' + item.cityNameAr + ' ' + item.governatesNameAr
 
-                                                <View style={{ flexDirection: 'row' }}>
-                                                    <Text style={[style.doctor_name, { color: g.Gray, fontFamily: g.Regular }]}>
-                                                        {this.state.Title == g.DOCTOR_TITLE || this.state.Title == g.ROSHETA_NAME || this.state.Title == g.PHARMA_TITLE ?
-                                                            item.street + ' ' + item.cityAr + ' ' + item.governateAr
-                                                            : this.state.Title == g.LAB_TITLE ?
-                                                                item.street + ' ' + item.cityNameAr + ' ' + item.governatesNameAr
-
-                                                                : item.street + ' ' + item.cityNameAr + ' ' + item.governateNameAr
-                                                        }
-                                                    </Text>
-                                                    <Icon name="location-pin" type="MaterialIcons"
-                                                        style={[style.arrow, { marginTop: 5, color: g.Gray }]} />
-                                                </View>
+                                                                    : item.street + ' ' + item.cityNameAr + ' ' + item.governateNameAr
+                                                            }
+                                                        </Text>
+                                                        <Icon name="location-pin" type="MaterialIcons"
+                                                            style={[style.arrow, { marginTop: 5, color: g.Gray }]} />
+                                                    </View>
+                                                </TouchableOpacity>
 
                                                 <TouchableOpacity style={{ flexDirection: 'row' }}
                                                     onPress={() => {

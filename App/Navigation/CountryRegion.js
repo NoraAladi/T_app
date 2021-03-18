@@ -52,14 +52,18 @@ class CountryRegion extends Component {
             if (val) {
                 this.setState({
 
-                    country: this.props.countries.find(x => x.id == parseInt(val)).nameAr,
+                    country: parseInt(val) != 0 ?
+                        this.props.countries.find(x => x.id == parseInt(val)).nameAr
+                        : 'اختر المحافظة',
                     countryId: parseInt(val),
                 })
                 AsyncStorage.getItem('cityIdKey').then(val => {
                     //     console.log('cityIdKey: ' + val);
                     //  alert(this.props.cities.find(x => x.id == parseInt(val)).cityNameAr)
                     this.setState({
-                        region: this.props.cities.find(x => x.id == parseInt(val)).cityNameAr,
+                        region: parseInt(val) != 0 ?
+                            this.props.cities.find(x => x.id == parseInt(val)).cityNameAr :
+                            'اختر المنطقة',
                         regionId: parseInt(val),
 
                     })
@@ -73,8 +77,9 @@ class CountryRegion extends Component {
                     region: 'اختر المنطقة',
                     country: 'اخنر المحافظة',
                 });
-                AsyncStorage.setItem('cityIdKey', '1')
-                AsyncStorage.setItem('countryIdKey', '1')
+                AsyncStorage.setItem('cityIdKey', '0')
+                AsyncStorage.setItem('countryIdKey', '0')
+                this.props.Get_City(1)
 
 
             }
@@ -106,11 +111,11 @@ class CountryRegion extends Component {
 
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.cities !== this.props.cities) {
-            this.saving()
-        }
-    }
+    // componentDidUpdate(prevProps) {
+    //     if (prevProps.cities !== this.props.cities) {
+    //         this.saving()
+    //     }
+    // }
 
     render() {
         return (

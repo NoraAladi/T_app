@@ -36,7 +36,7 @@ class ModalCreateRequest extends Component {
             ],
             medicineName: '',
             selectedID: 1,
-            selectIndex: 0,
+            selectIndex: -1,
             address: '',
             additionalItems: '',
             callMe: false,
@@ -114,11 +114,12 @@ class ModalCreateRequest extends Component {
                                                     numberOfLines={1}
                                                     placeholder={'الصنف المطلوب'}
                                                     style={style.inputMedicineName}
-                                                    defaultValue={this.state.selectIndex == index ? this.state.medicineName : this.state.selectedMedicines[index].medicineName}
+                                                    defaultValue={item.medicineName}
+
                                                     onChangeText={async (val) => {
                                                         if (val) {
                                                             await this.setState({
-                                                                medicineName: val,
+                                                                // medicineName: val,
                                                                 typing: true,
                                                                 selectIndex: index
                                                             })
@@ -129,7 +130,7 @@ class ModalCreateRequest extends Component {
                                                         }
                                                         else {
                                                             await this.setState({
-                                                                medicineName: val,
+                                                                //  medicineName: val,
                                                                 typing: false,
                                                                 selectIndex: index
                                                             })
@@ -152,9 +153,7 @@ class ModalCreateRequest extends Component {
                                                                     }}>
                                                                         <TouchableOpacity
                                                                             onPress={async () => {
-                                                                                this.setState({
-                                                                                    typing: false
-                                                                                })
+
                                                                                 let items = this.state.selectedMedicines;
                                                                                 let specificItem = items[this.state.selectIndex];
                                                                                 specificItem.medicineId = item.id;
@@ -167,9 +166,11 @@ class ModalCreateRequest extends Component {
                                                                                 console.log(JSON.stringify(this.state.selectedMedicines));
                                                                                 await this.setState({
                                                                                     selectedID: item.id,
-                                                                                    medicineName: item.medicineName,
+                                                                                    // medicineName: item.medicineName,
                                                                                 })
-
+                                                                                this.setState({
+                                                                                    typing: false
+                                                                                })
 
                                                                             }}
                                                                         >
@@ -278,9 +279,9 @@ class ModalCreateRequest extends Component {
                             <TouchableOpacity onPress={async () => {
 
                                 await this.setState({
-                                    selectIndex: 0,
+                                    selectIndex: -1,
                                     quantity: 1,
-                                    // medicineName:''
+                                    medicineName: ''
                                     // selectedMedicines: [...this.state.selectedMedicines, {
                                     //     "medicineId": 0,
                                     //     "medicineUsage": null,
@@ -399,13 +400,12 @@ class ModalCreateRequest extends Component {
                                 )
                                 if (this.props.orderResponse.status == 200) {
                                     this.props.cloaseModal()
-                                    this.toast.show(this.props.orderResponse.data.message, 3000)
-                                    setTimeout(() => {
+                                  //  this.toast.show(this.props.orderResponse.data.message, 3000)
                                         this.props.navigation.navigate('ThanksDispense')
-                                    }, 3000);
                                 }
                                 else
-                                    this.toast.show(this.props.orderResponse.data.message, 3000)
+                                    //this.toast.show(this.props.orderResponse.data.message, 5000)
+                                    this.toast.show('يجب إدخال الصنف المطلوب بشكل سليم', 5000)
 
                             }}>
                                 <Text style={style.txt_btn}>{g.SEND_REQUEST}</Text>
@@ -417,7 +417,7 @@ class ModalCreateRequest extends Component {
                             ref={(toast) => this.toast = toast}
                             style={{ backgroundColor: '#000' }}
                             //    position='center'
-                            positionValue={200}
+                            positionValue={0}
                             fadeInDuration={120}
                             fadeOutDuration={1000}
                             textStyle={{ color: 'white', fontFamily: g.Regular }}

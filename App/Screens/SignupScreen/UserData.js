@@ -32,6 +32,9 @@ import DatePicker from 'react-native-date-picker'
 import { Picker } from 'react-native-wheel-pick';
 import ScrollPicker from "react-native-wheel-scrollview-picker";
 
+import HTML from "react-native-render-html";
+import Modal from 'react-native-modalbox';
+import axios from 'axios';
 
 const sex = [g.MALE, g.FAMLE]
 var months = ["يناير", "فبراير", "مارس", "إبريل", "مايو", "يونيو",
@@ -85,8 +88,33 @@ class UserData extends Component {
             confirmPassError: false,
 
             countryNameArray: [],
-            cityNameArray: []
+            cityNameArray: [],
+            modal: false,
+            Terms: ''
         };
+    }
+
+    async getTerms() {
+        try {
+            let resp = await axios.get(`${g.BASE_URL}/api/MasterData/Terms?termsType=2`,
+                {
+                    headers:
+                    {
+                        'accept': 'text/plain',
+                        'authorizationKey': g.authorizationKey,
+                        //  'Authorization': `Bearer ${Token}`,
+
+                    }
+                })
+            console.log('______ Terms ______');
+            console.log(resp.data.termsAndCondtionsHtml);
+            this.setState({
+                Terms: resp.data.termsAndCondtionsHtml
+            }
+            )
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     arabicDate(date) {
@@ -125,6 +153,7 @@ class UserData extends Component {
             })
         }
         else {
+            await this.getTerms()
             await this.props.Get_Country()
             await this.props.Get_City(1)
             this.setState({
@@ -501,7 +530,7 @@ class UserData extends Component {
                                 wrapperHeight={100}
                                 highlightColor={g.Light_Gray}
                                 onValueChange={async (data, selectedIndex) => {
-                                   await this.setState({
+                                    await this.setState({
                                         sex: data,
                                         gender: selectedIndex == 0 ? 1 : 2,
                                     })
@@ -711,7 +740,8 @@ class UserData extends Component {
                             <CheckBox
                                 onClick={async () => {
                                     await this.setState({
-                                        isChecked: !this.state.isChecked
+                                        isChecked: !this.state.isChecked,
+                                        modal: !this.state.isChecked ? true : false
                                     })
                                     await AsyncStorage.setItem('isChecked', String(this.state.isChecked))
 
@@ -743,6 +773,7 @@ class UserData extends Component {
                     : null
                 }
 
+
                 <Toast
                     ref={(toast) => this.toast = toast}
                     style={{ backgroundColor: '#000' }}
@@ -752,6 +783,83 @@ class UserData extends Component {
                     fadeOutDuration={1000}
                     textStyle={{ color: 'white', fontFamily: g.Regular }}
                 />
+
+                <Modal
+                    //      transparent={true}
+                    isOpen={this.state.modal}
+                    swipeToClose={true}
+                    backButtonClose={true}
+                    coverScreen={true}
+                    style={{
+
+                        width: g.windowWidth,
+                        height: g.windowHeight,
+                        backgroundColor: '#00000020',
+                    }}
+                >
+
+                    <View>
+                        <View style={{
+                            backgroundColor: g.white, height: g.windowHeight - 50,
+                            borderTopLeftRadius: 35, borderTopRightRadius: 35,
+                            marginTop: g.windowHeight - (g.windowHeight - 50),
+                        }}>
+                            <View
+                                onStartShouldSetResponder={() => {
+                                    this.setState({
+                                        modal: !this.state.modal
+                                    })
+                                }}
+
+                                style={{
+                                    height: 5, backgroundColor: g.Light_Gray, width: 100,
+                                    marginTop: 15, marginRight: 'auto', marginLeft: 'auto'
+                                    , borderRadius: 10
+                                }} />
+                            {/*close bottom sheet*/}
+                            <View style={{
+                                flexDirection: 'row-reverse',
+                                paddingHorizontal: 25, width: g.windowWidth,
+                                justifyContent: 'space-between'
+                            }}>
+                                <Text style={[styles.login, {
+                                    marginRight: 0, marginTop: 15,
+                                    fontSize: 20
+                                }]}>
+                                    {'الشروط والاحكام'}
+                                </Text>
+                                <Icon name='close' type='Ionicons'
+                                    style={{ fontSize: 22, marginTop: 15, }}
+                                    onPress={() => {
+                                        this.setState({
+                                            modal: !this.state.modal
+                                        })
+                                    }}
+                                />
+                            </View>
+
+                            {/**content */}
+                            <ScrollView style={{ flex: 1, marginTop: 25 }}>
+                                <TouchableOpacity activeOpacity={1}>
+                                    <HTML
+                                        // tagsStyles={
+                                        //     {
+                                        //         p: { textAlign: 'right', fontStyle: 'italic', color: 'grey' },
+                                        //         h3: { textAlign: 'right', },
+                                        //         h4: { textAlign: 'right', },
+                                        //         h5: { textAlign: 'right', },
+                                        //     }
+                                        // }
+                                        source={{ html: this.state.Terms }}
+                                        contentWidth={g.windowWidth}
+
+                                    />
+                                </TouchableOpacity>
+                            </ScrollView>
+                        </View>
+                    </View>
+
+                </Modal>
             </View>
         );
     }

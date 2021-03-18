@@ -22,7 +22,7 @@ class Doctor extends Component {
         super(props);
         this.state = {
             showSpecialist: false,
-            specialist: '',
+            specialist: 'اختر التخصص',
             doctor_name: '',
             error: '',
             special_id: 2,
@@ -43,7 +43,7 @@ class Doctor extends Component {
             await this.props.Get_Specialist()
 
         }
-        this.setState({ specialist: this.props.specialist[0].specialityNameAr });
+        this.setState({ special_id: this.props.specialist[0].id });
 
         this.props.specialist.map(item => {
             this.state.specialistArray.push(item.specialityNameAr)
@@ -75,7 +75,7 @@ class Doctor extends Component {
 
                 <View>
                     <Text style={[styles.username, { marginTop: hp('2%') }]}>
-                        {'امراض باطنة'}
+                        {'التخصص'}
                     </Text>
                     <TouchableOpacity
                         activeOpacity={1}

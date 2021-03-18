@@ -8,6 +8,7 @@ import { Icon } from 'native-base';
 import ModalAddUser from '../../Navigation/ModalAddUser';
 import { connect } from 'react-redux'
 import AsyncStorage from '@react-native-community/async-storage';
+import FitImage from 'react-native-fit-image';
 
 
 class header extends Component {
@@ -80,8 +81,8 @@ class header extends Component {
                     <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => {
                         this.props.navigation.navigate('ProfileScreen')
                     }}>
-                        <Image source={this.state.personalPhoto ? { uri: this.state.personalPhoto } : require('../../Images/noUser.png')}
-                            style={style.userimg} />
+                        <FitImage source={this.state.personalPhoto ? { uri: this.state.personalPhoto } : require('../../Images/noUser.png')}
+                            style={[style.userimg,{overflow:'hidden',borderRadius:25}]} />
                         <View style={style.viewHeader}>
                             <Text style={[style.username, { textAlign: 'left' }]}> {' ' + this.state.name} </Text>
                             <Text style={style.code}>{this.state.code}  </Text>

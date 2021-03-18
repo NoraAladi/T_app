@@ -4,8 +4,9 @@ import g from '../../Gloabal';
 
 export default {
   fitImageWithSize: {
-    height: 60,
-    width: 60,
+    height: 50,
+    width: 50,
+
   },
   container:
   {

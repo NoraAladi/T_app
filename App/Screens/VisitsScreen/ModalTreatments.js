@@ -236,7 +236,7 @@ class ModalTreatments extends Component {
                                                                             item.doze + ' كل ' +
                                                                             item.prescribedMedicineFrequency.frequencyNameAR + ' ' +
                                                                             item.prescribedMedicineFoodCondition.foodConditionAR + ' لمدة ' +
-                                                                            item.prescribedMedicineDuration.medicineDuration + ' يوم'
+                                                                            item.prescribedMedicineDuration.medicineDuration + ' يوم'+'\n\n'
 
                                                                         }
                                                                     </Text>

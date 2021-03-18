@@ -8,6 +8,7 @@ import g from '../../Gloabal';
 import VisitsStyle from './VisitsStyle';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Icon } from 'native-base';
+import FitImage from 'react-native-fit-image';
 
 export default class ModalReportes extends Component {
     constructor(props) {
@@ -121,9 +122,13 @@ export default class ModalReportes extends Component {
                         justifyContent: 'center', marginRight: 30
                     }}>
                         <Image source={{
-                            uri: this.props.typeOfReport == 'MIC' ?
-                                this.props.reportDetails[0].microLab.logo :
-                                this.props.reportDetails[0].radiologyCenter.logo
+                            uri:
+                                !this.props.reportDetails[0].microLab &&
+                                    !this.props.reportDetails[0].recommendedCenter
+                                    ? '' :
+                                    this.props.typeOfReport == 'MIC' ?
+                                        this.props.reportDetails[0].microLab.logo :
+                                        this.props.reportDetails[0].radiologyCenter.logo
                         }}
                             style={{ width: 45, height: undefined, aspectRatio: 1 }}
                             resizeMode='contain'
@@ -347,11 +352,17 @@ export default class ModalReportes extends Component {
                                 }}>
 
                                     <View style={{ alignItems: 'center', justifyContent: 'center', padding: 10, }}>
-                                        {item.resultDate != null ? <Image source={require('../../Images/pdf.png')}
-                                            style={{ width: 60, height: 77 }}
-                                        /> : null}
+                                        {item.attachment != '' ?
+                                            <TouchableOpacity onPress={() => {
+                                                Linking.openURL(item.attachment.attachment)
+                                            }}>
+                                                <FitImage source={{ uri: 'https://www.valterlongo.com/wp-content/uploads/2019/08/pdf-icon.png' }}
+                                                    style={{ width: 60, height: 80 }}
+                                                />
+                                            </TouchableOpacity>
+                                            : null}
                                         <Text style={[VisitsStyle.normalTxt, { color: g.Blue }]}>
-                                            {item.resultDate == null ? 'لا يوجد' : item.resultDate}
+                                            {item.reportName}
                                         </Text>
                                     </View>
 

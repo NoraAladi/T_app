@@ -83,45 +83,46 @@ class myOrder extends Component {
                                     renderItem={({ item, index }) => (
 
                                         <View style={[styles.card, { flexDirection: 'column' }]}>
-                                            <View style={{ flexDirection: 'row-reverse', }}>
-                                                <Text style={[styles.txt, styles.dateRequest]}>
-                                                    {g.REQUEST_DATE}
-                                                </Text>
-                                                <Text style={[styles.txt, styles.provider]}>
-                                                    {g.PROVIDER}
-                                                </Text>
+                                            <TouchableOpacity onPress={async () => {
 
-                                                <TouchableOpacity onPress={async () => {
+                                                await this.setState({
+                                                    dropDown: !this.state.dropDown,
+                                                    selectIndex: index
+                                                })
+                                                if (this.state.dropDown)
+                                                    this.props.Get_PharmacyOrderDetails(item.id)
 
-                                                    await this.setState({
-                                                        dropDown: !this.state.dropDown,
-                                                        selectIndex: index
-                                                    })
-                                                    if (this.state.dropDown)
-                                                        this.props.Get_PharmacyOrderDetails(item.id)
+                                            }}>
+                                                <View style={{ flexDirection: 'row-reverse', }}>
+                                                    <Text style={[styles.txt, styles.dateRequest]}>
+                                                        {g.REQUEST_DATE}
+                                                    </Text>
+                                                    <Text style={[styles.txt, styles.provider]}>
+                                                        {g.PROVIDER}
+                                                    </Text>
 
-                                                }}>
+
                                                     <Icon
                                                         name={this.state.dropDown && this.state.selectIndex == index ? 'up' : 'down'} type='AntDesign'
                                                         style={[styles.icon, styles.iconSize]} />
+
+                                                </View>
+
+                                                <View style={styles.viewValues}>
+                                                    <Text style={[styles.txt, { fontSize: 16, marginTop: -5, width: wp('40') }]}>
+
+                                                        {ArabicNumbers(this.arabicDate(moment(item.created).format('DD MMMM YYYY')))
+                                                        }
+                                                        {'\n'}
+                                                    </Text>
+
+                                                    <Text style={[styles.txt, { fontSize: 16, marginTop: -5, width: wp('35') }]}>
+                                                        {item.pharmacy.nameAr}{'\n'}
+                                                    </Text>
+
+
+                                                </View>
                                                 </TouchableOpacity>
-
-                                            </View>
-
-                                            <View style={styles.viewValues}>
-                                                <Text style={[styles.txt, { fontSize: 16, marginTop: -5, width: wp('40') }]}>
-
-                                                    {ArabicNumbers(this.arabicDate(moment(item.created).format('DD MMMM YYYY')))
-                                                    }
-                                                    {'\n'}
-                                                </Text>
-
-                                                <Text style={[styles.txt, { fontSize: 16, marginTop: -5, width: wp('35') }]}>
-                                                    {item.pharmacy.nameAr}{'\n'}
-                                                </Text>
-
-
-                                            </View>
 
 
                                             {/*** dropDown*/}
@@ -132,9 +133,9 @@ class myOrder extends Component {
                                                     </Text>
                                                     <View style={{ flexDirection: 'row-reverse' }}>
                                                         <Text style={[styles.txt, {
-                                                            fontSize: 16, color: '#e02020', marginTop: -5
+                                                            fontSize: 16, color: this.props.pharmacyOrderDetails.status == 'تم رفض الطلب' ? '#e02020' : '#34D900', marginTop: -5
                                                         }]}>{this.props.pharmacyOrderDetails.status}</Text>
-                                                        <Text style={[styles.txt, { fontSize: 12 }]}>{'   '}{g.NOT_AVALIABLE}</Text>
+                                                        <Text style={[styles.txt, { fontSize: 12 }]}>{'   '}{this.props.pharmacyOrderDetails.comment == '' ? '' : `( ${this.props.pharmacyOrderDetails.comment} )`}</Text>
                                                     </View>
 
                                                     <Text style={[styles.txt, { color: g.Gray, fontSize: 12 }]}>
@@ -167,12 +168,12 @@ class myOrder extends Component {
                                                                                 />
                                                                             </View>
 
-                                                                            <View style={{ marginRight: 15, width: wp('55') }}>
+                                                                            <View style={{
+                                                                                marginRight: 15, width: wp('55'),
+                                                                            }}>
 
-                                                                                <Text style={[styles.txt, { fontSize: 14, }]}>
-                                                                                    {item.medicineUsage}
-                                                                                </Text>
-                                                                                <Text style={[styles.txt, { fontSize: 14, marginTop: -5, }]}>
+
+                                                                                <Text style={[styles.txt, { fontSize: 14, marginTop: 10, }]}>
                                                                                     {item.medicine.medicineName}
                                                                                 </Text>
                                                                             </View>

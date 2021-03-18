@@ -28,21 +28,26 @@ class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: 'طبيب', imgIcon: require('../../Images/doctorIcon.png')
+            name: 'طبيب', imgIcon: require('../../Images/doctorIcon.png'),
+            refreshKey: false
         }
     }
-    componentDidMount()
-    {
+    componentDidMount() {
+        this.props.navigation.addListener('willFocus', () => {
+            this.setState({
+                refreshKey: !this.state.refreshKey
+            })
 
+        });
     }
     render() {
         return (
 
-            <View style={{ flex: 1 }}>
-                  <Header title={'لوجو'} />
+            <View key={this.state.refreshKey} style={{ flex: 1 }}>
+                <Header title={'لوجو'} />
                 <View style={{ height: 15 }} />
                 <ScrollView showsVerticalScrollIndicator={false}>
-               
+
                     <Text style={{
                         textAlign: 'right', fontFamily: g.Regular, fontSize: 20,
                         margin: 10
@@ -97,13 +102,13 @@ class Search extends Component {
                             <Doctor />
                             :
                             this.state.name == "معمل تحاليل" ?
-                                <Lab/>
+                                <Lab />
                                 :
                                 this.state.name == "مركز أشعة" ?
-                                 <Rad/>
+                                    <Rad />
                                     :
                                     this.state.name == "صيدلية" ?
-                                       <Pharma/>
+                                        <Pharma />
                                         : null
 
                     }

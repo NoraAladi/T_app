@@ -49,7 +49,8 @@ export const Post_order = (
         } catch (err) {
             // Handle Error Here
             console.log('--- post order - catch');
-            console.log(err);
+           // console.log(err);
+            console.log(err.response);
             dispatch({ type: 'Post_order_FAIL', orderResponse: err.response })
 
 
