@@ -41,13 +41,13 @@ class SignUp extends Component {
             createdUser_ID: 114,
             healthProfile: {},
             active: false,
-            empty:true
+            empty: true
         };
     }
 
     empty = () => {
         this.setState({
-            empty:false
+            empty: false
         })
     }
     activeBtn = () => {
@@ -130,7 +130,7 @@ class SignUp extends Component {
 
         await this.getKeysData([
             'weight', 'height',
-            'smoking', 'married', 'pregnant', 'email'
+            'smoking', 'married', 'pregnant', 'email', 'breastFeeding'
         ])
             .then(async (response) => {
                 console.log(response)
@@ -138,17 +138,17 @@ class SignUp extends Component {
                     healthProfile: {
                         id: this.state.createdUser_ID,
                         pregnant: response[4].pregnant == '0' ? true : false,
-                        breastFeeding: response[4].pregnant == '0' ? true : false,
+                        breastFeeding: response[6].breastFeeding == '0' ? true : false,
 
                     }
                 })
 
                 await this.props.completeRegister(
                     this.state.createdUser_ID,
-                    parseInt(response[0].weight),
                     parseInt(response[1].height),
-                    parseInt(response[2].smoking),
-                    parseInt(response[3].married),
+                    parseInt(response[0].weight),
+                    parseInt(response[2].smoking) == '0' ? true : false,
+                    parseInt(response[3].married) == '0' ? true : false,
                     this.state.healthProfile
 
                 )
@@ -276,7 +276,7 @@ class SignUp extends Component {
 
                         {
                             this.state.tabSelected_1 ?
-                                <UserData haveCode={false} activeBtn={this.activeBtn} deactiveBtn={this.deactiveBtn} empty={ this.empty}/>
+                                <UserData haveCode={false} activeBtn={this.activeBtn} deactiveBtn={this.deactiveBtn} empty={this.empty} />
                                 : this.state.tabSelected_2 ?
                                     <MedicalData handlePress={this.handlePress} gender={this.state.gender} />
 

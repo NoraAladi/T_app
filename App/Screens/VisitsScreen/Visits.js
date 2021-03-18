@@ -20,6 +20,7 @@ import Tretment from './Tretment';
 import Reportes from './Reportes';
 import Modal from 'react-native-modalbox';
 import ModalAddUser from '../../Navigation/ModalAddUser';
+import FitImage from 'react-native-fit-image';
 class Visits extends Component {
     constructor(props) {
         super(props);
@@ -128,10 +129,10 @@ class Visits extends Component {
                             <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => {
                                 this.props.navigation.navigate('ProfileScreen')
                             }}>
-                                <Image
+                                <FitImage
                                     key={this.state.personalPhoto}
                                     source={this.state.personalPhoto ? { uri: this.state.personalPhoto } : require('../../Images/noUser.png')}
-                                    style={headerStyle.userimg} />
+                                    style={[headerStyle.userimg,{overflow:'hidden',borderRadius:25}]} />
                                 <View style={headerStyle.viewHeader}>
                                     <Text style={[headerStyle.username, { textAlign: 'left' }]}> {' ' + this.state.name} </Text>
                                     <Text style={headerStyle.code}>{this.state.code}  </Text>

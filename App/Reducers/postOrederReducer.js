@@ -9,6 +9,8 @@ export default ( state = INITIAL_STATE , action ) =>
         case 'Post_order_SUCCESS':
                 return {...INITIAL_STATE ,  orderResponse : action.orderResponse , loading  : false }
     
+                case 'Post_order_FAIL':
+                    return {...INITIAL_STATE ,  orderResponse : action.orderResponse , loading  : false }
         
         default : 
             return state ;

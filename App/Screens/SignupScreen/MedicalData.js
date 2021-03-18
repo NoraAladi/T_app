@@ -32,10 +32,10 @@ class UserData extends Component {
         this.state = {
             weight: 0,
             height: 0,
-            smoking: radio_props_one[0].value,
-            married: radio_props_two[0].value,
+            smoking: 0,
+            married: 0,
             elevation: true,
-            pregnant: radio_props_three[0].value,
+            pregnant: 0,
             breastFeeding: 0,
             flag: true
         };

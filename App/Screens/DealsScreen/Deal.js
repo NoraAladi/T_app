@@ -18,6 +18,7 @@ import { ArabicNumbers } from 'react-native-arabic-numbers';
 import moment from 'moment';
 
 import FitImage from 'react-native-fit-image';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 
 
@@ -130,7 +131,8 @@ class Deal extends Component {
                                                     ]}>
                                                     <TouchableOpacity onPress={() => {
                                                         this.props.navigation.navigate('DealsModelScreen', {
-                                                            'ID': item.id, 'Name': item.placeNameAR
+                                                            'ID': item.id, 'Name': item.placeNameAR,
+                                                            'typeId': this.state.selectedTypeId
                                                         })
                                                     }}>
                                                         <Image source={{ uri: item.imageEn }}
@@ -139,7 +141,14 @@ class Deal extends Component {
                                                         />
                                                     </TouchableOpacity>
 
-                                                    <View style={{ marginLeft: 'auto', marginRight: 15, }}>
+                                                    <View style={{
+                                                        marginLeft: 'auto', marginRight: 15,
+                                                        justifyContent: 'center', alignItems: 'center',
+                                                        borderColor: g.Light_Gray,
+                                                        borderWidth: .5,
+                                                        borderRadius: widthPercentageToDP('50'),
+                                                        padding: 7,
+                                                    }}>
                                                         <FitImage
                                                             source={{ uri: item.placeLogo }}
                                                             style={style.fitImageWithSize}

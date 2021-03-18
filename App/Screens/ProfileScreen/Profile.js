@@ -50,6 +50,10 @@ class Profile extends Component {
             console.log('---- LOG OUT ----');
             console.log(response.data);
             await AsyncStorage.removeItem('app_Token')
+            await AsyncStorage.removeItem('countryIdKey')
+            await AsyncStorage.removeItem('cityIdKey')
+
+            
             this.navigateToScreen()
 
         } catch (error) {

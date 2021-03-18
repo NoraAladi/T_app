@@ -24,7 +24,7 @@ class Contact extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            SupportTypesName: '',
+            SupportTypesName: 'اختر نوع الدعم',
             SupportTypesID: 1,
             ShowTypes: false,
             message: '',
@@ -35,7 +35,7 @@ class Contact extends Component {
     async componentDidMount() {
         await this.props.Get_supportTypes()
         this.setState({
-            SupportTypesName: this.props.supportTypes[0].supportCaseTypeNameAR,
+           // SupportTypesName: this.props.supportTypes[0].supportCaseTypeNameAR,
             SupportTypesID: this.props.supportTypes[0].id,
         })
         this.props.supportTypes.map(item => {

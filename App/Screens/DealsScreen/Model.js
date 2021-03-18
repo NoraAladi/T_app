@@ -6,20 +6,22 @@ import {
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
 import g from '../../Gloabal';
-import i18n from '../../i18n';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { connect } from 'react-redux'
 import Spinner from '../../Navigation/Spinner'
 import { Get_offer_details } from '../../Actions/_get_offer_details';
 import { ArabicNumbers } from 'react-native-arabic-numbers';
 import moment from 'moment';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import FitImage from 'react-native-fit-image';
 
 class DealsModelScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             Name: this.props.navigation.getParam('Name'),
-            ID: this.props.navigation.getParam('ID')
+            ID: this.props.navigation.getParam('ID'),
+            typeId: this.props.navigation.getParam('typeId')
         }
     }
 
@@ -53,7 +55,7 @@ class DealsModelScreen extends Component {
                                 {this.props.offer_detail.discount}{g.DISCOUNT}</Text>
 
                             <Text style={[style.txt, style.txt3]}>
-                                {this.props.offer_detail.descriptionEn}
+                                {this.props.offer_detail.titleEn}
                             </Text>
 
                             <Text
@@ -74,16 +76,35 @@ class DealsModelScreen extends Component {
                             </Text>
 
                             <View style={style.line} />
-                            <View style={style.viewBranch}>
+
+                            <View style={[style.viewBranch, { alignItems: 'center' }]}>
                                 <View style={[style.view1, style.enter2, { marginLeft: '25%' }]}>
                                     <Text style={[style.username,
                                     style.txtIOS, { textAlign: 'right', marginTop: -15 }]}>
-                                        {this.props.offer_detail.titleEn} </Text>
+                                        {this.props.offer_detail.placeNameAR} </Text>
 
-                                    <Text style={[style.code, style.txt6]}>{this.props.offer_detail.titleEn}  </Text>
+                                    <Text style={[style.code, style.txt6]}>{this.state.typeId == 1 ? 'عيادة'
+                                        : this.state.typeId == 2 ? 'معمل تحاليل'
+                                            : this.state.typeId == 3 ? 'مركز اشعة'
+                                                : 'صيدلية'
+
+                                    }  </Text>
                                 </View>
-                                <Image source={{ uri: this.props.offer_detail.placeLogo }}
-                                    style={[style.userimg]} />
+
+                                <View style={{
+                                    marginLeft: 10,
+                                    justifyContent: 'center', alignItems: 'center',
+                                    borderColor: g.Light_Gray,
+                                    borderWidth: .5,
+                                    borderRadius: widthPercentageToDP('50'),
+                                    padding: 7,
+                                }}>
+                                    <FitImage
+                                        source={{ uri: this.props.offer_detail.placeLogo }}
+                                        style={style.fitImageWithSize}
+                                    />
+                                </View>
+
 
                             </View>
 
