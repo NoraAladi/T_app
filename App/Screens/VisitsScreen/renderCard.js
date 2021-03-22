@@ -69,7 +69,7 @@ class RenderCard extends Component {
                                             {this.props.data}
                                         </Text>
                                         :
-                                        this.props.title == 'الامراض المزمنة' ?
+                                        this.props.title == 'الأمراض المزمنة' ?
                                             this.props.data.map((item, index) => {
                                                 return (
                                                     <Text style={VisitsStyle.txt}
@@ -80,7 +80,7 @@ class RenderCard extends Component {
                                                 );
                                             })
                                             :
-                                        this.props.title == 'الادوية الممنوعة' ?
+                                        this.props.title == 'الأدوية الممنوعة' ?
                                             this.props.data.map((item, index) => {
                                                 return (
                                                     <Text style={VisitsStyle.txt}

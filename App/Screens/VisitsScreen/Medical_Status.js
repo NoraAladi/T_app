@@ -141,13 +141,13 @@ class Visit extends Component {
 
                         <ScrollView >
                             <RenderCard
-                                title={'الامراض المزمنة'}
+                                title={'الأمراض المزمنة'}
                                 show={'no'}
                                 data={this.state.HealthProfileChronicDiseases}
                                 image={images[0]}
                             />
                             <RenderCard
-                                title={'الادوية الممنوعة'}
+                                title={'الأدوية الممنوعة'}
                                 show={'no'}
                                 data={this.state.HealthProfileCIMedecines}
                                 image={images[1]}
@@ -161,7 +161,7 @@ class Visit extends Component {
                             />
 
                             <RenderCard
-                                title={'الاجراءات الغير جراحية'}
+                                title={'الإجراءات الغير جراحية'}
                                 show={'no'}
                                 data={this.state.GenericHealthProfile.nonInvasiveProcedures}
                                 image={images[3]}
@@ -175,7 +175,7 @@ class Visit extends Component {
                             />
 
                             <RenderCard
-                                title={'الامراض الوراثية'}
+                                title={'الأمراض الوراثية'}
                                 show={'no'}
                                 data={this.state.GenericHealthProfile.genetics}
                                 image={images[5]}
@@ -367,7 +367,7 @@ class Visit extends Component {
                                     marginRight: 0, marginTop: 15,
                                     fontSize: 20
                                 }]}>
-                                    {this.state.typeModal ? g.Vaccinations : 'الادوية المصروفة'}
+                                    {this.state.typeModal ? g.Vaccinations : 'الأدوية المصروفة'}
                                 </Text>
                                 <Icon name='close' type='Ionicons'
                                     style={{ fontSize: 22, marginTop: 15, }}

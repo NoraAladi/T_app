@@ -51,9 +51,10 @@ class DealsModelScreen extends Component {
                         </Text>
                         :
                         <View style={style.discountView}>
-                            <Text style={[style.txt, style.sale, style.enter]}>
+                            <View style={style.saleView}>
+                            <Text style={[style.sale, ]}>
                                 {this.props.offer_detail.discount}{g.DISCOUNT}</Text>
-
+</View>
                             <Text style={[style.txt, style.txt3]}>
                                 {this.props.offer_detail.titleEn}
                             </Text>

@@ -25,7 +25,7 @@ class Doctor extends Component {
             specialist: 'اختر التخصص',
             doctor_name: '',
             error: '',
-            special_id: 2,
+            special_id: -1,
             cityId: 1,
             countryId: 1,
             specialistArray: []
@@ -43,7 +43,7 @@ class Doctor extends Component {
             await this.props.Get_Specialist()
 
         }
-        this.setState({ special_id: this.props.specialist[0].id });
+      //  this.setState({ special_id: this.props.specialist[0].id });
 
         this.props.specialist.map(item => {
             this.state.specialistArray.push(item.specialityNameAr)
@@ -101,6 +101,7 @@ class Doctor extends Component {
                         selectedIndex={this.state.special_id - 2}
                         itemHeight={40}
                         wrapperHeight={100}
+                        wrapperWidth={'45%'}
                         highlightColor={g.Light_Gray}
                         onValueChange={async (data, selectedIndex) => {
                             await this.setState({

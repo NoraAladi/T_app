@@ -41,7 +41,7 @@ class UserData extends Component {
             showClender: false,
             showRelation: false,
             relationName: 'اختر صلة القرابة',
-            relationId: 0,
+            relationId: -1,
             dateInAr: 'اختر تاريخ الميلاد',
             loading: true,
             realDate: moment().format('YYYY-MM-DD'),
@@ -109,8 +109,8 @@ class UserData extends Component {
 
         else {
             await this.setState({
-                relationName: this.props.relation[0].typeNameAR,
-                relationId: this.props.relation[0].id,
+              //  relationName: this.props.relation[0].typeNameAR,
+                //relationId: this.props.relation[0].id,
             })
         }
 
@@ -167,7 +167,7 @@ class UserData extends Component {
                                 <ScrollPicker
                                     ref={(sp) => { this.sp = sp }}
                                     dataSource={this.state.relationNameArray}
-                                    selectedIndex={0}
+                                    selectedIndex={1-3}
                                     itemHeight={40}
                                     wrapperHeight={100}
                                     highlightColor={g.Light_Gray}

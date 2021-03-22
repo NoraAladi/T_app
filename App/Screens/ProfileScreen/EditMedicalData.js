@@ -278,7 +278,7 @@ class EditMedicalData extends Component {
 
                                         <View>
                                             <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
-                                                {'هل انت مرضع ...'}
+                                                {'هل انت مرضع ؟'}
                                             </Text>
 
                                             <View style={{

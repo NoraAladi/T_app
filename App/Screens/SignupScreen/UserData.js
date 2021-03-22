@@ -525,7 +525,7 @@ class UserData extends Component {
                             <ScrollPicker
                                 ref={(sp) => { this.sp = sp }}
                                 dataSource={sex}
-                                selectedIndex={0}
+                                selectedIndex={-1}
                                 itemHeight={40}
                                 wrapperHeight={100}
                                 highlightColor={g.Light_Gray}
@@ -637,7 +637,7 @@ class UserData extends Component {
                             <ScrollPicker
                                 ref={(sp) => { this.sp = sp }}
                                 dataSource={this.state.countryNameArray}
-                                selectedIndex={0}
+                                selectedIndex={-1}
                                 itemHeight={40}
                                 wrapperHeight={100}
                                 highlightColor={g.Light_Gray}
@@ -692,7 +692,7 @@ class UserData extends Component {
                             <ScrollPicker
                                 ref={(sp) => { this.sp = sp }}
                                 dataSource={this.state.cityNameArray}
-                                selectedIndex={0}
+                                selectedIndex={-1}
                                 itemHeight={40}
                                 wrapperHeight={100}
                                 highlightColor={g.Light_Gray}

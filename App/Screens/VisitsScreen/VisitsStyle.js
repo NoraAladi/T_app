@@ -91,7 +91,7 @@ export default {
 
     date:
     {
-        width: wp('15%'), height: hp('9%'),
+        width: wp('15%'), height: hp('12%'),
         marginLeft: wp('3%'), borderRadius: 10, justifyContent: 'center', alignItems: 'center',
         marginTop: hp('1')
     },
@@ -105,7 +105,7 @@ export default {
     month:
     {
         fontFamily: g.Regular, textAlign: 'center',
-        color: g.COLOR_NO, height: 20, fontSize: 12
+        color: g.COLOR_NO, fontSize: 12,lineHeight:18
     },
     normalTxt: {
         textAlign: 'center', fontFamily: g.Regular, fontSize: 12

@@ -114,7 +114,8 @@ class Visits extends Component {
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                         width: g.windowWidth,
-                        paddingHorizontal: 10
+                        paddingHorizontal: 25,
+                        alignItems: 'center', marginTop: -20
                     }}>
                         <View style={{ flexDirection: 'row', marginTop: 20, }}>
                             <TouchableOpacity onPress={() => {
@@ -132,7 +133,7 @@ class Visits extends Component {
                                 <FitImage
                                     key={this.state.personalPhoto}
                                     source={this.state.personalPhoto ? { uri: this.state.personalPhoto } : require('../../Images/noUser.png')}
-                                    style={[headerStyle.userimg,{overflow:'hidden',borderRadius:25}]} />
+                                    style={[headerStyle.userimg, { overflow: 'hidden', borderRadius: 25 }]} />
                                 <View style={headerStyle.viewHeader}>
                                     <Text style={[headerStyle.username, { textAlign: 'left' }]}> {' ' + this.state.name} </Text>
                                     <Text style={headerStyle.code}>{this.state.code}  </Text>

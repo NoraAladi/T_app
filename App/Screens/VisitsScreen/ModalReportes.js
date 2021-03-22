@@ -20,281 +20,288 @@ export default class ModalReportes extends Component {
     }
     renderListHeader = () => {
         return (
-            <View>
-                <View style={{ marginLeft: 'auto', paddingHorizontal: 40, marginTop: 10 }}>
-                    {/**light title */}
-                    <Text style={[VisitsStyle.txt, {
-                        fontSize: 12, color: g.Light_Gray,
-                    }]}>
-                        {g.ORDER_DATE}
-                    </Text>
-                    {/**Dark Details */}
-                    <Text style={[VisitsStyle.txt, {}]}
-                    >
-                        {this.props.date}
-                    </Text>
-                </View>
-
-                {/**line */}
-                <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: g.windowWidth
-                }}>
-                    <View style={{
-                        backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
-                        marginTop: 10, marginBottom: 10,
-                    }} />
-                </View>
+            <ScrollView nestedScrollEnabled
+                showsVerticalScrollIndicator={false}>
+                <TouchableOpacity activeOpacity={1}>
+                    <View>
 
 
-                {/**light title */}
-                <Text style={[VisitsStyle.txt, {
-                    fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40,
-                }]}>
-                    {g.Physician}
-                </Text>
-
-                <View style={{
-                    flexDirection: 'row-reverse',
-                    marginTop: 5,
-                    paddingHorizontal: 40,
-                    justifyContent: 'center'
-                }}>
-                    <View style={{
-                        width: 70, height: 70, borderColor: g.Light_Gray,
-                        borderWidth: .5, borderRadius: 35, alignItems: 'center',
-                        justifyContent: 'center', marginRight: 30
-                    }}>
-                        <Image source={{ uri: this.props.reportDetails[0].clinicVisit.doctor.personalPhoto }}
-                            style={{ width: 45, height: undefined, aspectRatio: 1 }}
-                            resizeMode='contain'
-                        />
-                    </View>
-
-                    <View style={{ paddingHorizontal: 20, paddingVertical: 10 }}>
-                        {/**Dark Details */}
-                        <Text style={[VisitsStyle.txt, { fontSize: 16 }]}>
-                            {this.props.reportDetails[0].clinicVisit.doctor.titleAr + '. ' +
-                                this.props.reportDetails[0].clinicVisit.doctor.fullNameAr}
-                        </Text>
-                        <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular }]}>
-                            {this.props.reportDetails[0].clinicVisit.doctor.titlePreSpecialityAR + ' ' +
-                                this.props.reportDetails[0].clinicVisit.doctor.speciality.specialityNameAr}
-                        </Text>
-                    </View>
-                </View>
-
-
-                {/**line */}
-                <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: g.windowWidth
-                }}>
-                    <View style={{
-                        backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
-                        marginTop: 10, marginBottom: 10,
-                    }} />
-                </View>
-
-
-
-
-
-                {/**الطبيب اللي تم زيارته */}
-                {/**light title */}
-                <Text style={[VisitsStyle.txt, {
-                    fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40, width: undefined
-                }]}>
-                    {this.props.typeOfReport == 'MIC' ? '  المعمل الذي قام بعمل التحاليل' : 'المركز الذي قام بعمل الاشعات'}
-                </Text>
-
-                <View style={{
-                    flexDirection: 'row-reverse',
-                    marginTop: 5,
-                    paddingHorizontal: 40,
-                    justifyContent: 'center'
-                }}>
-                    <View style={{
-                        width: 70, height: 70, borderColor: g.Light_Gray,
-                        borderWidth: .5, borderRadius: 35, alignItems: 'center',
-                        justifyContent: 'center', marginRight: 30
-                    }}>
-                        <Image source={{
-                            uri:
-                                !this.props.reportDetails[0].microLab &&
-                                    !this.props.reportDetails[0].recommendedCenter
-                                    ? '' :
-                                    this.props.typeOfReport == 'MIC' ?
-                                        this.props.reportDetails[0].microLab.logo :
-                                        this.props.reportDetails[0].radiologyCenter.logo
-                        }}
-                            style={{ width: 45, height: undefined, aspectRatio: 1 }}
-                            resizeMode='contain'
-                        />
-                    </View>
-                    {!this.props.reportDetails[0].microLab &&
-                        !this.props.reportDetails[0].recommendedCenter
-
-                        ?
-                        <View style={{ paddingHorizontal: 20 }}>
-                            <Text style={[VisitsStyle.txt, { fontSize: 12, marginTop: 25 }]} >
-                                لا يوجد بيانات
-                                </Text>
+                        <View style={{ marginLeft: 'auto', paddingHorizontal: 40, marginTop: 10 }}>
+                            {/**light title */}
+                            <Text style={[VisitsStyle.txt, {
+                                fontSize: 12, color: g.Light_Gray,
+                            }]}>
+                                {g.ORDER_DATE}
+                            </Text>
+                            {/**Dark Details */}
+                            <Text style={[VisitsStyle.txt, {}]}
+                            >
+                                {this.props.date}
+                            </Text>
                         </View>
 
-                        : <View style={{ paddingHorizontal: 20 }}>
-                            {/**Dark Details */}
-                            <Text style={[VisitsStyle.txt, { fontSize: 16 }]}>
-                                {this.props.typeOfReport == 'MIC' ? this.props.reportDetails[0].microLab.nameAr :
-                                    this.props.reportDetails[0].radiologyCenter.nameAr}
-                            </Text>
+                        {/**line */}
+                        <View style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: g.windowWidth
+                        }}>
+                            <View style={{
+                                backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
+                                marginTop: 10, marginBottom: 10,
+                            }} />
+                        </View>
 
-                            <View style={{ flexDirection: 'row-reverse' }}>
-                                <Icon name='location' type='Ionicons' style={{ color: g.Gray, fontSize: 15, marginTop: 5, marginLeft: 5, }} />
 
+                        {/**light title */}
+                        <Text style={[VisitsStyle.txt, {
+                            fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40,
+                        }]}>
+                            {g.Physician}
+                        </Text>
+
+                        <View style={{
+                            flexDirection: 'row-reverse',
+                            marginTop: 5,
+                            paddingHorizontal: 40,
+                            justifyContent: 'center'
+                        }}>
+                            <View style={{
+                                width: 70, height: 70, borderColor: g.Light_Gray,
+                                borderWidth: .5, borderRadius: 35, alignItems: 'center',
+                                justifyContent: 'center', marginRight: 30
+                            }}>
+                                <Image source={{ uri: this.props.reportDetails[0].clinicVisit.doctor.personalPhoto }}
+                                    style={{ width: 45, height: undefined, aspectRatio: 1 }}
+                                    resizeMode='contain'
+                                />
+                            </View>
+
+                            <View style={{ paddingHorizontal: 20, paddingVertical: 10 }}>
+                                {/**Dark Details */}
+                                <Text style={[VisitsStyle.txt, { fontSize: 16 }]}>
+                                    {this.props.reportDetails[0].clinicVisit.doctor.titleAr + '. ' +
+                                        this.props.reportDetails[0].clinicVisit.doctor.fullNameAr}
+                                </Text>
                                 <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular }]}>
-
-                                    {this.props.typeOfReport == 'MIC' ?
-                                        this.props.reportDetails[0].microLab.locatoin.city.governate.nameAr + ' - ' +
-                                        this.props.reportDetails[0].microLab.locatoin.city.cityNameAr + ' - ' +
-                                        this.props.reportDetails[0].microLab.locatoin.street
-                                        :
-                                        this.props.reportDetails[0].radiologyCenter.locatoin.city.governate.nameAr + ' - ' +
-                                        this.props.reportDetails[0].radiologyCenter.locatoin.city.cityNameAr + ' - ' +
-                                        this.props.reportDetails[0].radiologyCenter.locatoin.street
-                                    }
+                                    {this.props.reportDetails[0].clinicVisit.doctor.titlePreSpecialityAR + ' ' +
+                                        this.props.reportDetails[0].clinicVisit.doctor.speciality.specialityNameAr}
                                 </Text>
                             </View>
-                            <TouchableOpacity
-                                onPress={() => Linking.openURL(`tel:${this.props.reportDetails[0].microLab.phoneNumber}`)}
-                                style={{ flexDirection: 'row-reverse' }}>
-                                <Icon name='call' type='MaterialIcons' style={{ color: g.Gray, fontSize: 15, marginTop: 5, marginLeft: 5, }} />
-
-                                <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular, color: g.Blue }]}>
-                                    {
-                                        this.props.typeOfReport == 'MIC' ?
-                                            this.props.reportDetails[0].microLab.phoneNumber :
-                                            this.props.reportDetails[0].radiologyCenter.phoneNumber
-                                    }
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    }
-                </View>
-
-
-                {/**line */}
-                <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: g.windowWidth
-                }}>
-                    <View style={{
-                        backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
-                        marginTop: 10, marginBottom: 10,
-                    }} />
-                </View>
-
-
-
-
-
-
-
-                {/**Recomand labs */}
-                {/**light title */}
-                <Text style={[VisitsStyle.txt, {
-                    fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40, width: undefined
-                }]}>
-                    {this.props.typeOfReport == 'MIC' ? 'المعمل الموصي به من قبل الطبيب' : 'المركز الموصى به من قبل الطبيب'}
-                </Text>
-
-                <View style={{
-                    flexDirection: 'row-reverse',
-                    marginTop: 5,
-                    paddingHorizontal: 40,
-                    justifyContent: 'center'
-                }}>
-                    <View style={{
-                        width: 70, height: 70, borderColor: g.Light_Gray,
-                        borderWidth: .5, borderRadius: 35, alignItems: 'center',
-                        justifyContent: 'center', marginRight: 30
-                    }}>
-                        <Image source={{
-                            uri: this.props.typeOfReport == 'MIC' ?
-                                this.props.reportDetails[0].recommendedMicroLab.logo :
-                                this.props.reportDetails[0].recommendedCenter.logo
-                        }}
-                            style={{ width: 45, height: undefined, aspectRatio: 1 }}
-                            resizeMode='contain'
-                        />
-                    </View>
-                    {!this.props.reportDetails[0].recommendedMicroLab &&
-                        !this.props.reportDetails[0].recommendedCenter
-
-                        ?
-                        <View style={{ paddingHorizontal: 20 }}>
-                            <Text style={[VisitsStyle.txt, { fontSize: 12, marginTop: 25 }]} >
-                                لا يوجد بيانات
-                                </Text>
                         </View>
 
-                        : <View style={{ paddingHorizontal: 20 }}>
-                            {/**Dark Details */}
-                            <Text style={[VisitsStyle.txt, { fontSize: 16 }]}>
-                                {this.props.typeOfReport == 'MIC' ? this.props.reportDetails[0].recommendedMicroLab.nameAr :
-                                    this.props.reportDetails[0].recommendedCenter.nameAr}
-                            </Text>
 
-                            <View style={{ flexDirection: 'row-reverse' }}>
-                                <Icon name='location' type='Ionicons' style={{ color: g.Gray, fontSize: 15, marginTop: 5, marginLeft: 5, }} />
+                        {/**line */}
+                        <View style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: g.windowWidth
+                        }}>
+                            <View style={{
+                                backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
+                                marginTop: 10, marginBottom: 10,
+                            }} />
+                        </View>
 
-                                <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular }]}>
 
-                                    {this.props.typeOfReport == 'MIC' ?
-                                        this.props.reportDetails[0].recommendedMicroLab.locatoin.city.governate.nameAr + ' - ' +
-                                        this.props.reportDetails[0].recommendedMicroLab.locatoin.city.cityNameAr + ' - ' +
-                                        this.props.reportDetails[0].recommendedMicroLab.locatoin.street
-                                        :
-                                        this.props.reportDetails[0].recommendedCenter.locatoin.city.governate.nameAr + ' - ' +
-                                        this.props.reportDetails[0].recommendedCenter.locatoin.city.cityNameAr + ' - ' +
-                                        this.props.reportDetails[0].recommendedCenter.locatoin.street
-                                    }
-                                </Text>
+
+
+
+                        {/**الطبيب اللي تم زيارته */}
+                        {/**light title */}
+                        <Text style={[VisitsStyle.txt, {
+                            fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40, width: undefined
+                        }]}>
+                            {this.props.typeOfReport == 'MIC' ? '  المعمل الذي قام بعمل التحاليل' : 'المركز الذي قام بعمل الاشعات'}
+                        </Text>
+
+                        <View style={{
+                            flexDirection: 'row-reverse',
+                            marginTop: 5,
+                            paddingHorizontal: 40,
+                            justifyContent: 'center'
+                        }}>
+                            <View style={{
+                                width: 70, height: 70, borderColor: g.Light_Gray,
+                                borderWidth: .5, borderRadius: 35, alignItems: 'center',
+                                justifyContent: 'center', marginRight: 30
+                            }}>
+                                <Image source={{
+                                    uri:
+                                        !this.props.reportDetails[0].microLab &&
+                                            !this.props.reportDetails[0].recommendedCenter
+                                            ? '' :
+                                            this.props.typeOfReport == 'MIC' ?
+                                                this.props.reportDetails[0].microLab.logo :
+                                                this.props.reportDetails[0].radiologyCenter.logo
+                                }}
+                                    style={{ width: 45, height: undefined, aspectRatio: 1 }}
+                                    resizeMode='contain'
+                                />
                             </View>
-                            <TouchableOpacity
-                                onPress={() => Linking.openURL(`tel:${this.props.reportDetails[0].recommendedMicroLab.phoneNumber}`)}
-                                style={{ flexDirection: 'row-reverse' }}>
-                                <Icon name='call' type='MaterialIcons' style={{ color: g.Gray, fontSize: 15, marginTop: 5, marginLeft: 5, }} />
+                            {!this.props.reportDetails[0].microLab &&
+                                !this.props.reportDetails[0].recommendedCenter
 
-                                <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular, color: g.Blue }]}>
-                                    {
-                                        this.props.typeOfReport == 'MIC' ?
-                                            this.props.reportDetails[0].recommendedMicroLab.phoneNumber :
-                                            this.props.reportDetails[0].recommendedCenter.phoneNumber
-                                    }
+                                ?
+                                <View style={{ paddingHorizontal: 20 }}>
+                                    <Text style={[VisitsStyle.txt, { fontSize: 12, marginTop: 25 }]} >
+                                        لا يوجد بيانات
                                 </Text>
-                            </TouchableOpacity>
+                                </View>
+
+                                : <View style={{ paddingHorizontal: 20 }}>
+                                    {/**Dark Details */}
+                                    <Text style={[VisitsStyle.txt, { fontSize: 16 }]}>
+                                        {this.props.typeOfReport == 'MIC' ? this.props.reportDetails[0].microLab.nameAr :
+                                            this.props.reportDetails[0].radiologyCenter.nameAr}
+                                    </Text>
+
+                                    <View style={{ flexDirection: 'row-reverse' }}>
+                                        <Icon name='location' type='Ionicons' style={{ color: g.Gray, fontSize: 15, marginTop: 5, marginLeft: 5, }} />
+
+                                        <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular }]}>
+
+                                            {this.props.typeOfReport == 'MIC' ?
+                                                this.props.reportDetails[0].microLab.locatoin.city.governate.nameAr + ' - ' +
+                                                this.props.reportDetails[0].microLab.locatoin.city.cityNameAr + ' - ' +
+                                                this.props.reportDetails[0].microLab.locatoin.street
+                                                :
+                                                this.props.reportDetails[0].radiologyCenter.locatoin.city.governate.nameAr + ' - ' +
+                                                this.props.reportDetails[0].radiologyCenter.locatoin.city.cityNameAr + ' - ' +
+                                                this.props.reportDetails[0].radiologyCenter.locatoin.street
+                                            }
+                                        </Text>
+                                    </View>
+                                    <TouchableOpacity
+                                        onPress={() => Linking.openURL(`tel:${this.props.reportDetails[0].microLab.phoneNumber}`)}
+                                        style={{ flexDirection: 'row-reverse' }}>
+                                        <Icon name='call' type='MaterialIcons' style={{ color: g.Gray, fontSize: 15, marginTop: 5, marginLeft: 5, }} />
+
+                                        <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular, color: g.Blue }]}>
+                                            {
+                                                this.props.typeOfReport == 'MIC' ?
+                                                    this.props.reportDetails[0].microLab.phoneNumber :
+                                                    this.props.reportDetails[0].radiologyCenter.phoneNumber
+                                            }
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            }
                         </View>
-                    }
-                </View>
 
 
-                {/**line */}
-                <View style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: g.windowWidth
-                }}>
-                    <View style={{
-                        backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
-                        marginTop: 10, marginBottom: 10,
-                    }} />
-                </View>
+                        {/**line */}
+                        <View style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: g.windowWidth
+                        }}>
+                            <View style={{
+                                backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
+                                marginTop: 10, marginBottom: 10,
+                            }} />
+                        </View>
 
-            </View>
+
+
+
+
+
+
+                        {/**Recomand labs */}
+                        {/**light title */}
+                        <Text style={[VisitsStyle.txt, {
+                            fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40, width: undefined
+                        }]}>
+                            {this.props.typeOfReport == 'MIC' ? 'المعمل الموصي به من قبل الطبيب' : 'المركز الموصى به من قبل الطبيب'}
+                        </Text>
+
+                        <View style={{
+                            flexDirection: 'row-reverse',
+                            marginTop: 5,
+                            paddingHorizontal: 40,
+                            justifyContent: 'center'
+                        }}>
+                            <View style={{
+                                width: 70, height: 70, borderColor: g.Light_Gray,
+                                borderWidth: .5, borderRadius: 35, alignItems: 'center',
+                                justifyContent: 'center', marginRight: 30
+                            }}>
+                                <Image source={{
+                                    uri: this.props.typeOfReport == 'MIC' ?
+                                        this.props.reportDetails[0].recommendedMicroLab.logo :
+                                        this.props.reportDetails[0].recommendedCenter.logo
+                                }}
+                                    style={{ width: 45, height: undefined, aspectRatio: 1 }}
+                                    resizeMode='contain'
+                                />
+                            </View>
+                            {!this.props.reportDetails[0].recommendedMicroLab &&
+                                !this.props.reportDetails[0].recommendedCenter
+
+                                ?
+                                <View style={{ paddingHorizontal: 20 }}>
+                                    <Text style={[VisitsStyle.txt, { fontSize: 12, marginTop: 25 }]} >
+                                        لا يوجد بيانات
+                                </Text>
+                                </View>
+
+                                : <View style={{ paddingHorizontal: 20 }}>
+                                    {/**Dark Details */}
+                                    <Text style={[VisitsStyle.txt, { fontSize: 16 }]}>
+                                        {this.props.typeOfReport == 'MIC' ? this.props.reportDetails[0].recommendedMicroLab.nameAr :
+                                            this.props.reportDetails[0].recommendedCenter.nameAr}
+                                    </Text>
+
+                                    <View style={{ flexDirection: 'row-reverse' }}>
+                                        <Icon name='location' type='Ionicons' style={{ color: g.Gray, fontSize: 15, marginTop: 5, marginLeft: 5, }} />
+
+                                        <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular }]}>
+
+                                            {this.props.typeOfReport == 'MIC' ?
+                                                this.props.reportDetails[0].recommendedMicroLab.locatoin.city.governate.nameAr + ' - ' +
+                                                this.props.reportDetails[0].recommendedMicroLab.locatoin.city.cityNameAr + ' - ' +
+                                                this.props.reportDetails[0].recommendedMicroLab.locatoin.street
+                                                :
+                                                this.props.reportDetails[0].recommendedCenter.locatoin.city.governate.nameAr + ' - ' +
+                                                this.props.reportDetails[0].recommendedCenter.locatoin.city.cityNameAr + ' - ' +
+                                                this.props.reportDetails[0].recommendedCenter.locatoin.street
+                                            }
+                                        </Text>
+                                    </View>
+                                    <TouchableOpacity
+                                        onPress={() => Linking.openURL(`tel:${this.props.reportDetails[0].recommendedMicroLab.phoneNumber}`)}
+                                        style={{ flexDirection: 'row-reverse' }}>
+                                        <Icon name='call' type='MaterialIcons' style={{ color: g.Gray, fontSize: 15, marginTop: 5, marginLeft: 5, }} />
+
+                                        <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular, color: g.Blue }]}>
+                                            {
+                                                this.props.typeOfReport == 'MIC' ?
+                                                    this.props.reportDetails[0].recommendedMicroLab.phoneNumber :
+                                                    this.props.reportDetails[0].recommendedCenter.phoneNumber
+                                            }
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            }
+                        </View>
+
+
+                        {/**line */}
+                        <View style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: g.windowWidth
+                        }}>
+                            <View style={{
+                                backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
+                                marginTop: 10, marginBottom: 10,
+                            }} />
+                        </View>
+
+                    </View>
+                </TouchableOpacity>
+            </ScrollView>
         )
     }
     render() {
@@ -307,70 +314,59 @@ export default class ModalReportes extends Component {
                     nestedScrollEnabled
                     data={this.props.reportDetails}
                     renderItem={({ item, index }) => (
-                        <ScrollView nestedScrollEnabled>
-                            <TouchableOpacity activeOpacity={1} >
-                                {/**content */}
-
-                                {/**light title */}
-                                <Text style={[VisitsStyle.txt, {
-                                    fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40,
-                                }]}>
-                                    {g.Required_analysis}
-                                </Text>
-
-                                {/**Dark Details */}
-                                <Text style={[VisitsStyle.txt, {
-                                    fontSize: 16, marginLeft: 'auto', paddingHorizontal: 40, width: wp('80')
-                                }]}>
-                                    {item.reportName}
-                                </Text>
+                        <TouchableOpacity activeOpacity={1} >
 
 
+                            {/**content */}
 
-                                {/**line */}
-                                <View style={{
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    width: g.windowWidth
-                                }}>
-                                    <View style={{
-                                        backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
-                                        marginTop: 10, marginBottom: 10,
-                                    }} />
+                            {/**light title */}
+                            <Text style={[VisitsStyle.txt, {
+                                fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40,
+                            }]}>
+                                {g.Required_analysis}
+                            </Text>
+
+                            {/**Dark Details */}
+                            <Text style={[VisitsStyle.txt, {
+                                fontSize: 16, marginLeft: 'auto', paddingHorizontal: 40, width: wp('80')
+                            }]}>
+                                {item.reportName}
+                            </Text>
+
+
+
+                            {/**light title */}
+                            <Text style={[VisitsStyle.txt, {
+                                fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40,
+                            }]}>
+                                {g.RESULTS}
+                            </Text>
+
+                            <View style={{
+                                flexDirection: 'row-reverse',
+                                paddingHorizontal: 40,
+                            }}>
+
+                                <View style={{ alignItems: 'center', justifyContent: 'center', padding: 10, }}>
+                                    {item.attachment != '' ?
+                                        <TouchableOpacity onPress={() => {
+                                            Linking.openURL(item.attachment.attachment)
+                                        }}>
+                                            <FitImage source={{ uri: 'https://www.valterlongo.com/wp-content/uploads/2019/08/pdf-icon.png' }}
+                                                style={{ width: 60, height: 80 }}
+                                            />
+                                        </TouchableOpacity>
+                                        : null}
+                                    <Text style={[VisitsStyle.normalTxt, { color: g.Blue }]}>
+                                        {item.reportName}
+                                    </Text>
                                 </View>
 
-                                {/**light title */}
-                                <Text style={[VisitsStyle.txt, {
-                                    fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40,
-                                }]}>
-                                    {g.RESULTS}
-                                </Text>
+                            </View>
+                            <View style={{ height: 15 }}></View>
 
-                                <View style={{
-                                    flexDirection: 'row-reverse',
-                                    paddingHorizontal: 40,
-                                }}>
+                        </TouchableOpacity>
 
-                                    <View style={{ alignItems: 'center', justifyContent: 'center', padding: 10, }}>
-                                        {item.attachment != '' ?
-                                            <TouchableOpacity onPress={() => {
-                                                Linking.openURL(item.attachment.attachment)
-                                            }}>
-                                                <FitImage source={{ uri: 'https://www.valterlongo.com/wp-content/uploads/2019/08/pdf-icon.png' }}
-                                                    style={{ width: 60, height: 80 }}
-                                                />
-                                            </TouchableOpacity>
-                                            : null}
-                                        <Text style={[VisitsStyle.normalTxt, { color: g.Blue }]}>
-                                            {item.reportName}
-                                        </Text>
-                                    </View>
-
-                                </View>
-                                <View style={{ height: 15 }}></View>
-                            </TouchableOpacity>
-
-                        </ScrollView>
                     )} />
             </View>
 

@@ -301,7 +301,7 @@ class EditUserData extends Component {
                                         style={{ backgroundColor: 'red', }}
                                         ref={(sp) => { this.sp = sp }}
                                         dataSource={sex}
-                                        selectedIndex={0}
+                                        selectedIndex={1-3}
                                         itemHeight={40}
                                         wrapperHeight={100}
                                         highlightColor={g.Light_Gray}
@@ -410,7 +410,7 @@ class EditUserData extends Component {
                                     <ScrollPicker
                                         ref={(sp) => { this.sp = sp }}
                                         dataSource={this.state.countryNameArray}
-                                        selectedIndex={this.state.countryID-1}
+                                        selectedIndex={this.state.countryID==0?-1:this.state.countryID-1}
                                         itemHeight={40}
                                         wrapperHeight={100}
                                         highlightColor={g.Light_Gray}
@@ -464,7 +464,7 @@ class EditUserData extends Component {
                                     <ScrollPicker
                                     ref={(sp) => { this.sp = sp }}
                                     dataSource={this.state.cityNameArray}
-                                    selectedIndex={0}
+                                    selectedIndex={1-2}
                                     itemHeight={40}
                                     wrapperHeight={100}
                                     highlightColor={g.Light_Gray}

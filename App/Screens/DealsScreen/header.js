@@ -64,7 +64,11 @@ class header extends Component {
     render() {
         return (
             <View
-                style={style.container}>
+                style={[style.container, {
+                    justifyContent: 'space-between', width: '100%',
+                    paddingHorizontal: 25,
+                    paddingBottom: 15
+                }]}>
 
                 <View
                     style={style.flag}>
@@ -78,11 +82,11 @@ class header extends Component {
                             style={style.arrow} />
 
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => {
+                    <TouchableOpacity style={{ flexDirection: 'row',alignItems:'center' }} onPress={() => {
                         this.props.navigation.navigate('ProfileScreen')
                     }}>
                         <FitImage source={this.state.personalPhoto ? { uri: this.state.personalPhoto } : require('../../Images/noUser.png')}
-                            style={[style.userimg,{overflow:'hidden',borderRadius:25}]} />
+                            style={[style.userimg, { overflow: 'hidden', borderRadius: 25 }]} />
                         <View style={style.viewHeader}>
                             <Text style={[style.username, { textAlign: 'left' }]}> {' ' + this.state.name} </Text>
                             <Text style={style.code}>{this.state.code}  </Text>
@@ -90,7 +94,7 @@ class header extends Component {
                     </TouchableOpacity>
                 </View>
                 {this.props.title == 'لوجو' ?
-                    <Image source={require('../../Images/logo.png')}
+                    <FitImage source={require('../../Images/logo.png')}
                         style={style.imageLogo}
                     />
                     :

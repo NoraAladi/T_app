@@ -46,10 +46,12 @@ export const new_Register = (
             if (response.data) {
                 console.log('--- newDependent ----');
                 console.log(response.data);
-                dispatch({ type: 'NEW_REGISTER_SUCCESS', newRegister:response.data })
+                dispatch({ type: 'NEW_REGISTER_SUCCESS', newRegister:response.data,newRegisterStatus:response.status })
             }
         } catch (err) {
             console.log(err);
+            dispatch({ type: 'NEW_REGISTER_SUCCESS', newRegister:[],newRegisterStatus:err.response.status })
+
           
         }
     }

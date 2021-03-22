@@ -24,9 +24,9 @@ import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const data =
     [
-        { name: 'معامل تحاليل', id: 2 },
+        { name: 'التحاليل', id: 2 },
         { name: 'صيدليات', id: 4 },
-        { name: 'مراكز أشعة', id: 3 },
+        { name: 'أشعة', id: 3 },
         { name: 'أطباء', id: 1 }
     ]
 
@@ -161,7 +161,7 @@ class Deal extends Component {
                                                     <View style={[style.simpleRowRevers, style.rowTitle]}>
                                                         <Text
                                                             numberOfLines={2}
-                                                            style={[style.txt, { marginTop: 10 }]}>
+                                                            style={[style.txt, { width: '75%', marginTop: 10 }]}>
                                                             {item.titleEn}</Text>
 
                                                         <View style={{ width: '30%' }} >
@@ -174,8 +174,11 @@ class Deal extends Component {
                                                     </View>
 
                                                     <View style={style.discount}>
+                                                        <View style={style.saleView}>
                                                         <Text style={[style.sale]}>
                                                             {item.discount}{g.DISCOUNT}</Text>
+                                                        </View>
+                                                       
                                                         <Text style={[style.txt2]}>
                                                             {g.OFFERS_SARY}   {ArabicNumbers(moment(item.toDate).format('DD-MM-YYYY'))}</Text>
                                                     </View>
