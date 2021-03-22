@@ -26,7 +26,7 @@ class DispenseScreen extends Component {
             quantity: 1,
             isChecked: false,
             total: 0,
-            selectIndex: 0,
+            selectIndex: -1,
             selectedMedicines: [
                 {
                     "medicineId": 1,
@@ -46,20 +46,14 @@ class DispenseScreen extends Component {
         clinicVisitId = await AsyncStorage.getItem('clinicId')
 
 
-        if (this.props.Prescribed.data) {
-            this.setState({
-                selectedMedicines: this.props.Prescribed.data.pharmacyOrderDetail,
-                updatedAddress: this.props.Prescribed.data.deliveryAddress
-            })
-        }
-        else {
-            await this.props.Get_PrescribedPharmacyOrderDetails(this.props.navigation.getParam('pharmaID'), clinicVisitId)
-            this.setState({
-                selectedMedicines: this.props.Prescribed.data.pharmacyOrderDetail,
-                updatedAddress: this.props.Prescribed.data.deliveryAddress
 
-            })
-        }
+        await this.props.Get_PrescribedPharmacyOrderDetails(this.props.navigation.getParam('pharmaID'), clinicVisitId)
+        this.setState({
+            selectedMedicines: this.props.Prescribed.data.pharmacyOrderDetail,
+            updatedAddress: this.props.Prescribed.data.deliveryAddress
+
+        })
+
         this.props.Prescribed.data.pharmacyOrderDetail.map(item => {
             this.setState({
                 total: this.state.total + item.price
@@ -111,7 +105,7 @@ class DispenseScreen extends Component {
                                                             <Image source={img[index % img.length]}
                                                                 style={{ width: 32, height: 31, marginTop: 0 }} />
                                                         </View>
-                                                        <Text style={style.txt3}> {item.medicineName }  </Text>
+                                                        <Text style={style.txt3}> {item.medicineName}  </Text>
                                                     </View>
 
                                                     <View style={{ flexDirection: 'row-reverse', margin: hp('1%') }}>
@@ -136,11 +130,22 @@ class DispenseScreen extends Component {
                                                                     alignItems: 'center', justifyContent: 'center',
                                                                     borderLeftColor: g.Blue, borderLeftWidth: 1, width: 45
                                                                 }} >
-                                                                    <TouchableOpacity onPress={() => {
-                                                                        if (this.state.quantity != 1) {
-                                                                            this.setState({
-                                                                                quantity: this.state.quantity - 1
+                                                                    <TouchableOpacity onPress={async () => {
+                                                                        if (item.quantity != 1) {
+                                                                            await this.setState({
+                                                                                selectIndex: index,
+
                                                                             })
+                                                                            this.setState({
+                                                                                quantity: item.quantity - 1
+                                                                            })
+                                                                            let items = [...this.state.selectedMedicines];
+                                                                            let specificItem = { ...items[index] };
+
+                                                                            specificItem.quantity = this.state.quantity;
+                                                                            items[index] = specificItem;
+                                                                            await this.setState({ selectedMedicines: items });
+                                                                            console.log(JSON.stringify(this.state.selectedMedicines))
                                                                         }
 
                                                                     }}>
@@ -166,8 +171,9 @@ class DispenseScreen extends Component {
                                                                 }} >
                                                                     <TouchableOpacity onPress={async () => {
                                                                         await this.setState({
-                                                                            quantity: this.state.quantity + 1,
-                                                                            selectIndex: index
+                                                                            selectIndex: index,
+
+                                                                            quantity: item.quantity + 1,
                                                                         })
                                                                         let items = [...this.state.selectedMedicines];
                                                                         let specificItem = { ...items[index] };
@@ -189,7 +195,7 @@ class DispenseScreen extends Component {
                                                 </View>
                                             )} />
 
-                                        
+
 
                                     </View>
 
@@ -313,7 +319,7 @@ class DispenseScreen extends Component {
                                         pharmacyOrderDetail
                                     )
                                     if (this.props.orderResponse.status == 200) {
-                                       // this.toast.show(this.props.orderResponse.data.message,10000)
+                                        // this.toast.show(this.props.orderResponse.data.message,10000)
                                         setTimeout(() => {
                                             this.props.navigation.navigate('ThanksDispense')
                                         }, 0);

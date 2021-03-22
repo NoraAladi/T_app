@@ -36,7 +36,7 @@ export default {
     flexDirection: 'column', marginTop: hp('1%'), width: '70%'
   },
   viewHeader: {
-    flexDirection: 'column', marginLeft: wp('5%'), marginTop: hp('1%')
+    flexDirection: 'column', marginLeft: wp('3%'), marginTop: hp('1%')
 
   },
   username:
@@ -108,7 +108,7 @@ export default {
   img_view:
   {
     justifyContent: 'center', alignItems: 'center',
-    width: 120, height: 40, padding: 20,
+    paddingHorizontal: 10,paddingVertical: 5,
     marginLeft: 10,
   },
 
@@ -139,7 +139,7 @@ export default {
   txt1:
   {
     textDecorationLine: 'line-through',
-    width: 50, fontSize: 12, color: g.Ferany, fontFamily: g.Regular, marginLeft: 20
+    width: undefined, fontSize: 12, color: g.Ferany, fontFamily: g.Regular, 
   },
 
   txt2:
@@ -147,10 +147,13 @@ export default {
     fontFamily: g.Regular,
     fontSize: 13, color: g.Gray, 
   },
+  saleView: {
+    backgroundColor: '#F64E4E50', borderRadius: 20, 
+      paddingHorizontal: 20,paddingVertical: 4,alignItems: 'center',justifyContent:'center'
+  },
   sale:
   {
-    backgroundColor: '#F64E4E50', borderRadius: 20, color: '#F64E4E'
-    , width: 90, height: 30, fontFamily: g.Regular, textAlign: 'center'
+    fontFamily: g.Regular, textAlign: 'center',color: '#F64E4E'
   },
   img:
   {
@@ -277,7 +280,7 @@ export default {
   },
 
   specificTxt: {
-    width: 70,
+    width: undefined,
     fontSize: 14,
     color: g.Blue
   },
@@ -295,11 +298,13 @@ export default {
   },
   flag: {
     flexDirection: 'row',
-    margin: 20
+   // margin: 20
   },
   imageLogo: {
-    width: 100,
-    height: 100, marginLeft: 60
+    width: 75,
+    height: 75,
+    
+   // backgroundColor:'red'
   },
   spinnerTop: {
     marginTop: hp('35%')

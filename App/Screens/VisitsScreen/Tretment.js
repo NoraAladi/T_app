@@ -91,7 +91,7 @@ class Tretment extends Component {
                                                 }}
                                             >
                                                 <View style={[VisitsStyle.card, {
-                                                    width: wp('60%'), height: hp('9%'),
+                                                    width: wp('60%'), height: hp('12%'),
                                                     alignItems: 'center'
                                                 }]}>
                                                     <Icon name="left" type="AntDesign"
@@ -125,11 +125,11 @@ class Tretment extends Component {
                                                 </View>
 
                                             </View>
-                                            <View>
+                                            <View style={{height:'12%'}}>
                                                 <View style={{
                                                     height: 20, width: 20, alignItems: 'center',
                                                     margin: 11, padding: 5,
-                                                    borderRadius: 60, backgroundColor: g.Light_Gray
+                                                    borderRadius: 60, backgroundColor: g.Light_Gray,
                                                 }}>
                                                     <View style={{
                                                         height: 10, width: 10,
@@ -140,16 +140,17 @@ class Tretment extends Component {
                                                 <View style={{
                                                     flexDirection: 'column', justifyContent: 'center'
                                                     , alignItems: 'center',
-                                                    height: hp('4'),
+                                                    //height: hp('4'),
                                                     marginTop: 0
                                                 }}>
 
 
                                                     <Text style={{
-                                                        width: 2, lineHeight: 10,
+                                                        width: 2, lineHeight: 7,
+                                                        marginLeft:3,
                                                         transform: [{ rotate: '180deg' }]
 
-                                                    }}>|{'\n'}|{'\n'}|</Text>
+                                                    }}>|{'\n'}|{'\n'}|{'\n'}|</Text>
 
                                                 </View>
                                             </View>

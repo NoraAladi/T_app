@@ -25,7 +25,7 @@ class Contact extends Component {
         super(props);
         this.state = {
             SupportTypesName: 'اختر نوع الدعم',
-            SupportTypesID: 1,
+            SupportTypesID: -1,
             ShowTypes: false,
             message: '',
             SupportTypesArray: []
@@ -35,8 +35,8 @@ class Contact extends Component {
     async componentDidMount() {
         await this.props.Get_supportTypes()
         this.setState({
-           // SupportTypesName: this.props.supportTypes[0].supportCaseTypeNameAR,
-            SupportTypesID: this.props.supportTypes[0].id,
+            // SupportTypesName: this.props.supportTypes[0].supportCaseTypeNameAR,
+            // SupportTypesID: this.props.supportTypes[0].id,
         })
         this.props.supportTypes.map(item => {
             this.state.SupportTypesArray.push(item.supportCaseTypeNameAR)
@@ -81,7 +81,7 @@ class Contact extends Component {
                         <View style={{ height: 150 }}>
                             <ScrollPicker
                                 dataSource={this.state.SupportTypesArray}
-                                selectedIndex={this.state.SupportTypesID - 1}
+                                selectedIndex={this.state.SupportTypesID == -1 ? -1 : this.state.SupportTypesID - 1}
                                 itemHeight={40}
                                 wrapperHeight={150}
                                 highlightColor={g.Light_Gray}

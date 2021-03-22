@@ -19,6 +19,7 @@ import Spinner from '../../Navigation/Spinner'
 import { Get_Reportes } from '../../Actions/_get_reportes';
 import moment from 'moment'
 import { get_reportDetails } from '../../Actions/get_reportDetails';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const colors = [g.Date1, g.Date1, g.Date1
     , g.Date2, g.Date2, g.Date3, g.Date4, g.Date4, g.Date4]
@@ -33,7 +34,7 @@ class Reportes extends Component {
             date: moment().format('DD-MM-YYYY'),
             reportes: [],
             isRefresh: false,
-            typeOfReport:''
+            typeOfReport: ''
         }
 
     }
@@ -83,11 +84,11 @@ class Reportes extends Component {
                         ]}>
 
                         <Text style={[style.title2, {
-                            fontSize: 13, width: 110,
+                            fontSize: 13, width: 100, height: undefined, marginTop: 0,
                             color: this.state.tab_1 ? g.Blue : g.Light_Gray
 
                         }]}>
-                            {g.REQUESTDOCTOR}
+                            {'شخصي'}
                         </Text>
                     </TouchableOpacity>
 
@@ -101,7 +102,6 @@ class Reportes extends Component {
                         style={[
                             style.img_view,
                             {
-                                width: 150,
                                 borderColor: this.state.tab_2 ? '#0070FF' : g.Light_Gray,
                                 borderWidth: .5, borderRadius: 20,
                                 transform: Platform.OS == "android" ? [{ rotateY: '180deg' }] : [{ rotateY: '0deg' }], backgroundColor: this.state.tab_2 ? '#0070FF10' : 'white'
@@ -109,7 +109,7 @@ class Reportes extends Component {
                         ]}>
 
                         <Text style={[style.title2, {
-                            fontSize: 13, width: 150,
+                            fontSize: 13, width: undefined, height: undefined, marginTop: 0,
                             color: this.state.tab_2 ? g.Blue : g.Light_Gray
 
 
@@ -147,7 +147,7 @@ class Reportes extends Component {
                                                     await this.props.get_reportDetails(item.reportType, item.reportIds)
                                                     //   this.props.handlePress()
                                                     this.setState({
-                                                        typeOfReport:item.reportType,
+                                                        typeOfReport: item.reportType,
                                                         date: moment(item.clinicVisitDate).format('YYYY-MM-DD'),
                                                         modal: !this.state.modal
                                                     })
@@ -172,7 +172,7 @@ class Reportes extends Component {
                                                             color: g.Blue,
                                                             marginBottom: 5,
                                                         }}
-                                                        numberOfLines={2}
+                                                            numberOfLines={2}
                                                         >
                                                             {item.reportNames} </Text>
 
@@ -196,34 +196,35 @@ class Reportes extends Component {
                                                 style={[VisitsStyle.date,
                                                 {
                                                     backgroundColor: colors[index % colors.length],
-                                                    height: hp('13')
+                                                    justifyContent: 'space-between',
+                                                    height: hp('14')
                                                 }]}>
 
                                                 <View
                                                     elevation={4}
 
                                                     style={{
-                                                        flexDirection: 'column', justifyContent: 'center'
-                                                        , alignItems: 'center', padding: 5
+                                                        flexDirection: 'column'
+                                                        , alignItems: 'center',
                                                     }}>
                                                     <View style={{
-                                                        backgroundColor:
-                                                            g.Blue, width: wp('15%'), flex: 1, marginTop: -5,
+                                                        backgroundColor: g.Blue, width: wp('15%'),
+                                                        //  height:30,
                                                         borderTopLeftRadius: 10, borderTopRightRadius: 10
                                                     }}>
                                                         <Text style={[VisitsStyle.date_txt, {
                                                             color: 'white',
-                                                            height: 100, padding: 0
-                                                        }]}>{item.reportType == 'RAD' ? 'اشعة' : 'تحليل'}</Text>
+                                                            height: undefined, padding: 3
+                                                        }]}>{item.reportType == 'RAD' ? 'أشعة' : 'تحليل'}</Text>
                                                     </View>
-                                                    <Text style={VisitsStyle.date_txt}>{moment(item.clinicVisitDate).format('DD')} </Text>
-                                                    <Text style={[VisitsStyle.month, { marginRight: 10, }]}>  {moment(item.clinicVisitDate).format('MMM')}
+                                                    <Text style={VisitsStyle.month}>{moment(item.clinicVisitDate).format('DD')} </Text>
+                                                    <Text style={[VisitsStyle.month]}>{moment(item.clinicVisitDate).format('MMM')}
                                                     </Text>
                                                     <Text style={VisitsStyle.month}>{moment(item.clinicVisitDate).format('yy')}</Text>
                                                 </View>
 
                                             </View>
-                                            <View>
+                                            <View style={{ height: '13%' }}>
                                                 <View style={{
                                                     height: 20, width: 20, alignItems: 'center',
                                                     margin: 11, padding: 5,
@@ -248,7 +249,9 @@ class Reportes extends Component {
                                                         width: 2, lineHeight: 10,
                                                         transform: [{ rotate: '180deg' }],
                                                         marginTop: 0,
+                                                        marginLeft: 2,
                                                         height: hp('10'),
+                                                        color: g.Light_Gray
 
 
                                                     }}>|{'\n'}|{'\n'}|{'\n'}|{'\n'}{'\n'}|{'\n'}</Text>
@@ -313,11 +316,14 @@ class Reportes extends Component {
                                         })
                                     }}
                                 />
+
                             </View>
-                            <ModalReportes reportDetails={this.props.reportDetails}
-                                date={this.state.date}
-                                typeOfReport={this.state.typeOfReport}
-                            />
+                            <ScrollView>
+                                <ModalReportes reportDetails={this.props.reportDetails}
+                                    date={this.state.date}
+                                    typeOfReport={this.state.typeOfReport}
+                                />
+                            </ScrollView>
                         </View>
                     </View>
 

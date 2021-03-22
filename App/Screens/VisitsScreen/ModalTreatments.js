@@ -1,5 +1,4 @@
 import styleLogin from '../LoginScreen/style';
-import headerStyle from '../DealsScreen/style';
 import React, { Component } from 'react';
 import {
     Text, View, ScrollView,

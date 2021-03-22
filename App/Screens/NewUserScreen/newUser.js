@@ -44,7 +44,7 @@ class newUser extends Component {
         };
     }
     componentDidMount() {
-        
+
         AsyncStorage.multiRemove([
             'fullName', 'email',
             'password', 'confirmPassword', 'date',
@@ -66,14 +66,16 @@ class newUser extends Component {
     }
 
     async UserDataValidation() {
-
+        this.setState({
+            loader: true
+        })
         await this.getKeysData([
             'sonName', 'date',
             'relation', 'jobName'])
             .then(async (response) => {
                 console.log(response)
                 if (this.props.navigation.getParam('edit') == 'edit' ||
-                    this.props.navigation.getParam('patientCode') 
+                    this.props.navigation.getParam('patientCode')
                 ) {
                     await this.props.Put_DependentPersonal(
                         this.state.editID,
@@ -85,6 +87,14 @@ class newUser extends Component {
                     )
                     if (this.props.putPersonalResponse.status == 200)
                         this.toast.show('تم التعديل بيانات المستخدم بنجاح ', 2000);
+                    setTimeout(() => {
+                        this.setState({
+                            loader: false,
+                            tabSelected_1: false,
+                            tabSelected_2: true,
+                        })
+                    }, 2000);
+
                 }
                 else {
                     await this.props.new_Register(
@@ -94,17 +104,35 @@ class newUser extends Component {
                         parseInt(response[2].relation),
                     )
                     //      this.toast.show('تمت الاضافة بنجاح ', 1000);
-                    this.setState({
-                        newUserID: this.props.newRegister.id
-                    })
+                    if (this.props.newRegisterStatus == 200) {
+                        this.setState({
+                            newUserID: this.props.newRegister.id
+                        })
+
+                        this.toast.show('تم إنشاء المستخدم بنجاح ', 2000);
+                        setTimeout(() => {
+                            this.setState({
+                                loader: false,
+                                tabSelected_1: false,
+                                tabSelected_2: true,
+                            })
+                        }, 2000);
+
+                    }
+                    else {
+                        this.toast.show('يجب إدخال البيانات بشكل سليم', 2000);
+                        setTimeout(() => {
+                            this.setState({
+                                loader: false,
+
+                            })
+                        }, 2000);
+                    }
+
                 }
             })
 
-        this.setState({
-            loader: false,
-            tabSelected_1: false,
-            tabSelected_2: true,
-        })
+
 
     }
 
@@ -112,7 +140,7 @@ class newUser extends Component {
 
         await this.getKeysData([
             'weight', 'height',
-            'smoking', 'married', 'pregnant','breastFeeding'
+            'smoking', 'married', 'pregnant', 'breastFeeding'
         ])
             .then(async (response) => {
                 console.log(response)
@@ -313,7 +341,7 @@ class newUser extends Component {
                         <Modal
                             animationType="slide"
                             transparent={true}
-                            visible={this.props.loading || this.props.loading1}
+                            visible={this.state.loader}
                         >
                             <View
                                 style={{
@@ -347,6 +375,7 @@ const mapStateToProps = state => {
     return {
         newRegister: state.newRegister.newRegister,
         loading: state.newRegister.loading,
+        newRegisterStatus: state.newRegister.newRegisterStatus,
 
         userDependent_completed: state.userDependent_completed.newRegister,
         loading1: state.userDependent_completed.loading,

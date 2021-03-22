@@ -18,8 +18,8 @@ import AsyncStorage from '@react-native-community/async-storage'
 
 const data = [
     { name: 'صيدلية', img: require('../../Images/pharma.png'), imgicon: require('../../Images/pharmacyIcon.png') },
-    { name: 'مركز أشعة', img: require('../../Images/rad.png'), imgicon: require('../../Images/radIcon.png') },
-    { name: 'معمل تحاليل', img: require('../../Images/lab.png'), imgicon: require('../../Images/labIcon.png') },
+    { name: 'أشعة', img: require('../../Images/rad.png'), imgicon: require('../../Images/radIcon.png') },
+    { name: 'التحاليل', img: require('../../Images/lab.png'), imgicon: require('../../Images/labIcon.png') },
     { name: 'طبيب', img: require('../../Images/doctor.png'), imgicon: require('../../Images/doctorIcon.png') },
 
 ]
@@ -101,10 +101,10 @@ class Search extends Component {
                         this.state.name == "طبيب" ?
                             <Doctor />
                             :
-                            this.state.name == "معمل تحاليل" ?
+                            this.state.name == "التحاليل" ?
                                 <Lab />
                                 :
-                                this.state.name == "مركز أشعة" ?
+                                this.state.name == "أشعة" ?
                                     <Rad />
                                     :
                                     this.state.name == "صيدلية" ?

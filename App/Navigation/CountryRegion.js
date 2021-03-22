@@ -63,7 +63,7 @@ class CountryRegion extends Component {
                     this.setState({
                         region: parseInt(val) != 0 ?
                             this.props.cities.find(x => x.id == parseInt(val)).cityNameAr :
-                            'اختر المنطقة',
+                            'اختر المدينة',
                         regionId: parseInt(val),
 
                     })
@@ -74,7 +74,7 @@ class CountryRegion extends Component {
                 this.setState({
                     // region: this.props.cities[0].cityNameAr,
                     // country: this.props.countries[0].nameAr,
-                    region: 'اختر المنطقة',
+                    region: 'اختر المدينة',
                     country: 'اخنر المحافظة',
                 });
                 AsyncStorage.setItem('cityIdKey', '0')
@@ -122,7 +122,7 @@ class CountryRegion extends Component {
             <View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 10, }}>
                     <View style={{ marginLeft: wp('0%') }}>
-                        <Text style={style.irea}>{g.IREA}</Text>
+                        <Text style={style.irea}>{'المدينة'}</Text>
                         <TouchableOpacity
                             activeOpacity={1}
                             onPress={async () => {
@@ -159,7 +159,7 @@ class CountryRegion extends Component {
                             <ScrollPicker
                                 ref={(sp) => { this.sp = sp }}
                                 dataSource={this.state.cityNameArray}
-                                selectedIndex={0}
+                                selectedIndex={this.state.regionId == 0 ? -1 : this.state.regionId - 1}
                                 itemHeight={40}
                                 wrapperHeight={100}
                                 highlightColor={g.Light_Gray}
@@ -225,7 +225,7 @@ class CountryRegion extends Component {
                             <ScrollPicker
                                 ref={(sp) => { this.sp = sp }}
                                 dataSource={this.state.countryNameArray}
-                                selectedIndex={this.state.countryId - 1}
+                                selectedIndex={this.state.countryId == 0 ? -1 : this.state.countryId - 1}
                                 itemHeight={40}
                                 wrapperHeight={100}
                                 highlightColor={g.Light_Gray}
