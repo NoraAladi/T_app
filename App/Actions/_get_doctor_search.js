@@ -3,19 +3,21 @@ import axios from 'axios';
 import g from '../Gloabal'
 
 export const Get_Doctor_Search = (Filter, specialityId, GovernorateId, CityId) => {
-  console.log('filter: ' + Filter + '\n' +
-    'specialityId: ' + specialityId + '\n' +
-    'GovernorateId: ' + GovernorateId + '\n' +
-    'CityId: ' + CityId + '\n'
-  );
+
   return async (dispatch) => {
     dispatch({ type: 'GET_DOCTOR_SEARCH_ATTEMPT' });
     const Token = await AsyncStorage.getItem('app_Token');
     const countryId = await AsyncStorage.getItem('countryIdKey')
     const cityId = await AsyncStorage.getItem('cityIdKey')
+    console.log('filter: ' + Filter + '\n' +
+      'specialityId: ' + specialityId + '\n' +
+      'GovernorateId: ' + countryId + '\n' +
+      'CityId: ' + cityId + '\n'
+    );
     //call the backend 
     //&specialityId=${specialityId}
-    axios.get(`${g.BASE_URL}/api/PatientServiceProviders/ClinicSearch?governorateId=${countryId}&cityId=${cityId}&specialityId=${specialityId}&doctorname=${Filter}&PageNumer=1&PageSize=10`,
+    console.log(`${g.BASE_URL}/api/PatientServiceProviders/ClinicSearch?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&${specialityId == -1 ? null : 'specialityId=' + specialityId}&doctorname=${Filter}&PageNumer=1&PageSize=10`);
+    axios.get(`${g.BASE_URL}/api/PatientServiceProviders/ClinicSearch?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&${specialityId == -1 ? null : 'specialityId=' + specialityId}&doctorname=${Filter}&PageNumer=1&PageSize=10`,
       {
         headers:
         {

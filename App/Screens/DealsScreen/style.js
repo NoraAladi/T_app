@@ -304,7 +304,7 @@ export default {
     width: 75,
     height: 75,
     
-   // backgroundColor:'red'
+  //  backgroundColor:'red'
   },
   spinnerTop: {
     marginTop: hp('35%')

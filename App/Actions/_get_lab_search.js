@@ -22,7 +22,7 @@ export const Get_LAB_RAD_PAHRMA_Search = (type, Filter, GovernorateId, CityId) =
 
 
     //call the backend 
-    let response = await axios.get(`${g.BASE_URL}/api/PatientServiceProviders/${type}?governorateId=${countryId}&cityId=${cityId}&name=${Filter}&PageNumer=1&PageSize=10`,
+    let response = await axios.get(`${g.BASE_URL}/api/PatientServiceProviders/${type}?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&name=${Filter}&PageNumer=1&PageSize=10`,
     
       {
         headers:

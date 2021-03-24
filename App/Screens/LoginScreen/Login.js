@@ -22,11 +22,19 @@ class Login extends Component {
         };
     }
 
-  
+
     async _onLogin() {
         const { email, password } = this.state;
         await this.props.loginuser({ email, password })
-        if ( this.props.status == 200) {
+        if (this.props.error == "redirecttoverify") {
+            this.props.navigation.navigate('VerificationScreen',
+                {
+                    'email': this.state.email,
+                    'fromLoginScreen': 'true'
+                }
+            )
+        }
+        if (this.props.status == 200) {
             this.props.navigation.replace('SearchScreen');
         }
         Keyboard.dismiss()
@@ -80,7 +88,8 @@ class Login extends Component {
                             <TextInput
                                 onChangeText={(password) => this.setState({ password })}
                                 secureTextEntry
-                                autoCorrect={false}
+                                autoCapitalize='none'
+                                // autoCorrect={false}
                                 placeholder={g.PASSWORD}
                                 placeholderTextColor={g.Light_Gray}
                                 style={styles.input} />
@@ -100,13 +109,13 @@ class Login extends Component {
                                 <Spinner />
                                 :
                                 <TouchableOpacity style={styles.btn}
-                                    onPress={()=>{this._onLogin()}}>
+                                    onPress={() => { this._onLogin() }}>
                                     <Text style={styles.txt_btn}>{g.LOGIN}</Text>
                                 </TouchableOpacity>
                         }
 
                         <Text style={styles.error}>
-                            {this.props.error}
+                            {this.props.error == "redirecttoverify" ? '' : this.props.error}
                         </Text>
 
                         <View style={styles.row}>

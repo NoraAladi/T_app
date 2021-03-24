@@ -209,5 +209,10 @@ patientContainer:{
   justifyContent: 'space-between',
   marginTop: Platform.OS == "ios" ? hp('5%') : null,
 
-},
+  },
+  labelText: {
+    fontSize: 14,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
+    fontWeight: Platform.OS == "ios" ? "800" : null,
+}
 };

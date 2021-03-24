@@ -119,7 +119,16 @@ class SignUp extends Component {
                     }, 3000);
                 }
                 else {
-                    this.toast.show(this.props.message, 3000);
+                    if (this.props.message == "redirecttoverify") {
+                        this.props.navigation.navigate('VerificationScreen',
+                            {
+                                'email': response[1].email,
+                                'fromLoginScreen': 'true'
+                            }
+                        )
+                    }
+                    else
+                        this.toast.show(this.props.message, 3000);
                 }
             })
     }

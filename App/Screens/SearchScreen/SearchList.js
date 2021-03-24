@@ -270,7 +270,7 @@ class SearchList extends Component {
                                                             item.phoneNumber
                                                         }
                                                     </Text>
-                                                    <Icon name="call" type="Ionicons" style={style.call} />
+                                                    <Icon name="call" type="Ionicons" style={[style.call,{color:'#4FCE5D'}]} />
                                                 </TouchableOpacity>
                                             </View>
                                         </View>

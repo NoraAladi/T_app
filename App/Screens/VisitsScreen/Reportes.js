@@ -88,7 +88,7 @@ class Reportes extends Component {
                             color: this.state.tab_1 ? g.Blue : g.Light_Gray
 
                         }]}>
-                            {'شخصي'}
+                            {'بطلب طبيب'}
                         </Text>
                     </TouchableOpacity>
 
@@ -109,12 +109,12 @@ class Reportes extends Component {
                         ]}>
 
                         <Text style={[style.title2, {
-                            fontSize: 13, width: undefined, height: undefined, marginTop: 0,
+                            fontSize: 13, width: 100, height: undefined, marginTop: 0,
                             color: this.state.tab_2 ? g.Blue : g.Light_Gray
 
 
                         }]}>
-                            {g.WITHOUTDOCTOR}
+                            {'شخصي'}
                         </Text>
                     </TouchableOpacity>
 

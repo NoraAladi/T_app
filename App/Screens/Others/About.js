@@ -61,15 +61,7 @@ class About extends Component {
                                     marginRight: 'auto'
                                 }}>
                                     <Text style={[styles.txt, { color: g.Gray, fontSize: 16 }]}>
-                                        تطبيق EXIR 360 سهل الاستخدام مخزن على السحابة الإليكترونية .. آمن تماما ..  خصوصية كاملة لملفك الطبي و تحكم تام في كيفية الوصول إليه.{'\n'}
-خصوصيتك هي مهمتنا الرئيسية ، أظهر من بياناتك ما تريد لمن تريد فقط.{'\n'}
-تجنب الأخطاء في صرف الأدوية الموصوفة لك.{'\n'}
-سجلك الطبي وتقارير الأشعة والاختبارات المعملية والوصفات الطبية معك أينما كنت.{'\n'}
-ملف تعريف فريد لك ولأي فرد من أفراد العائلة تقوم بإضافته ، مع خاصية التحقق المزدوج عند محاولة الوصول إلى ملف التعريف الصحي.{'\n'}
-ابحث عن الوظائف غير الطبية التي تم نشرها بواسطة مقدمي الرعاية الصحية.{'\n'}
-قم بتنفيذ الوصفة الطبية الخاصة بك عبر الإنترنت ، أو اطلب عبر الإنترنت ما تريده من أقرب الصيدليات.{'\n'}
-أضف أطفالك و المسنين بسهولة إلى التطبيق ، و استمر بالاهتمام بهم.{'\n'}
-اتصل بالطوارئ وابحث عن المتبرعين بالدم وتبرع بالدم.{'\n'}
+                                      {this.props.social.aboutUs}
                                     </Text>
                                 </View>
 
@@ -82,12 +74,12 @@ class About extends Component {
                                         flexDirection: 'row', marginTop: 10, marginBottom: 5,
                                         justifyContent: 'space-around', width: wp('40')
                                     }}>
-                                        {this.props.social.map(item => {
+                                        {this.props.social.socialChannelsResponse.map(item => {
                                             return (
                                                 <TouchableOpacity onPress={() => {
                                                     Linking.openURL(item.channelLinkEN)
                                                 }}>
-                                                    <Icon name={item.channelNameEN == 'linkedIn' ? 'linkedin-square':item.channelNameEN }
+                                                    <Icon name={item.channelNameEN == 'linkedIn' ? 'linkedin-square' : item.channelNameEN}
                                                         type={item.channelNameEN == 'facebook' ? 'FontAwesome' : 'AntDesign'}
                                                         style={[styles.icon1, { color: g.Gray }]} />
                                                 </TouchableOpacity>

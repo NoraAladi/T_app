@@ -136,7 +136,8 @@ export default {
   },
   questionCode: {
     color: '#0091FF',
-    marginTop: 15
+    marginTop: 15,
+    marginBottom: 15
   },
   fullScreen: {
     width: '100%',

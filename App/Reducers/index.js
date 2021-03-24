@@ -46,6 +46,8 @@ import putDependentPersonal_Reducer from './putDependentPersonal_Reducer';
 import putDependentHealth_Reducer from './putDependentHealth_Reducer';
 import getStatusREducer from './getStatusREducer';
 import putStatusReducer from './putStatusReducer';
+import onBoard_Reducer from './onBoard_Reducer';
+
 
 
 
@@ -98,4 +100,5 @@ export default combineReducers({
     putHealthResponse: putDependentHealth_Reducer,
     healthStatus: getStatusREducer,
     editStatus: putStatusReducer,
+    onBoard:onBoard_Reducer,
 });

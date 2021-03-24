@@ -5,6 +5,10 @@ import { withNavigation } from "react-navigation";
 import G from '../Gloabal';
 import { ScrollView } from 'react-native-gesture-handler';
 
+import { Get_Board } from '../Actions/getBoardAction';
+import { connect } from 'react-redux'
+import Spinner from '../Navigation/Spinner'
+
 const window = Dimensions.get("window");
 const images = [
 
@@ -18,19 +22,32 @@ class OnBoard extends Component {
         super(props);
         this.state = {
             indexActive: 0,
-
+            pageNo: 0,
             dimensions: {
                 window
             }
         };
     }
 
+    handleScroll = (event) => {
+        const positionX = event.nativeEvent.contentOffset.x;
+        const positionY = event.nativeEvent.contentOffset.y;
+        console.log(positionX + ' ' + positionY);
+        this.setState({
+            pageNo: Math.round(event.nativeEvent.contentOffset.x / Dimensions.get('window').width)
+        })
+        console.log('currentScreenIndex', Math.round(event.nativeEvent.contentOffset.x / Dimensions.get('window').width));
+
+    };
+
     onDimensionsChange = ({ window }) => {
         this.setState({ dimensions: { window } });
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         Dimensions.addEventListener("change", this.onDimensionsChange);
+        await this.props.Get_Board()
+        console.log(JSON.stringify(this.props.onBoard));
     }
 
     componentWillUnmount() {
@@ -53,71 +70,89 @@ class OnBoard extends Component {
                     </View>
 
                     <View>
-                        <Text style={styles.header}>{G.ONBOARD_P1}</Text>
-                        <Text style={styles.txt}>{G.ONBOARD_P2}</Text>
+                        <Text style={styles.header}>
+                            {this.props.onBoard!='' ?
+                                this.props.onBoard[this.state.pageNo].titleAr
+                                : ''}
+                        </Text>
+                        <Text style={[styles.txt, {
+                            width: '80%', marginLeft: 'auto', height: 100
+                        }]}>
+                            {this.props.onBoard!='' ?
+                                this.props.onBoard[this.state.pageNo].descriptionAr : ''}</Text>
                     </View>
                     {/*****slider */}
-                    <View style={styles.scrollContainer}>
-                        <ScrollView
-                            horizontal={true}
-                            style={styles.scrollViewStyle}
-                            pagingEnabled
-                            showsHorizontalScrollIndicator={false}
-                            onScroll={Animated.event([
-                                {
-                                    nativeEvent: {
-                                        contentOffset: {
-                                            x: this.scrollX
-                                        }
-                                    }
-                                }
-                            ])}
-                            scrollEventThrottle={1}
-                        >
-                            {images.map((image, imageIndex) => {
-                                return (
-                                    <View
-                                        style={{
-                                            width: windowWidth,
-                                            height: 250
-                                        }}
-                                        key={imageIndex}
-                                    >
-                                        <ImageBackground
-                                            resizeMode={'contain'}
-                                            source={image} style={styles.card}
-                                        >
-                                        </ImageBackground>
-                                    </View>
-                                );
-                            })}
-                        </ScrollView>
-                        <View style={styles.indicatorContainer}>
-                            {images.map((image, imageIndex) => {
-                                const width = this.scrollX.interpolate({
-                                    inputRange: [
-                                        windowWidth * (imageIndex - 1),
-                                        windowWidth * imageIndex,
-                                        windowWidth * (imageIndex + 1)
-                                    ],
-                                    outputRange: [8, 16, 8],
-                                    extrapolate: "clamp"
-                                });
-                                return (
-                                    <Animated.View
-                                        key={imageIndex}
-                                        style={[styles.normalDot, { width }]}
-                                    />
-                                );
-                            })}
-                        </View>
-                    </View>
+                    {
+                        this.props.loading
+                            ?
+                            <View style={{ height: 350 }} >
+                                <Spinner />
+                            </View>
 
+                            :
+                            <View style={styles.scrollContainer}>
+                                <ScrollView
+                                    horizontal={true}
+                                    style={styles.scrollViewStyle}
+                                    pagingEnabled
+                                    showsHorizontalScrollIndicator={false}
+                                    onScroll={Animated.event([{
+                                        nativeEvent: {
+                                            contentOffset: {
+                                                x: this.scrollX
+                                            }
+                                        }
+                                    }], { listener: (event) => this.handleScroll(event) })}
+
+
+
+                                    scrollEventThrottle={1}
+                                >
+                                    {this.props.onBoard.map((image, imageIndex) => {
+                                        return (
+                                            <View
+                                                style={{
+                                                    width: windowWidth,
+                                                    height: 250
+                                                }}
+                                                key={imageIndex}
+                                            >
+                                                <ImageBackground
+                                                    resizeMode={'contain'}
+                                                    source={{ uri: image.imageAR }}
+                                                    style={styles.card}
+                                                >
+                                                </ImageBackground>
+                                            </View>
+                                        );
+                                    })}
+                                </ScrollView>
+                                <View style={styles.indicatorContainer}>
+                                    {this.props.onBoard.map((image, imageIndex) => {
+                                        const width = this.scrollX.interpolate({
+                                            inputRange: [
+                                                windowWidth * (imageIndex - 1),
+                                                windowWidth * imageIndex,
+                                                windowWidth * (imageIndex + 1)
+                                            ],
+                                            outputRange: [8, 16, 8],
+                                            extrapolate: "clamp"
+                                        });
+                                        return (
+                                            <Animated.View
+                                                key={imageIndex}
+                                                style={[styles.normalDot, { width }]}
+                                            />
+                                        );
+                                    })}
+                                </View>
+                            </View>
+                    }
                     {/*********slider */}
                     <View style={styles.slider}>
                         <View style={styles.Button} onStartShouldSetResponder={() => {
                             this.props.navigation.navigate('LoginScreen')
-                         //this.props.navigation.replace('VerificationScreen', { 'flag': 'signUp' })
+                            //this.props.navigation.replace('VerificationScreen', { 'flag': 'signUp' })
 
                         }}>
                             <Text style={[styles.normalTxt, styles.specificMargin]}>{G.LOGIN}</Text>
@@ -145,5 +180,11 @@ class OnBoard extends Component {
         );
     }
 }
+const mapStateToProps = state => {
+    return {
+        loading: state.onBoard.loading,
+        onBoard: state.onBoard.onBoard,
+    }
+}
 
-export default withNavigation(OnBoard)
+export default connect(mapStateToProps, { Get_Board })(withNavigation(OnBoard));

@@ -129,6 +129,8 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.patient_app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion

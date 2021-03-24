@@ -39,7 +39,7 @@ const { Value, Text: AnimatedText } = Animated;
 
 const Verification = ({ navigation }) => {
 
-    const CELL_COUNT = navigation.getParam('flag') ? 6 : 5;
+    const CELL_COUNT = 5;
     const source = require('../../Images/succSign.png');
 
     const animationsColor = [...new Array(CELL_COUNT)].map(() => new Value(0));
@@ -93,6 +93,7 @@ const Verification = ({ navigation }) => {
             console.log(response.data);
             setLoader(false)
             toast.current.show(response.data.message, 1000);
+
             setTimeout(() => {
                 navigation.navigate('EnterpassScreen', { 'token': value })
             }, 1000);
@@ -129,10 +130,16 @@ const Verification = ({ navigation }) => {
             console.log(response.data);
             setLoader(false)
             toast.current.show(response.data.message, 1000);
-            setTimeout(() => {
-                navigation.navigate('ThankUScreen')
-            }, 1000);
-
+            if (navigation.getParam('fromLoginScreen') == 'true') {
+                setTimeout(() => {
+                    navigation.navigate('LoginScreen')
+                }, 1000);
+            }
+            else {
+                setTimeout(() => {
+                    navigation.navigate('ThankUScreen')
+                }, 1000);
+            }
         } catch (error) {
             setLoader(false)
             console.log(error.response);
@@ -206,14 +213,14 @@ const Verification = ({ navigation }) => {
                         // keyboardType="number-pad"
                         textContentType="oneTimeCode"
                         onSubmitEditing={() => {
-                            if (navigation.getParam('flag'))
+                            if (navigation.getParam('flag') || navigation.getParam('fromLoginScreen'))
                                 verifyApiSignUp()
                             else
                                 verifyApi()
                         }}
                         onEndEditing={() => {
                             if (value.length === CELL_COUNT) {
-                                if (navigation.getParam('flag'))
+                                if (navigation.getParam('flag') || navigation.getParam('fromLoginScreen'))
                                     verifyApiSignUp()
                                 else
                                     verifyApi()
