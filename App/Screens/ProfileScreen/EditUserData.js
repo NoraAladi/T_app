@@ -113,7 +113,7 @@ class EditUserData extends Component {
             fullName: this.props.user_d.fullNameAr,
             email: this.props.user_d.email,
             mobile: this.props.user_d.mobileNumber,
-            address: this.props.user_d.location.city.cityNameAr,
+            address: this.props.user_d.location.street,
             realDate: this.props.user_d.dateofBirth.split('T')[0],
             dateInAr: this.arabicDate(moment(this.props.user_d.dateofBirth.split('T')[0]).format('DD MMMM YYYY')),
             Jobname: this.props.user_d.profession,

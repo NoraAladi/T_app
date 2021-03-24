@@ -175,7 +175,7 @@ export default class ModalReportes extends Component {
                                     <TouchableOpacity
                                         onPress={() => Linking.openURL(`tel:${this.props.reportDetails[0].microLab.phoneNumber}`)}
                                         style={{ flexDirection: 'row-reverse' }}>
-                                        <Icon name='call' type='MaterialIcons' style={{ color: g.Gray, fontSize: 15, marginTop: 5, marginLeft: 5, }} />
+                                        <Icon name='call' type='MaterialIcons' style={{ color: '#4FCE5D', fontSize: 15, marginTop: 5, marginLeft: 5, }} />
 
                                         <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular, color: g.Blue }]}>
                                             {
@@ -272,7 +272,7 @@ export default class ModalReportes extends Component {
                                     <TouchableOpacity
                                         onPress={() => Linking.openURL(`tel:${this.props.reportDetails[0].recommendedMicroLab.phoneNumber}`)}
                                         style={{ flexDirection: 'row-reverse' }}>
-                                        <Icon name='call' type='MaterialIcons' style={{ color: g.Gray, fontSize: 15, marginTop: 5, marginLeft: 5, }} />
+                                        <Icon name='call' type='MaterialIcons' style={{ color: '#4FCE5D', fontSize: 15, marginTop: 5, marginLeft: 5, }} />
 
                                         <Text style={[VisitsStyle.txt, { fontSize: 12, fontFamily: g.Regular, color: g.Blue }]}>
                                             {

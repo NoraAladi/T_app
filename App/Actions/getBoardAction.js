@@ -2,26 +2,24 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import g from '../Gloabal'
 
-export const Get_Social = () => {
+export const Get_Board = () => {
    return async (dispatch) => {
-      dispatch({ type: 'GET_SOCIAL_ATTEMPT' });
-      const Token = await AsyncStorage.getItem('app_Token');
+      dispatch({ type: 'GET_BOARD_ATTEMPT' });
       //  alert(Token)
       try {
-         let response = await axios.get(`${g.BASE_URL}/api/MasterData/SocialChannels`,
+         let response = await axios.get(`${g.BASE_URL}/api/MasterData/CarouselItems?origin=patient&page=home`,
             {
                headers:
                {
                   'accept': 'text/plain',
                   'authorizationKey': g.authorizationKey,
-                  'Authorization': `Bearer ${Token}`,
-
                }
             })
-         console.log('__ SOCIAL ___');
+         console.log('__ on Board ___');
+         console.log(response.data );
          // console.log(response.data);
          // If request is good...
-         dispatch({ type: 'GET_SOCIAL_SUCCESS', social: response.data })
+         dispatch({ type: 'GET_BOARD_SUCCESS', onBoard: response.data })
 
       } catch (error) {
          console.log(error);

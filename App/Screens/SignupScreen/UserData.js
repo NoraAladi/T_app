@@ -736,22 +736,42 @@ class UserData extends Component {
                         </View>
 
                         {/**Terms */}
-                        <View style={{ padding: 30, }}>
-                            <CheckBox
-                                onClick={async () => {
-                                    await this.setState({
-                                        isChecked: !this.state.isChecked,
-                                        modal: !this.state.isChecked ? true : false
-                                    })
-                                    await AsyncStorage.setItem('isChecked', String(this.state.isChecked))
+                        <View style={{
+                            flexDirection: 'row-reverse',
+                            padding: 30,
+                            alignItems:'center'
+                        }}>
 
-                                }}
-                                isChecked={this.state.isChecked}
-                                checkBoxColor={g.Light_Gray}
-                                checkedCheckBoxColor={g.Light_Gray}
-                                leftText='اوافق على الشروط والاحكام'
-                                leftTextStyle={[styles.input1, { textAlign: 'right', marginTop: -5 }]}
-                            />
+                            <View>
+                                <CheckBox
+                                    onClick={async () => {
+                                        await this.setState({
+                                        isChecked: !this.state.isChecked,
+                                        })
+                                        await AsyncStorage.setItem('isChecked', String(this.state.isChecked))
+
+                                    }}
+                                    isChecked={this.state.isChecked}
+                                    checkBoxColor={g.Light_Gray}
+                                    checkedCheckBoxColor={g.Light_Gray}
+
+                                />
+                            </View>
+                            <Text style={styles.labelText}>{'  اوافق على  '}</Text>
+                            <TouchableOpacity onPress={async () => {
+                                await this.setState({
+                                    //     isChecked: !this.state.isChecked,
+                                    modal: !this.state.modal
+                                })
+                            }}>
+                                <Text style={[styles.labelText, {
+                                    color: g.Blue,
+                                    fontFamily:g.Regular
+                                }]}>
+                                    {'الشروط والأحكام '}
+                                </Text>
+                            </TouchableOpacity>
+
                         </View>
                     </>
                     : null}
@@ -839,7 +859,7 @@ class UserData extends Component {
                             </View>
 
                             {/**content */}
-                            <ScrollView style={{ flex: 1, marginTop: 25 }}>
+                            <ScrollView style={{ flex: 1, marginTop: 25,marginBottom:25 }}>
                                 <TouchableOpacity activeOpacity={1}>
                                     <HTML
                                         // tagsStyles={

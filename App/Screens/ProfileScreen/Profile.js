@@ -2,7 +2,7 @@ import styles from './style';
 import React, { Component } from 'react';
 import {
     Text, View, ScrollView,
-    TouchableOpacity, Platform, Image,
+    TouchableOpacity, Platform, Image, fetch
 
 } from 'react-native';
 import { withNavigation, NavigationActions, StackActions } from "react-navigation"
@@ -15,6 +15,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux'
 import Spinner from '../../Navigation/Spinner'
 import { Get_mini_Profile } from '../../Actions/_get_mini_profile';
+import ActionSheet from 'react-native-actionsheet'
+import ImagePicker from 'react-native-image-crop-picker';
 
 import axios from 'axios';
 
@@ -22,7 +24,8 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            image: false
+            image: false,
+            uploadImage: {}
         };
     }
 
@@ -53,7 +56,7 @@ class Profile extends Component {
             await AsyncStorage.removeItem('countryIdKey')
             await AsyncStorage.removeItem('cityIdKey')
 
-            
+
             this.navigateToScreen()
 
         } catch (error) {
@@ -76,6 +79,75 @@ class Profile extends Component {
 
     }
 
+    _On_addImg = () => {
+        this.ActionSheet.show()
+
+    };
+
+
+
+    _take_img_camera = () => {
+        ImagePicker.openCamera({
+            width: 300,
+            height: 400,
+            cropping: true,
+        }).then(image => {
+            this._on_selectImg(image);
+        });
+    };
+
+    _take_img_gallery = () => {
+        ImagePicker.openPicker({
+            compressImageMaxWidth: 500,
+            compressImageMaxHeight: 500,
+            compressImageQuality: 0.7,
+            includeBase64: true,
+            cropping: true,
+            //   multiple: true,
+        }).then((image) => {
+            this._on_selectImg(image);
+        });
+    };
+
+
+
+    _on_selectImg = async (image) => {
+        console.log(image);
+        let item = {
+            uri: image.path,
+            name: `image-${Math.floor(Math.random() * 20)}`,
+            type: image.mime,
+        }
+        this.setState({
+            uploadImage: item
+        })
+        console.log(this.state.uploadImage);
+        /////////////////////////////////
+        var data = new FormData();
+        data.append('path', item);
+        const Token = await AsyncStorage.getItem('app_Token');
+        /////////////////////////////////
+        try {
+            let response = await axios.post(`${g.BASE_URL}/api/PatientProfile/UploadAttachment`
+                , data,
+                {
+                    headers: {
+                        Accept: 'application/json',
+                       // 'Content-Type': 'multipart/form-data; ',
+                        'authorizationKey': g.authorizationKey,
+                        'Authorization': `Bearer ${Token}`,
+                    }
+                })
+
+            console.log('---- Add ----');
+            console.log(response);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
     async componentDidMount() {
         await this.props.Get_mini_Profile()
         this.setState({ image: true })
@@ -84,6 +156,19 @@ class Profile extends Component {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#f3f7fd' }}>
+                <ActionSheet
+                    ref={o => this.ActionSheet = o}
+                    //  title={<Text style={{color: '#000', fontSize: 18}}>Select A Photo</Text>}
+                    options={['التقط صورة', 'اختر من المعرض', 'إلغاء']}
+                    cancelButtonIndex={2}
+                    destructiveButtonIndex={2}
+                    onPress={(index) => {
+                        if (index == 0)
+                            this._take_img_camera();
+                        if (index == 1)
+                            this._take_img_gallery();
+                    }}
+                />
                 <TouchableOpacity
                     style={styles.view1}
                     onPress={() => {
@@ -117,10 +202,13 @@ class Profile extends Component {
                                 resizeMode="contain"
                                 source={this.state.image && this.props.mini.personalPhoto ? { uri: this.props.mini.personalPhoto } : require('../../Images/noUser.png')}
                             />
-
-                            <Image style={[{ marginTop: -15, marginLeft: 44 }]}
-                                source={require('../../Images/camIcon.png')}
-                            />
+                            <TouchableOpacity onPress={() => {
+                                this._On_addImg()
+                            }}>
+                                <Image style={[{ marginTop: -15, marginLeft: 44 }]}
+                                    source={require('../../Images/camIcon.png')}
+                                />
+                            </TouchableOpacity>
                             <Text style={[styles.txtBold, { fontSize: 16, marginTop: -5, }]}>{this.props.mini.fullNameAr}</Text>
                             <Text style={[styles.txtBold, { fontSize: 12, marginTop: -5, }]}>{this.props.mini.code}</Text>
                         </View>
@@ -232,7 +320,9 @@ class Profile extends Component {
                         <Text style={[styles.txt_btn, { color: '#E02020' }]}>
                             {g.LOGOUT}</Text>
                     </TouchableOpacity>
+
                 </ScrollView>
+
             </View>
         );
 
