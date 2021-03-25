@@ -1,7 +1,7 @@
 import styles from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView,
+    Text, View, ScrollView, RefreshControl,
     TouchableOpacity, Platform, Image, fetch
 
 } from 'react-native';
@@ -19,13 +19,15 @@ import ActionSheet from 'react-native-actionsheet'
 import ImagePicker from 'react-native-image-crop-picker';
 
 import axios from 'axios';
+import FitImage from 'react-native-fit-image';
 
 class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
             image: false,
-            uploadImage: {}
+            uploadImage: {},
+            refresh: false
         };
     }
 
@@ -119,12 +121,13 @@ class Profile extends Component {
             type: image.mime,
         }
         this.setState({
-            uploadImage: item
+            uploadImage: item,
+            refresh: true
         })
         console.log(this.state.uploadImage);
         /////////////////////////////////
         var data = new FormData();
-        data.append('path', item);
+        data.append('file', item);
         const Token = await AsyncStorage.getItem('app_Token');
         /////////////////////////////////
         try {
@@ -133,14 +136,16 @@ class Profile extends Component {
                 {
                     headers: {
                         Accept: 'application/json',
-                       // 'Content-Type': 'multipart/form-data; ',
+                        'Content-Type': 'multipart/form-data; ',
                         'authorizationKey': g.authorizationKey,
                         'Authorization': `Bearer ${Token}`,
                     }
                 })
 
-            console.log('---- Add ----');
+            console.log('---- Image Uploaded ----');
             console.log(response);
+            await this.onRefresh()
+
 
         } catch (error) {
             console.log(error);
@@ -151,6 +156,11 @@ class Profile extends Component {
     async componentDidMount() {
         await this.props.Get_mini_Profile()
         this.setState({ image: true })
+    }
+    async onRefresh() {
+        await this.props.Get_mini_Profile()
+        this.setState({ image: true, refresh: false })
+        AsyncStorage.setItem('personalPhoto', String(this.props.mini.personalPhoto))
     }
 
     render() {
@@ -180,7 +190,14 @@ class Profile extends Component {
                         fontSize: 24,
                     }} />
                 </TouchableOpacity>
-                <ScrollView style={{ marginTop: Platform.OS == "android" ? hp('-10%') : hp('-15%') }}>
+                <ScrollView style={{ marginTop: Platform.OS == "android" ? hp('-10%') : hp('-15%') }}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refresh}
+                            onRefresh={() => { this.onRefresh() }}
+                        />
+                    }>
+
                     <Image style={{ width: g.windowWidth, height: g.windowHeight / 3 }}
                         resizeMode="cover"
                         source={require('../../Images/nice.jpg')}
@@ -195,11 +212,13 @@ class Profile extends Component {
                             justifyContent: 'center', alignItems: 'center',
                         }}>
 
-                            <Image style={[styles.img, {
+                            <FitImage style={{
                                 borderRadius: wp('50'),
+                                width: 80, height: 80,
+                                overflow:'hidden',
                                 marginTop: Platform.OS == "android" ? -55 : 0
-                            }]}
-                                resizeMode="contain"
+                            }}
+                                resizeMode="stretch"
                                 source={this.state.image && this.props.mini.personalPhoto ? { uri: this.props.mini.personalPhoto } : require('../../Images/noUser.png')}
                             />
                             <TouchableOpacity onPress={() => {

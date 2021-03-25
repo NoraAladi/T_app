@@ -109,11 +109,14 @@ class EditUserData extends Component {
         }
 
 
-      await  this.setState({
+        await this.setState({
             fullName: this.props.user_d.fullNameAr,
             email: this.props.user_d.email,
             mobile: this.props.user_d.mobileNumber,
-            address: this.props.user_d.location.street,
+            address: this.props.user_d.location.street + ' ' +
+                this.props.user_d.location.city.cityNameAr + ' ' +
+                this.props.user_d.location.city.governate.nameAr
+            ,
             realDate: this.props.user_d.dateofBirth.split('T')[0],
             dateInAr: this.arabicDate(moment(this.props.user_d.dateofBirth.split('T')[0]).format('DD MMMM YYYY')),
             Jobname: this.props.user_d.profession,
@@ -301,7 +304,7 @@ class EditUserData extends Component {
                                         style={{ backgroundColor: 'red', }}
                                         ref={(sp) => { this.sp = sp }}
                                         dataSource={sex}
-                                        selectedIndex={1-3}
+                                        selectedIndex={1 - 3}
                                         itemHeight={40}
                                         wrapperHeight={100}
                                         highlightColor={g.Light_Gray}
@@ -389,19 +392,19 @@ class EditUserData extends Component {
                                     </Text>
                                     <TouchableOpacity
                                         activeOpacity={1}
-                                     onPress={() => {
-                                        this.setState({
-                                            showCountry: !this.state.showCountry
-                                        })
-                                    }}>
+                                        onPress={() => {
+                                            this.setState({
+                                                showCountry: !this.state.showCountry
+                                            })
+                                        }}>
 
-                                    <View style={styleSignUp.dropDownView}>
-                                        <Text style={styleSignUp.dropDownTxt}>{this.state.country}</Text>
-                                        <Icon name={this.state.showCountry ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                                            style={styleSignUp.dropDownIcon}
-                                           
-                                        />
-                                    </View>
+                                        <View style={styleSignUp.dropDownView}>
+                                            <Text style={styleSignUp.dropDownTxt}>{this.state.country}</Text>
+                                            <Icon name={this.state.showCountry ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                                                style={styleSignUp.dropDownIcon}
+
+                                            />
+                                        </View>
                                     </TouchableOpacity>
 
                                 </View>
@@ -410,7 +413,7 @@ class EditUserData extends Component {
                                     <ScrollPicker
                                         ref={(sp) => { this.sp = sp }}
                                         dataSource={this.state.countryNameArray}
-                                        selectedIndex={this.state.countryID==0?-1:this.state.countryID-1}
+                                        selectedIndex={this.state.countryID == 0 ? -1 : this.state.countryID - 1}
                                         itemHeight={40}
                                         wrapperHeight={100}
                                         highlightColor={g.Light_Gray}
@@ -424,7 +427,7 @@ class EditUserData extends Component {
                                             this.setState({
                                                 region: this.props.cities[0].cityNameAr,
                                                 cityNameArray: [],
-                                                regionID:this.props.cities[0].id
+                                                regionID: this.props.cities[0].id
                                             })
                                             this.props.cities.map(item => {
                                                 this.state.cityNameArray.push(item.cityNameAr)
@@ -450,33 +453,33 @@ class EditUserData extends Component {
                                         }}
                                     >
 
-                                    <View style={styleSignUp.dropDownView}>
-                                        <Text style={styleSignUp.dropDownTxt}>{this.state.region}</Text>
-                                        <Icon name={this.state.showRegion ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
-                                            style={styleSignUp.dropDownIcon}
-                                          
-                                        />
-                                    </View>
-                                        </TouchableOpacity>
+                                        <View style={styleSignUp.dropDownView}>
+                                            <Text style={styleSignUp.dropDownTxt}>{this.state.region}</Text>
+                                            <Icon name={this.state.showRegion ? "arrow-drop-up" : "arrow-drop-down"} type="MaterialIcons"
+                                                style={styleSignUp.dropDownIcon}
+
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
                                 </View>
 
                                 {this.state.showRegion ?
                                     <ScrollPicker
-                                    ref={(sp) => { this.sp = sp }}
-                                    dataSource={this.state.cityNameArray}
-                                    selectedIndex={1-2}
-                                    itemHeight={40}
-                                    wrapperHeight={100}
-                                    highlightColor={g.Light_Gray}
+                                        ref={(sp) => { this.sp = sp }}
+                                        dataSource={this.state.cityNameArray}
+                                        selectedIndex={1 - 2}
+                                        itemHeight={40}
+                                        wrapperHeight={100}
+                                        highlightColor={g.Light_Gray}
                                         onValueChange={async (data, selectedIndex) => {
                                             this.setState({
                                                 regionID: this.props.cities[selectedIndex].id,
                                                 region: data,
                                             })
-                                      
-                                    }}
-                                />
-                                   
+
+                                        }}
+                                    />
+
                                     : null}
 
 
@@ -518,6 +521,7 @@ class EditUserData extends Component {
                                             this.state.email,
                                         )
                                         if (this.props.status == 200) {
+                                            AsyncStorage.setItem('userAddress', String(this.state.address))
                                             this.toast.show('تم تعديل البيانات الشخصية بنجاح', 4000);
                                         }
 

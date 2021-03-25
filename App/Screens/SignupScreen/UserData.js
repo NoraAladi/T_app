@@ -95,14 +95,15 @@ class UserData extends Component {
     }
 
     async getTerms() {
+       // const Token = await AsyncStorage.getItem('app_Token');
         try {
-            let resp = await axios.get(`${g.BASE_URL}/api/MasterData/Terms?termsType=2`,
+            let resp = await axios.get(`${g.BASE_URL}/api/PublicMasterData/Terms?termsType=2`,
                 {
                     headers:
                     {
                         'accept': 'text/plain',
                         'authorizationKey': g.authorizationKey,
-                        //  'Authorization': `Bearer ${Token}`,
+                      //  'Authorization': `Bearer ${Token}`,
 
                     }
                 })
@@ -332,6 +333,7 @@ class UserData extends Component {
                     <View style={[styles.viewInput, { borderColor: this.state.emailError ? 'red' : g.Light_Gray }]}>
 
                         <TextInput
+                            editable={this.props.haveCode ? false : true}
                             placeholder={g.EMAIL}
                             keyboardType={'email-address'}
                             onChangeText={(email) => {
@@ -739,14 +741,14 @@ class UserData extends Component {
                         <View style={{
                             flexDirection: 'row-reverse',
                             padding: 30,
-                            alignItems:'center'
+                            alignItems: 'center'
                         }}>
 
                             <View>
                                 <CheckBox
                                     onClick={async () => {
                                         await this.setState({
-                                        isChecked: !this.state.isChecked,
+                                            isChecked: !this.state.isChecked,
                                         })
                                         await AsyncStorage.setItem('isChecked', String(this.state.isChecked))
 
@@ -766,7 +768,7 @@ class UserData extends Component {
                             }}>
                                 <Text style={[styles.labelText, {
                                     color: g.Blue,
-                                    fontFamily:g.Regular
+                                    fontFamily: g.Regular
                                 }]}>
                                     {'الشروط والأحكام '}
                                 </Text>
@@ -859,7 +861,7 @@ class UserData extends Component {
                             </View>
 
                             {/**content */}
-                            <ScrollView style={{ flex: 1, marginTop: 25,marginBottom:25 }}>
+                            <ScrollView style={{ flex: 1, marginTop: 25, marginBottom: 25 }}>
                                 <TouchableOpacity activeOpacity={1}>
                                     <HTML
                                         // tagsStyles={

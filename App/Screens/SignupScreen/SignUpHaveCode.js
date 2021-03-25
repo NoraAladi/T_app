@@ -56,7 +56,8 @@ class SignUpHaveCode extends Component {
                         </View>
 
 
-                        <UserData haveCode={true} patientCode={ this.state.patientCode}/>
+                        <UserData haveCode={true}
+                            patientCode={this.state.patientCode} />
 
                         <View style={{ height: 50 }} />
                     </View>

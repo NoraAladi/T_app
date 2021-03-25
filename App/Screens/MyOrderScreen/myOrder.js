@@ -12,6 +12,8 @@ import g from '../../Gloabal';
 import UserFooter from '../../Navigation/UserFooter';
 import { Get_MyOrder } from '../../Actions/getMyOrder';
 import { Get_PharmacyOrderDetails } from '../../Actions/PharmacyOrderDetails';
+import { Cancel_Order } from '../../Actions/cancelOrderAction';
+import Toast from 'react-native-easy-toast'
 
 import { connect } from 'react-redux'
 import Header from '../DealsScreen/header';
@@ -30,7 +32,7 @@ class myOrder extends Component {
         this.state = {
             dropDown: false,
             nameSelected: '',
-            selectIndex: 0
+            selectIndex: -1
         };
     }
     async componentDidMount() {
@@ -122,7 +124,7 @@ class myOrder extends Component {
 
 
                                                 </View>
-                                                </TouchableOpacity>
+                                            </TouchableOpacity>
 
 
                                             {/*** dropDown*/}
@@ -133,7 +135,10 @@ class myOrder extends Component {
                                                     </Text>
                                                     <View style={{ flexDirection: 'row-reverse' }}>
                                                         <Text style={[styles.txt, {
-                                                            fontSize: 16, color: this.props.pharmacyOrderDetails.status == 'تم رفض الطلب' ? '#e02020' : '#34D900', marginTop: -5
+                                                            fontSize: 16, color:
+                                                                this.props.pharmacyOrderDetails.status == 'تم رفض الطلب' ? '#e02020'
+                                                                    : this.props.pharmacyOrderDetails.status == 'تم إرسال الطلب' ? g.Blue :
+                                                                        '#34D900', marginTop: -5
                                                         }]}>{this.props.pharmacyOrderDetails.status}</Text>
                                                         <Text style={[styles.txt, { fontSize: 12 }]}>{'   '}{this.props.pharmacyOrderDetails.comment == '' ? '' : `( ${this.props.pharmacyOrderDetails.comment} )`}</Text>
                                                     </View>
@@ -188,9 +193,27 @@ class myOrder extends Component {
                                                                 )} />
                                                         </TouchableWithoutFeedback>
                                                     </ScrollView>
+                                                    {this.props.pharmacyOrderDetails.status == 'تم إرسال الطلب' ?
 
+                                                        <TouchableOpacity style={styles.btn}
+                                                            onPress={async () => {
+                                                                await this.props.Cancel_Order(item.id)
+                                                                if (this.props.cancelOrder.status == 200) {
+                                                                    this.toast.show('تم إلغاء الطلب بنجاح', 2000)
 
-
+                                                                    this.setState({
+                                                                        selectIndex: -1,
+                                                                        dropDown: false,
+                                                                    })
+                                                                    await this.props.Get_MyOrder()
+                                                                }
+                                                            }}>
+                                                            {this.props.cancelLoading ?
+                                                                <Spinner color={'white'} />
+                                                                :
+                                                                <Text style={styles.txt_btn}>{'إلغاء الطلب'}</Text>
+                                                            }
+                                                        </TouchableOpacity> : null}
                                                 </View>
                                                 : null}
 
@@ -199,13 +222,32 @@ class myOrder extends Component {
                                         </View>
                                     )}
                                 />
+
                             </View>
 
                     }
                 </ScrollView>
                 <UserFooter tab={4} />
 
+                <Toast
+                    ref={(toast) => this.toast = toast}
+                    style={{
+                        backgroundColor: '#000',
+                        width: '85%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
 
+                    }}
+                    position='bottom'
+                    // positionValue={220}
+                    fadeInDuration={120}
+                    fadeOutDuration={1000}
+                    textStyle={{
+                        color: 'white',
+                        fontFamily: g.Regular,
+                        textAlign: 'center'
+                    }}
+                />
             </View>
         );
 
@@ -216,11 +258,15 @@ const mapStateToProps = state => {
         MyOrder: state._MyOrder.MyOrder,
         loading: state._MyOrder.loading,
 
+        cancelLoading: state.cancelOrder.cancelLoading,
+        cancelOrder: state.cancelOrder.cancelOrder,
+
+
         pharmacyOrderDetails: state.pharmacyOrderDetails.pharmacyOrderDetails,
         loading2: state.pharmacyOrderDetails.loading,
 
 
     }
 }
-export default connect(mapStateToProps, { Get_MyOrder, Get_PharmacyOrderDetails })(withNavigation(myOrder));
+export default connect(mapStateToProps, { Get_MyOrder, Get_PharmacyOrderDetails, Cancel_Order })(withNavigation(myOrder));
 

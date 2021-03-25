@@ -3,7 +3,7 @@ import axios from 'axios';
 import g from '../Gloabal'
 var isDependent = ''
 
-export const Get_Reportes = (page) => {
+export const Get_Reportes = (page,tab) => {
   return async (dispatch) => {
     const Token = await AsyncStorage.getItem('app_Token');
     const dependentId = await AsyncStorage.getItem('dependentId');
@@ -15,9 +15,10 @@ export const Get_Reportes = (page) => {
     else {
       isDependent = ''
     }
+   
     dispatch({ type: 'GET_REPORTES_ATTEMPT' });
     try {
-      let resp = await axios.get(`${g.BASE_URL}/api/PatientMedicalFile/AllReports?PageNumer=${page}&PageSize=10&${isDependent}`,
+      let resp = await axios.get(`${g.BASE_URL}/api/PatientMedicalFile/${tab?'AllReports':'WalkonAllReports'}?PageNumer=${page}&PageSize=10&${isDependent}`,
         {
           headers:
           {

@@ -57,6 +57,8 @@ class ModalCreateRequest extends Component {
 
 
     async getMedicines() {
+        const Token = await AsyncStorage.getItem('app_Token');
+
         try {
             let response = await axios.get(`${g.BASE_URL}/api/MasterData/SafeMedicines`,
                 {
@@ -64,6 +66,7 @@ class ModalCreateRequest extends Component {
                     {
                         'accept': 'text/plain',
                         'authorizationKey': g.authorizationKey,
+                        'Authorization': `Bearer ${Token}`,
                     }
                 })
             console.log('---- Call SAFE MEDICINE API ----');
@@ -80,10 +83,10 @@ class ModalCreateRequest extends Component {
     }
 
     componentDidMount() {
-        AsyncStorage.getItem('user').then(val => {
+        AsyncStorage.getItem('userAddress').then(val => {
             this.setState({
-                address: JSON.parse(val).patient.address,
-                updatedAddress: JSON.parse(val).patient.address
+                address: val,
+                updatedAddress: val
             })
         })
         this.getMedicines()

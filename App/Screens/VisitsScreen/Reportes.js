@@ -34,25 +34,31 @@ class Reportes extends Component {
             date: moment().format('DD-MM-YYYY'),
             reportes: [],
             isRefresh: false,
-            typeOfReport: ''
+            typeOfReport: '',
+            loading: true
+
         }
 
     }
 
     async componentDidMount() {
-        await this.props.Get_Reportes(1)
+
+        await this.props.Get_Reportes(1, this.state.tab_1)
         await this.setState({
-            reportes: this.props.reportes
+            reportes: this.props.reportes,
+            loading: false
         })
 
     }
 
     async onRefresh() {
         this.setState({ isRefresh: true, })
-        await this.props.Get_Reportes(1)
+        await this.props.Get_Reportes(1, true)
         await this.setState({
             reportes: this.props.reportes,
-            isRefresh: false
+            isRefresh: false,
+            tab_1: true,
+            tab_2: false,
         })
     }
     render() {
@@ -67,10 +73,16 @@ class Reportes extends Component {
                     marginTop: 15, marginBottom: 15,
                 }}>
                     <TouchableOpacity
-                        onPress={() => {
+                        onPress={async () => {
                             this.setState({
                                 tab_1: true,
-                                tab_2: false
+                                tab_2: false,
+                                loading: true
+                            })
+                            await this.props.Get_Reportes(1, true)
+                            await this.setState({
+                                reportes: this.props.reportes,
+                                loading: false
                             })
                         }}
                         style={[
@@ -93,10 +105,16 @@ class Reportes extends Component {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        onPress={() => {
-                            this.setState({
+                        onPress={async () => {
+                            await this.setState({
                                 tab_2: true,
-                                tab_1: false
+                                tab_1: false,
+                                loading: true
+                            })
+                            await this.props.Get_Reportes(1, false)
+                            await this.setState({
+                                reportes: this.props.reportes,
+                                loading: false
                             })
                         }}
                         style={[
@@ -111,8 +129,6 @@ class Reportes extends Component {
                         <Text style={[style.title2, {
                             fontSize: 13, width: 100, height: undefined, marginTop: 0,
                             color: this.state.tab_2 ? g.Blue : g.Light_Gray
-
-
                         }]}>
                             {'شخصي'}
                         </Text>
@@ -120,7 +136,7 @@ class Reportes extends Component {
 
                 </View>
                 {
-                    this.props.loading ?
+                    this.state.loading ?
                         <View style={{ marginTop: hp('35%') }} >
                             <Spinner />
                         </View>
@@ -140,11 +156,12 @@ class Reportes extends Component {
                                     showsVerticalScrollIndicator={false}
                                     nestedScrollEnabled
                                     data={this.state.reportes}
+                                    extraData={this.state}
                                     renderItem={({ item, index }) => (
                                         <View style={{ flexDirection: 'row', marginLeft: 10 }}>
                                             <TouchableWithoutFeedback
                                                 onPress={async () => {
-                                                    await this.props.get_reportDetails(item.reportType, item.reportIds)
+                                                    await this.props.get_reportDetails(item.reportType, item.reportIds,this.state.tab_1)
                                                     //   this.props.handlePress()
                                                     this.setState({
                                                         typeOfReport: item.reportType,
@@ -176,18 +193,18 @@ class Reportes extends Component {
                                                         >
                                                             {item.reportNames} </Text>
 
+                                                        {this.state.tab_1 ?
+                                                            <Text style={{
+                                                                textAlign: 'right',
+                                                                fontFamily: g.Regular,
+                                                                fontSize: 12,
+                                                                color: g.Light_Gray,
+                                                            }}>
 
-                                                        <Text style={{
-                                                            textAlign: 'right',
-                                                            fontFamily: g.Regular,
-                                                            fontSize: 12,
-                                                            color: g.Light_Gray,
-                                                        }}>
+                                                                {item.doctorTitle + ' '} {item.doctorName}
 
-                                                            {item.doctorTitle + ' '} {item.doctorName}
-
-                                                        </Text>
-
+                                                            </Text>
+                                                            : null}
                                                     </View>
 
                                                 </View>
@@ -322,6 +339,7 @@ class Reportes extends Component {
                                 <ModalReportes reportDetails={this.props.reportDetails}
                                     date={this.state.date}
                                     typeOfReport={this.state.typeOfReport}
+                                    walkon={this.state.tab_1}
                                 />
                             </ScrollView>
                         </View>

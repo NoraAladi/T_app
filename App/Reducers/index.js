@@ -47,6 +47,8 @@ import putDependentHealth_Reducer from './putDependentHealth_Reducer';
 import getStatusREducer from './getStatusREducer';
 import putStatusReducer from './putStatusReducer';
 import onBoard_Reducer from './onBoard_Reducer';
+import CancelOrderReducer from './CancelOrderReducer';
+
 
 
 
@@ -100,5 +102,6 @@ export default combineReducers({
     putHealthResponse: putDependentHealth_Reducer,
     healthStatus: getStatusREducer,
     editStatus: putStatusReducer,
-    onBoard:onBoard_Reducer,
+    onBoard: onBoard_Reducer,
+    cancelOrder:CancelOrderReducer,
 });

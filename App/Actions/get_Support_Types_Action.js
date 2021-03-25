@@ -1,9 +1,11 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import g from '../Gloabal'
 
 export const Get_supportTypes = () => {
   return async (dispatch) => {
     dispatch({ type: 'GET_SUPPORT_ATTEMPT' });
+    const Token = await AsyncStorage.getItem('app_Token');
     try {
 
       let res = await axios.get(`${g.BASE_URL}/api/MasterData/SupportTypes`,
@@ -12,6 +14,7 @@ export const Get_supportTypes = () => {
           {
             'accept': 'text/plain',
             'authorizationKey': g.authorizationKey,
+            'Authorization': `Bearer ${Token}`,
 
           }
         })
