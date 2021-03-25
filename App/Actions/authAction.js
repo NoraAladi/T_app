@@ -32,7 +32,8 @@ export const loginuser = ({ email, password }) => {
                 await AsyncStorage.setItem('patientName', response.data.patient.fullNameAr)
                 await AsyncStorage.setItem('gender', String(response.data.patient.gender))
                 await AsyncStorage.setItem('genderLoginId', String(response.data.patient.gender))
-                await AsyncStorage.setItem('personalPhoto',String(response.data.patient.personalPhoto))
+                await AsyncStorage.setItem('personalPhoto', String(response.data.patient.personalPhoto))
+                await AsyncStorage.setItem('userAddress', String(response.data.patient.address))
 
 
                 await AsyncStorage.setItem('refreshToken', response.data.refreshToken)

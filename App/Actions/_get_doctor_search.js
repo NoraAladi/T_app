@@ -23,6 +23,7 @@ export const Get_Doctor_Search = (Filter, specialityId, GovernorateId, CityId) =
         {
           'accept': 'text/plain',
           'authorizationKey': g.authorizationKey,
+          'Authorization': `Bearer ${Token}`,
         }
       })
       .then(response => {

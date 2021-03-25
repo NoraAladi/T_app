@@ -231,19 +231,21 @@ const Verification = ({ navigation }) => {
                     />
                     {loader ? <UIActivityIndicator color={NOT_EMPTY_CELL_BG_COLOR} size={30}
                         style={styles.spinner} /> : null}
+                    {navigation.getParam('fromLoginScreen') ? null :
 
-                    <View style={styles.notSend}>
-                        <Text style={styles.subTitle}>
-                            {G.NOT_SEND}{'  '}
-                        </Text>
-                        <TouchableOpacity onPress={() => resend(navigation.getParam('email'))}>
-                            <Text style={[styles.subTitle, styles.trySend]}>
-                                {G.TRY_SEND}{'  '}
+                        <View style={styles.notSend}>
+                            <Text style={styles.subTitle}>
+                                {G.NOT_SEND}{'  '}
                             </Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={() => resend(navigation.getParam('email'))}>
+                                <Text style={[styles.subTitle, styles.trySend]}>
+                                    {G.TRY_SEND}{'  '}
+                                </Text>
+                            </TouchableOpacity>
 
-                    </View>
 
+                        </View>
+                    }
                     <Toast
                         ref={toast}
                         style={{ backgroundColor: '#000' }}

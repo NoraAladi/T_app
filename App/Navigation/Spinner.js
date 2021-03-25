@@ -6,7 +6,7 @@ class Spinner extends Component {
 
     render() {
         return (
-        <UIActivityIndicator color={g.Bold_blue} size={28}  style = {{ marginTop : 10 }}/>
+        <UIActivityIndicator color={this.props.color?this.props.color:g.Bold_blue} size={28}  style = {{ marginTop : 10 }}/>
         );
 
     }

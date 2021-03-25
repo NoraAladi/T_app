@@ -16,7 +16,8 @@ class PatientCode extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            code: ''
+            code: '',
+            mobile:0
         };
     }
 
@@ -58,6 +59,19 @@ class PatientCode extends Component {
                         style={styles.input} />
                 </View>
 
+                <Text style={[styles.username, styles.enter4]}>
+                    {g.MOBILE}
+                </Text>
+
+                <View style={styles.viewInput}>
+                    <TextInput
+                        onChangeText={(mobile) => {
+                            this.setState({ mobile })
+                        }}
+                        placeholder={g.MOBILE}
+                        placeholderTextColor={g.Light_Gray}
+                        style={styles.input} />
+                </View>
 
                 <View style={styles.view1}>
 
@@ -79,7 +93,7 @@ class PatientCode extends Component {
                         style={styles.txt2}
                         onPress={async () => {
                             Keyboard.dismiss()
-                            await this.props.Get_PatientCode(this.state.code)
+                            await this.props.Get_PatientCode(this.state.code,this.state.mobile)
                             if (this.props.status == 200) {
                                 this.toast.show(this.props.message, 3000);
                                 setTimeout(() => {

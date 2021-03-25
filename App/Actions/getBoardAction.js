@@ -7,7 +7,7 @@ export const Get_Board = () => {
       dispatch({ type: 'GET_BOARD_ATTEMPT' });
       //  alert(Token)
       try {
-         let response = await axios.get(`${g.BASE_URL}/api/MasterData/CarouselItems?origin=patient&page=home`,
+         let response = await axios.get(`${g.BASE_URL}/api/PublicMasterData/CarouselItems?origin=patient&page=home`,
             {
                headers:
                {

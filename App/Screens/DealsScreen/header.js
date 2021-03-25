@@ -50,15 +50,22 @@ class header extends Component {
         })
     }
     componentDidMount() {
+        
+        this.props.navigation.addListener('willFocus', () => {
+            AsyncStorage.getItem('personalPhoto').then(val => {
+                if (val != 'null') {
+                    this.setState({
+                        personalPhoto: val
+                    })
+                }
+            })
+        });
         AsyncStorage.getItem('personalPhoto').then(val => {
-
             if (val != 'null') {
                 this.setState({
                     personalPhoto: val
                 })
             }
-
-
         })
     }
     render() {
@@ -67,7 +74,8 @@ class header extends Component {
                 style={[style.container, {
                     justifyContent: 'space-between', width: '100%',
                     paddingHorizontal: 25,
-                    paddingBottom: 15
+                    paddingBottom: 15,
+                    paddingTop:10
                 }]}>
 
                 <View
@@ -82,10 +90,13 @@ class header extends Component {
                             style={style.arrow} />
 
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ flexDirection: 'row',alignItems:'center' }} onPress={() => {
+                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
                         this.props.navigation.navigate('ProfileScreen')
                     }}>
-                        <FitImage source={this.state.personalPhoto ? { uri: this.state.personalPhoto } : require('../../Images/noUser.png')}
+                        <FitImage
+                            key={this.state.personalPhoto}
+                            source={this.state.personalPhoto ?
+                                { uri: this.state.personalPhoto } : require('../../Images/noUser.png')}
                             style={[style.userimg, { overflow: 'hidden', borderRadius: 25 }]} />
                         <View style={style.viewHeader}>
                             <Text style={[style.username, { textAlign: 'left' }]}> {' ' + this.state.name} </Text>

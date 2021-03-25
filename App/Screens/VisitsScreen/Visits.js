@@ -76,8 +76,14 @@ class Visits extends Component {
 
 
     componentDidMount() {
-        this.props.navigation.addListener('willFoucs', () => {
-            console.log("willFocus runs") // calling it here to make sure it is logged at every time screen is focused after initial start
+        this.props.navigation.addListener('willFocus', () => {
+            AsyncStorage.getItem('personalPhoto').then(val => {
+                if (val != 'null') {
+                    this.setState({
+                        personalPhoto: val
+                    })
+                }
+            })
         });
     }
 
@@ -115,7 +121,7 @@ class Visits extends Component {
                         justifyContent: 'space-between',
                         width: g.windowWidth,
                         paddingHorizontal: 25,
-                        alignItems: 'center', marginTop: -20
+                        alignItems: 'center', marginTop: -5
                     }}>
                         <View style={{ flexDirection: 'row', marginTop: 20, }}>
                             <TouchableOpacity onPress={() => {

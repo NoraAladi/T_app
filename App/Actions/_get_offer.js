@@ -10,14 +10,15 @@ export const Get_offer = (GovernorateId, CityId, page) => {
     const cityId = await AsyncStorage.getItem('cityIdKey')
     //  alert(Token)
     console.log('offfers');
+    console.log('countryId: '+countryId+'\ncityId: '+cityId);
     //call the backend 
-    axios.get(`${g.BASE_URL}/api/Offers/AllOffers?GovernorateId=${countryId}&CityId=${cityId}&PageNumer=1&PageSize=10`,
+    axios.get(`${g.BASE_URL}/api/Offers/AllOffers?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&PageNumer=1&PageSize=10`,
       {
         headers:
         {
           'accept': 'text/plain',
           'authorizationKey': g.authorizationKey,
-
+          'Authorization': `Bearer ${Token}`,
 
         }
       })

@@ -1,15 +1,19 @@
 
+import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import g from '../Gloabal';
 
 export const Get_City = (id) => {
     return async (dispatch) => {
+      //  const Token = await AsyncStorage.getItem('app_Token');
+
         dispatch({ type: 'GET_CITY_ATTEMPT' });
         try {
-            let resp = await axios.get(`${g.BASE_URL}/api/MasterData/Cities?governorateId=${id}`,
+            let resp = await axios.get(`${g.BASE_URL}/api/PublicMasterData/Cities?governorateId=${id}`,
                 {
                     headers:
                     {
+        //                'Authorization': `Bearer ${Token}`,
                         'accept': 'text/plain',
                         'authorizationKey': g.authorizationKey,
 

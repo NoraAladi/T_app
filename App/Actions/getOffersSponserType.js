@@ -11,16 +11,17 @@ export const Get_offer_Types = (GovernorateId, CityId, typeId, page) => {
     //  alert(Token)
     //call the backend 
     console.log('type:' + typeId + '\n' +
-      'GovernorateId:' + GovernorateId + '\n' +
-      'CityId:' + CityId
+      'GovernorateId:' + countryId + '\n' +
+      'CityId:' + cityId
     );
     try {
-      let response = await axios.get(`${g.BASE_URL}/api/Offers/AllOffers?GovernorateId=${countryId}&CityId=${cityId}&SponserTypeId=${typeId}&PageNumer=1&PageSize=10`,
+      let response = await axios.get(`${g.BASE_URL}/api/Offers/AllOffers?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&SponserTypeId=${typeId}&PageNumer=1&PageSize=10`,
         {
           headers:
           {
             'accept': 'text/plain',
             'authorizationKey': g.authorizationKey,
+            'Authorization': `Bearer ${Token}`,
 
           }
         })
