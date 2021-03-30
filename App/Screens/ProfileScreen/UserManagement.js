@@ -16,6 +16,7 @@ import { delete_dependent } from '../../Actions/Del_Dependent_Action';
 
 import Toast from 'react-native-easy-toast'
 import AsyncStorage from '@react-native-community/async-storage';
+import FitImage from 'react-native-fit-image';
 
 class UserManagement extends Component {
     constructor(props) {
@@ -111,148 +112,153 @@ class UserManagement extends Component {
 
                                                     }}
                                                 />
-                                                <Image style={[styles.img, { borderRadius: wp('50'), }]}
-                                                    resizeMode="contain"
-                                                    source={item.personalPhoto ? { uri: item.personalPhoto } : require('../../Images/noUser.png')}
-                                                />
+                                                <FitImage style={{
+                                                    borderRadius: wp('50'),
+                                                    width: 80, height: 80,
+                                                    overflow: 'hidden',
+                                                }}
+                                                resizeMode="stretch"
+
+                                                    source={ item.personalPhoto ? { uri: item.personalPhoto } : require('../../Images/noUser.png') }
+                                                    />
                                                 <Text style={[styles.txtBold, { fontSize: 16, marginTop: -5, }]}>{item.fullNameAr}</Text>
                                                 <Text style={[styles.txtBold, { fontSize: 12, marginTop: -5, }]}>{item.code}</Text>
                                                 {this.state.userLoginId != item.id ?
 
-                                                    <TouchableOpacity style={[
-                                                        {
-                                                            width: wp('45'), backgroundColor: '#FFDBDB80',
-                                                            padding: 10, alignItems: 'center', marginTop: 15,
-                                                            justifyContent: 'center', marginBottom: -15,
-                                                            borderBottomLeftRadius: 10,
-                                                            borderBottomRightRadius: 10,
-                                                        }
-                                                    ]}
-                                                        onPress={async () => {
-                                                            this.setState({
-                                                                deleteObj: item,
-                                                                ModalAlert: true
-                                                            })
-                                                        }}>
-                                                        <Text style={[styles.txt_btn, { color: '#E02020' }]}>
-                                                            {g.DELETE}</Text>
-                                                    </TouchableOpacity>
-                                                    : <View style={[
-                                                        {
-                                                            width: wp('45'), height: hp('6.5')
-                                                        }
-                                                    ]} />}
+                                                        <TouchableOpacity style={[
+                                                            {
+                                                                width: wp('45'), backgroundColor: '#FFDBDB80',
+                                                                padding: 10, alignItems: 'center', marginTop: 15,
+                                                                justifyContent: 'center', marginBottom: -15,
+                                                                borderBottomLeftRadius: 10,
+                                                                borderBottomRightRadius: 10,
+                                                            }
+                                                        ]}
+                                                            onPress={async () => {
+                                                                this.setState({
+                                                                    deleteObj: item,
+                                                                    ModalAlert: true
+                                                                })
+                                                            }}>
+                                                            <Text style={[styles.txt_btn, { color: '#E02020' }]}>
+                                                                {g.DELETE}</Text>
+                                                        </TouchableOpacity>
+                                                        : <View style={[
+                                                            {
+                                                                width: wp('45'), height: hp('6.5')
+                                                            }
+                                                        ]} />}
                                             </View>
-                                        </View>
+                                            </View>
                                     </>
                                 )} />
 
-                            <Modal
-                                //   animationType="slide"
-                                transparent={true}
-                                visible={this.state.ModalAlert}
-                            >
+                                        <Modal
+                                            //   animationType="slide"
+                                            transparent={true}
+                                            visible={this.state.ModalAlert}
+                                        >
 
-                                <View style={{
-                                    flex: 1,
-                                    backgroundColor: '#00000090',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                }}>
-                                    <View
-                                        elevation={4}
-                                        style={{
-                                            width: g.windowWidth - 80,
-                                            height: g.windowHeight / 3,
-                                            borderRadius: 10,
-                                            backgroundColor: 'white',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-
-                                        }}>
-                                        <ScrollView showsVerticalScrollIndicator={false}>
-                                            <Image
-                                                style={{
-                                                    width: 50, height: 50,
-                                                    marginRight: 'auto',
-                                                    marginLeft: 'auto', marginTop: 25,
-                                                }}
-                                                resizeMode='contain'
-                                                source={require('../../Images/caution.png')} />
-
-                                            <Text style={{
-                                                fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
-                                                textAlign: 'center',
+                                            <View style={{
+                                                flex: 1,
+                                                backgroundColor: '#00000090',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
                                             }}>
-                                                {'هل انت متأكد من حذف '+this.state.deleteObj.fullNameAr+'؟'}
-                                            </Text>
-                                            <Text style={{
-                                                fontFamily: g.Regular, fontSize: 14,
-                                                textAlign: 'center', width: g.windowWidth - 100,
-                                            }}>
-                                                {`في حالة حذف ${this.state.deleteObj.fullNameAr} ، لن يتمكن من إعادة استرجاع البيانات الخاصة به.`}
-                                            </Text>
-                                        </ScrollView>
+                                                <View
+                                                    elevation={4}
+                                                    style={{
+                                                        width: g.windowWidth - 80,
+                                                        height: g.windowHeight / 3,
+                                                        borderRadius: 10,
+                                                        backgroundColor: 'white',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
 
-                                        <View
-                                            elevation={5}
-                                            style={{
-                                                width: g.windowWidth - 80,
-                                                height: 60,
-                                                justifyContent: 'space-around',
-                                                flexDirection: 'row-reverse', alignItems: 'center',
-                                                paddingHorizontal: 20,
+                                                    }}>
+                                                    <ScrollView showsVerticalScrollIndicator={false}>
+                                                        <Image
+                                                            style={{
+                                                                width: 50, height: 50,
+                                                                marginRight: 'auto',
+                                                                marginLeft: 'auto', marginTop: 25,
+                                                            }}
+                                                            resizeMode='contain'
+                                                            source={require('../../Images/caution.png')} />
 
-                                            }}>
-                                            <Text
-                                                onPress={async () => {
-                                                    //callApi    
-                                                    this.deleteDpendant()
+                                                        <Text style={{
+                                                            fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
+                                                            textAlign: 'center',
+                                                        }}>
+                                                            {'هل انت متأكد من حذف ' + this.state.deleteObj.fullNameAr + '؟'}
+                                                        </Text>
+                                                        <Text style={{
+                                                            fontFamily: g.Regular, fontSize: 14,
+                                                            textAlign: 'center', width: g.windowWidth - 100,
+                                                        }}>
+                                                            {`في حالة حذف ${this.state.deleteObj.fullNameAr} ، لن يتمكن من إعادة استرجاع البيانات الخاصة به.`}
+                                                        </Text>
+                                                    </ScrollView>
 
-                                                }}
-                                                style={{
-                                                    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
-                                                    textAlign: 'center',
-                                                    width: (g.windowWidth - 80) / 2,
-                                                    color: '#E02020'
-                                                }}>
-                                                {g.CONTINUE}
-                                            </Text>
-                                            <View style={{ height: 35, width: 2, backgroundColor: g.Light_Gray }} />
-                                            <Text
-                                                onPress={() => {
-                                                    this.setState({
-                                                        ModalAlert: false
-                                                    })
-                                                }}
+                                                    <View
+                                                        elevation={5}
+                                                        style={{
+                                                            width: g.windowWidth - 80,
+                                                            height: 60,
+                                                            justifyContent: 'space-around',
+                                                            flexDirection: 'row-reverse', alignItems: 'center',
+                                                            paddingHorizontal: 20,
 
-                                                style={{
-                                                    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
-                                                    textAlign: 'center',
-                                                    width: (g.windowWidth - 80) / 2,
-                                                    color: g.Blue
-                                                }}>
-                                                رجوع
-                                </Text>
-                                        </View>
+                                                        }}>
+                                                        <Text
+                                                            onPress={async () => {
+                                                                //callApi    
+                                                                this.deleteDpendant()
+
+                                                            }}
+                                                            style={{
+                                                                fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
+                                                                textAlign: 'center',
+                                                                width: (g.windowWidth - 80) / 2,
+                                                                color: '#E02020'
+                                                            }}>
+                                                            {g.CONTINUE}
+                                                        </Text>
+                                                        <View style={{ height: 35, width: 2, backgroundColor: g.Light_Gray }} />
+                                                        <Text
+                                                            onPress={() => {
+                                                                this.setState({
+                                                                    ModalAlert: false
+                                                                })
+                                                            }}
+
+                                                            style={{
+                                                                fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
+                                                                textAlign: 'center',
+                                                                width: (g.windowWidth - 80) / 2,
+                                                                color: g.Blue
+                                                            }}>
+                                                            رجوع
+                                                        </Text>
+                                                    </View>
+
+                                                </View>
+
+                                            </View>
+                                        </Modal>
 
                                     </View>
-
-                                </View>
-                            </Modal>
-
-                        </View>
                 }
 
                 <Toast
-                    ref={(toast) => this.toast = toast}
-                    style={{ backgroundColor: '#000' }}
-                    position='center'
-                    fadeInDuration={1000}
-                    fadeOutDuration={1000}
-                    textStyle={{ color: 'white', fontFamily: g.Regular }}
+                            ref={(toast) => this.toast = toast}
+                            style={{ backgroundColor: '#000' }}
+                            position='center'
+                            fadeInDuration={1000}
+                            fadeOutDuration={1000}
+                            textStyle={{ color: 'white', fontFamily: g.Regular }}
                 />
-            </View>
+                        </View>
         );
 
     }
@@ -260,14 +266,14 @@ class UserManagement extends Component {
 
 const mapStateToProps = state => {
     return {
-        loading: state.Dependants.loading,
-        Dependants: state.Dependants.Dependants,
+                    loading: state.Dependants.loading,
+                Dependants: state.Dependants.Dependants,
 
-        loading_del: state.delDependent.loading_del,
-        status: state.delDependent.status,
+                loading_del: state.delDependent.loading_del,
+                status: state.delDependent.status,
 
-        user: state.auth.user
+                user: state.auth.user
     }
 }
 
-export default connect(mapStateToProps, { Get_Dependants, delete_dependent })(withNavigation(UserManagement));
+                export default connect(mapStateToProps, {Get_Dependants, delete_dependent})(withNavigation(UserManagement));

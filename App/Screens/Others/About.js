@@ -52,6 +52,7 @@ class About extends Component {
 
                                     <Image source={require('../../Images/logo.png')}
                                         style={{ width: 100, height: 100 }}
+                                        resizeMode='center'
 
                                     />
                                 </View>
