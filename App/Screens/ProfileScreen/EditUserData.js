@@ -94,7 +94,7 @@ class EditUserData extends Component {
             realDate: '',
             countryNameArray: [],
             cityNameArray: [],
-         
+
 
         };
     }
@@ -108,15 +108,13 @@ class EditUserData extends Component {
             const ID = await AsyncStorage.getItem('LOGIN_ID')
             await this.props.Get_USER_DATA(ID)
         }
-        AsyncStorage.getItem('userAddress').then(val => {
-            this.setState({ address: val })
-        })
+
 
         await this.setState({
             fullName: this.props.user_d.fullNameAr,
             email: this.props.user_d.email,
             mobile: this.props.user_d.mobileNumber,
-
+            address: this.props.user_d.location.street,
             realDate: this.props.user_d.dateofBirth.split('T')[0],
             dateInAr: this.arabicDate(moment(this.props.user_d.dateofBirth.split('T')[0]).format('DD MMMM YYYY')),
             Jobname: this.props.user_d.profession,
@@ -522,7 +520,7 @@ class EditUserData extends Component {
                                             this.state.email,
                                         )
                                         if (this.props.status == 200) {
-                                            AsyncStorage.setItem('userAddress', String(this.state.address))
+                                            AsyncStorage.setItem('userAddress', String(this.state.address+' '+this.state.region+' '+this.state.country))
                                             this.toast.show('تم تعديل البيانات الشخصية بنجاح', 4000);
                                         }
                                         else {

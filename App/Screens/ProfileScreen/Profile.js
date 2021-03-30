@@ -166,6 +166,15 @@ class Profile extends Component {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#f3f7fd' }}>
+
+                <TouchableOpacity
+                    onPress={() => { this._On_addImg() }}
+                    style={{
+                        zIndex: 1,
+                        position: 'absolute', width: 80, height: 100, top: '19%', right: '40%'
+                    }} />
+
+
                 <ActionSheet
                     ref={o => this.ActionSheet = o}
                     //  title={<Text style={{color: '#000', fontSize: 18}}>Select A Photo</Text>}
