@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { ImageBackground } from 'react-native';
+import { View, Text, Image, Dimensions, ImageBackground } from 'react-native';
 import { withNavigation } from "react-navigation";
-import styles from './style';
 class SplashScreen extends Component {
     constructor(props) {
         super(props);
@@ -12,11 +11,16 @@ class SplashScreen extends Component {
     render() {
         return (
 
-            <ImageBackground source={require('../Images/HomeLogo.jpg')}
-                resizeMode={'contain'}
-                style={styles.fullScreen}
-            >
-            </ImageBackground>
+            <View style={{
+                backgroundColor: '#fff',
+                width: '100%',
+                height: '100%',
+                alignItems:'center'
+            }}>
+                <Image source={require('../Images/SplashLogo.png')}
+                    resizeMode={'center'}
+                />
+            </View>
 
         );
     }

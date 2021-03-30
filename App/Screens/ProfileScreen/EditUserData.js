@@ -94,6 +94,7 @@ class EditUserData extends Component {
             realDate: '',
             countryNameArray: [],
             cityNameArray: [],
+         
 
         };
     }
@@ -107,22 +108,22 @@ class EditUserData extends Component {
             const ID = await AsyncStorage.getItem('LOGIN_ID')
             await this.props.Get_USER_DATA(ID)
         }
-
+        AsyncStorage.getItem('userAddress').then(val => {
+            this.setState({ address: val })
+        })
 
         await this.setState({
             fullName: this.props.user_d.fullNameAr,
             email: this.props.user_d.email,
             mobile: this.props.user_d.mobileNumber,
-            address: this.props.user_d.location.street + ' ' +
-                this.props.user_d.location.city.cityNameAr + ' ' +
-                this.props.user_d.location.city.governate.nameAr
-            ,
+
             realDate: this.props.user_d.dateofBirth.split('T')[0],
             dateInAr: this.arabicDate(moment(this.props.user_d.dateofBirth.split('T')[0]).format('DD MMMM YYYY')),
             Jobname: this.props.user_d.profession,
             country: this.props.user_d.location.city.governate.nameAr,
             region: this.props.user_d.location.city.cityNameAr,
             countryID: this.props.user_d.location.city.governate.id,
+
             regionID: this.props.user_d.location.city.id,
             sexID: this.props.user_d.gender,
             sex: this.props.user_d.gender == 1 ? g.MALE : g.FAMLE
@@ -524,6 +525,10 @@ class EditUserData extends Component {
                                             AsyncStorage.setItem('userAddress', String(this.state.address))
                                             this.toast.show('تم تعديل البيانات الشخصية بنجاح', 4000);
                                         }
+                                        else {
+                                            this.toast.show('يجب إختيار المنطقة التابع لها ', 4000);
+
+                                        }
 
                                     }}
                                 >
@@ -539,8 +544,7 @@ class EditUserData extends Component {
                 <Toast
                     ref={(toast) => this.toast = toast}
                     style={{ backgroundColor: '#000' }}
-                    position='bottom'
-                    positionValue={180}
+                    position='center'
                     fadeInDuration={120}
                     fadeOutDuration={1000}
                     textStyle={{ color: 'white', fontFamily: g.Regular }}

@@ -69,11 +69,11 @@ class UserData extends Component {
             realDate: moment().format('YYYY-MM-DD'),
 
             country: 'اختر المحافظة',
-            countryID: 1,
+            countryID: 0,
             showCountry: false,
 
             region: 'اختر المنطقة',
-            regionId: 1,
+            regionId: 0,
             showRegion: false,
 
 
@@ -95,7 +95,7 @@ class UserData extends Component {
     }
 
     async getTerms() {
-       // const Token = await AsyncStorage.getItem('app_Token');
+        // const Token = await AsyncStorage.getItem('app_Token');
         try {
             let resp = await axios.get(`${g.BASE_URL}/api/PublicMasterData/Terms?termsType=2`,
                 {
@@ -103,7 +103,7 @@ class UserData extends Component {
                     {
                         'accept': 'text/plain',
                         'authorizationKey': g.authorizationKey,
-                      //  'Authorization': `Bearer ${Token}`,
+                        //  'Authorization': `Bearer ${Token}`,
 
                     }
                 })
@@ -157,13 +157,7 @@ class UserData extends Component {
             await this.getTerms()
             await this.props.Get_Country()
             await this.props.Get_City(1)
-            this.setState({
-                //  country: this.props.countries[0].nameAr,
-                countryID: this.props.countries[0].id,
-
-                // region: this.props.cities[0].cityNameAr,
-                regionId: this.props.cities[0].id,
-            })
+           
 
             await this.setDefault()
         }
@@ -268,7 +262,11 @@ class UserData extends Component {
             this.state.mobile != '' &&
             this.state.country != '' &&
             this.state.region != '' &&
-            this.state.address != ''
+            this.state.address != '' &&
+            this.state.isChecked &&
+            this.state.countryID != 0 &&
+            this.state.regionId!=0
+
         ) {
             this.props.empty()
             if (this.state.emailError ||
@@ -589,6 +587,7 @@ class UserData extends Component {
                                     buttonSize={11}
                                     labelStyle={[styleSignUp.dropDownTxt,
                                     {
+                                        fontFamily: 'FontAwesome5_Brands',
                                         transform: [{
                                             rotate: '180deg',
                                         }],
@@ -646,6 +645,7 @@ class UserData extends Component {
                                 onValueChange={async (data, selectedIndex) => {
                                     this.setState({
                                         country: data,
+                                        countryID:this.props.countries[selectedIndex].id
                                         //  showCountry: false
                                     })
                                     await AsyncStorage.setItem('country', String(this.props.countries[selectedIndex].id))
@@ -663,6 +663,7 @@ class UserData extends Component {
 
                                     })
                                     console.log('cityNameArray: ' + this.state.cityNameArray);
+                                    this.activeBtn()
                                 }}
                             />
 
@@ -704,6 +705,7 @@ class UserData extends Component {
                                         region: data,
                                     })
                                     await AsyncStorage.setItem('region', String(this.props.cities[selectedIndex].id))
+                                    this.activeBtn()
                                 }}
                             />
 
@@ -751,6 +753,7 @@ class UserData extends Component {
                                             isChecked: !this.state.isChecked,
                                         })
                                         await AsyncStorage.setItem('isChecked', String(this.state.isChecked))
+                                        this.activeBtn()
 
                                     }}
                                     isChecked={this.state.isChecked}
@@ -799,8 +802,7 @@ class UserData extends Component {
                 <Toast
                     ref={(toast) => this.toast = toast}
                     style={{ backgroundColor: '#000' }}
-                    //    position='center'
-                    positionValue={200}
+                    position='center'
                     fadeInDuration={120}
                     fadeOutDuration={1000}
                     textStyle={{ color: 'white', fontFamily: g.Regular }}
@@ -848,7 +850,7 @@ class UserData extends Component {
                                     marginRight: 0, marginTop: 15,
                                     fontSize: 20
                                 }]}>
-                                    {'الشروط والاحكام'}
+                                    {'الشروط الأحكام'}
                                 </Text>
                                 <Icon name='close' type='Ionicons'
                                     style={{ fontSize: 22, marginTop: 15, }}
@@ -861,7 +863,9 @@ class UserData extends Component {
                             </View>
 
                             {/**content */}
-                            <ScrollView style={{ flex: 1, marginTop: 25, marginBottom: 25 }}>
+                            <ScrollView
+                                showsVerticalScrollIndicator={false}
+                                style={{ flex: 1, margin: 25 }}>
                                 <TouchableOpacity activeOpacity={1}>
                                     <HTML
                                         // tagsStyles={

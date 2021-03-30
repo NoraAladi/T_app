@@ -32,12 +32,13 @@ export default {
   Peag: '#FFEDCF',
   Move: '#F0DDFF',
   BACK_SAMA: '#f3f7fd',
+  danger:'#E11E26',
   /*******ON_BOARD****** */
 
   ONBOARD_P1: i18n.t('سجلك الطبي أينما كنت.'),
   ONBOARD_P2: i18n.t('سجلك الطبي وتقارير الأشعة والاختبارات المعملية والوصفات الطبية معك أينما كنت.'),
   LOGIN: i18n.t('تسجيل دخول'),
-  SIGNUP: i18n.t('انشاء مستخدم جديد'),
+  SIGNUP: i18n.t('إنشاء مستخدم جديد'),
   QUESTION_CODE: i18n.t('هل لديك كود مريض؟'),
 
   /********LOGIN********* */
@@ -53,7 +54,7 @@ export default {
   EMAIL: 'البريد الإلكتروني',
   ENTER_EMAIL: 'أدخل البريد الإلكتروني الخاص بك',
   SEND: 'ارسال',
-  CREATE_PASS: 'انشاء كلمة المرور جديدة',
+  CREATE_PASS: 'إنشاء كلمة المرور جديدة',
   PLEASE: 'من فضلك قم بإنشاء كلمة مرور جديدة لحسابك',
   CONFIRM_PASS: 'تأكيد كلمة المرور',
   CONFIRM: 'تأكيد',
@@ -64,7 +65,7 @@ export default {
   NOT_SEND: i18n.t('لم تتلق الرمز؟'),
   TRY_SEND: i18n.t('أعد الإرسال!'),
   /*************PatientCode****** */
-  ENTER_CODE_PATIENT: i18n.t('ادخل كود المريض الذي حصلت عليه من طبيبك الخاص'),
+  ENTER_CODE_PATIENT: i18n.t('أدخل كود المريض الذي حصلت عليه من طبيبك الخاص'),
   PATIENT_CODE: i18n.t('كود المريض'),
 
   /*************sign Up */
@@ -99,7 +100,7 @@ export default {
   CREATE_NEW_PASS: i18n.t('إنشاء كلمة المرور'),
   COMPLETE_PROFILE: i18n.t('استكمال الملف الشخصي'),
   THANKU: i18n.t('شكرا لك'),
-  ADD_DONE: i18n.t('تم إضافة المستخدم بنجاح وانشاء كود للمريض'),
+  ADD_DONE: i18n.t('تم إضافة المستخدم بنجاح إنشاء كود للمريض'),
   GO_TO_HOME: i18n.t('العودة للرئيسية'),
   SELECT_MORE: i18n.t('اختر واحدا او أكثر من الأمراض التالية'),
 
@@ -120,7 +121,7 @@ export default {
   /***Visit Screen */
   OFFER_BTN: i18n.t('عرض'),
   MEDICAL_STATUS: i18n.t('الحالة الطبية'),
-  MEDICALLOG: i18n.t('السجل الطبي'),
+  MEDICALLOG: i18n.t('ملفي'),
   Disclosures: i18n.t('الكشوفات'),
   REPORTES: i18n.t('التقارير'),
   CONTINUE: i18n.t('استمرار'),
@@ -168,7 +169,7 @@ export default {
   HEAD: i18n.t('محيط الرأس'),
 
   /**********Seach Screen */
-  WHAT_SEARCH: i18n.t('عن ماذا تبحث …'),
+  WHAT_SEARCH: i18n.t('عن ماذا تبحث ؟'),
   DOCTOR_NAME: i18n.t('اسم الطبيب'),
   SPECIAL: i18n.t('التخصص'),
   Lab_NAME: i18n.t('اسم المعمل'),
@@ -182,7 +183,7 @@ export default {
   LAB_TITLE: i18n.t('معمل تحاليل'),
   RAD_TITLE: i18n.t('مركز أشعة'),
   PHARMA_TITLE: i18n.t('صيدلية'),
-  MAKE_REQUEST: i18n.t('انشاء طلب'),
+  MAKE_REQUEST: i18n.t('إنشاء طلب'),
   NAME_TYPE: i18n.t('الصنف المطلوب'),
   NOTES: i18n.t('ملاحظات'),
   WRITE_HERE: i18n.t('اكتب هنا …'),
@@ -218,7 +219,7 @@ export default {
   MESSAGE: i18n.t('تفاصيل الرسالة'),
   /**Profile */
   LOGOUT: i18n.t('خروج'),
-  USER_MANAGEMENT: i18n.t('ادارة المستخدمين'),
+  USER_MANAGEMENT: i18n.t('إدارة أفراد العائلة'),
   EDIT_PROFILE: i18n.t('تعديل البيانات الشخصية'),
   EDIT_MEDICAL: i18n.t('تعديل البيانات الطبية'),
   EDIT_PASS: i18n.t('تعديل كلمة المرور'),

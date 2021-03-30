@@ -67,7 +67,7 @@ class UserManagement extends Component {
                             justifyContent: 'center',
                         }}>
                             <Text style={styles.noData}>
-                                {'لم يتم اضافة مستخدمين بعد'}
+                                {'لم يتم إضافة أفراد من العائلة بعد'}
                             </Text>
                         </View>
                         :
@@ -247,7 +247,7 @@ class UserManagement extends Component {
                 <Toast
                     ref={(toast) => this.toast = toast}
                     style={{ backgroundColor: '#000' }}
-                    positionValue={200}
+                    position='center'
                     fadeInDuration={1000}
                     fadeOutDuration={1000}
                     textStyle={{ color: 'white', fontFamily: g.Regular }}

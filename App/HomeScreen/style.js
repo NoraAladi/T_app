@@ -117,7 +117,7 @@ export default {
   logoSize:
   {
     width: 100,
-    height: 100
+    height: 100,
   },
 
   slider: {

@@ -40,7 +40,8 @@ class newUser extends Component {
 
             newUserID: 120,
             healthProfile: {},
-            editID: 0
+            editID: 0,
+            activeBtn: false
         };
     }
     componentDidMount() {
@@ -58,6 +59,11 @@ class newUser extends Component {
     setID = (id) => {
         this.setState({
             editID: id
+        })
+    }
+    activeBtn = (bol) => {
+        this.setState({
+            activeBtn: bol
         })
     }
     async getKeysData(keys) {
@@ -315,6 +321,7 @@ class newUser extends Component {
                         {
                             this.state.tabSelected_1 ?
                                 <UserData
+                                    activeBtn={this.activeBtn}
                                     setID={this.setID}
                                     dependentId={this.props.navigation.getParam('dependentId')}
                                     dependentCode={this.props.navigation.getParam('patientCode')}
@@ -328,8 +335,11 @@ class newUser extends Component {
                                     : null
                         }
 
-                        <TouchableOpacity style={[styleLogin.btn, { marginTop: hp('3') }]}
-                            disabled={this.state.loader}
+                        <TouchableOpacity style={[styleLogin.btn, {
+                            marginTop: hp('3'),
+                            backgroundColor: this.state.activeBtn ? g.Bold_blue : g.Light_Gray
+                        }]}
+                            disabled={this.state.loader || !this.state.activeBtn}
                             onPress={async () => {
                                 await this.nextTap()
                             }}>
@@ -359,8 +369,7 @@ class newUser extends Component {
                     <Toast
                         ref={(toast) => this.toast = toast}
                         style={{ backgroundColor: '#000' }}
-                        position='bottom'
-                        positionValue={180}
+                        position='center'
                         fadeInDuration={120}
                         fadeOutDuration={1000}
                         textStyle={{ color: 'white', fontFamily: g.Regular }}

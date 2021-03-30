@@ -63,9 +63,10 @@ class OnBoard extends Component {
                 <ScrollView
                     showsHorizontalScrollIndicator={false
                     }>
-                    <View style={{ flexDirection: 'row-reverse' }}>
+                    <View style={{ flexDirection: 'row-reverse',marginLeft:15 }}>
                         <Image source={require('../Images/logo.png')}
                             style={styles.logoSize}
+                            resizeMode='center'
                         />
                     </View>
 
@@ -76,7 +77,7 @@ class OnBoard extends Component {
                                 : ''}
                         </Text>
                         <Text style={[styles.txt, {
-                            width: '80%', marginLeft: 'auto', height: 100
+                            width: '80%', marginLeft: 'auto', height: 120
                         }]}>
                             {this.props.onBoard!='' ?
                                 this.props.onBoard[this.state.pageNo].descriptionAr : ''}</Text>

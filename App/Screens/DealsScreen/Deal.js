@@ -24,7 +24,7 @@ import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 const data =
     [
-        { name: 'التحاليل', id: 2 },
+        { name: 'تحاليل', id: 2 },
         { name: 'صيدليات', id: 4 },
         { name: 'أشعة', id: 3 },
         { name: 'أطباء', id: 1 }

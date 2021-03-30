@@ -419,8 +419,7 @@ class ModalCreateRequest extends Component {
                         <Toast
                             ref={(toast) => this.toast = toast}
                             style={{ backgroundColor: '#000' }}
-                            //    position='center'
-                            positionValue={0}
+                            position='center'
                             fadeInDuration={120}
                             fadeOutDuration={1000}
                             textStyle={{ color: 'white', fontFamily: g.Regular }}

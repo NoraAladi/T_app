@@ -16,8 +16,8 @@ export const Get_Doctor_Search = (Filter, specialityId, GovernorateId, CityId) =
     );
     //call the backend 
     //&specialityId=${specialityId}
-    console.log(`${g.BASE_URL}/api/PatientServiceProviders/ClinicSearch?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&${specialityId == -1 ? null : 'specialityId=' + specialityId}&doctorname=${Filter}&PageNumer=1&PageSize=10`);
-    axios.get(`${g.BASE_URL}/api/PatientServiceProviders/ClinicSearch?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&${specialityId == -1 ? null : 'specialityId=' + specialityId}&doctorname=${Filter}&PageNumer=1&PageSize=10`,
+    console.log(`${g.BASE_URL}/api/PatientServiceProviders/ClinicSearch?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&${specialityId == 0 ? null : 'specialityId=' + specialityId}&doctorname=${Filter}&PageNumer=1&PageSize=10`);
+    axios.get(`${g.BASE_URL}/api/PatientServiceProviders/ClinicSearch?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&${specialityId == 0 ? null : 'specialityId=' + specialityId}&doctorname=${Filter}&PageNumer=1&PageSize=10`,
       {
         headers:
         {

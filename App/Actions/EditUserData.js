@@ -62,6 +62,8 @@ export const Edit_UserData = (
             console.log(error);
             if (error.response) {
                 console.log(error.response.status);
+                dispatch({ type: 'EDIT_USER_DATA_SUCCESS', status: error.response.status })
+
             }
         }
 

@@ -14,12 +14,11 @@ import Lab from './lab';
 import Rad from './rad';
 import Pharma from './pharma';
 import Header from '../DealsScreen/header';
-import AsyncStorage from '@react-native-community/async-storage'
 
 const data = [
     { name: 'صيدلية', img: require('../../Images/pharma.png'), imgicon: require('../../Images/pharmacyIcon.png') },
     { name: 'أشعة', img: require('../../Images/rad.png'), imgicon: require('../../Images/radIcon.png') },
-    { name: 'التحاليل', img: require('../../Images/lab.png'), imgicon: require('../../Images/labIcon.png') },
+    { name: 'تحاليل', img: require('../../Images/lab.png'), imgicon: require('../../Images/labIcon.png') },
     { name: 'طبيب', img: require('../../Images/doctor.png'), imgicon: require('../../Images/doctorIcon.png') },
 
 ]
@@ -101,7 +100,7 @@ class Search extends Component {
                         this.state.name == "طبيب" ?
                             <Doctor />
                             :
-                            this.state.name == "التحاليل" ?
+                            this.state.name == "تحاليل" ?
                                 <Lab />
                                 :
                                 this.state.name == "أشعة" ?

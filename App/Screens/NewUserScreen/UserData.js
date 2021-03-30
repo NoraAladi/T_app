@@ -45,9 +45,8 @@ class UserData extends Component {
             dateInAr: 'اختر تاريخ الميلاد',
             loading: true,
             realDate: moment().format('YYYY-MM-DD'),
-            relationNameArray: []
-
-
+            relationNameArray: [],
+            index: -1
         };
     }
 
@@ -89,6 +88,7 @@ class UserData extends Component {
             })
 
             this.props.setID(this.props.dependantPersonal.id)
+            this.props.activeBtn()
         }
 
         else if (this.props.dependentId) {
@@ -104,12 +104,13 @@ class UserData extends Component {
 
             })
             this.props.setID(this.props.dependantPersonal.id)
+            this.props.activeBtn()
 
         }
 
         else {
             await this.setState({
-              //  relationName: this.props.relation[0].typeNameAR,
+                //  relationName: this.props.relation[0].typeNameAR,
                 //relationId: this.props.relation[0].id,
             })
         }
@@ -119,6 +120,17 @@ class UserData extends Component {
         })
         this.setDefault()
 
+    }
+
+    _check() {
+        if (this.state.relationName != ''
+            && this.state.sonName != ''
+            && this.state.dateInAr != 'اختر تاريخ الميلاد') {
+            this.props.activeBtn(true)
+        }
+        else {
+            this.props.activeBtn(false)
+        }
     }
     render() {
         return (
@@ -167,7 +179,7 @@ class UserData extends Component {
                                 <ScrollPicker
                                     ref={(sp) => { this.sp = sp }}
                                     dataSource={this.state.relationNameArray}
-                                    selectedIndex={1-3}
+                                    selectedIndex={this.state.relationId == -1 ? -1 : this.state.index}
                                     itemHeight={40}
                                     wrapperHeight={100}
                                     highlightColor={g.Light_Gray}
@@ -175,9 +187,10 @@ class UserData extends Component {
                                         this.setState({
                                             relationName: data,
                                             relationId: this.props.relation[selectedIndex].id,
+                                            index: selectedIndex
                                         })
                                         await AsyncStorage.setItem('relation', String(this.props.relation[selectedIndex].id))
-
+                                        this._check()
                                     }}
                                 />
 
@@ -204,6 +217,7 @@ class UserData extends Component {
                                         }}
                                         onEndEditing={async () => {
                                             await AsyncStorage.setItem('sonName', this.state.sonName)
+                                            this._check()
                                         }}
                                         placeholderTextColor={g.Light_Gray}
                                         style={[styles.input]}
@@ -251,12 +265,13 @@ class UserData extends Component {
                                             var dateFormat = moment(date).format('YYYY-MM-DD')
                                             var dateFormat2 = moment(date).format('DD MMMM YYYY')
                                             await AsyncStorage.setItem('date', dateFormat)
-
                                             this.setState({
                                                 dateInAr: this.arabicDate(dateFormat2),
                                                 //  showClender: false
                                             })
                                             //   
+                                            this._check()
+
                                         }}
                                     />
                                 </View>
