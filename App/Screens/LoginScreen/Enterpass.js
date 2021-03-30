@@ -148,7 +148,7 @@ class Enterpass extends Component {
                         alignItems: 'center',
 
                     }}
-                    positionValue={200}
+                    position='center'
                     fadeInDuration={120}
                     fadeOutDuration={1000}
                     textStyle={{

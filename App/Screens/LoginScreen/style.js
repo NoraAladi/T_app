@@ -1,5 +1,5 @@
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Platform , Dimensions } from 'react-native';
+import { Platform, Dimensions } from 'react-native';
 import g from '../../Gloabal';
 
 
@@ -109,13 +109,13 @@ export default {
   },
   error:
   {
-     color: 'red',
+    color: 'red',
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
     fontWeight: Platform.OS == "ios" ? "800" : null,
     textAlign: 'center', marginTop: 10
   },
 
-  view1 : 
+  view1:
   {
 
     flexDirection: 'row-reverse',
@@ -125,19 +125,19 @@ export default {
     marginRight: 20,
   },
 
-  view2 : 
+  view2:
   {
     width: 155,
-                        height: 55,
-                        backgroundColor: '#C0D0FF99',
-                        borderRadius: 9,
-                        shadowColor: '#000',
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.9,
-                        shadowRadius: 2,
+    height: 55,
+    backgroundColor: g.danger,
+    borderRadius: 9,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.9,
+    shadowRadius: 2,
   },
 
-  txt1 : 
+  txt1:
   {
 
     textAlign: 'center',
@@ -146,7 +146,7 @@ export default {
     fontSize: 16, marginTop: 10,
   },
 
-  txt2 : 
+  txt2:
   {
 
     width: 155,
@@ -160,7 +160,7 @@ export default {
 
   },
 
-  txt3 : 
+  txt3:
   {
     textAlign: 'center',
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
@@ -172,7 +172,7 @@ export default {
     textAlign: 'center', fontSize: 14,
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, padding: 10, width: wp('85%')
   },
-  ViewContainer:{
+  ViewContainer: {
     flexDirection: 'row', paddingHorizontal: 25,
     marginTop: Platform.OS == "ios" ? hp('5%') : null
   },
@@ -181,38 +181,38 @@ export default {
     marginLeft: wp('27'),
     marginTop: 30,
   },
-  enter2: 
+  enter2:
     { marginTop: hp('2%') },
-    enter4: 
+  enter4:
     { marginTop: hp('4%') },
   simpleRow: {
-    flexDirection: 'row' 
+    flexDirection: 'row'
   },
   enter5: { marginLeft: wp('5%'), },
-  
+
   widthInput: {
     width: wp('60%')
   },
   SpinnerTopForget: {
-    marginTop: '10%' 
+    marginTop: '10%'
   },
   SpinnerTopPatient: {
-    marginTop: '20%' 
+    marginTop: '20%'
   },
   LoginContainer: {
     marginTop: Platform.OS == "ios" ? hp('5%') : null
   },
 
-patientContainer:{
-  flexDirection: 'row',
-  paddingHorizontal: 25, width: g.windowWidth,
-  justifyContent: 'space-between',
-  marginTop: Platform.OS == "ios" ? hp('5%') : null,
+  patientContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 25, width: g.windowWidth,
+    justifyContent: 'space-between',
+    marginTop: Platform.OS == "ios" ? hp('5%') : null,
 
   },
   labelText: {
     fontSize: 14,
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
     fontWeight: Platform.OS == "ios" ? "800" : null,
-}
+  }
 };

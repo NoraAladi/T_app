@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {
     Text, View, ScrollView, TouchableWithoutFeedback,
     TouchableOpacity, Image,
-    FlatList
+    FlatList, Modal
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -32,11 +32,25 @@ class myOrder extends Component {
         this.state = {
             dropDown: false,
             nameSelected: '',
-            selectIndex: -1
+            selectIndex: -1,
+            orderId: -1,
+            ModalAlert: false
         };
     }
     async componentDidMount() {
         await this.props.Get_MyOrder()
+    }
+    async _cancelOrder() {
+        await this.props.Cancel_Order(this.state.orderId)
+        if (this.props.cancelOrder.status == 200) {
+            this.toast.show('تم إلغاء الطلب بنجاح', 2000)
+
+            this.setState({
+                selectIndex: -1,
+                dropDown: false,
+            })
+            await this.props.Get_MyOrder()
+        }
     }
     arabicDate(date) {
         for (let index = 0; index < monthsEn.length; index++) {
@@ -195,18 +209,13 @@ class myOrder extends Component {
                                                     </ScrollView>
                                                     {this.props.pharmacyOrderDetails.status == 'تم إرسال الطلب' ?
 
-                                                        <TouchableOpacity style={styles.btn}
+                                                        <TouchableOpacity style={[styles.btn, { backgroundColor: g.danger }]}
                                                             onPress={async () => {
-                                                                await this.props.Cancel_Order(item.id)
-                                                                if (this.props.cancelOrder.status == 200) {
-                                                                    this.toast.show('تم إلغاء الطلب بنجاح', 2000)
+                                                                await this.setState({
+                                                                    ModalAlert: true,
+                                                                    orderId: item.id
+                                                                })
 
-                                                                    this.setState({
-                                                                        selectIndex: -1,
-                                                                        dropDown: false,
-                                                                    })
-                                                                    await this.props.Get_MyOrder()
-                                                                }
                                                             }}>
                                                             {this.props.cancelLoading ?
                                                                 <Spinner color={'white'} />
@@ -238,7 +247,7 @@ class myOrder extends Component {
                         alignItems: 'center',
 
                     }}
-                    position='bottom'
+                    position='center'
                     // positionValue={220}
                     fadeInDuration={120}
                     fadeOutDuration={1000}
@@ -248,6 +257,103 @@ class myOrder extends Component {
                         textAlign: 'center'
                     }}
                 />
+
+                <Modal
+                    //   animationType="slide"
+                    transparent={true}
+                    visible={this.state.ModalAlert}
+                >
+
+                    <View style={{
+                        flex: 1,
+                        backgroundColor: '#00000090',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}>
+                        <View
+                            elevation={4}
+                            style={{
+                                width: g.windowWidth - 80,
+                                height: g.windowHeight / 3,
+                                borderRadius: 10,
+                                backgroundColor: 'white',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+
+                            }}>
+                            <ScrollView showsVerticalScrollIndicator={false}>
+                                <Image
+                                    style={{
+                                        width: 50, height: 50,
+                                        marginRight: 'auto',
+                                        marginLeft: 'auto', marginTop: 25,
+                                    }}
+                                    resizeMode='contain'
+                                    source={require('../../Images/caution.png')} />
+
+                                <Text style={{
+                                    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
+                                    textAlign: 'center',
+                                }}>
+                                    {'هل انت متأكد من إلغاء الطلب'}
+                                </Text>
+                                <Text style={{
+                                    fontFamily: g.Regular, fontSize: 14,
+                                    textAlign: 'center', width: g.windowWidth - 100,
+                                }}>
+                                    {`في حالة إلغاء الطلب ، لن يتمكن من إعادة استرجاع البيانات الخاصة به.`}
+                                </Text>
+                            </ScrollView>
+
+                            <View
+                                elevation={5}
+                                style={{
+                                    width: g.windowWidth - 80,
+                                    height: 60,
+                                    justifyContent: 'space-around',
+                                    flexDirection: 'row-reverse', alignItems: 'center',
+                                    paddingHorizontal: 20,
+
+                                }}>
+                                <Text
+                                    onPress={async () => {
+                                        //callApi    
+                                        this.setState({
+                                            ModalAlert: false
+                                        })
+                                        this._cancelOrder()
+                                    }}
+                                    style={{
+                                        fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
+                                        textAlign: 'center',
+                                        width: (g.windowWidth - 80) / 2,
+                                        color: '#E02020'
+                                    }}>
+                                    {g.CONTINUE}
+                                </Text>
+                                <View style={{ height: 35, width: 2, backgroundColor: g.Light_Gray }} />
+                                <Text
+                                    onPress={() => {
+                                        this.setState({
+                                            ModalAlert: false
+                                        })
+                                    }}
+
+                                    style={{
+                                        fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
+                                        textAlign: 'center',
+                                        width: (g.windowWidth - 80) / 2,
+                                        color: g.Blue
+                                    }}>
+                                    رجوع
+                                </Text>
+                            </View>
+
+                        </View>
+
+                    </View>
+                </Modal>
+
             </View>
         );
 

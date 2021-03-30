@@ -136,7 +136,7 @@ class Contact extends Component {
                 <Toast
                     ref={(toast) => this.toast = toast}
                     style={{ backgroundColor: '#000' }}
-                    positionValue={150}
+                    position='center'
                     fadeInDuration={120}
                     fadeOutDuration={1000}
                     textStyle={{ color: 'white', fontFamily: g.Regular }}

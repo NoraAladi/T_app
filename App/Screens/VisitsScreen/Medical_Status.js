@@ -58,7 +58,9 @@ class Visit extends Component {
             loader: true,
             typeModal: true
         }
-
+        AsyncStorage.getItem('gender').then(val => {
+            this.setState({ gender: val })
+        })
 
     }
     async componentDidMount() {
@@ -205,20 +207,23 @@ class Visit extends Component {
                                 image={images[8]}
                                 openModal={this.openModal}
                             />
+                            {this.state.gender == 1 ? null :
+                                <RenderCard
+                                    title={'حامل'}
+                                    show={'no'}
+                                    data={this.state.GenericHealthProfile.pregnant == false ? 'لا' : 'نعم'}
+                                    image={images[9]}
+                                />
+                            }
+                            {this.state.gender == 1 ? null :
 
-                            <RenderCard
-                                title={'حامل'}
-                                show={'no'}
-                                data={this.state.GenericHealthProfile.pregnant == false ? 'لا' : 'نعم'}
-                                image={images[9]}
-                            />
-
-                            <RenderCard
-                                title={'مرضع'}
-                                show={'no'}
-                                data={this.state.GenericHealthProfile.breastFeeding == false ? 'لا' : 'نعم'}
-                                image={images[10]}
-                            />
+                                <RenderCard
+                                    title={'مرضع'}
+                                    show={'no'}
+                                    data={this.state.GenericHealthProfile.breastFeeding == false ? 'لا' : 'نعم'}
+                                    image={images[10]}
+                                />
+                            }
                         </ScrollView>
                 }
 

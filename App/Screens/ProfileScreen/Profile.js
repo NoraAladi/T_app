@@ -211,19 +211,19 @@ class Profile extends Component {
                         <View style={{
                             justifyContent: 'center', alignItems: 'center',
                         }}>
-
-                            <FitImage style={{
-                                borderRadius: wp('50'),
-                                width: 80, height: 80,
-                                overflow:'hidden',
-                                marginTop: Platform.OS == "android" ? -55 : 0
-                            }}
-                                resizeMode="stretch"
-                                source={this.state.image && this.props.mini.personalPhoto ? { uri: this.props.mini.personalPhoto } : require('../../Images/noUser.png')}
-                            />
                             <TouchableOpacity onPress={() => {
                                 this._On_addImg()
                             }}>
+                                <FitImage style={{
+                                    borderRadius: wp('50'),
+                                    width: 80, height: 80,
+                                    overflow: 'hidden',
+                                    marginTop: Platform.OS == "android" ? -55 : 0
+                                }}
+                                    resizeMode="stretch"
+                                    source={this.state.image && this.props.mini.personalPhoto ? { uri: this.props.mini.personalPhoto } : require('../../Images/noUser.png')}
+                                />
+
                                 <Image style={[{ marginTop: -15, marginLeft: 44 }]}
                                     source={require('../../Images/camIcon.png')}
                                 />

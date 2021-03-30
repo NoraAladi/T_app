@@ -106,7 +106,8 @@ class header extends Component {
                 </View>
                 {this.props.title == 'لوجو' ?
                     <FitImage source={require('../../Images/logo.png')}
-                        style={style.imageLogo}
+                        style={{ width: 90, height: 55 }}
+                        resizeMode='center'
                     />
                     :
                     <Text style={style.offer}>{this.props.title}</Text>

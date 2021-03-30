@@ -218,7 +218,7 @@ export default class ModalReportes extends Component {
                             <Text style={[VisitsStyle.txt, {
                                 fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40, width: undefined
                             }]}>
-                                {this.props.typeOfReport == 'MIC' ? 'المعمل الموصي به من قبل الطبيب' : 'المركز الموصى به من قبل الطبيب'}
+                                {this.props.typeOfReport == 'MIC' ? 'المعمل الموصى به من قبل الطبيب' : 'المركز الموصى به من قبل الطبيب'}
                             </Text>
                             : null}
                         {this.props.walkon ?
@@ -236,12 +236,12 @@ export default class ModalReportes extends Component {
                                     <Image source={{
 
                                         uri:
-                                        !this.props.reportDetails[0].recommendedMicroLab &&
-                                            !this.props.reportDetails[0].recommendedCenter
-                                            ?''
-                                            :this.props.typeOfReport == 'MIC' ?
-                                            this.props.reportDetails[0].recommendedMicroLab.logo :
-                                            this.props.reportDetails[0].recommendedCenter.logo
+                                            !this.props.reportDetails[0].recommendedMicroLab &&
+                                                !this.props.reportDetails[0].recommendedCenter
+                                                ? ''
+                                                : this.props.typeOfReport == 'MIC' ?
+                                                    this.props.reportDetails[0].recommendedMicroLab.logo :
+                                                    this.props.reportDetails[0].recommendedCenter.logo
                                     }}
                                         style={{ width: 45, height: undefined, aspectRatio: 1 }}
                                         resizeMode='contain'
@@ -374,6 +374,17 @@ export default class ModalReportes extends Component {
                                     </Text>
                                 </View>
 
+                            </View>
+                            
+                            <View style={{
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: g.windowWidth
+                            }}>
+                                <View style={{
+                                    backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
+                                    marginTop: 10, marginBottom: 10,
+                                }} />
                             </View>
                             <View style={{ height: 15 }}></View>
 

@@ -107,7 +107,7 @@ class Forget extends Component {
                 <Toast
                     ref={(toast) => this.toast = toast}
                     style={{ backgroundColor: '#000' }}
-                    positionValue={this.state.tabSelected_1 ? -(g.windowHeight + 100) : 200}
+                    position='center'
                     fadeInDuration={120}
                     fadeOutDuration={1000}
                     textStyle={{ color: 'white', fontFamily: g.Regular }}

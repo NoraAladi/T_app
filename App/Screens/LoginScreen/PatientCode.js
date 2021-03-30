@@ -17,7 +17,7 @@ class PatientCode extends Component {
         super(props);
         this.state = {
             code: '',
-            mobile:0
+            mobile: 0
         };
     }
 
@@ -87,13 +87,16 @@ class PatientCode extends Component {
 
                     <TouchableOpacity
                         disabled={
-                            this.state.code != ''
+                            this.state.code != '' || this.state.mobile != ''
                                 ? false : true
                         }
-                        style={styles.txt2}
+                        style={[styles.txt2, {
+                            backgroundColor: this.state.code == '' ||
+                                this.state.mobile == '' ? g.Gray : g.Bold_blue
+                        }]}
                         onPress={async () => {
                             Keyboard.dismiss()
-                            await this.props.Get_PatientCode(this.state.code,this.state.mobile)
+                            await this.props.Get_PatientCode(this.state.code, this.state.mobile)
                             if (this.props.status == 200) {
                                 this.toast.show(this.props.message, 3000);
                                 setTimeout(() => {
@@ -128,7 +131,7 @@ class PatientCode extends Component {
                 <Toast
                     ref={(toast) => this.toast = toast}
                     style={{ backgroundColor: '#000' }}
-                    position='bottom'
+                    position='center'
                     positionValue={180}
                     fadeInDuration={120}
                     fadeOutDuration={1000}
