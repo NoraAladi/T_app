@@ -331,11 +331,11 @@ class SignUp extends Component {
                     </View>
                     <Toast
                         ref={(toast) => this.toast = toast}
-                        style={{ backgroundColor: '#000' }}
-                           position='center'
+                        style={{ backgroundColor: g.toast, maxWidth: '85%', }}
+                        positionValue={this.state.tabSelected_1 ? -500 : g.windowHeight / 2}
                         fadeInDuration={120}
                         fadeOutDuration={1000}
-                        textStyle={{ color: 'white', fontFamily: g.Regular }}
+                        textStyle={{ fontFamily: g.Regular, fontSize: 16, }}
                     />
                 </ScrollView>
             </KeyboardAvoidingView>

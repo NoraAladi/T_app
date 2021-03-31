@@ -2,7 +2,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import g from '../Gloabal'
 
-export const Get_offer_Types = (GovernorateId, CityId, typeId, page) => {
+var results = []
+export const Get_offer_Types = (typeId, page) => {
   return async (dispatch) => {
     dispatch({ type: 'GET_OFFERS_TYPE_ATTEMPT' });
     const Token = await AsyncStorage.getItem('app_Token');
@@ -15,7 +16,7 @@ export const Get_offer_Types = (GovernorateId, CityId, typeId, page) => {
       'CityId:' + cityId
     );
     try {
-      let response = await axios.get(`${g.BASE_URL}/api/Offers/AllOffers?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&SponserTypeId=${typeId}&PageNumer=1&PageSize=10`,
+      let response = await axios.get(`${g.BASE_URL}/api/Offers/AllOffers?${countryId == 0 ? null : 'governorateId=' + countryId }&${cityId == 0 ? null : 'cityId=' + cityId }&SponserTypeId=${typeId}&PageNumer=${page}&PageSize=2`,
         {
           headers:
           {
@@ -26,8 +27,13 @@ export const Get_offer_Types = (GovernorateId, CityId, typeId, page) => {
           }
         })
       console.log('__ offresType ___');
-      console.log(response.data.results);
-      dispatch({ type: 'GET_OFFERS_TYPE_SUCCESS', offersType: response.data.results })
+      console.log(response.data);
+      if (page == 1)
+        results = response.data.results
+      else
+        results = [...results, ...response.data.results]
+
+      dispatch({ type: 'GET_OFFERS_TYPE_SUCCESS', offersType: results, totalPages: response.data.totalNumberOfPages })
 
 
     } catch (error) {

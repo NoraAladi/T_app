@@ -1,7 +1,7 @@
 import style from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, ScrollView, Image, FlatList,
+    Text, View, ScrollView, Image, FlatList,ActivityIndicator,
     TouchableOpacity,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
@@ -35,13 +35,14 @@ class Deal extends Component {
         super(props);
         this.state = {
             selectedTypeId: 2,
-            cityId: 1,
-            countryId: 1,
+            loadPagination: false
+
         }
+        this.page = 1
     }
 
     async componentDidMount() {
-        await this.props.Get_offer_Types(1, 1, this.state.selectedTypeId, 1)
+        await this.props.Get_offer_Types(this.state.selectedTypeId, 1)
     }
 
     getCountryAndCityIds = async (countryId, cityId) => {
@@ -49,7 +50,7 @@ class Deal extends Component {
             cityId: cityId,
             countryId: countryId
         })
-        await this.props.Get_offer_Types(countryId, cityId, this.state.selectedTypeId, 1)
+        await this.props.Get_offer_Types(this.state.selectedTypeId, 1)
     }
 
     renderListHeader = () => {
@@ -70,7 +71,6 @@ class Deal extends Component {
                             <View style={style.center}>
                                 <TouchableOpacity
                                     style={[style.view3, {
-
                                         backgroundColor: item.id == this.state.selectedTypeId ? '#c1dcff' : null,
                                         borderColor: item.id == this.state.selectedTypeId ? g.Blue : g.Light_Gray,
                                     }]}
@@ -78,7 +78,8 @@ class Deal extends Component {
                                         await this.setState({
                                             selectedTypeId: item.id
                                         })
-                                        await this.props.Get_offer_Types(this.state.countryId, this.state.cityId, this.state.selectedTypeId, 1)
+                                        this.page=1
+                                        await this.props.Get_offer_Types(this.state.selectedTypeId, 1)
                                     }}
                                 >
                                     <Text style={[style.txt9, {
@@ -107,7 +108,7 @@ class Deal extends Component {
                     <View
                         style={{ zIndex: -1 }}>
                         {
-                            this.props.loadingType ?
+                            this.props.loadingType && !this.state.loadPagination ?
                                 <View style={style.spinner} >
                                     <Spinner />
                                 </View>
@@ -123,7 +124,15 @@ class Deal extends Component {
                                             showsVerticalScrollIndicator={false}
                                             nestedScrollEnabled
                                             onEndReachedThreshold={.5}
-                                            onEndReached={() => { console.log('paging') }}
+                                            onEndReached={async () => {
+                                                if (this.page < this.props.totalPages) {
+                                                    this.page = this.page + 1
+                                                    this.setState({ loadPagination: true })
+                                                    await this.props.Get_offer_Types(this.state.selectedTypeId, this.page)
+                                                    this.setState({ loadPagination: false })
+                                                }
+
+                                            }}
                                             data={this.props.offersType}
                                             renderItem={({ item, index }) => (
                                                 <View
@@ -175,10 +184,10 @@ class Deal extends Component {
 
                                                     <View style={style.discount}>
                                                         <View style={style.saleView}>
-                                                        <Text style={[style.sale]}>
-                                                            {item.discount}{g.DISCOUNT}</Text>
+                                                            <Text style={[style.sale]}>
+                                                                {item.discount}{g.DISCOUNT}</Text>
                                                         </View>
-                                                       
+
                                                         <Text style={[style.txt2]}>
                                                             {g.OFFERS_SARY}   {ArabicNumbers(moment(item.toDate).format('DD-MM-YYYY'))}</Text>
                                                     </View>
@@ -186,6 +195,9 @@ class Deal extends Component {
                                             )} />
                                     </View>
                         }
+                        {this.state.loadPagination ?
+                        <ActivityIndicator size='small' color='gray' style={{ marginTop: 5 }} />
+                        : null}
                     </View>
                 </ScrollView>
                 <UserFooter tab={1} />
@@ -200,8 +212,11 @@ const mapStateToProps = state => {
     return {
         loading: state.offer.loading,
         offers: state.offer.offers,
+
         loadingType: state.offersType.loadingType,
         offersType: state.offersType.offersType,
+        totalPages: state.offersType.totalPages,
+
     }
 }
 

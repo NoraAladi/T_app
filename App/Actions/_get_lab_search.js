@@ -1,29 +1,28 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import g from '../Gloabal'
+var results = []
 
-export const Get_LAB_RAD_PAHRMA_Search = (type, Filter, GovernorateId, CityId) => {
+export const Get_LAB_RAD_PAHRMA_Search = (type, Filter, page) => {
 
-  console.log(
-    'type: ' + type + '\n' +
-    'Filter: ' + JSON.stringify(Filter) + '\n' +
-    'GovernorateId: ' + GovernorateId + '\n' +
-    'CityId: ' + CityId
-  );
+
   return async (dispatch) => {
-    //console.log(type);
-    //   alert( Filter  + " " +  type  + " " +   GovernorateId  + " " +   CityId )
+
     dispatch({ type: 'GET_LAB_RAD_SEARCH_ATTEMPT' });
     const Token = await AsyncStorage.getItem('app_Token');
 
     const countryId = await AsyncStorage.getItem('countryIdKey')
     const cityId = await AsyncStorage.getItem('cityIdKey')
-    console.log(`/api/PatientServiceProviders/${type}?governorateId=${countryId}&cityId=${cityId}`)
-
+    console.log(
+      'type: ' + type + '\n' +
+      'Filter: ' + JSON.stringify(Filter) + '\n' +
+      'GovernorateId: ' + countryId + '\n' +
+      'CityId: ' + cityId
+    );
 
     //call the backend 
-    let response = await axios.get(`${g.BASE_URL}/api/PatientServiceProviders/${type}?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&name=${Filter}&PageNumer=1&PageSize=10`,
-    
+    let response = await axios.get(`${g.BASE_URL}/api/PatientServiceProviders/${type}?${countryId == 0 ? null : 'governorateId=' + countryId}&${cityId == 0 ? null : 'cityId=' + cityId}&name=${Filter}&PageNumer=${page}&PageSize=4`,
+
       {
         headers:
         {
@@ -33,18 +32,14 @@ export const Get_LAB_RAD_PAHRMA_Search = (type, Filter, GovernorateId, CityId) =
         }
       })
 
-    console.log(response.data.results);
+    console.log(response.data);
+    if (page == 1)
+      results = response.data.results
+    else
+      results = [...results, ...response.data.results]
     // If request is good...
-    onhandleResponse(dispatch, response)
+    dispatch({ type: 'GET_LAB__RAD_SEARCH_SUCCESS', lab_rad: results, totalPages: response.data.totalNumberOfPages })
 
   }
 
-}
-const onhandleResponse = (dispatch, data) => {
-  onGetcategories(dispatch, data.data.results)
-  console.log(data.data.results);
-}
-
-const onGetcategories = (dispatch, lab_rad) => {
-  dispatch({ type: 'GET_LAB__RAD_SEARCH_SUCCESS', lab_rad })
 }

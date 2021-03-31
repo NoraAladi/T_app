@@ -25,7 +25,7 @@ class Contact extends Component {
         super(props);
         this.state = {
             SupportTypesName: 'اختر نوع الدعم',
-            SupportTypesID: -1,
+            SupportTypesID: 0,
             ShowTypes: false,
             message: '',
             SupportTypesArray: []
@@ -81,7 +81,7 @@ class Contact extends Component {
                         <View style={{ height: 150 }}>
                             <ScrollPicker
                                 dataSource={this.state.SupportTypesArray}
-                                selectedIndex={this.state.SupportTypesID == -1 ? -1 : this.state.SupportTypesID - 1}
+                                selectedIndex={this.state.SupportTypesID}
                                 itemHeight={40}
                                 wrapperHeight={150}
                                 highlightColor={g.Light_Gray}
@@ -120,10 +120,14 @@ class Contact extends Component {
                     </View>
 
 
-                    <TouchableOpacity style={[styles.btn, { marginTop: hp('5') }]}
+                    <TouchableOpacity style={[styles.btn, {
+                        backgroundColor: this.state.SupportTypesID == 0 || this.state.message == '' ? g.Light_Gray : g.Bold_blue,
+                        marginTop: hp('5')
+                    }]}
                         onPress={() => { this.send() }}
+                        disabled={this.state.SupportTypesID == 0 || this.state.message == '' ? true : false}
                     >
-                        <Text style={[styles.txt_btn,]}>
+                        <Text style={[styles.txt_btn]}>
                             {g.SEND}</Text>
                     </TouchableOpacity>
 
@@ -135,11 +139,11 @@ class Contact extends Component {
                     : null}
                 <Toast
                     ref={(toast) => this.toast = toast}
-                    style={{ backgroundColor: '#000' }}
-                    position='center'
+                    style={{ backgroundColor: g.toast }}
+                    positionValue={g.windowHeight/2-100}
                     fadeInDuration={120}
                     fadeOutDuration={1000}
-                    textStyle={{ color: 'white', fontFamily: g.Regular }}
+                    textStyle={{ color: '#000', fontFamily: g.Regular,fontSize: 16, }}
                 />
 
             </View>

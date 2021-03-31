@@ -167,8 +167,8 @@ class newUser extends Component {
                     await this.props.Put_DependentHealth(
                         this.state.editID,
                         //this.props.navigation.getParam('dependentId'),
-                        response[0].weight,
                         response[1].height,
+                        response[0].weight,
                         response[2].smoking == '0' ? true : false,
                         response[3].married == '0' ? true : false,
                         this.state.healthProfile
@@ -368,11 +368,11 @@ class newUser extends Component {
                     </View>
                     <Toast
                         ref={(toast) => this.toast = toast}
-                        style={{ backgroundColor: '#000' }}
+                        style={{ backgroundColor: g.toast }}
                         position='center'
                         fadeInDuration={120}
                         fadeOutDuration={1000}
-                        textStyle={{ color: 'white', fontFamily: g.Regular }}
+                        textStyle={{  fontFamily: g.Regular,fontSize: 16, }}
                     />
                 </ScrollView>
             </KeyboardAvoidingView>

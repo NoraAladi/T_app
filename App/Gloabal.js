@@ -32,7 +32,8 @@ export default {
   Peag: '#FFEDCF',
   Move: '#F0DDFF',
   BACK_SAMA: '#f3f7fd',
-  danger:'#E11E26',
+  danger: '#E11E26',
+  toast:'#C0D0FF99',
   /*******ON_BOARD****** */
 
   ONBOARD_P1: i18n.t('سجلك الطبي أينما كنت.'),
@@ -53,7 +54,7 @@ export default {
   FORGET_PASSWORD_P1: 'ادخل البريد الإلكتروني الذي قمت بالتسجيل به لاستعادة كلمة المرور الخاصة بك',
   EMAIL: 'البريد الإلكتروني',
   ENTER_EMAIL: 'أدخل البريد الإلكتروني الخاص بك',
-  SEND: 'ارسال',
+  SEND: 'إرسال',
   CREATE_PASS: 'إنشاء كلمة المرور جديدة',
   PLEASE: 'من فضلك قم بإنشاء كلمة مرور جديدة لحسابك',
   CONFIRM_PASS: 'تأكيد كلمة المرور',

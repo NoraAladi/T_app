@@ -353,13 +353,13 @@ class EditMedicalData extends Component {
                             </View>
                         </ScrollView>
                 }
-                <Toast
+              <Toast
                     ref={(toast) => this.toast = toast}
-                    style={{ backgroundColor: '#000' }}
+                    style={{ backgroundColor: g.toast }}
                     position='center'
                     fadeInDuration={120}
                     fadeOutDuration={1000}
-                    textStyle={{ color: 'white', fontFamily: g.Regular }}
+                    textStyle={{ color: '#000', fontFamily: g.Regular,fontSize: 16, }}
                 />
 
             </View>

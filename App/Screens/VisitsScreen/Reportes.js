@@ -6,7 +6,7 @@ import style from '../DealsScreen/style';
 import React, { Component } from 'react';
 import {
     Text, View, FlatList, TouchableOpacity
-    , TouchableWithoutFeedback, Platform
+    , TouchableWithoutFeedback, Platform, ActivityIndicator
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -35,10 +35,11 @@ class Reportes extends Component {
             reportes: [],
             isRefresh: false,
             typeOfReport: '',
-            loading: true
+            loading: true,
+            loadPagination: false
 
-        }
-
+        };
+        this.page = 1
     }
 
     async componentDidMount() {
@@ -52,6 +53,7 @@ class Reportes extends Component {
     }
 
     async onRefresh() {
+        this.page = 1
         this.setState({ isRefresh: true, })
         await this.props.Get_Reportes(1, true)
         await this.setState({
@@ -74,6 +76,7 @@ class Reportes extends Component {
                 }}>
                     <TouchableOpacity
                         onPress={async () => {
+                            this.page = 1
                             this.setState({
                                 tab_1: true,
                                 tab_2: false,
@@ -106,12 +109,15 @@ class Reportes extends Component {
 
                     <TouchableOpacity
                         onPress={async () => {
+                            this.page = 1
                             await this.setState({
                                 tab_2: true,
                                 tab_1: false,
-                                loading: true
+                                loading: true,
+
                             })
-                            await this.props.Get_Reportes(1, false)
+
+                            await this.props.Get_Reportes(1, this.state.tab_1)
                             await this.setState({
                                 reportes: this.props.reportes,
                                 loading: false
@@ -148,7 +154,7 @@ class Reportes extends Component {
                                 {g.NO_DATA}
                             </Text>
                             :
-                            <View style={{ height: hp('80%') }} >
+                            <View style={{ maxHeight: hp('80%') }} >
                                 <FlatList
                                     key={(item) => { item.id }}
                                     onRefresh={() => this.onRefresh()}
@@ -156,12 +162,24 @@ class Reportes extends Component {
                                     showsVerticalScrollIndicator={false}
                                     nestedScrollEnabled
                                     data={this.state.reportes}
+                                    onEndReached={async () => {
+                                        if (this.page < this.props.totalPages) {
+                                            this.page = this.page + 1
+                                            this.setState({ loadPagination: true })
+                                            await this.props.Get_Reportes(this.page, this.state.tab_1)
+                                            await this.setState({
+                                                reportes: this.props.reportes,
+                                            })
+                                            this.setState({ loadPagination: false })
+                                        }
+
+                                    }}
                                     extraData={this.state}
                                     renderItem={({ item, index }) => (
                                         <View style={{ flexDirection: 'row', marginLeft: 10 }}>
                                             <TouchableWithoutFeedback
                                                 onPress={async () => {
-                                                    await this.props.get_reportDetails(item.reportType, item.reportIds,this.state.tab_1)
+                                                    await this.props.get_reportDetails(item.reportType, item.reportIds, this.state.tab_1)
                                                     //   this.props.handlePress()
                                                     this.setState({
                                                         typeOfReport: item.reportType,
@@ -279,6 +297,9 @@ class Reportes extends Component {
                                     )} />
                             </View>
                 }
+                {this.state.loadPagination ?
+                    <ActivityIndicator size='small' color='gray' style={{ marginTop: 5 }} />
+                    : null}
                 {/*** Modal Reports*/}
 
                 <Modal
@@ -357,6 +378,8 @@ const mapStateToProps = state => {
         loading: state.report.loading,
         reportes: state.report.reportes,
         reportDetails: state.reportDetails.reportDetails,
+
+        totalPages: state.report.totalPages,
 
         user: state.auth.user,
 

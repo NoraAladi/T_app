@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import g from '../Gloabal'
 var isDependent = ''
+var results = []
 
 export const Get_visit = (page) => {
   return async (dispatch) => {
@@ -18,7 +19,7 @@ export const Get_visit = (page) => {
     dispatch({ type: 'GET_VISITS_ATTEMPT' });
 
     //call the backend 
- let res = await axios.get(`${g.BASE_URL}/api/PatientMedicalFile/ClinicVisits?PageNumer=${page}&PageSize=10&${isDependent}`,
+    let res = await axios.get(`${g.BASE_URL}/api/PatientMedicalFile/ClinicVisits?PageNumer=${page}&PageSize=5&${isDependent}`,
       {
         headers:
         {
@@ -27,12 +28,17 @@ export const Get_visit = (page) => {
           'authorizationKey': g.authorizationKey,
         }
       })
-        // If request is good...
-        console.log('__ Visits ___');
-        console.log(res.data.results);
-        dispatch({ type: 'GET_VISITS_SUCCESS', visit :res.data.results})
+    // If request is good...
+    console.log('__ Visits ___');
+    console.log(res.data);
+    if (page == 1)
+      results = res.data.results
+    else
+      results = [...results, ...res.data.results]
+    dispatch({ type: 'GET_VISITS_SUCCESS', visit: results, totalPages: res.data.totalNumberOfPages })
 
-    
+
+
   }
 
 }

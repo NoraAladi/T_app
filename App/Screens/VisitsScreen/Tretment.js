@@ -1,7 +1,7 @@
 import VisitsStyle from './VisitsStyle';
 import React, { Component } from 'react';
 import {
-    Text, View, FlatList, TouchableOpacity,
+    Text, View, FlatList, TouchableOpacity, ActivityIndicator
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
@@ -26,8 +26,11 @@ class Tretment extends Component {
         this.state = {
             modal: false, clinicId: 0,
             visit: [],
-            isRefresh: false
+            isRefresh: false,
+            loadPagination: false
+
         }
+        this.page = 1
     }
 
     closeModal = () => {
@@ -44,6 +47,7 @@ class Tretment extends Component {
 
     }
     async onRefresh() {
+        this.page = 1
         this.setState({ isRefresh: true, })
         await this.props.Get_visit(1)
         await this.setState({
@@ -57,7 +61,7 @@ class Tretment extends Component {
 
             <View>
                 {
-                    this.props.loading ?
+                    this.props.loading && !this.state.loadPagination ?
                         <View style={{ marginTop: hp('35%') }} >
                             <Spinner />
                         </View>
@@ -68,7 +72,7 @@ class Tretment extends Component {
                                 {g.NO_DATA}
                             </Text>
                             :
-                            <View style={{ height: hp('80%') }} >
+                            <View style={{ maxHeight: hp('80%') }} >
                                 <FlatList
                                     onRefresh={() => this.onRefresh()}
                                     refreshing={this.state.isRefresh}
@@ -76,6 +80,19 @@ class Tretment extends Component {
                                     showsVerticalScrollIndicator={false}
                                     nestedScrollEnabled
                                     data={this.state.visit}
+                                    onEndReachedThreshold={.1}
+                                    onEndReached={async () => {
+                                        if (this.page < this.props.totalPages) {
+                                            this.page = this.page + 1
+                                            this.setState({ loadPagination: true })
+                                            await this.props.Get_visit(this.page)
+                                            this.setState({
+                                                visit: this.props.visit,
+                                                loadPagination: false
+                                            })
+                                        }
+
+                                    }}
                                     renderItem={({ item, index }) => (
                                         <View style={{ flexDirection: 'row', marginLeft: 10 }}>
                                             <TouchableOpacity activeOpacity={1}
@@ -98,9 +115,9 @@ class Tretment extends Component {
                                                         style={[VisitsStyle.arrow, { fontSize: 18 }]} />
                                                     <View style={{ flexDirection: 'column', marginLeft: 'auto' }}>
                                                         <Text style={VisitsStyle.doctor_name}>
-                                                            {item.titleAr+' '+item.doctorNameAr}</Text>
+                                                            {item.titleAr + ' ' + item.doctorNameAr}</Text>
                                                         <Text style={[VisitsStyle.txt, { fontSize: 12 }]}>
-                                                            {item.titlePreSpecialityAR+' '+item.doctorSpecilityAr}
+                                                            {item.titlePreSpecialityAR + ' ' + item.doctorSpecilityAr}
                                                         </Text>
                                                     </View>
 
@@ -125,7 +142,7 @@ class Tretment extends Component {
                                                 </View>
 
                                             </View>
-                                            <View style={{height:'12%'}}>
+                                            <View style={{ height: '12%' }}>
                                                 <View style={{
                                                     height: 20, width: 20, alignItems: 'center',
                                                     margin: 11, padding: 5,
@@ -147,7 +164,7 @@ class Tretment extends Component {
 
                                                     <Text style={{
                                                         width: 2, lineHeight: 7,
-                                                        marginLeft:3,
+                                                        marginLeft: 3,
                                                         transform: [{ rotate: '180deg' }]
 
                                                     }}>|{'\n'}|{'\n'}|{'\n'}|</Text>
@@ -159,6 +176,9 @@ class Tretment extends Component {
                             </View>
 
                 }
+                {this.state.loadPagination ?
+                    <ActivityIndicator size='small' color='gray' style={{ marginTop: 5 }} />
+                    : null}
                 <Modal
                     isOpen={this.state.modal}
                     swipeToClose={true}
@@ -201,6 +221,7 @@ const mapStateToProps = state => {
     return {
         loading: state.visits.loading,
         visit: state.visits.visit,
+        totalPages: state.visits.totalPages,
 
         user: state.auth.user,
 

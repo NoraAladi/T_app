@@ -2,7 +2,7 @@ import styles from './style';
 import React, { Component } from 'react';
 import {
     Text, View, ScrollView, TouchableWithoutFeedback,
-    TouchableOpacity, Image,
+    TouchableOpacity, Image,ActivityIndicator,
     FlatList, Modal
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
@@ -34,11 +34,14 @@ class myOrder extends Component {
             nameSelected: '',
             selectIndex: -1,
             orderId: -1,
-            ModalAlert: false
+            ModalAlert: false,
+            loadPagination: false
+
         };
+        this.page = 1
     }
     async componentDidMount() {
-        await this.props.Get_MyOrder()
+        await this.props.Get_MyOrder(1)
     }
     async _cancelOrder() {
         await this.props.Cancel_Order(this.state.orderId)
@@ -49,7 +52,8 @@ class myOrder extends Component {
                 selectIndex: -1,
                 dropDown: false,
             })
-            await this.props.Get_MyOrder()
+            this.page = 1
+            await this.props.Get_MyOrder(1)
         }
     }
     arabicDate(date) {
@@ -72,7 +76,7 @@ class myOrder extends Component {
 
                 <ScrollView
                     showsVerticalScrollIndicator={false}>
-                    {this.props.loading ?
+                    {this.props.loading && !this.state.loadPagination ?
                         <View style={styles.spinnerTop} >
                             <Spinner />
                         </View>
@@ -94,7 +98,15 @@ class myOrder extends Component {
                                     showsVerticalScrollIndicator={false}
                                     nestedScrollEnabled
                                     onEndReachedThreshold={.1}
-                                    onEndReached={() => { console.log('saad') }}
+                                    onEndReached={async () => {
+                                        if (this.page < this.props.totalPages) {
+                                            this.page = this.page + 1
+                                            this.setState({ loadPagination: true })
+                                            await this.props.Get_MyOrder(this.page)
+                                            this.setState({ loadPagination: false })
+                                        }
+
+                                    }}
                                     data={this.props.MyOrder}
                                     renderItem={({ item, index }) => (
 
@@ -235,26 +247,28 @@ class myOrder extends Component {
                             </View>
 
                     }
+                    {this.state.loadPagination ?
+                        <ActivityIndicator size='small' color='gray' style={{ marginTop: 5 }} />
+                        : null}
                 </ScrollView>
                 <UserFooter tab={4} />
 
                 <Toast
                     ref={(toast) => this.toast = toast}
                     style={{
-                        backgroundColor: '#000',
+                        backgroundColor: g.toast,
                         width: '85%',
                         justifyContent: 'center',
                         alignItems: 'center',
-
                     }}
                     position='center'
                     // positionValue={220}
                     fadeInDuration={120}
                     fadeOutDuration={1000}
                     textStyle={{
-                        color: 'white',
                         fontFamily: g.Regular,
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        fontSize: 16
                     }}
                 />
 
@@ -295,13 +309,13 @@ class myOrder extends Component {
                                     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
                                     textAlign: 'center',
                                 }}>
-                                    {'هل انت متأكد من إلغاء الطلب'}
+                                    {'هل انت متأكد من إلغاء الطلب؟'}
                                 </Text>
                                 <Text style={{
                                     fontFamily: g.Regular, fontSize: 14,
                                     textAlign: 'center', width: g.windowWidth - 100,
                                 }}>
-                                    {`في حالة إلغاء الطلب ، لن يتمكن من إعادة استرجاع البيانات الخاصة به.`}
+                                    {`في حالة الإلغاء سيتم حذف الطلب بالكامل من قائمة طلباتك و يجب عليك عمل طلب جديد.`}
                                 </Text>
                             </ScrollView>
 
@@ -363,6 +377,7 @@ const mapStateToProps = state => {
     return {
         MyOrder: state._MyOrder.MyOrder,
         loading: state._MyOrder.loading,
+        totalPages: state._MyOrder.totalPages,
 
         cancelLoading: state.cancelOrder.cancelLoading,
         cancelOrder: state.cancelOrder.cancelOrder,

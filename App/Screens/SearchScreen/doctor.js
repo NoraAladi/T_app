@@ -28,7 +28,7 @@ class Doctor extends Component {
             special_id: 0,
             cityId: 1,
             countryId: 1,
-            specialistArray: []
+            specialistArray: [], index: 0
         }
     }
 
@@ -99,7 +99,7 @@ class Doctor extends Component {
                     <ScrollPicker
                         ref={(sp) => { this.sp = sp }}
                         dataSource={this.state.specialistArray}
-                        selectedIndex={this.state.special_id - 2}
+                        selectedIndex={this.state.index}
                         itemHeight={40}
                         wrapperHeight={100}
                         wrapperWidth={'45%'}
@@ -107,7 +107,7 @@ class Doctor extends Component {
                         onValueChange={async (data, selectedIndex) => {
                             await this.setState({
                                 specialist: data,
-                                // showSpecialist: false,
+                                index: selectedIndex,
                                 special_id: this.props.specialist[selectedIndex].id
                             })
                         }}

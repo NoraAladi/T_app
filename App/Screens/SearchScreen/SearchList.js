@@ -1,7 +1,7 @@
 import style from './style';
 import React, { Component } from 'react';
 import {
-    Text, View, FlatList, Image, Linking, Platform
+    Text, View, FlatList, Image, Linking, Platform, ActivityIndicator
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon, Title } from 'native-base';
@@ -27,17 +27,20 @@ class SearchList extends Component {
             Title: '', Irea: '', icon: '',
             heightWithScroll: g.windowHeight,
             modal: false, loading_stop: 1,
-            pharmaID: 0
+            pharmaID: 0,
+            loadPagination: false
+
         }
+        this.page = 1
     }
     _callApi = async (countryId, cityID) => {
         //  alert(countryId + '  ' + cityID)
         //if(TITLE==)
         if (TITLE == g.DOCTOR_TITLE) {
-            this.props.Get_Doctor_Search(Filter_name, Special, countryId, cityID)
+            this.props.Get_Doctor_Search(Filter_name, Special, 1)
         }
         else if (TITLE == g.LAB_TITLE) {
-            this.props.Get_LAB_RAD_PAHRMA_Search('MicrolabSearch', Filter_name, countryId, cityID)
+            this.props.Get_LAB_RAD_PAHRMA_Search('MicrolabSearch', Filter_name, 1)
         }
         else if (TITLE == g.RAD_TITLE) {
             //   this.props.Get_Doctor_Search( Filter_name , Special , 1 , 1  )
@@ -66,44 +69,45 @@ class SearchList extends Component {
             icon: icon,
         })
         if (TITLE == g.DOCTOR_TITLE) {
-            this.props.Get_Doctor_Search(Filter_name, Special, 1, 1)
+            this.props.Get_Doctor_Search(Filter_name, Special, 1)
         }
         else if (TITLE == g.LAB_TITLE) {
-            this.props.Get_LAB_RAD_PAHRMA_Search('MicrolabSearch', Filter_name, 1, 1)
+            this.props.Get_LAB_RAD_PAHRMA_Search('MicrolabSearch', Filter_name, 1)
         }
         else if (TITLE == g.RAD_TITLE) {
-            this.props.Get_LAB_RAD_PAHRMA_Search('RadiologyCenterSearch', Filter_name, 1, 1)
+            this.props.Get_LAB_RAD_PAHRMA_Search('RadiologyCenterSearch', Filter_name, 1)
         }
         else if (TITLE == g.PHARMA_TITLE)
-            this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, 1, 1)
+            this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, 1)
 
         else if (TITLE == g.ROSHETA_NAME) {
-            await this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, 1, 1)
+            await this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, 1)
             // alert(JSON.stringify(this.props.lab_rad))
         }
         else null
     }
 
     getCountryAndCityIds = async (countryId, cityId) => {
+        this.page = 1
         await this.setState({
             cityId: cityId,
             countryId: countryId
         })
         if (TITLE == g.DOCTOR_TITLE) {
-            this.props.Get_Doctor_Search(Filter_name, Special, countryId, cityId)
+            this.props.Get_Doctor_Search(Filter_name, Special, 1)
         }
         else if (TITLE == g.LAB_TITLE) {
-            this.props.Get_LAB_RAD_PAHRMA_Search('MicrolabSearch', Filter_name, countryId, cityId)
+            this.props.Get_LAB_RAD_PAHRMA_Search('MicrolabSearch', Filter_name, 1)
         }
         else if (TITLE == g.RAD_TITLE) {
-            this.props.Get_LAB_RAD_PAHRMA_Search('RadiologyCenterSearch', Filter_name, countryId, cityId)
+            this.props.Get_LAB_RAD_PAHRMA_Search('RadiologyCenterSearch', Filter_name, 1)
         }
         else if (TITLE == g.PHARMA_TITLE) {
-            await this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, countryId, cityId)
+            await this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, 1)
             // alert(JSON.stringify(this.props.lab_rad))
         }
         else if (TITLE == g.ROSHETA_NAME) {
-            await this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, countryId, cityId)
+            await this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, 1)
             // alert(JSON.stringify(this.props.lab_rad))
         }
         else null
@@ -166,8 +170,8 @@ class SearchList extends Component {
                 />
 
                 {
-                    this.props.loading_doctor ||
-                        (this.props.loading_lab &&
+                    this.props.loading_doctor && !this.state.loadPagination ||
+                        (this.props.loading_lab && !this.state.loadPagination &&
                             (TITLE == g.LAB_TITLE || TITLE == g.RAD_TITLE ||
                                 TITLE == g.PHARMA_TITLE))
                         ?
@@ -192,7 +196,38 @@ class SearchList extends Component {
                                     key={(item) => { item.id }}
                                     showsVerticalScrollIndicator={false}
                                     onEndReachedThreshold={.5}
-                                    onEndReached={() => { console.log('hegazy') }}
+                                    onEndReached={async () => {
+                                        if (TITLE == g.DOCTOR_TITLE) {
+                                            if (this.page < this.props.totalPagesDoctor) {
+                                                this.page = this.page + 1
+                                                this.setState({ loadPagination: true })
+                                                await this.props.Get_Doctor_Search(Filter_name, Special, this.page)
+                                                this.setState({ loadPagination: false })
+                                            }
+                                        }
+                                        else {
+                                            if (this.page < this.props.totalPages) {
+                                                this.page = this.page + 1
+                                                this.setState({ loadPagination: true })
+                                                if (TITLE == g.LAB_TITLE) {
+                                                    await this.props.Get_LAB_RAD_PAHRMA_Search('MicrolabSearch', Filter_name, this.page)
+                                                }
+                                                else if (TITLE == g.RAD_TITLE) {
+                                                    await this.props.Get_LAB_RAD_PAHRMA_Search('RadiologyCenterSearch', Filter_name, this.page)
+                                                }
+                                                else if (TITLE == g.PHARMA_TITLE) {
+                                                    await this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, this.page)
+                                                    // alert(JSON.stringify(this.props.lab_rad))
+                                                }
+                                                else if (TITLE == g.ROSHETA_NAME) {
+                                                    await this.props.Get_LAB_RAD_PAHRMA_Search('PharmacySearch', Filter_name, this.page)
+                                                    // alert(JSON.stringify(this.props.lab_rad))
+                                                }
+                                                else null
+                                                this.setState({ loadPagination: false })
+                                            }
+                                        }
+                                    }}
                                     data={TITLE == g.DOCTOR_TITLE ? this.props.doctor : this.props.lab_rad}
                                     renderItem={({ item, index }) => (
                                         <View style={style.info}>
@@ -234,8 +269,8 @@ class SearchList extends Component {
                                                 <TouchableOpacity
                                                     activeOpacity={1}
                                                     onPress={() => {
-                                                    this.clickCard(item)
-                                                }}>
+                                                        this.clickCard(item)
+                                                    }}>
                                                     <View style={{ flexDirection: 'row' }}>
                                                         <Text style={[style.doctor_name, { color: g.Gray, fontFamily: g.Regular }]}>
                                                             {this.state.Title == g.DOCTOR_TITLE || this.state.Title == g.ROSHETA_NAME || this.state.Title == g.PHARMA_TITLE ?
@@ -270,7 +305,7 @@ class SearchList extends Component {
                                                             item.phoneNumber
                                                         }
                                                     </Text>
-                                                    <Icon name="call" type="Ionicons" style={[style.call,{color:'#4FCE5D'}]} />
+                                                    <Icon name="call" type="Ionicons" style={[style.call, { color: '#4FCE5D' }]} />
                                                 </TouchableOpacity>
                                             </View>
                                         </View>
@@ -279,6 +314,9 @@ class SearchList extends Component {
 
                             </View>
                 }
+                {this.state.loadPagination ?
+                    <ActivityIndicator size='small' color='gray' style={{ marginTop: 5 }} />
+                    : null}
                 <Modal
                     isOpen={this.state.modal}
                     swipeToClose={true}
@@ -342,9 +380,13 @@ const mapStateToProps = state => {
     return {
         loading_doctor: state.doctor_search.loading_doctor,
         doctor: state.doctor_search.doctor,
+        totalPagesDoctor: state.doctor_search.totalPages,
+
 
         loading_lab: state.lab_search.loading_lab,
         lab_rad: state.lab_search.lab_rad,
+        totalPages: state.lab_search.totalPages,
+
     }
 }
 
