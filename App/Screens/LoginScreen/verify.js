@@ -229,8 +229,7 @@ const Verification = ({ navigation }) => {
                         renderCell={renderCell}
 
                     />
-                    {loader ? <UIActivityIndicator color={NOT_EMPTY_CELL_BG_COLOR} size={30}
-                        style={styles.spinner} /> : null}
+
                     {navigation.getParam('fromLoginScreen') ? null :
 
                         <View style={styles.notSend}>
@@ -244,15 +243,20 @@ const Verification = ({ navigation }) => {
                             </TouchableOpacity>
 
 
+
                         </View>
+
                     }
+                    {loader ? <UIActivityIndicator color={NOT_EMPTY_CELL_BG_COLOR} size={30}
+                        style={styles.spinner} /> : null}
+
                     <Toast
                         ref={toast}
-                        style={{ backgroundColor: '#000' }}
-                        position='center'
+                        textStyle={{ color: '#000', fontFamily: G.Regular, fontSize: 16, }}
+                        style={{ backgroundColor: G.toast }}
+                        positionValue={G.windowHeight / 2 - 150}
                         fadeInDuration={120}
                         fadeOutDuration={1000}
-                        textStyle={{ color: 'white', fontFamily: G.Regular }}
                     />
                 </View>
 

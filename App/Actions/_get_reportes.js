@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import g from '../Gloabal'
 var isDependent = ''
+var results = []
 
 export const Get_Reportes = (page,tab) => {
   return async (dispatch) => {
@@ -18,7 +19,7 @@ export const Get_Reportes = (page,tab) => {
    
     dispatch({ type: 'GET_REPORTES_ATTEMPT' });
     try {
-      let resp = await axios.get(`${g.BASE_URL}/api/PatientMedicalFile/${tab?'AllReports':'WalkonAllReports'}?PageNumer=${page}&PageSize=10&${isDependent}`,
+      let resp = await axios.get(`${g.BASE_URL}/api/PatientMedicalFile/${tab?'AllReports':'WalkonAllReports'}?PageNumer=${page}&PageSize=4&${isDependent}`,
         {
           headers:
           {
@@ -29,8 +30,13 @@ export const Get_Reportes = (page,tab) => {
         })
       
       console.log('__ Reports ___');
-      console.log(resp.data.results );
-      dispatch({ type: 'GET_REPORTES_SUCCESS', reportes: resp.data.results })
+      console.log(resp.data);
+      if (page == 1)
+                results = resp.data.results
+            else
+                results = [...results, ...resp.data.results]
+            dispatch({ type: 'GET_REPORTES_SUCCESS', reportes: results, totalPages: resp.data.totalNumberOfPages })
+
 
     }
     catch (error) {

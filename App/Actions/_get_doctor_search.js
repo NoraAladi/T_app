@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import g from '../Gloabal'
+var results = []
 
-export const Get_Doctor_Search = (Filter, specialityId, GovernorateId, CityId) => {
+export const Get_Doctor_Search = (Filter, specialityId, page) => {
 
   return async (dispatch) => {
     dispatch({ type: 'GET_DOCTOR_SEARCH_ATTEMPT' });
@@ -14,32 +15,29 @@ export const Get_Doctor_Search = (Filter, specialityId, GovernorateId, CityId) =
       'GovernorateId: ' + countryId + '\n' +
       'CityId: ' + cityId + '\n'
     );
-    //call the backend 
-    //&specialityId=${specialityId}
-    console.log(`${g.BASE_URL}/api/PatientServiceProviders/ClinicSearch?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&${specialityId == 0 ? null : 'specialityId=' + specialityId}&doctorname=${Filter}&PageNumer=1&PageSize=10`);
-    axios.get(`${g.BASE_URL}/api/PatientServiceProviders/ClinicSearch?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&${specialityId == 0 ? null : 'specialityId=' + specialityId}&doctorname=${Filter}&PageNumer=1&PageSize=10`,
-      {
-        headers:
+
+    try {
+      let resp =await axios.get(`${g.BASE_URL}/api/PatientServiceProviders/ClinicSearch?${countryId == 0 ? null : 'governorateId=' + countryId}&${cityId == 0 ? null : 'cityId=' + cityId}&${specialityId == 0 ? null : 'specialityId=' + specialityId}&doctorname=${Filter}&PageNumer=${page}&PageSize=4`,
         {
-          'accept': 'text/plain',
-          'authorizationKey': g.authorizationKey,
-          'Authorization': `Bearer ${Token}`,
-        }
-      })
-      .then(response => {
-        // If request is good...
-        console.log('--- DOCTOR API----');
-        console.log(response.data.results);
-        onhandleResponse(dispatch, response)
-      })
+          headers:
+          {
+            'accept': 'text/plain',
+            'authorizationKey': g.authorizationKey,
+            'Authorization': `Bearer ${Token}`,
+          }
+        })
+      // If request is good...
+      console.log('--- DOCTOR API----');
+      console.log(resp.data);
+      if (page == 1)
+        results = resp.data.results
+      else
+        results = [...results, ...resp.data.results]
+      dispatch({ type: 'GET_DOCTOR_SEARCH_SUCCESS', doctor: results, totalPages: resp.data.totalNumberOfPages })
+
+    } catch (error) {
+      console.log(error.response);
+    }
   }
 
-}
-const onhandleResponse = (dispatch, data) => {
-  onGetcategories(dispatch, data.data.results)
-
-}
-
-const onGetcategories = (dispatch, doctor) => {
-  dispatch({ type: 'GET_DOCTOR_SEARCH_SUCCESS', doctor })
 }

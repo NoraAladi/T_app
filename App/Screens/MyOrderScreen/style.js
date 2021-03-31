@@ -25,7 +25,7 @@ export default {
     justifyContent: 'center',
     alignItems: 'center',
     padding: 15,
-     // paddingHorizontal: 20,
+    // paddingHorizontal: 20,
     backgroundColor: g.white,
     shadowColor: g.white,
     shadowOffset: { width: 1, height: 1 },
@@ -57,7 +57,7 @@ export default {
     textAlign: 'right',
   },
   txtBold: {
-    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,    textAlign: 'right', fontSize: 16,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'right', fontSize: 16,
   }
   ,
 
@@ -84,7 +84,7 @@ export default {
   txt_btn:
   {
     fontSize: 16, color: g.white,
-    fontFamily: Platform.OS == "android" ?  g.Bold  : g.Regular , fontWeight : Platform.OS == "ios" ? "800": null ,    textAlign: 'center'
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'center'
   },
   linearGradient: {
     paddingLeft: 15,
@@ -99,26 +99,26 @@ export default {
   },
 
   height: {
-    height:15
+    height: 15
   },
   spinnerTop: {
-     marginTop: hp('35%') 
+    marginTop: hp('35%')
   },
-  FlatListHeight: { height: hp('80') },
-  provider:{
+  FlatListHeight: { maxHeight: hp('80')},
+  provider: {
     color: g.Gray, fontSize: 12, width: wp('35')
 
   },
   dateRequest: { color: g.Gray, fontSize: 12, width: wp('40') },
   iconSize: { fontSize: 14, marginTop: 5, },
-  viewValues:{
+  viewValues: {
     flexDirection: 'row-reverse'
     , marginBottom: -10,
   },
   noData:
   {
     fontSize: 16, color: g.Gray,
-    fontFamily:g.Regular ,  textAlign: 'center'
+    fontFamily: g.Regular, textAlign: 'center'
   },
-  
+
 };

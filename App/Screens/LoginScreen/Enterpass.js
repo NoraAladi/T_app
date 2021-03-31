@@ -142,7 +142,7 @@ class Enterpass extends Component {
                 <Toast
                     ref={(toast) => this.toast = toast}
                     style={{
-                        backgroundColor: '#000',
+                        backgroundColor: g.toast,
                         width: widthPercentageToDP('85'),
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -151,12 +151,10 @@ class Enterpass extends Component {
                     position='center'
                     fadeInDuration={120}
                     fadeOutDuration={1000}
-                    textStyle={{
-                        color: 'white',
-                        fontFamily: g.Regular,
-                        textAlign: 'center'
-                    }}
+                    textStyle={{ color: '#000', fontFamily: g.Regular,fontSize: 16, }}
+
                 />
+                 
             </View>
         );
 

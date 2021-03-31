@@ -10,7 +10,7 @@ export const Get_Jobs = (countryId, CityId, page, loadmore) => {
         const Token = await AsyncStorage.getItem('app_Token');
 
         try {
-            let resp = await axios.get(`${g.BASE_URL}/api/Careers/PostedCareers?${countryId == 0 ? null : 'governorateId=' + countryId + '&cityId=' + cityId}&PageNumer=${page}&PageSize=${3}`,
+            let resp = await axios.get(`${g.BASE_URL}/api/Careers/PostedCareers?${countryId == 0 ? null : 'governorateId=' + countryId}&${cityId == 0 ? null : 'cityId=' + cityId}&PageNumer=${page}&PageSize=${3}`,
                 {
                     headers:
                     {

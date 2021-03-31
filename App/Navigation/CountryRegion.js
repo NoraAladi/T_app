@@ -159,7 +159,7 @@ class CountryRegion extends Component {
                             <ScrollPicker
                                 ref={(sp) => { this.sp = sp }}
                                 dataSource={this.state.cityNameArray}
-                                selectedIndex={this.state.regionId == 0 ? -1 : this.state.regionId - 1}
+                                selectedIndex={ this.state.regionId }
                                 itemHeight={40}
                                 wrapperHeight={100}
                                 highlightColor={g.Light_Gray}
@@ -225,7 +225,7 @@ class CountryRegion extends Component {
                             <ScrollPicker
                                 ref={(sp) => { this.sp = sp }}
                                 dataSource={this.state.countryNameArray}
-                                selectedIndex={this.state.countryId == 0 ? -1 : this.state.countryId - 1}
+                                selectedIndex={ this.state.countryId}
                                 itemHeight={40}
                                 wrapperHeight={100}
                                 highlightColor={g.Light_Gray}

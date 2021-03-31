@@ -403,8 +403,8 @@ class ModalCreateRequest extends Component {
                                 )
                                 if (this.props.orderResponse.status == 200) {
                                     this.props.cloaseModal()
-                                  //  this.toast.show(this.props.orderResponse.data.message, 3000)
-                                        this.props.navigation.navigate('ThanksDispense')
+                                    //  this.toast.show(this.props.orderResponse.data.message, 3000)
+                                    this.props.navigation.navigate('ThanksDispense')
                                 }
                                 else
                                     //this.toast.show(this.props.orderResponse.data.message, 5000)
@@ -418,11 +418,11 @@ class ModalCreateRequest extends Component {
                         <View style={{ height: 50 }}></View>
                         <Toast
                             ref={(toast) => this.toast = toast}
-                            style={{ backgroundColor: '#000' }}
+                            style={{ backgroundColor: g.toast }}
                             position='center'
                             fadeInDuration={120}
                             fadeOutDuration={1000}
-                            textStyle={{ color: 'white', fontFamily: g.Regular }}
+                            textStyle={{ color: '#000', fontFamily: g.Regular, fontSize: 16, }}
                         />
                     </TouchableOpacity>
                 </ScrollView>

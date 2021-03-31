@@ -88,7 +88,7 @@ class UserData extends Component {
             })
 
             this.props.setID(this.props.dependantPersonal.id)
-            this.props.activeBtn()
+            this.props.activeBtn(true)
         }
 
         else if (this.props.dependentId) {
@@ -104,7 +104,7 @@ class UserData extends Component {
 
             })
             this.props.setID(this.props.dependantPersonal.id)
-            this.props.activeBtn()
+            this.props.activeBtn(true)
 
         }
 
@@ -123,13 +123,16 @@ class UserData extends Component {
     }
 
     _check() {
-        if (this.state.relationName != ''
-            && this.state.sonName != ''
-            && this.state.dateInAr != 'اختر تاريخ الميلاد') {
-            this.props.activeBtn(true)
-        }
+        if (this.props.dependentId) { }
         else {
-            this.props.activeBtn(false)
+            if (this.state.relationName != ''
+                && this.state.sonName != ''
+                && this.state.dateInAr != 'اختر تاريخ الميلاد') {
+                this.props.activeBtn(true)
+            }
+            else {
+                this.props.activeBtn(false)
+            }
         }
     }
     render() {

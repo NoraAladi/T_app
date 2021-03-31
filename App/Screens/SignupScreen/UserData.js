@@ -63,7 +63,7 @@ class UserData extends Component {
 
             showSex: false,
             sex: 'اختر النوع',
-            gender: 1,
+            gender: 0,
 
             dateInAr: 'اختر تاريخ الميلاد',
             realDate: moment().format('YYYY-MM-DD'),
@@ -157,7 +157,7 @@ class UserData extends Component {
             await this.getTerms()
             await this.props.Get_Country()
             await this.props.Get_City(1)
-           
+
 
             await this.setDefault()
         }
@@ -252,20 +252,30 @@ class UserData extends Component {
         }
     }
     activeBtn() {
+        // alert(
+        //     '\nname: ' + this.state.fullName + '\nemail: ' +
+        //     this.state.email + '\npassword: ' +
+        //     this.state.password + '\nconfirmPassword: ' +
+        //     this.state.confirmPassword + '\ndateInAr: ' +
+        //     this.state.dateInAr + '\ngender: ' +
+        //     this.state.gender + '\nmobile: ' +
+        //     this.state.mobile + '\naddress: ' +
+        //     this.state.address + '\nisChecked: ' +
+        //     this.state.isChecked + '\ncountryID: ' +
+        //     this.state.countryID + '\nregionId: ' +
+        //     this.state.regionId )
         if (
             this.state.fullName != '' &&
             this.state.email != '' &&
             this.state.password != '' &&
             this.state.confirmPassword != '' &&
             this.state.dateInAr != '' &&
-            this.state.sex != '' &&
+            this.state.gender != 0 &&
             this.state.mobile != '' &&
-            this.state.country != '' &&
-            this.state.region != '' &&
             this.state.address != '' &&
             this.state.isChecked &&
             this.state.countryID != 0 &&
-            this.state.regionId!=0
+            this.state.regionId != 0
 
         ) {
             this.props.empty()
@@ -490,6 +500,7 @@ class UserData extends Component {
                                     realDate: dateFormat,
                                 })
                                 //   
+                                this.activeBtn()
                             }}
                         />
                     </View>
@@ -535,6 +546,7 @@ class UserData extends Component {
                                         gender: selectedIndex == 0 ? 1 : 2,
                                     })
                                     await AsyncStorage.setItem('gender', String(selectedIndex == 0 ? 1 : 2))
+                                    this.activeBtn()
                                 }}
                             />
                             : null}
@@ -638,14 +650,14 @@ class UserData extends Component {
                             <ScrollPicker
                                 ref={(sp) => { this.sp = sp }}
                                 dataSource={this.state.countryNameArray}
-                                selectedIndex={-1}
+                                selectedIndex={this.state.countryID}
                                 itemHeight={40}
                                 wrapperHeight={100}
                                 highlightColor={g.Light_Gray}
                                 onValueChange={async (data, selectedIndex) => {
                                     this.setState({
                                         country: data,
-                                        countryID:this.props.countries[selectedIndex].id
+                                        countryID: this.props.countries[selectedIndex].id
                                         //  showCountry: false
                                     })
                                     await AsyncStorage.setItem('country', String(this.props.countries[selectedIndex].id))
@@ -703,6 +715,8 @@ class UserData extends Component {
                                     console.log(this.props.cities[selectedIndex].id);
                                     this.setState({
                                         region: data,
+                                        regionId: this.props.cities[selectedIndex].id,
+
                                     })
                                     await AsyncStorage.setItem('region', String(this.props.cities[selectedIndex].id))
                                     this.activeBtn()
@@ -801,11 +815,11 @@ class UserData extends Component {
 
                 <Toast
                     ref={(toast) => this.toast = toast}
-                    style={{ backgroundColor: '#000' }}
-                    position='center'
+                    style={{ backgroundColor: g.toast, maxWidth: '85%', }}
+                    position={'center'}
                     fadeInDuration={120}
                     fadeOutDuration={1000}
-                    textStyle={{ color: 'white', fontFamily: g.Regular }}
+                    textStyle={{ fontFamily: g.Regular, fontSize: 16, }}
                 />
 
                 <Modal
@@ -850,7 +864,7 @@ class UserData extends Component {
                                     marginRight: 0, marginTop: 15,
                                     fontSize: 20
                                 }]}>
-                                    {'الشروط الأحكام'}
+                                    {'الشروط والأحكام'}
                                 </Text>
                                 <Icon name='close' type='Ionicons'
                                     style={{ fontSize: 22, marginTop: 15, }}
