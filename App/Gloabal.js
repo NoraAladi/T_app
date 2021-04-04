@@ -86,7 +86,7 @@ export default {
   ADDRESS: i18n.t('تفاصيل العنوان'),
   NEXT: i18n.t('التالي'),
   MALE: i18n.t('ذكر'),
-  FAMLE: i18n.t('انثى'),
+  FAMLE: i18n.t('أنثى'),
 
   /********medical DAtat */
 
@@ -214,7 +214,7 @@ export default {
   /****others */
   SERVICES: i18n.t('خدمات'),
   JOBS: i18n.t('وظائف'),
-  EMERGENCY: i18n.t('ارقام الطوارئ'),
+  EMERGENCY: i18n.t('أرقام الطوارئ'),
   ABOUT: i18n.t('عن التطبيق'),
   CONTACT: i18n.t('تواصل معنا'),
   MESSAGE: i18n.t('تفاصيل الرسالة'),
@@ -250,11 +250,11 @@ export default {
   REQURIED_ITEMS: i18n.t('الأصناف المطلوبة'),
 
 
-  pregnant: i18n.t('هل انت حامل ...'),
+  pregnant: i18n.t('هل انت حامل ؟'),
   SupportTypes: i18n.t('نوع الدعم'),
   PROVIDER: i18n.t('المورد'),
   PROVIDER: i18n.t('المورد'),
-
+  SELECT: i18n.t('اختر النوع'),
 
 
 

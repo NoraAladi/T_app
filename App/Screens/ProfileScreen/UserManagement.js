@@ -196,7 +196,7 @@ class UserManagement extends Component {
                                                 fontFamily: g.Regular, fontSize: 14,
                                                 textAlign: 'center', width: g.windowWidth - 100,
                                             }}>
-                                                {`في حالة حذف ${this.state.deleteObj.fullNameAr} ، لن يتمكن من إعادة استرجاع جميع البيانات الخاصة به.`}
+                                                {`في حالة حذف ${this.state.deleteObj.fullNameAr} ، لن تتمكن من إعادة استرجاع جميع البيانات الخاصة به.`}
                                             </Text>
                                         </ScrollView>
 
