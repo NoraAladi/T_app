@@ -36,7 +36,7 @@ import HTML from "react-native-render-html";
 import Modal from 'react-native-modalbox';
 import axios from 'axios';
 
-const sex = [g.MALE, g.FAMLE]
+const sex = [g.SELECT, g.MALE, g.FAMLE]
 var months = ["يناير", "فبراير", "مارس", "إبريل", "مايو", "يونيو",
     "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
 var monthsEn = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -543,9 +543,9 @@ class UserData extends Component {
                                 onValueChange={async (data, selectedIndex) => {
                                     await this.setState({
                                         sex: data,
-                                        gender: selectedIndex == 0 ? 1 : 2,
+                                        gender: selectedIndex,
                                     })
-                                    await AsyncStorage.setItem('gender', String(selectedIndex == 0 ? 1 : 2))
+                                    await AsyncStorage.setItem('gender', String(selectedIndex))
                                     this.activeBtn()
                                 }}
                             />

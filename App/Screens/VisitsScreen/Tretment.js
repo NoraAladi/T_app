@@ -133,7 +133,7 @@ class Tretment extends Component {
                                                         flexDirection: 'column', justifyContent: 'center'
                                                         , alignItems: 'center',
                                                     }}>
-                                                    <Text style={VisitsStyle.date_txt}>{
+                                                    <Text style={VisitsStyle.month}>{
                                                         moment(item.date).format('DD')}</Text>
                                                     <Text style={VisitsStyle.month}>
                                                         {moment(item.date).format('MMM')}
@@ -161,13 +161,11 @@ class Tretment extends Component {
                                                     marginTop: 0
                                                 }}>
 
+                                                    <View style={{ height: 10, width: 1, backgroundColor: g.Light_Gray ,marginBottom:5}} />
+                                                    <View style={{ height: 10, width: 1, backgroundColor: g.Light_Gray ,marginBottom:5}} />
+                                                    <View style={{ height: 10, width: 1, backgroundColor: g.Light_Gray ,marginBottom:5}} />
+                                                    <View style={{ height: 10, width: 1, backgroundColor: g.Light_Gray ,marginBottom:5}} />
 
-                                                    <Text style={{
-                                                        width: 2, lineHeight: 7,
-                                                        marginLeft: 3,
-                                                        transform: [{ rotate: '180deg' }]
-
-                                                    }}>|{'\n'}|{'\n'}|{'\n'}|</Text>
 
                                                 </View>
                                             </View>
