@@ -346,13 +346,24 @@ export default class ModalReportes extends Component {
                             </Text>
 
 
+                            {this.props.typeOfReport == 'MIC' ? null :
+                                <View
+                                    style={{
+                                        width: '80%',  paddingVertical: 15, margin: 0,
+                                         borderRadius: 7, marginLeft: 'auto', marginRight: 'auto'
+                                    }}>
+                                    <Text style={{ fontFamily: g.Regular, paddingHorizontal: 5, textAlign: 'right' }}>
+                                        {this.props.reportDetails[0].bodySide == null ? 'null' : this.props.reportDetails[0].bodySide}
+                                    </Text>
 
+                                </View>}
                             {/**light title */}
                             <Text style={[VisitsStyle.txt, {
                                 fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40,
                             }]}>
                                 {g.RESULTS}
                             </Text>
+
 
                             <View style={{
                                 flexDirection: 'row-reverse',
@@ -375,7 +386,7 @@ export default class ModalReportes extends Component {
                                 </View>
 
                             </View>
-                            
+
                             <View style={{
                                 alignItems: 'center',
                                 justifyContent: 'center',

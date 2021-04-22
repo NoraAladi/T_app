@@ -190,7 +190,7 @@ class SearchList extends Component {
                             :
                             <View style={{
                                 height: this.state.Title != g.ROSHETA_NAME ? (g.windowHeight - 210)
-                                    : (g.windowHeight - 100), alignItems: 'center'
+                                    : (g.windowHeight - 260), alignItems: 'center'
                             }} >
                                 <FlatList
                                     key={(item) => { item.id }}

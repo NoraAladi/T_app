@@ -308,7 +308,7 @@ export default {
     backgroundColor: g.white,
     borderColor: g.Light_Gray, borderBottomWidth: .5,
     alignItems: 'center',
-    flexDirection: 'row-reverse', width: wp('90%'),
+    flexDirection: 'row-reverse', width: wp('95%'),
   },
   no_data:
   {

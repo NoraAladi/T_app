@@ -57,73 +57,7 @@ export default class ModalVaccinations extends Component {
 
                             </View>
                         }
-                        {/**line */}
-                        <View style={{
-                            backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
-                            marginTop: 10, marginBottom: 10, marginLeft: 'auto', marginRight: 'auto'
-                        }} />
-
-
-                        <View style={{ paddingHorizontal: 30 }}>
-                            {/**light title */}
-                            <Text style={[styleLogin.login, {
-                                marginRight: 0, marginTop: 0,
-                                fontSize: 18
-                            }]}>
-                                {g.GROWTH_RATE}
-                            </Text>
-                            {/**Dark Details */}
-                            <View style={{ flexDirection: 'row-reverse' }}>
-                                <Image source={require('../../Images/headCircumference.png')}
-                                    style={{ width: 120, height: 120 }}
-                                />
-                                {this.props.ChildGrowth == '' ?
-                                    <Text style={[VisitsStyle.txt, {}]}>
-                                        {'لا يوجد'}
-                                    </Text>
-                                    :
-                                    <FlatList
-                                        key={(item) => {
-                                            item.id;
-                                        }}
-                                        showsVerticalScrollIndicator={false}
-                                        data={this.props.ChildGrowth}
-                                        //   horizontal={true}
-                                        renderItem={({ item, index }) => (
-                                            <View style={{ paddingHorizontal: 30 }}>
-                                                <Text style={[VisitsStyle.normalTxt, {
-                                                    color: g.Light_Gray,
-                                                    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'right'
-                                                }]}>
-                                                    {g.AGE}
-                                                </Text>
-                                                <Text style={[VisitsStyle.normalTxt, {
-                                                    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'right', fontSize: 14
-                                                }]}>
-                                                    {item.childAge.ageValue+' '+item.childAge.ageTitle}
-                                                </Text>
-
-                                                <Text style={[VisitsStyle.normalTxt, {
-                                                    color: g.Light_Gray,
-                                                    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'right'
-                                                }]}>
-                                                    {g.HEAD}
-                                                </Text>
-                                                <Text style={[VisitsStyle.normalTxt, {
-                                                    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, textAlign: 'right', fontSize: 14
-                                                }]}>
-                                                   {item.growthValue}
-                                    </Text>
-
-
-                                            </View>
-                                        )}
-                                    />
-                                }
-                            </View>
-
-                        </View>
-
+                       
 
 
                         <View style={{ height: 50 }}></View>

@@ -33,7 +33,7 @@ export default {
   Move: '#F0DDFF',
   BACK_SAMA: '#f3f7fd',
   danger: '#E11E26',
-  toast:'#C0D0FF99',
+  toast:'#bfcfff',
   /*******ON_BOARD****** */
 
   ONBOARD_P1: i18n.t('سجلك الطبي أينما كنت.'),

@@ -99,219 +99,17 @@ class ModalCreateRequest extends Component {
                     <TouchableOpacity activeOpacity={1} >
                         <ScrollView nestedScrollEnabled >
                             <Text style={[style.username1, { marginTop: hp('2%') }]}>
-                                {g.NAME_TYPE}
+                                {'تفاصيل الطلب'}
                             </Text>
 
-                            {this.state.addAnotherItem ?
-                                <FlatList
-                                    nestedScrollEnabled
-                                    key={(item) => { item.id }}
-                                    showsVerticalScrollIndicator={false}
-                                    data={this.state.selectedMedicines}
-                                    extraData={this.state.selectedMedicines}
-                                    renderItem={({ item, index }) => (
-                                        <View >
+                            <View style={style.view5}>
+                                <TextInput
+                                    onChangeText={(val) => { this.setState({ additionalItems: val }) }}
+                                    placeholder={'تفاصيل الطلب ...'}
+                                    placeholderTextColor={g.Light_Gray}
+                                    style={style.input} />
+                            </View>
 
-                                            <View style={style.viewInput}>
-                                                <TextInput
-                                                    numberOfLines={1}
-                                                    placeholder={'الصنف المطلوب'}
-                                                    style={style.inputMedicineName}
-                                                    defaultValue={item.medicineName}
-
-                                                    onChangeText={async (val) => {
-                                                        if (val) {
-                                                            await this.setState({
-                                                                // medicineName: val,
-                                                                typing: true,
-                                                                selectIndex: index
-                                                            })
-                                                            this.setState({
-                                                                filterData: this.state.Medicines.filter((el) => el.medicineName.toLowerCase().match(val.trim().toLowerCase()))
-                                                            })
-
-                                                        }
-                                                        else {
-                                                            await this.setState({
-                                                                //  medicineName: val,
-                                                                typing: false,
-                                                                selectIndex: index
-                                                            })
-                                                        }
-                                                    }}
-                                                // {item.medicineName}
-                                                />
-                                            </View>
-
-                                            {/**searchView */}
-                                            {this.state.typing && this.state.selectIndex == index ?
-                                                <View>
-                                                    <ScrollView nestedScrollEnabled
-                                                        style={{ maxHeight: hp('25') }}>
-                                                        {
-                                                            this.state.filterData.map((item) => {
-                                                                return (
-                                                                    <View style={{
-                                                                        paddingHorizontal: 25, marginTop: hp('1'),
-                                                                    }}>
-                                                                        <TouchableOpacity
-                                                                            onPress={async () => {
-
-                                                                                let items = this.state.selectedMedicines;
-                                                                                let specificItem = items[this.state.selectIndex];
-                                                                                specificItem.medicineId = item.id;
-                                                                                specificItem.medicineName = item.medicineName;
-                                                                                specificItem.quantity = this.state.quantity;
-
-                                                                                items[this.state.selectIndex] = specificItem;
-                                                                                await this.setState({ selectedMedicines: items });
-
-                                                                                console.log(JSON.stringify(this.state.selectedMedicines));
-                                                                                await this.setState({
-                                                                                    selectedID: item.id,
-                                                                                    // medicineName: item.medicineName,
-                                                                                })
-                                                                                this.setState({
-                                                                                    typing: false
-                                                                                })
-
-                                                                            }}
-                                                                        >
-                                                                            <Text style={style.modalText}>{item.medicineName}</Text>
-                                                                        </TouchableOpacity>
-
-                                                                    </View>
-
-                                                                );
-                                                            })
-                                                        }
-                                                        <View style={{ height: hp('2') }} />
-                                                    </ScrollView>
-                                                </View>
-                                                : null}
-
-                                            <View style={{
-                                                flexDirection: 'row-reverse',
-                                            }} >
-                                                <Text style={[style.username1, { marginTop: hp('2.5%') }]}>
-                                                    {g.QUANTITY}
-                                                </Text>
-                                                {/**Box counter */}
-                                                <View style={{ padding: 10, }}>
-                                                    <View style={{
-                                                        flexDirection: 'row-reverse',
-                                                        width: 135, height: 45,
-                                                        borderRadius: 5, borderWidth: 1,
-                                                        borderColor: g.Blue,
-                                                        justifyContent: 'space-around',
-                                                    }} >
-
-                                                        {/**minues */}
-
-                                                        <View style={{
-                                                            alignItems: 'center', justifyContent: 'center',
-                                                            borderLeftColor: g.Blue, borderLeftWidth: 1, width: 45
-                                                        }} >
-
-                                                            <TouchableOpacity onPress={async () => {
-                                                                if (item.quantity != 1) {
-                                                                    await this.setState({
-                                                                        selectIndex: index,
-                                                                        quantity: item.quantity - 1
-                                                                    })
-
-                                                                    let items = this.state.selectedMedicines;
-                                                                    let specificItem = items[index];
-                                                                    specificItem.quantity = this.state.quantity;
-                                                                    items[this.state.selectIndex] = specificItem;
-                                                                    await this.setState({ selectedMedicines: items });
-                                                                    console.log(JSON.stringify(this.state.selectedMedicines))
-                                                                }
-
-                                                            }}>
-                                                                <Icon name='minus' type='AntDesign'
-                                                                    style={{ fontSize: 20, color: g.Blue }} />
-                                                            </TouchableOpacity>
-                                                        </View>
-
-                                                        {/**value */}
-                                                        <View style={{
-                                                            alignItems: 'center', justifyContent: 'center',
-                                                            width: 45
-                                                        }} >
-                                                            <Text style={{ fontSize: 18 }}>
-                                                                {this.state.selectIndex == index ? this.state.quantity :
-                                                                    item.quantity
-                                                                }
-                                                            </Text>
-                                                        </View>
-
-                                                        {/**plus */}
-                                                        <View style={{
-                                                            alignItems: 'center', justifyContent: 'center',
-                                                            borderRightColor: g.Blue, borderRightWidth: 1, width: 45
-                                                        }} >
-                                                            <TouchableOpacity onPress={async () => {
-                                                                await this.setState({
-                                                                    selectIndex: index,
-                                                                    quantity: item.quantity + 1
-                                                                })
-
-                                                                let items = this.state.selectedMedicines;
-                                                                let specificItem = items[index];
-                                                                specificItem.quantity = this.state.quantity;
-
-                                                                items[this.state.selectIndex] = specificItem;
-                                                                await this.setState({ selectedMedicines: items });
-
-                                                                console.log(JSON.stringify(this.state.selectedMedicines))
-                                                            }}>
-                                                                <Icon name='plus' type='AntDesign'
-                                                                    style={{ fontSize: 20, color: g.Blue }} />
-                                                            </TouchableOpacity>
-                                                        </View>
-
-
-                                                    </View>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    )} />
-                                : null
-                            }
-                            <TouchableOpacity onPress={async () => {
-
-                                await this.setState({
-                                    selectIndex: -1,
-                                    quantity: 1,
-                                    medicineName: ''
-                                    // selectedMedicines: [...this.state.selectedMedicines, {
-                                    //     "medicineId": 0,
-                                    //     "medicineUsage": null,
-                                    //     "quantity": 1,
-                                    //     'medicineName': ''
-                                    // }]
-                                })
-                                var newStateArray = this.state.selectedMedicines.slice();
-                                newStateArray.push({
-                                    "medicineId": 0,
-                                    "medicineUsage": null,
-                                    "quantity": 1,
-                                    'medicineName': ''
-                                });
-                                await this.setState({ selectedMedicines: newStateArray });
-
-
-
-                                console.log(JSON.stringify(this.state.selectedMedicines))
-
-
-                            }}>
-                                <Text style={[style.username1, style.add, { fontFamily: g.Bold }]}>
-                                    {g.ADD}
-                                </Text>
-                            </TouchableOpacity>
-                            <View />
 
                             <View style={{ padding: 30, }}>
                                 <CheckBox
@@ -327,17 +125,7 @@ class ModalCreateRequest extends Component {
                                     leftTextStyle={[style.input1, { textAlign: 'right', marginTop: -5 }]}
                                 />
                             </View>
-                            <Text style={[style.username1, { marginTop: hp('2%') }]}>
-                                {g.NOTES}
-                            </Text>
 
-                            <View style={style.view5}>
-                                <TextInput
-                                    onChangeText={(val) => { this.setState({ additionalItems: val }) }}
-                                    placeholder={g.WRITE_HERE}
-                                    placeholderTextColor={g.Light_Gray}
-                                    style={style.input} />
-                            </View>
 
 
 
@@ -394,21 +182,27 @@ class ModalCreateRequest extends Component {
                                     delete item.medicineName;
                                     return item;
                                 });
-                                await this.props.Post_order(this.props.pharamcyId,
-                                    this.state.additionalItems,
-                                    this.state.updatedAddress,
-                                    null,
-                                    this.state.callMe,
-                                    pharmacyOrderDetail
-                                )
-                                if (this.props.orderResponse.status == 200) {
-                                    this.props.cloaseModal()
-                                    //  this.toast.show(this.props.orderResponse.data.message, 3000)
-                                    this.props.navigation.navigate('ThanksDispense')
+                                if (this.state.additionalItems != '') {
+                                    await this.props.Post_order(this.props.pharamcyId,
+                                        this.state.additionalItems,
+                                        this.state.updatedAddress,
+                                        null,
+                                        this.state.callMe,
+                                        null
+                                        //  pharmacyOrderDetail
+                                    )
+                                    if (this.props.orderResponse.status == 200) {
+                                        this.props.cloaseModal()
+                                        //  this.toast.show(this.props.orderResponse.data.message, 3000)
+                                        this.props.navigation.navigate('ThanksDispense')
+                                    }
+                                    else
+                                        //this.toast.show(this.props.orderResponse.data.message, 5000)
+                                        this.toast.show('يجب إدخال الصنف المطلوب بشكل سليم', 5000)
                                 }
                                 else
-                                    //this.toast.show(this.props.orderResponse.data.message, 5000)
-                                    this.toast.show('يجب إدخال الصنف المطلوب بشكل سليم', 5000)
+                                    this.toast.show('تفاصيل الطلب !', 2500)
+
 
                             }}>
                                 <Text style={style.txt_btn}>{g.SEND_REQUEST}</Text>
