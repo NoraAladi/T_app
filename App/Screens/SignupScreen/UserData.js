@@ -611,7 +611,7 @@ class UserData extends Component {
                                     buttonColor={'#000'}
                                     animation={false}
                                     onPress={async (value) => {
-                                        await this.setState({ JobType: value == 0 ? 9 : 8 })
+                                        await this.setState({ JobType: value == 0 ? 1 : 2 })
                                         await AsyncStorage.setItem('job', String(this.state.JobType))
                                     }}
                                 />

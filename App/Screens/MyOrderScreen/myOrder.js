@@ -2,7 +2,7 @@ import styles from './style';
 import React, { Component } from 'react';
 import {
     Text, View, ScrollView, TouchableWithoutFeedback,
-    TouchableOpacity, Image,ActivityIndicator,
+    TouchableOpacity, Image, ActivityIndicator,
     FlatList, Modal
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
@@ -41,7 +41,9 @@ class myOrder extends Component {
         this.page = 1
     }
     async componentDidMount() {
-        await this.props.Get_MyOrder(1)
+        this.props.navigation.addListener('willFocus', async () => {
+            await this.props.Get_MyOrder(1)
+        });
     }
     async _cancelOrder() {
         await this.props.Cancel_Order(this.state.orderId)
@@ -177,7 +179,7 @@ class myOrder extends Component {
                                                     <ScrollView
                                                         nestedScrollEnabled
                                                         scrollEnabled
-                                                        style={{ height: hp('28'), width: '100%' }}>
+                                                        style={{ height:this.props.pharmacyOrderDetails.pharmacyOrderDetails==''?0: hp('20'), width: '100%' }}>
                                                         <TouchableWithoutFeedback onPress={() => { }}>
                                                             <FlatList
                                                                 showsVerticalScrollIndicator={false}
@@ -209,7 +211,7 @@ class myOrder extends Component {
                                                                                 </Text>
                                                                             </View>
 
-                                                                            <Text style={[styles.txt, { fontSize: 14, }]}>
+                                                                            <Text style={[styles.txt, { fontSize: 14,marginTop:10 }]}>
                                                                                 {ArabicNumbers(item.quantity + '×')}
                                                                             </Text>
 
@@ -219,6 +221,20 @@ class myOrder extends Component {
                                                                 )} />
                                                         </TouchableWithoutFeedback>
                                                     </ScrollView>
+
+
+                                                    {this.props.pharmacyOrderDetails.additionalItems == '' ? null :
+                                                        <View
+                                                            style={{
+                                                                width: '100%', paddingVertical: 10, marginTop:5 ,borderWidth:1,borderColor:g.Light_Gray,
+                                                                borderRadius: 7, marginLeft: 'auto', marginRight: 'auto'
+                                                            }}>
+                                                            <Text style={{ fontFamily: g.Regular, paddingHorizontal: 5, textAlign: 'right' }}>
+                                                                {this.props.pharmacyOrderDetails.additionalItems}
+                                                            </Text>
+
+                                                        </View>}
+                                                    
                                                     {this.props.pharmacyOrderDetails.status == 'تم إرسال الطلب' ?
 
                                                         <TouchableOpacity style={[styles.btn, { backgroundColor: g.danger }]}

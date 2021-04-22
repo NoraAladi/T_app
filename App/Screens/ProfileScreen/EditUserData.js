@@ -94,7 +94,8 @@ class EditUserData extends Component {
             realDate: '',
             countryNameArray: [],
             cityNameArray: [],
-
+            indexCountry: 0,
+            indexCity: 0,
 
         };
     }
@@ -124,7 +125,9 @@ class EditUserData extends Component {
 
             regionID: this.props.user_d.location.city.id,
             sexID: this.props.user_d.gender,
-            sex: this.props.user_d.gender == 1 ? g.MALE : g.FAMLE
+            sex: this.props.user_d.gender == 1 ? g.MALE : g.FAMLE,
+
+            
         })
         await this.props.Get_Country()
         await this.props.Get_City(this.state.countryID)
@@ -135,6 +138,12 @@ class EditUserData extends Component {
 
         this.props.cities.map(item => {
             this.state.cityNameArray.push(item.cityNameAr)
+
+        })
+        this.setState({
+            indexCountry: this.props.countries.map(function (x) { return x.id; }).indexOf(this.state.countryID),
+            indexCity: this.props.cities.map(function (x) { return x.id; }).indexOf(this.state.regionID)
+
 
         })
 
@@ -208,8 +217,9 @@ class EditUserData extends Component {
                                     <View style={[styles.viewInput]}>
 
                                         <TextInput
+                                            editable={false}
                                             defaultValue={this.state.email}
-                                            placeholder={this.state.email}
+                                            //  placeholder={this.state.email}
                                             keyboardType={'email-address'}
                                             onChangeText={(email) => {
                                                 this.setState({
@@ -218,7 +228,7 @@ class EditUserData extends Component {
 
                                             }}
 
-                                            placeholderTextColor={g.Light_Gray}
+                                            placeholderTextColor={'#000'}
                                             style={[styles.input]} />
                                     </View>
                                 </View>
@@ -412,7 +422,7 @@ class EditUserData extends Component {
                                     <ScrollPicker
                                         ref={(sp) => { this.sp = sp }}
                                         dataSource={this.state.countryNameArray}
-                                        selectedIndex={this.state.countryID == 0 ? -1 : this.state.countryID - 1}
+                                        selectedIndex={this.state.indexCountry}
                                         itemHeight={40}
                                         wrapperHeight={100}
                                         highlightColor={g.Light_Gray}
@@ -421,6 +431,8 @@ class EditUserData extends Component {
                                             this.setState({
                                                 countryID: this.props.countries[selectedIndex].id,
                                                 country: data,
+                                                indexCountry: selectedIndex,
+                                                indexCity:0
                                             })
                                             await this.props.Get_City(this.props.countries[selectedIndex].id)
                                             this.setState({
@@ -466,7 +478,7 @@ class EditUserData extends Component {
                                     <ScrollPicker
                                         ref={(sp) => { this.sp = sp }}
                                         dataSource={this.state.cityNameArray}
-                                        selectedIndex={1 - 2}
+                                        selectedIndex={this.state.indexCity}
                                         itemHeight={40}
                                         wrapperHeight={100}
                                         highlightColor={g.Light_Gray}
@@ -474,6 +486,7 @@ class EditUserData extends Component {
                                             this.setState({
                                                 regionID: this.props.cities[selectedIndex].id,
                                                 region: data,
+                                                indexCity:selectedIndex
                                             })
 
                                         }}
@@ -514,17 +527,17 @@ class EditUserData extends Component {
                                             this.state.mobile,
                                             this.state.Jobname,
                                             //jobFieldId
-                                            8,
+                                            1,
                                             this.state.regionID,
                                             this.state.address,
                                             this.state.email,
                                         )
                                         if (this.props.status == 200) {
-                                            AsyncStorage.setItem('userAddress', String(this.state.address+' '+this.state.region+' '+this.state.country))
-                                            this.toast.show('تم تعديل البيانات الشخصية بنجاح', 4000);
+                                            AsyncStorage.setItem('userAddress', String(this.state.address + ' ' + this.state.region + ' ' + this.state.country))
+                                            this.toast.show('تم تعديل البيانات الشخصية بنجاح', 3000);
                                         }
                                         else {
-                                            this.toast.show('يجب إختيار المنطقة التابع لها ', 4000);
+                                            this.toast.show('يجب إختيار المنطقة التابع لها ', 3000);
 
                                         }
 
@@ -541,7 +554,7 @@ class EditUserData extends Component {
                 </KeyboardAvoidingView>
                 <Toast
                     ref={(toast) => this.toast = toast}
-                    style={{ backgroundColor: '#000' }}
+                    style={{ backgroundColor: g.toast }}
                     position='center'
                     fadeInDuration={120}
                     fadeOutDuration={1000}

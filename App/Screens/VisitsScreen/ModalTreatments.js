@@ -215,30 +215,31 @@ class ModalTreatments extends Component {
                                                 <View style={{ marginLeft: 'auto', paddingHorizontal: 40 }}>
                                                     {/**light title */}
                                                     <Text style={[VisitsStyle.txt, {
-                                                        fontSize: 12, color: g.Light_Gray,
+                                                        fontSize: 12, color: g.Light_Gray,marginLeft:'auto'
                                                     }]}>
                                                         {'روشتة العلاج'}
                                                     </Text>
                                                     {/**Dark Details */}
-                                                    <Text style={[VisitsStyle.txt]}
+                                                    <Text style={[VisitsStyle.txt,{marginLeft:0}]}
                                                     >
                                                         {this.props.visit_details.prescriptionMedicine == '' ? 'لا يوجد' :
 
                                                             this.props.visit_details.prescriptionMedicine.map((item, index) => {
                                                                 return (
+                                                                    <>
                                                                     <Text style={[VisitsStyle.txt]}
-                                                                        key={index}
-                                                                    >
+                                                                        key={index} >
                                                                         {
                                                                             item.medicine.medicineName + '\n' +
-                                                                            item.prescribedMedicineRoute.medicineRouteAR + ' ' +
-                                                                            item.doze + ' كل ' +
+                                                                            'ــ ' + item.doze + ' ' +
+                                                                            item.prescribedMedicineRoute.medicineRouteAR + ' كل ' +
                                                                             item.prescribedMedicineFrequency.frequencyNameAR + ' ' +
                                                                             item.prescribedMedicineFoodCondition.foodConditionAR + ' لمدة ' +
-                                                                            item.prescribedMedicineDuration.medicineDuration + ' يوم'+'\n\n'
+                                                                            item.prescribedMedicineDuration.medicineDuration + ' يوم' + '\n\n'
 
                                                                         }
-                                                                    </Text>
+                                                                        </Text>
+                                                                        </>
                                                                 );
                                                             })
                                                         }

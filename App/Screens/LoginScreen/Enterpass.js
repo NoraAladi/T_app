@@ -124,11 +124,11 @@ class Enterpass extends Component {
                         await this.props.Reset_Pass(this.state.token,
                             this.state.password,
                             this.state.confirm_pass)
-                        this.toast.show(this.props.message, 1)
-                        if (this.props.message == 'Password reset successful, you can now login')
+                        this.toast.show(this.props.message, 4000)
+                        if (this.props.message == 'Password reset successful,\nyou can now login')
                             setTimeout(() => {
                                 this.props.navigation.navigate('LoginScreen')
-                            }, 10000);
+                            }, 4000);
                     }}>
                     <Text style={styles.txt_btn}>{g.CONFIRM_PASS}</Text>
                 </TouchableOpacity>
@@ -151,7 +151,7 @@ class Enterpass extends Component {
                     position='center'
                     fadeInDuration={120}
                     fadeOutDuration={1000}
-                    textStyle={{ color: '#000', fontFamily: g.Regular,fontSize: 16, }}
+                    textStyle={{ color: '#000', fontFamily: g.Regular,fontSize: 16,textAlign:'center' }}
 
                 />
                  
