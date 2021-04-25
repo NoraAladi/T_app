@@ -90,7 +90,11 @@ class UserData extends Component {
             countryNameArray: [],
             cityNameArray: [],
             modal: false,
-            Terms: ''
+            Terms: '',
+
+            indexCity: 0,
+            indexCountry:0,
+            
         };
     }
 
@@ -650,7 +654,7 @@ class UserData extends Component {
                             <ScrollPicker
                                 ref={(sp) => { this.sp = sp }}
                                 dataSource={this.state.countryNameArray}
-                                selectedIndex={this.state.countryID}
+                                selectedIndex={this.state.indexCountry}
                                 itemHeight={40}
                                 wrapperHeight={100}
                                 highlightColor={g.Light_Gray}
@@ -663,6 +667,7 @@ class UserData extends Component {
                                     await AsyncStorage.setItem('country', String(this.props.countries[selectedIndex].id))
                                     await this.props.Get_City(this.props.countries[selectedIndex].id)
                                     await this.setState({
+                                        indexCountry:selectedIndex,
                                         region: this.props.cities[0].cityNameAr,
                                         regionId: this.props.cities[0].id,
                                         cityNameArray: []
@@ -670,7 +675,9 @@ class UserData extends Component {
                                     await AsyncStorage.setItem('region', String(this.state.regionId))
                                     this.props.cities.map(item => {
                                         this.setState({
-                                            cityNameArray: [...this.state.cityNameArray, item.cityNameAr]
+                                            cityNameArray: [...this.state.cityNameArray, item.cityNameAr],
+                                            indexCity:0,
+                                       
                                         })
 
                                     })
@@ -707,13 +714,14 @@ class UserData extends Component {
                             <ScrollPicker
                                 ref={(sp) => { this.sp = sp }}
                                 dataSource={this.state.cityNameArray}
-                                selectedIndex={-1}
+                                selectedIndex={this.state.indexCity}
                                 itemHeight={40}
                                 wrapperHeight={100}
                                 highlightColor={g.Light_Gray}
                                 onValueChange={async (data, selectedIndex) => {
                                     console.log(this.props.cities[selectedIndex].id);
                                     this.setState({
+                                        indexCity:selectedIndex,
                                         region: data,
                                         regionId: this.props.cities[selectedIndex].id,
 

@@ -42,6 +42,7 @@ class myOrder extends Component {
     }
     async componentDidMount() {
         this.props.navigation.addListener('willFocus', async () => {
+            this.page = 1
             await this.props.Get_MyOrder(1)
         });
     }
