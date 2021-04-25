@@ -11,7 +11,7 @@ export const forget_pass  = ({ email }) => {
         try {
             const response = await axios({
                 method: 'POST',
-                url: `${g.BASE_URL}/api/Accounts/forgot-password-token-inresponse`,
+                url: `${g.BASE_URL}/api/Accounts/forgot-password`,
                 headers: {
                     'accept': '*/*',
                     'Content-Type': 'application/json-patch+json',
