@@ -43,7 +43,7 @@ class Search extends Component {
         return (
 
             <View key={this.state.refreshKey} style={{ flex: 1 }}>
-                <Header title={'لوجو'} />
+                <Header key={this.state.refreshKey} title={'لوجو'} />
                 <View style={{ height: 15 }} />
                 <ScrollView showsVerticalScrollIndicator={false}>
 

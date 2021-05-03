@@ -214,5 +214,9 @@ export default {
     fontSize: 14,
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular,
     fontWeight: Platform.OS == "ios" ? "800" : null,
-  }
+  },
+  error: {
+    fontFamily: g.Regular, color: 'red', fontSize: 12,
+    textAlign: 'right', paddingHorizontal: 45,marginTop: 5,
+}
 };

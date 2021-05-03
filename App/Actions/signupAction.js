@@ -26,7 +26,7 @@ export const sign_up = (
             )
             let response = await axios({
                 method: 'POST',
-                url: `${g.BASE_URL}/api/Accounts/register-newpatient-token-inresponse`,
+                url: `${g.BASE_URL}/api/Accounts/register-newpatient`,
                 headers: {
                     'accept': 'text/plain',
                     'Content-Type': 'application/json-patch+json',
@@ -59,7 +59,7 @@ export const sign_up = (
                 type: 'SIGN_UP_SUCCESS',
                 message: 'تم إنشاء المستخدم بنجاح',
                 status: response.status,
-                id: response.data.userId
+                id: response.data.id
             })
 
 

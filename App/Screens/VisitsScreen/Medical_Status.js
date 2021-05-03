@@ -411,7 +411,7 @@ class Visit extends Component {
                                                     </Text>
                                                     <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Blue }}>
                                                         {
-                                                            ArabicNumbers(moment(item.created).format('YYYY-MM-DD'))
+                                                            ArabicNumbers(moment(item.created).format('YYYY/MM/DD'))
                                                         }
                                                     </Text>
                                                 </View>

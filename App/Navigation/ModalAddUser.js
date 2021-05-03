@@ -169,7 +169,8 @@ class ModalAddUser extends Component {
                                                         style={{ width: 84, height: 84, borderRadius: 42 }} />
                                                 </View>
                                                 <Text style={[styleLogin.txt_btn, styles.activeTxt, { fontFamily: g.Regular, color: 'black' }]}>
-                                                    {item.fullNameEn == null ? item.fullNameAr : item.fullNameEn}
+                                                    {//item.fullNameEn == null ? item.fullNameAr : item.fullNameEn
+                                                     item.fullNameAr}
                                                 </Text>
                                                 <Text style={[styleLogin.txt_btn, styles.activeTxt, {
                                                     color: 'black', marginTop: -5, width: 100, textAlign: 'center', paddingHorizontal: 20

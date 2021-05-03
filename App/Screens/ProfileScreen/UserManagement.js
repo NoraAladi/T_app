@@ -45,7 +45,27 @@ class UserManagement extends Component {
         await this.props.delete_dependent(this.state.deleteObj.id)
         // alert(this.props.status)
         if (this.props.status == 200) {
-            this.toast.show(`تم مسح ${this.state.deleteObj.fullNameAr} بنجاح`, 10000)
+            const dependentId = await AsyncStorage.getItem('dependentId')
+            if (dependentId == this.state.deleteObj.id) {
+                AsyncStorage.removeItem('dependentId')
+                let user = await AsyncStorage.getItem('user')
+                user = JSON.parse(user)
+                // alert(JSON.stringify(user))
+                AsyncStorage.setItem('patientCode', user.patient.code)
+                AsyncStorage.setItem('personalPhoto', user.patient.personalPhoto)
+                AsyncStorage.getItem('patientNameEdit').then(val => {
+                    if (val)
+                        AsyncStorage.setItem('patientName', val)
+                    else
+                        AsyncStorage.setItem('patientName', user.patient.fullNameAr)
+
+                })
+                // patientCode
+                // patientName
+                // personalPhoto
+
+            }
+            this.toast.show(`تم حذف ${this.state.deleteObj.fullNameAr} بنجاح`, 10000)
             await this.props.Get_Dependants()
             this.setState({ Dependants: this.props.Dependants })
         }
@@ -190,7 +210,7 @@ class UserManagement extends Component {
                                                 fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
                                                 textAlign: 'center',
                                             }}>
-                                                {'هل انت متأكد من حذف ' + this.state.deleteObj.fullNameAr + '؟'}
+                                                {'هل أنت متأكد من حذف ' + this.state.deleteObj.fullNameAr + '؟'}
                                             </Text>
                                             <Text style={{
                                                 fontFamily: g.Regular, fontSize: 14,
@@ -250,13 +270,13 @@ class UserManagement extends Component {
                         </View>
                 }
 
-<Toast
+                <Toast
                     ref={(toast) => this.toast = toast}
                     style={{ backgroundColor: g.toast }}
                     position='center'
                     fadeInDuration={120}
                     fadeOutDuration={1000}
-                    textStyle={{ color: '#000', fontFamily: g.Regular,fontSize: 16, }}
+                    textStyle={{ color: '#000', fontFamily: g.Regular, fontSize: 16, }}
                 />
             </View>
         );

@@ -17,8 +17,11 @@ import { Get_visit_Details } from '../../Actions/_get_visit_details';
 import AsyncStorage from '@react-native-community/async-storage';
 
 
-const colors = [g.Date1, g.Date1, g.Date1
-    , g.Date2, g.Date2, g.Date3, g.Date4, g.Date4, g.Date4]
+const colors = [
+    g.Date1, g.Date1, g.Date1
+    , g.Date2, g.Date2, g.Date2,
+    g.Date3, g.Date3, g.Date3,
+    g.Date4,g.Date4, g.Date4,]
 
 class Tretment extends Component {
     constructor(props) {

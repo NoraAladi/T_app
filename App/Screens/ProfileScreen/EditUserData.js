@@ -22,6 +22,7 @@ import { Get_USER_DATA } from '../../Actions/_get_user_data';
 import { Get_City } from '../../Actions/getCityAction';
 import { Get_Country } from '../../Actions/getCountryAction';
 import { Edit_UserData } from '../../Actions/EditUserData';
+import { Get_Dependants } from '../../Actions/getDependantsAction';
 
 import Toast, { DURATION } from 'react-native-easy-toast'
 import DatePicker from 'react-native-date-picker'
@@ -535,6 +536,13 @@ class EditUserData extends Component {
                                         if (this.props.status == 200) {
                                             AsyncStorage.setItem('userAddress', String(this.state.address + ' ' + this.state.region + ' ' + this.state.country))
                                             this.toast.show('تم تعديل البيانات الشخصية بنجاح', 3000);
+                                             this.props.Get_Dependants()
+                                             const dependentId = await AsyncStorage.getItem('dependentId')
+                                            if (dependentId) { }
+                                            else
+                                                AsyncStorage.setItem('patientName', this.state.fullName)
+                                                AsyncStorage.setItem('patientNameEdit',this.state.fullName)
+
                                         }
                                         else {
                                             this.toast.show('يجب إختيار المنطقة التابع لها ', 3000);
@@ -558,7 +566,7 @@ class EditUserData extends Component {
                     position='center'
                     fadeInDuration={120}
                     fadeOutDuration={1000}
-                    textStyle={{ color: 'white', fontFamily: g.Regular }}
+                    textStyle={{ color: '#000', fontFamily: g.Regular }}
                 />
             </View>
         );
@@ -579,5 +587,5 @@ const mapStateToProps = state => {
 
     }
 }
-export default connect(mapStateToProps, { Get_USER_DATA, Get_Country, Get_City, Edit_UserData })(withNavigation(EditUserData));
+export default connect(mapStateToProps, { Get_USER_DATA, Get_Country, Get_City, Edit_UserData ,Get_Dependants})(withNavigation(EditUserData));
 

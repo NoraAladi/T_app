@@ -61,7 +61,7 @@ export default {
   CONFIRM: 'تأكيد',
 
   /********Verification********* */
-  SEND_CODE: i18n.t('تم ارسال رمز التحقق'),
+  SEND_CODE: i18n.t('تم إرسال رمز التحقق'),
   ENTER_CODE_VERIFICATION: i18n.t('من فضلك أدخل الرمز المكون من 5 أرقام الذي\n أرسلناه إلى بريدك الإلكتروني'),
   NOT_SEND: i18n.t('لم تتلق الرمز؟'),
   TRY_SEND: i18n.t('أعد الإرسال!'),
@@ -94,8 +94,8 @@ export default {
   HEIGHT: i18n.t('الطول'),
   DISEASE: i18n.t('الأمراض المزمنة'),
   DISEASE_SELECTED: i18n.t('قم بتحديد الأمراض المزمنة'),
-  U_SMOKING: i18n.t('هل انت مدخن ؟'),
-  U_MARRIED: i18n.t('هل انت متزوج ؟'),
+  U_SMOKING: i18n.t('هل أنت مدخن ؟'),
+  U_MARRIED: i18n.t('هل أنت متزوج ؟'),
   YES: i18n.t('نعم'),
   NO: i18n.t('لا'),
   CREATE_NEW_PASS: i18n.t('إنشاء كلمة المرور'),
@@ -135,7 +135,7 @@ export default {
   COLOR_NO: '#03599B',
   Date1: '#A5EBFF',
   Date2: '#FFC9A5',
-  Date3: '#F9BDF2',
+  Date3: '#F9BDF290',
   Date4: '#A5FFC7',
 
   /*********Reports**** */
@@ -250,7 +250,7 @@ export default {
   REQURIED_ITEMS: i18n.t('الأصناف المطلوبة'),
 
 
-  pregnant: i18n.t('هل انت حامل ؟'),
+  pregnant: i18n.t('هل أنت حامل ؟'),
   SupportTypes: i18n.t('نوع الدعم'),
   PROVIDER: i18n.t('المورد'),
   PROVIDER: i18n.t('المورد'),

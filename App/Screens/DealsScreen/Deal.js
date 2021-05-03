@@ -35,7 +35,8 @@ class Deal extends Component {
         super(props);
         this.state = {
             selectedTypeId: 2,
-            loadPagination: false
+            loadPagination: false,
+            refreshKey:true
 
         }
         this.page = 1
@@ -43,6 +44,12 @@ class Deal extends Component {
 
     async componentDidMount() {
         await this.props.Get_offer_Types(this.state.selectedTypeId, 1)
+        this.props.navigation.addListener('willFocus', () => {
+            this.setState({
+                refreshKey: !this.state.refreshKey
+            })
+
+        });
     }
 
     getCountryAndCityIds = async (countryId, cityId) => {
@@ -100,7 +107,7 @@ class Deal extends Component {
     render() {
         return (
             <View style={style.forFlex}>
-                <Header title={g.offer} />
+                <Header key={this.state.refreshKey} title={g.offer} />
                 {this.renderListHeader()}
                 <ScrollView
                     showsVerticalScrollIndicator={false}
@@ -135,39 +142,40 @@ class Deal extends Component {
                                             }}
                                             data={this.props.offersType}
                                             renderItem={({ item, index }) => (
+                                                <TouchableOpacity
+                                                    activeOpacity={.9}
+                                                    onPress={() => {
+                                                    this.props.navigation.navigate('DealsModelScreen', {
+                                                        'ID': item.id, 'Name': item.placeNameAR,
+                                                        'typeId': this.state.selectedTypeId
+                                                    })
+                                                }}>
                                                 <View
                                                     style={[style.container, style.card, style.specificCard
                                                     ]}>
-                                                    <TouchableOpacity onPress={() => {
-                                                        this.props.navigation.navigate('DealsModelScreen', {
-                                                            'ID': item.id, 'Name': item.placeNameAR,
-                                                            'typeId': this.state.selectedTypeId
-                                                        })
-                                                    }}>
+                                                  
                                                         <Image source={{ uri: item.imageEn }}
                                                             style={[style.imageCard]}
-                                                            resizeMode='contain'
+                                                            resizeMode='stretch'
                                                         />
-                                                    </TouchableOpacity>
 
-                                                    <View style={{
-                                                        marginLeft: 'auto', marginRight: 15,
-                                                        justifyContent: 'center', alignItems: 'center',
-                                                        borderColor: g.Light_Gray,
-                                                        borderWidth: .5,
-                                                        borderRadius: widthPercentageToDP('50'),
-                                                        padding: 7,
-                                                    }}>
+                                                    
                                                         <FitImage
                                                             source={{ uri: item.placeLogo }}
-                                                            style={style.fitImageWithSize}
+                                                            style={{
+                                                                marginLeft: 'auto', marginRight: 15,
+                                                                borderRadius: 50, width: 50
+                                                                , height: 50, overflow: 'hidden',
+                                                                backgroundColor: '#fff',
+                                                                elevation:2
+                                                            }}
+                                                            
                                                         />
-                                                    </View>
 
                                                     <Text style={[style.irea, style.minusMargin]}>
                                                         {item.placeNameAR}</Text>
 
-                                                    <View style={[style.simpleRowRevers, style.rowTitle]}>
+                                                    <View  style={[style.simpleRowRevers, style.rowTitle]}>
                                                         <Text
                                                             numberOfLines={2}
                                                             style={[style.txt, { width: '75%', marginTop: 10 }]}>
@@ -192,6 +200,7 @@ class Deal extends Component {
                                                             {g.OFFERS_SARY}   {ArabicNumbers(moment(item.toDate).format('DD-MM-YYYY'))}</Text>
                                                     </View>
                                                 </View>
+                                           </TouchableOpacity>
                                             )} />
                                     </View>
                         }

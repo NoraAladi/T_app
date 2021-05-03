@@ -13,15 +13,22 @@ class Others extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            refreshKey:true
         };
     }
+    componentDidMount() {
+        this.props.navigation.addListener('willFocus', () => {
+            this.setState({
+                refreshKey: !this.state.refreshKey
+            })
 
+        });
+    }
 
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <Header title={g.SERVICES} />
+                <Header key={this.state.refreshKey} title={g.SERVICES} />
                 <ScrollView
                     showsVerticalScrollIndicator={false}>
                     <View style={{ zIndex: -1 }}>

@@ -75,8 +75,7 @@ export default class ModalReportes extends Component {
                                     justifyContent: 'center', marginRight: 30
                                 }}>
                                     <Image source={{ uri: this.props.reportDetails[0].clinicVisit.doctor.personalPhoto }}
-                                        style={{ width: 45, height: undefined, aspectRatio: 1 }}
-                                        resizeMode='contain'
+                                        style={{ width: '100%', height: '100%', borderRadius: 35, overflow: 'hidden' }}
                                     />
                                 </View>
 
@@ -125,30 +124,33 @@ export default class ModalReportes extends Component {
                             paddingHorizontal: 40,
                             justifyContent: 'center'
                         }}>
-                            <View style={{
-                                width: 70, height: 70, borderColor: g.Light_Gray,
-                                borderWidth: .5, borderRadius: 35, alignItems: 'center',
-                                justifyContent: 'center', marginRight: 30
-                            }}>
-                                <Image source={{
-                                    uri:
-                                        !this.props.reportDetails[0].microLab &&
-                                            !this.props.reportDetails[0].radiologyCenter
-                                            ? '' :
-                                            this.props.typeOfReport == 'MIC' ?
-                                                this.props.reportDetails[0].microLab.logo :
-                                                this.props.reportDetails[0].radiologyCenter.logo
-                                }}
-                                    style={{ width: 45, height: undefined, aspectRatio: 1 }}
-                                    resizeMode='contain'
-                                />
-                            </View>
+                            {!this.props.reportDetails[0].microLab &&
+                                !this.props.reportDetails[0].radiologyCenter
+                                ? null :
+                                <View style={{
+                                    width: 70, height: 70, borderColor: g.Light_Gray,
+                                    borderWidth: .5, borderRadius: 35, alignItems: 'center',
+                                    justifyContent: 'center', marginRight: 30
+                                }}>
+                                    <Image source={{
+                                        uri:
+                                            !this.props.reportDetails[0].microLab &&
+                                                !this.props.reportDetails[0].radiologyCenter
+                                                ? '' :
+                                                this.props.typeOfReport == 'MIC' ?
+                                                    this.props.reportDetails[0].microLab.logo :
+                                                    this.props.reportDetails[0].radiologyCenter.logo
+                                    }}
+                                        style={{ width: 69, height: 69, borderRadius: 35, overflow: 'hidden' }}
+                                    />
+                                </View>
+                            }
                             {!this.props.reportDetails[0].microLab &&
                                 !this.props.reportDetails[0].radiologyCenter
 
                                 ?
-                                <View style={{ paddingHorizontal: 20 }}>
-                                    <Text style={[VisitsStyle.txt, { fontSize: 12, marginTop: 25 }]} >
+                                <View style={{}}>
+                                    <Text style={[VisitsStyle.txtx, { marginLeft: wp('55%') }]} >
                                         لا يوجد بيانات
                                     </Text>
                                 </View>
@@ -193,7 +195,6 @@ export default class ModalReportes extends Component {
                             }
                         </View>
 
-
                         {/**line */}
                         <View style={{
                             alignItems: 'center',
@@ -228,34 +229,38 @@ export default class ModalReportes extends Component {
                                 paddingHorizontal: 40,
                                 justifyContent: 'center'
                             }}>
-                                <View style={{
-                                    width: 70, height: 70, borderColor: g.Light_Gray,
-                                    borderWidth: .5, borderRadius: 35, alignItems: 'center',
-                                    justifyContent: 'center', marginRight: 30
-                                }}>
-                                    <Image source={{
+                                {!this.props.reportDetails[0].recommendedMicroLab &&
+                                    !this.props.reportDetails[0].recommendedCenter
 
-                                        uri:
-                                            !this.props.reportDetails[0].recommendedMicroLab &&
-                                                !this.props.reportDetails[0].recommendedCenter
-                                                ? ''
-                                                : this.props.typeOfReport == 'MIC' ?
-                                                    this.props.reportDetails[0].recommendedMicroLab.logo :
-                                                    this.props.reportDetails[0].recommendedCenter.logo
-                                    }}
-                                        style={{ width: 45, height: undefined, aspectRatio: 1 }}
-                                        resizeMode='contain'
-                                    />
-                                </View>
+                                    ? null :
+                                    <View style={{
+                                        width: 70, height: 70, borderColor: g.Light_Gray,
+                                        borderWidth: .5, borderRadius: 35, alignItems: 'center',
+                                        justifyContent: 'center', marginRight: 30
+                                    }}>
+                                        <Image source={{
+
+                                            uri:
+                                                !this.props.reportDetails[0].recommendedMicroLab &&
+                                                    !this.props.reportDetails[0].recommendedCenter
+                                                    ? ''
+                                                    : this.props.typeOfReport == 'MIC' ?
+                                                        this.props.reportDetails[0].recommendedMicroLab.logo :
+                                                        this.props.reportDetails[0].recommendedCenter.logo
+                                        }}
+                                            style={{ width: 69, height: 69, borderRadius: 35, overflow: 'hidden' }}
+                                        />
+                                    </View>
+                                }
                                 {!this.props.reportDetails[0].recommendedMicroLab &&
                                     !this.props.reportDetails[0].recommendedCenter
 
                                     ?
-                                    <View style={{ paddingHorizontal: 20 }}>
-                                        <Text style={[VisitsStyle.txt, { fontSize: 12, marginTop: 25 }]} >
-                                            لا يوجد بيانات
-                                        </Text>
-                                    </View>
+                                    <View style={{}}>
+                                    <Text style={[VisitsStyle.txtx, { marginLeft: wp('55%') }]} >
+                                        لا يوجد بيانات
+                                    </Text>
+                                </View>
 
                                     : <View style={{ paddingHorizontal: 20 }}>
                                         {/**Dark Details */}
@@ -349,8 +354,8 @@ export default class ModalReportes extends Component {
                             {this.props.typeOfReport == 'MIC' ? null :
                                 <View
                                     style={{
-                                        width: '80%',  paddingVertical: 15, margin: 0,
-                                         borderRadius: 7, marginLeft: 'auto', marginRight: 'auto'
+                                        width: '80%', paddingVertical: 15, margin: 0,
+                                        borderRadius: 7, marginLeft: 'auto', marginRight: 'auto'
                                     }}>
                                     <Text style={{ fontFamily: g.Regular, paddingHorizontal: 5, textAlign: 'right' }}>
                                         {this.props.reportDetails[0].bodySide == null ? 'null' : this.props.reportDetails[0].bodySide}

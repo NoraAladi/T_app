@@ -127,8 +127,8 @@ class ModalTreatments extends Component {
                                                         justifyContent: 'center', marginRight: 30
                                                     }}>
                                                         <Image source={{ uri: this.props.visit_details.doctor.personalPhoto }}
-                                                            style={{ width: 45, height: undefined, aspectRatio: 1 }}
-                                                            resizeMode='contain'
+                                                            style={{ width: 69, height: 69, borderRadius: 35,overflow:'hidden' }}
+                                                           // resizeMode='contain'
                                                         />
                                                     </View>
 

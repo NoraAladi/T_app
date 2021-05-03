@@ -286,16 +286,16 @@ class Visits extends Component {
 
 
                     </View>
-
-                </ScrollView>
-                <UserFooter tab={2} />
-                {
+                    {
                     this.state.Flag ?
                         <ModalAddUser
                             refreshKey={this.refreshKey}
                             setData={this.setData}
                             closeModel={() => this._close_model()} /> : null
                 }
+                </ScrollView>
+                <UserFooter tab={2} />
+              
             </View>
         );
 

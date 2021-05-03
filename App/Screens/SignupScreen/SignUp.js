@@ -41,7 +41,9 @@ class SignUp extends Component {
             createdUser_ID: 114,
             healthProfile: {},
             active: false,
-            empty: true
+            empty: true,
+
+            type:0
         };
     }
 
@@ -103,9 +105,8 @@ class SignUp extends Component {
                     response[3].confirmPassword,
                     response[11].isChecked == 'false' ? false : true
                 )
-
+              //  alert(this.props.id)
                 if (this.props.status == 200) {
-                    //alert(this.props.id)
 
                     this.setState({
                         createdUser_ID: this.props.id
@@ -173,7 +174,7 @@ class SignUp extends Component {
                     }, 2000);
                 }
                 else {
-                    this.toast.show('حدث مشكلة ، حاول مرة اخرى', 10000);
+                    this.toast.show('خطأ في النظام، الرجاء المحاولة مرة أخرى', 10000);
                 }
             })
 
@@ -335,7 +336,7 @@ class SignUp extends Component {
                         positionValue={this.state.tabSelected_1 ? -500 : g.windowHeight / 2}
                         fadeInDuration={120}
                         fadeOutDuration={1000}
-                        textStyle={{ fontFamily: g.Regular, fontSize: 16, }}
+                        textStyle={{ color: '#000',fontFamily: g.Regular, fontSize: 16, }}
                     />
                 </ScrollView>
             </KeyboardAvoidingView>
