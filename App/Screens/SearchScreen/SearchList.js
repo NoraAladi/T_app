@@ -235,17 +235,21 @@ class SearchList extends Component {
                                                 this.clickCard(item)
                                             }}>
                                                 <View style={[style.view_img, {
-                                                    backgroundColor:
-                                                        this.state.Title == g.DOCTOR_TITLE ? g.Samawe
+                                                    backgroundColor: '#fff',
+                                                    // borderWidth: .5,
+                                                    // borderColor:g.Light_Gray
+                                                    /**this.state.Title == g.DOCTOR_TITLE ? g.Samawe
+                                                        :
+                                                        this.state.Title == g.LAB_TITLE ? g.pink
                                                             :
-                                                            this.state.Title == g.LAB_TITLE ? g.pink
+                                                            this.state.Title == g.RAD_TITLE ? g.Peag
                                                                 :
-                                                                this.state.Title == g.RAD_TITLE ? g.Peag
-                                                                    :
-                                                                    g.Move
+                                                                g.Move */
                                                 }]}>
                                                     <Image source={{ uri: this.state.Title == g.DOCTOR_TITLE ? item.personalPhoto : item.logo }}
-                                                        style={{ width: 30, height: 30, marginTop: 0 }} />
+                                                        style={{ width: '99%', height: '99%', borderRadius: wp('50%'), overflow: 'hidden' }}
+                                                    // resizeMode='center'
+                                                    />
                                                 </View>
                                             </TouchableOpacity>
                                             <View>

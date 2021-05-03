@@ -110,6 +110,14 @@ class PatientCode extends Component {
 
                             }
                             else {
+                                //                             if (this.props.message == "redirecttoverify") {
+                                //     this.props.navigation.navigate('VerificationScreen',
+                                //         {
+                                //             'email': response[1].email,
+                                //             'fromLoginScreen': 'true'
+                                //         }
+                                //     )
+                                // }
                                 this.toast.show(this.props.message, 3000);
                             }
                             //
@@ -134,7 +142,7 @@ class PatientCode extends Component {
                     position='center'
                     fadeInDuration={120}
                     fadeOutDuration={1000}
-                    textStyle={{ color: '#000', fontFamily: g.Regular,fontSize: 16, }}
+                    textStyle={{ color: '#000', fontFamily: g.Regular, fontSize: 16, }}
                 />
             </View>
         );

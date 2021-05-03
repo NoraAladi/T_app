@@ -58,6 +58,11 @@ export default {
         fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, marginLeft: wp('15%'), width: wp('50%'),
         textAlign: 'right',
     },
+    txtx:
+    {
+        fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, 
+        textAlign: 'right',
+    },
 
     btn:
     {

@@ -230,7 +230,7 @@ class Reportes extends Component {
                                             <View
                                                 style={[VisitsStyle.date,
                                                 {
-                                                    backgroundColor: colors[index % colors.length],
+                                                    backgroundColor: item.reportType=='RAD'?g.Date1:g.Date3,
                                                     justifyContent: 'space-between',
                                                     height: hp('14')
                                                 }]}>

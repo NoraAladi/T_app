@@ -35,7 +35,9 @@ class myOrder extends Component {
             selectIndex: -1,
             orderId: -1,
             ModalAlert: false,
-            loadPagination: false
+            loadPagination: false,
+            refreshKey:true
+
 
         };
         this.page = 1
@@ -44,6 +46,9 @@ class myOrder extends Component {
         this.props.navigation.addListener('willFocus', async () => {
             this.page = 1
             await this.props.Get_MyOrder(1)
+            this.setState({
+                refreshKey: !this.state.refreshKey
+            })
         });
     }
     async _cancelOrder() {
@@ -71,7 +76,7 @@ class myOrder extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <Header title={g.REQUEST} />
+                <Header key={this.state.refreshKey} title={g.REQUEST} />
 
 
                 <View style={styles.height} />
@@ -285,7 +290,8 @@ class myOrder extends Component {
                     textStyle={{
                         fontFamily: g.Regular,
                         textAlign: 'center',
-                        fontSize: 16
+                        fontSize: 16,
+                        color:'#000'
                     }}
                 />
 
@@ -326,7 +332,7 @@ class myOrder extends Component {
                                     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null, fontSize: 16,
                                     textAlign: 'center',
                                 }}>
-                                    {'هل انت متأكد من إلغاء الطلب؟'}
+                                    {'هل أنت متأكد من إلغاء الطلب؟'}
                                 </Text>
                                 <Text style={{
                                     fontFamily: g.Regular, fontSize: 14,

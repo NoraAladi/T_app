@@ -52,9 +52,9 @@ class DealsModelScreen extends Component {
                         :
                         <View style={style.discountView}>
                             <View style={style.saleView}>
-                            <Text style={[style.sale, ]}>
-                                {this.props.offer_detail.discount}{g.DISCOUNT}</Text>
-</View>
+                                <Text style={[style.sale,]}>
+                                    {this.props.offer_detail.discount}{g.DISCOUNT}</Text>
+                            </View>
                             <Text style={[style.txt, style.txt3]}>
                                 {this.props.offer_detail.titleEn}
                             </Text>
@@ -79,7 +79,7 @@ class DealsModelScreen extends Component {
                             <View style={style.line} />
 
                             <View style={[style.viewBranch, { alignItems: 'center' }]}>
-                                <View style={[style.view1, style.enter2, { marginLeft: '25%' }]}>
+                                <View style={[style.view1, style.enter2, { marginLeft: '20%' }]}>
                                     <Text style={[style.username,
                                     style.txtIOS, { textAlign: 'right', marginTop: -15 }]}>
                                         {this.props.offer_detail.placeNameAR} </Text>
@@ -92,19 +92,15 @@ class DealsModelScreen extends Component {
                                     }  </Text>
                                 </View>
 
-                                <View style={{
-                                    marginLeft: 10,
-                                    justifyContent: 'center', alignItems: 'center',
-                                    borderColor: g.Light_Gray,
-                                    borderWidth: .5,
-                                    borderRadius: widthPercentageToDP('50'),
-                                    padding: 7,
-                                }}>
-                                    <FitImage
-                                        source={{ uri: this.props.offer_detail.placeLogo }}
-                                        style={style.fitImageWithSize}
-                                    />
-                                </View>
+
+                                <FitImage
+                                    source={{ uri: this.props.offer_detail.placeLogo }}
+                                    style={{
+                                        marginLeft: 10, borderRadius: 30, width: 60
+                                        , height: 60, overflow: 'hidden',
+                                        backgroundColor: '#fff',
+                                        elevation: 2
+                                    }} />
 
 
                             </View>
@@ -120,23 +116,23 @@ class DealsModelScreen extends Component {
             <View style={{ height: '100%' }}>
                 <BottomSheet
                     snapPoints={[Platform.OS == "ios" ? 650 : 500,
-                    Platform.OS == "ios" ? 750 : 600, Platform.OS == "ios" ? 750 : 500]}
+                    Platform.OS == "ios" ? 750 : 600, Platform.OS == "ios" ? 750 : 500, Platform.OS == "ios" ? 0 : 0]}
                     borderRadius={20}
                     renderContent={this.renderContent}
+                    onCloseEnd={() => { this.props.navigation.pop() }}
                 />
                 <View style={[style.view2]}>
                     <Image source={{ uri: this.props.offer_detail.imageEn }}
                         resizeMode='contain'
                         style={style.img} />
                     <View
-                        style={style.popModal}
+                        style={[style.popModal, { alignItems: 'center', justifyContent: 'center', paddingRight: 5 }]}
 
                         onStartShouldSetResponder={() => {
                             this.props.navigation.pop()
                         }} >
-                        <Text style={[style.title3]}> {this.state.Name}</Text>
                         <Icon name="arrowdown" type="AntDesign"
-                            style={[style.arrow, style.down]} />
+                            style={{ color: '#fff', fontSize: 20, }} />
                     </View>
                 </View>
 

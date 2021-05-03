@@ -87,14 +87,14 @@ class Forget extends Component {
                                         this.toast.show(this.props.forget, 10000);
 
                                     } else {
-                                        this.toast.show('The code has been sent successfully', 10000);
+                                        this.toast.show(this.props.forget.message, 4000);
 
                                         setTimeout(() => {
                                             this.props.navigation.navigate('VerificationScreen',
                                                 { 'email': this.state.email }
                                             )
 
-                                        }, 1000);
+                                        }, 3000);
 
                                     }
                                 }
@@ -106,11 +106,11 @@ class Forget extends Component {
 
                 <Toast
                     ref={(toast) => this.toast = toast}
-                    style={{ backgroundColor: g.toast }}
+                    style={{ backgroundColor: g.toast,width:'80%' }}
                     positionValue={g.windowHeight/2-100}
                     fadeInDuration={120}
                     fadeOutDuration={1000}
-                    textStyle={{ color: '#000', fontFamily: g.Regular, fontSize: 16, }}
+                    textStyle={{ color: '#000', fontFamily: g.Regular, fontSize: 16,textAlign:'center' }}
                 />
             </View>
 

@@ -41,7 +41,9 @@ class newUser extends Component {
             newUserID: 120,
             healthProfile: {},
             editID: 0,
-            activeBtn: false
+            activeBtn: false,
+
+            relationId: -1,
         };
     }
     componentDidMount() {
@@ -80,6 +82,7 @@ class newUser extends Component {
             'relation', 'jobName'])
             .then(async (response) => {
                 console.log(response)
+                this.setState({ relationId: parseInt(response[2].relation) })
                 if (this.props.navigation.getParam('edit') == 'edit' ||
                     this.props.navigation.getParam('patientCode')
                 ) {
@@ -328,6 +331,7 @@ class newUser extends Component {
                                 />
                                 : this.state.tabSelected_2 ?
                                     <MedicalData
+                                        relationId={this.state.relationId}
                                         dependentId={this.props.navigation.getParam('dependentId')}
                                         dependentCode={this.props.navigation.getParam('patientCode')}
                                     />
@@ -372,7 +376,7 @@ class newUser extends Component {
                         position='center'
                         fadeInDuration={120}
                         fadeOutDuration={1000}
-                        textStyle={{  fontFamily: g.Regular,fontSize: 16, }}
+                        textStyle={{ color: '#000', fontFamily: g.Regular, fontSize: 16, }}
                     />
                 </ScrollView>
             </KeyboardAvoidingView>

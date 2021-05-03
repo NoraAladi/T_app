@@ -104,6 +104,7 @@ class ModalCreateRequest extends Component {
 
                             <View style={style.view5}>
                                 <TextInput
+                                    multiline
                                     onChangeText={(val) => { this.setState({ additionalItems: val }) }}
                                     placeholder={'تفاصيل الطلب ...'}
                                     placeholderTextColor={g.Light_Gray}

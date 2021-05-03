@@ -131,7 +131,7 @@ class DispenseScreen extends Component {
                                                                     borderLeftColor: g.Blue, borderLeftWidth: 1, width: 45
                                                                 }} >
                                                                     <TouchableOpacity onPress={async () => {
-                                                                        if (item.quantity != 1) {
+                                                                        if (item.quantity >= 2) {
                                                                             await this.setState({
                                                                                 selectIndex: index,
 

@@ -35,8 +35,8 @@ class UserData extends Component {
             smoking: 0,
             married: 0,
             elevation: true,
-            pregnant: 0,
-            breastFeeding: 0,
+            pregnant: 1,
+            breastFeeding: 1,
             flag: true
         };
         AsyncStorage.getItem('gender').then(async (val) => {
@@ -58,6 +58,7 @@ class UserData extends Component {
 
     }
     async componentDidMount() {
+    //    alert('gender:'+this.props.gender+'\n'+'relatonId : '+this.props.relationId)
         if (this.props.dependentCode) {
             //call get Api
             await this.props.Get_Dependant_Health('dependentCode', this.props.dependentCode)
@@ -237,7 +238,8 @@ class UserData extends Component {
 
 
                         {/***حامل  */}
-                        {this.state.gender == 2 ?
+                        { this.props.relationId==2||this.props.relationId==5||this.props.gender == 2 
+                        ?
                             <View>
                                 <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
                                     {g.pregnant}
@@ -275,7 +277,7 @@ class UserData extends Component {
 
                                 <View>
                                     <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
-                                        {'هل انت مرضع ؟'}
+                                        {'هل أنت مرضع ؟'}
                                     </Text>
 
                                     <View style={{

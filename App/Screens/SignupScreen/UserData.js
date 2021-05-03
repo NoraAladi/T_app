@@ -93,7 +93,8 @@ class UserData extends Component {
             Terms: '',
 
             indexCity: 0,
-            indexCountry:0,
+            indexCountry: 0,
+            JobType:1,
             
         };
     }
@@ -139,7 +140,7 @@ class UserData extends Component {
         await AsyncStorage.setItem('date', String(moment().format('YYYY-MM-DD')))
         await AsyncStorage.setItem('gender', String(this.state.gender))
         await AsyncStorage.setItem('mobile', this.state.mobile)
-        await AsyncStorage.setItem('job', String(9))
+        await AsyncStorage.setItem('job', String(1))
         await AsyncStorage.setItem('region', String(this.state.regionId))
         await AsyncStorage.setItem('address', this.state.address)
         await AsyncStorage.setItem('isChecked', String(this.state.isChecked))
@@ -200,7 +201,7 @@ class UserData extends Component {
             }, 1000);
         }
         else {
-            this.toast.show('يجب إدخال جميع البيانات صحيحة', 10000);
+            this.toast.show('يجب إدخال جميع البيانات بطريقة صحيحة', 10000);
         }
 
     }
@@ -827,7 +828,7 @@ class UserData extends Component {
                     position={'center'}
                     fadeInDuration={120}
                     fadeOutDuration={1000}
-                    textStyle={{ fontFamily: g.Regular, fontSize: 16, }}
+                    textStyle={{ color: '#000',fontFamily: g.Regular, fontSize: 16, }}
                 />
 
                 <Modal
