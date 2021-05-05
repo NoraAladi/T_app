@@ -98,27 +98,29 @@ class PatientCode extends Component {
                             Keyboard.dismiss()
                             await this.props.Get_PatientCode(this.state.code, this.state.mobile)
                             if (this.props.status == 200) {
-                                this.toast.show(this.props.message, 3000);
-                                setTimeout(() => {
+                                if (this.props.patientCodeResponse.data.action == "redirecttoverify") {
+                                    console.log(this.props.patientCodeResponse.data.verificationCode)
+                                    this.props.navigation.navigate('VerificationScreen',
+                                        {
+                                            'fromLoginScreen': 'true',
+                                            'patientCode': this.state.code,
+                                            'email': this.props.patientCodeResponse.data.email
+                                        }
+                                    )
+                                }
+                                else {
                                     this.props.navigation.getParam('dependents') == 'dependents' ?
                                         this.props.navigation.navigate('NewUserScreen',
                                             { 'patientCode': this.state.code })
                                         :
                                         this.props.navigation.navigate('SignUpHaveCode',
                                             { 'patientCode': this.state.code })
-                                }, 3000);
-
+                                }
                             }
-                            else {
-                                //                             if (this.props.message == "redirecttoverify") {
-                                //     this.props.navigation.navigate('VerificationScreen',
-                                //         {
-                                //             'email': response[1].email,
-                                //             'fromLoginScreen': 'true'
-                                //         }
-                                //     )
-                                // }
-                                this.toast.show(this.props.message, 3000);
+                                else {
+                                    this.toast.show(this.props.message, 3000);
+                                
+                                //
                             }
                             //
 
@@ -154,6 +156,7 @@ const mapStateToProps = state => {
         status: state.patientCode.status,
         message: state.patientCode.message,
         loading: state.patientCode.loading,
+        patientCodeResponse:state.patientCode.patientCodeResponse
     }
 }
 

@@ -62,7 +62,7 @@ const Verification = ({ navigation }) => {
 
     const resend = async (email) => {
         await dispatch(await forget_pass({ email }))
-        toast.current.show('تم إرسال الكود مرة اخرى', 1000);
+        toast.current.show('تم إرسال الكود مرة اخرى', 3000);
     }
 
 
@@ -92,21 +92,21 @@ const Verification = ({ navigation }) => {
             console.log('---- Call Verification API ----');
             console.log(response.data);
             setLoader(false)
-            toast.current.show(response.data.message, 1000);
+            toast.current.show(response.data.message, 3000);
 
             setTimeout(() => {
                 navigation.navigate('EnterpassScreen', { 'token': value })
-            }, 1000);
+            }, 3000);
 
         } catch (error) {
             setLoader(false)
             console.log(error.response);
 
             if (error.response.data.message) {
-                toast.current.show(error.response.data.message, 1000);
+                toast.current.show(error.response.data.message, 3000);
             }
             else {
-                toast.current.show(error.response.data.errors.Token[0], 1000);
+                toast.current.show(error.response.data.errors.Token[0], 3000);
 
             }
         }
@@ -129,21 +129,28 @@ const Verification = ({ navigation }) => {
             console.log('---- Call Verification API ----');
             console.log(response.data);
             setLoader(false)
-            toast.current.show(response.data.message, 1000);
+            toast.current.show(response.data.message, 3000);
             if (navigation.getParam('fromLoginScreen') == 'true') {
+                if (navigation.getParam('patientCode'))
+                {
+                    setTimeout(() => {
+                        navigation.navigate('SignUpHaveCode',{ 'patientCode': navigation.getParam('patientCode') })
+                    }, 3000);
+                }
+                else
                 setTimeout(() => {
                     navigation.navigate('LoginScreen')
-                }, 1000);
+                }, 3000);
             }
             else {
                 setTimeout(() => {
                     navigation.navigate('ThankUScreen')
-                }, 1000);
+                }, 3000);
             }
         } catch (error) {
             setLoader(false)
             console.log(error.response);
-            toast.current.show(error.response.data.message, 1000);
+            toast.current.show(error.response.data.message, 3000);
         }
 
     }
