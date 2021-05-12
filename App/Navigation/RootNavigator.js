@@ -40,6 +40,7 @@ import MyOrderScreen from '../Screens/MyOrderScreen/myOrder';
 
 import SignUpHaveCode from '../Screens/SignupScreen/SignUpHaveCode';
 
+import Upload from '../Screens/LoginScreen/Upload';
 
 import SideBar from './SideBar';
 
@@ -48,7 +49,6 @@ const { height, width } = Dimensions.get("window");
 
 const Navigator = createStackNavigator({
 
- 
  HomeScreen:
  {
    screen: HomeScreen,

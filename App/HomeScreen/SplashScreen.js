@@ -15,9 +15,10 @@ class SplashScreen extends Component {
                 backgroundColor: '#fff',
                 width: '100%',
                 height: '100%',
-                alignItems:'center'
+                alignItems: 'center',
+                justifyContent: 'center',
             }}>
-                <Image source={require('../Images/SplashLogo.png')}
+                <Image source={require('../Images/splash.png')}
                     resizeMode={'center'}
                 />
             </View>

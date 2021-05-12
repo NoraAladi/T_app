@@ -81,9 +81,10 @@ class UserData extends Component {
                 sonName: this.props.dependantPersonal.fullNameAr,
                 realDate: moment(this.props.dependantPersonal.dateofBirth).format('YYYY-MM-DD'),
                 dateInAr: this.arabicDate(moment(this.props.dependantPersonal.dateofBirth).format('DD MMMM YYYY')),
-                jobName: this.props.dependantPersonal.profession,
-                relationId: this.props.dependantPersonal.relativeType.id,
-                relationName: this.props.dependantPersonal.relativeType.typeNameAR,
+                jobName: this.props.dependantPersonal.profession==null?'':this.props.dependantPersonal.profession,
+                relationId: this.props.dependantPersonal.relativeType==null?-1:this.props.dependantPersonal.relativeType.id,
+                relationName: this.props.dependantPersonal.relativeType==null?'اختر صلة القرابة':this.props.dependantPersonal.relativeType.typeNameAR,
+
 
             })
 
@@ -98,9 +99,9 @@ class UserData extends Component {
                 sonName: this.props.dependantPersonal.fullNameAr,
                 realDate: moment(this.props.dependantPersonal.dateofBirth).format('YYYY-MM-DD'),
                 dateInAr: this.arabicDate(moment(this.props.dependantPersonal.dateofBirth).format('DD MMMM YYYY')),
-                jobName: this.props.dependantPersonal.profession,
-                relationId: this.props.dependantPersonal.relativeType.id,
-                relationName: this.props.dependantPersonal.relativeType.typeNameAR,
+                jobName: this.props.dependantPersonal.profession==null?'':this.props.dependantPersonal.profession,
+                relationId: this.props.dependantPersonal.relativeType==null?-1:this.props.dependantPersonal.relativeType.id,
+                relationName: this.props.dependantPersonal.relativeType==null?'اختر صلة القرابة':this.props.dependantPersonal.relativeType.typeNameAR,
 
             })
             this.props.setID(this.props.dependantPersonal.id)

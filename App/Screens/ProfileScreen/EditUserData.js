@@ -64,8 +64,8 @@ var monthsEn = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
 var days = ["اﻷحد", "اﻷثنين", "الثلاثاء", "اﻷربعاء", "الخميس", "الجمعة", "السبت"];
 
 var radio_props = [
-    { label: g.INSIDE, value: 9 },
-    { label: g.OUTSIDE, value: 8 }
+    { label: g.INSIDE, value: 0 },
+    { label: g.OUTSIDE, value: 1 }
 ];
 
 
@@ -97,6 +97,7 @@ class EditUserData extends Component {
             cityNameArray: [],
             indexCountry: 0,
             indexCity: 0,
+            JobType:0
 
         };
     }
@@ -369,7 +370,7 @@ class EditUserData extends Component {
                                     }}>
                                         <RadioForm
                                             radio_props={radio_props}
-                                            initial={0}
+                                            initial={this.state.JobType}
                                             formHorizontal={true}
                                             labelHorizontal={true}
                                             buttonSize={11}
@@ -387,7 +388,7 @@ class EditUserData extends Component {
                                             animation={false}
                                             onPress={async (value) => {
                                                 this.setState({
-                                                    JobType: radio_props[value].label,
+                                                    JobType: value+1,
                                                 })
                                             }}
                                         />
@@ -528,7 +529,7 @@ class EditUserData extends Component {
                                             this.state.mobile,
                                             this.state.Jobname,
                                             //jobFieldId
-                                            1,
+                                            this.state.JobType,
                                             this.state.regionID,
                                             this.state.address,
                                             this.state.email,
