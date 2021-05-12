@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {
     Text, View, Image,
     FlatList,
-    ActivityIndicator,
+    ActivityIndicator,Linking
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -99,13 +99,16 @@ class Jobs extends Component {
                                                 justifyContent: 'center'
                                             }]} >
                                                 <Image source={{ uri: item.placeLogo }}
-                                                   // resizeMode={'contain'}
+                                                    // resizeMode={'contain'}
                                                     // style={{
                                                     //     width: 60, height: 60,
                                                     // }}
-                                                  style=  {{ width: '65%',
-                                                  height: undefined,
-                                                  aspectRatio: 1}} 
+                                                    style={{
+                                                        width: 75,
+                                                        height: 75,
+                                                        borderRadius: 50
+                                                        , overflow: 'hidden'
+                                                    }}
                                                 />
                                             </View>
 
@@ -122,6 +125,11 @@ class Jobs extends Component {
                                                     {item.descriptionEn}
                                                 </Text>
 
+                                                <Text
+                                                    onPress={()=>{Linking.openURL(`mailto:?to=${item.contactEmail}`);}}
+                                                    style={[styles.txtBold, { fontSize: 13, color: g.Blue }]}>
+                                                            {item.contactEmail}
+                                                        </Text>
                                                 <View style={{
                                                     flexDirection: 'row-reverse',
                                                     // paddingHorizontal: 88,
@@ -129,22 +137,14 @@ class Jobs extends Component {
                                                     <View style={{ width: wp('20') }}>
                                                         <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5 }]}>
                                                             المرتب
-                                        </Text>
+                                                        </Text>
 
                                                         <Text style={[styles.txtBold, { fontSize: 15 }]}>
                                                             {item.salary}
                                                         </Text>
                                                     </View>
 
-                                                    <View style={{ width: wp('40') }}>
-                                                        <Text style={[styles.txt, { color: g.Light_Gray, marginTop: 5 }]}>
-                                                            التواصل
-                                        </Text>
-
-                                                        <Text style={[styles.txtBold, { fontSize: 15 }]}>
-                                                            {item.contactEmail}
-                                                        </Text>
-                                                    </View>
+                                                    
 
                                                 </View>
 

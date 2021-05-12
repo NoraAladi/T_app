@@ -40,9 +40,9 @@ class EditMedicalData extends Component {
             weight: 0,
             height: 0,
 
-            smoking: radio_props_one[1].value,
-            married: radio_props_two[1].value,
-            pregnant: radio_props_three[1].value,
+            smoking: 1,
+            married: 1,
+            pregnant: 1,
             breastFeeding: 1,
 
             healthProfile: {},

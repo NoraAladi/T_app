@@ -127,8 +127,8 @@ class ModalTreatments extends Component {
                                                         justifyContent: 'center', marginRight: 30
                                                     }}>
                                                         <Image source={{ uri: this.props.visit_details.doctor.personalPhoto }}
-                                                            style={{ width: 69, height: 69, borderRadius: 35,overflow:'hidden' }}
-                                                           // resizeMode='contain'
+                                                            style={{ width: 69, height: 69, borderRadius: 35, overflow: 'hidden' }}
+                                                        // resizeMode='contain'
                                                         />
                                                     </View>
 
@@ -215,31 +215,35 @@ class ModalTreatments extends Component {
                                                 <View style={{ marginLeft: 'auto', paddingHorizontal: 40 }}>
                                                     {/**light title */}
                                                     <Text style={[VisitsStyle.txt, {
-                                                        fontSize: 12, color: g.Light_Gray,marginLeft:'auto'
+                                                        fontSize: 12, color: g.Light_Gray, marginLeft: 'auto'
                                                     }]}>
                                                         {'روشتة العلاج'}
                                                     </Text>
                                                     {/**Dark Details */}
-                                                    <Text style={[VisitsStyle.txt,{marginLeft:0}]}
+                                                    <Text style={[VisitsStyle.txt, { marginLeft: 0 }]}
                                                     >
                                                         {this.props.visit_details.prescriptionMedicine == '' ? 'لا يوجد' :
 
                                                             this.props.visit_details.prescriptionMedicine.map((item, index) => {
                                                                 return (
                                                                     <>
-                                                                    <Text style={[VisitsStyle.txt]}
-                                                                        key={index} >
-                                                                        {
-                                                                            item.medicine.medicineName + '\n' +
-                                                                            'ــ ' + item.doze + ' ' +
-                                                                            item.prescribedMedicineRoute.medicineRouteAR + ' كل ' +
-                                                                            item.prescribedMedicineFrequency.frequencyNameAR + ' ' +
-                                                                            item.prescribedMedicineFoodCondition.foodConditionAR + ' لمدة ' +
-                                                                            item.prescribedMedicineDuration.medicineDuration + ' يوم' + '\n\n'
+                                                                        <Text style={[VisitsStyle.txt]}
+                                                                            key={index} >
+                                                                            {item.medicine.medicineName + '\n'}
+                                                                            {item.doze == null ? '' : 'ــ ' + item.doze + ' '}
+                                                                            {
 
-                                                                        }
+                                                                                item.prescribedMedicineRoute == null || item.prescribedMedicineFrequency == null ||
+                                                                                    item.prescribedMedicineFoodCondition == null || item.prescribedMedicineDuration == null
+                                                                                    ? '' :
+                                                                                    item.prescribedMedicineRoute.medicineRouteAR
+                                                                                    + ' كل ' + item.prescribedMedicineFrequency.frequencyNameAR + ' ' +
+                                                                                    item.prescribedMedicineFoodCondition.foodConditionAR
+                                                                                    + ' لمدة ' + item.prescribedMedicineDuration.medicineDuration + ' يوم' + '\n\n'
+
+                                                                            }
                                                                         </Text>
-                                                                        </>
+                                                                    </>
                                                                 );
                                                             })
                                                         }

@@ -48,8 +48,8 @@ export default {
 
   img:
   {
-    width: 88, height: 88,
-    borderRadius: 44,borderWidth: .5,borderColor: '#00000020',
+    width: 75, height: 75,
+    borderRadius: 50,borderWidth: .5,borderColor: '#00000020',
   },
 
   txt: {
