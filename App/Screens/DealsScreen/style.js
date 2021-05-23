@@ -10,7 +10,7 @@ export default {
   },
   container:
   {
-    flexDirection: 'row', alignItems: 'center',
+    flexDirection: 'row-reverse', alignItems: 'center',
     backgroundColor: g.white,
     elevation: 4,
     shadowOffset: {
@@ -297,8 +297,7 @@ export default {
     height: g.windowHeight - 55
   },
   flag: {
-    flexDirection: 'row',
-   // margin: 20
+    flexDirection: 'row-reverse',    // margin: 20
   },
   imageLogo: {
     width: 75,

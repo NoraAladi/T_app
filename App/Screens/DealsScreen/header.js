@@ -90,7 +90,7 @@ class header extends Component {
                             style={style.arrow} />
 
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => {
+                    <TouchableOpacity style={{ flexDirection: 'row-reverse', alignItems: 'center' }} onPress={() => {
                         this.props.navigation.navigate('ProfileScreen')
                     }}>
                         <FitImage
@@ -104,13 +104,14 @@ class header extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
+
                 {this.props.title == 'لوجو' ?
                     <FitImage source={require('../../Images/logo.png')}
                         style={{ width: 90, height: 55 }}
                         resizeMode='center'
                     />
                     :
-                    <Text style={style.offer}>{this.props.title}</Text>
+                    <Text style={[style.offer,{marginLeft:0}]}>{this.props.title}</Text>
                 }
                 {
                     this.state.Flag ?

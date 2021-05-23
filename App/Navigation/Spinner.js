@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
-import { UIActivityIndicator } from 'react-native-indicators';
-import g from '../Gloabal';
+//import { UIActivityIndicator } from 'react-native-indicators';
+import { View, Image } from 'react-native';
 
 class Spinner extends Component {
 
     render() {
         return (
-        <UIActivityIndicator color={this.props.color?this.props.color:g.Bold_blue} size={28}  style = {{ marginTop : 10 }}/>
+            <View style={{
+                // backgroundColor: '#fff',
+               
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}>
+                <Image source={require('../Images/AnimatedLogo.gif')}
+                    style={{width:50,height:50}}
+                    resizeMode={'center'}
+                />
+            </View>
         );
 
     }
 }
-export default  Spinner ;
+export default Spinner;
+    //    <UIActivityIndicator color={this.props.color?this.props.color:g.Bold_blue} size={28}  style = {{ marginTop : 10 }}/>

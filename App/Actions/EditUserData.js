@@ -20,6 +20,16 @@ export const Edit_UserData = (
 
         dispatch({ type: 'EDIT_USER_DATA_ATTEMPT' });
         try {
+            console.log('id:'+ id+'\n'+
+                'fullNameAr : '+ fullNameAr+'\n'+
+                'dateofBirth : '+ dateofBirth+'\n'+
+                'gender : '+ gender+'\n'+
+                'mobileNumber : '+ mobileNumber+'\n'+
+                'profession : '+ profession+'\n'+
+                'jobFieldId : '+ jobFieldId+'\n'+
+                'cityId : '+ cityId+'\n'+
+                'addressDetails : '+ addressDetails+'\n'+
+                'email : ' + email);
             // alert( 'id:'+ id+'\n'+
             //     'fullNameAr : '+ fullNameAr+'\n'+
             //     'dateofBirth : '+ dateofBirth+'\n'+
