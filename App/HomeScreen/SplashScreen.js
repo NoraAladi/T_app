@@ -18,7 +18,7 @@ class SplashScreen extends Component {
                 alignItems: 'center',
                 justifyContent: 'center',
             }}>
-                <Image source={require('../Images/splash.png')}
+                <Image source={require('../Images/AnimatedLogo.gif')}
                     resizeMode={'center'}
                 />
             </View>

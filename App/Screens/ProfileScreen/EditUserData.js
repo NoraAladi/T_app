@@ -97,7 +97,8 @@ class EditUserData extends Component {
             cityNameArray: [],
             indexCountry: 0,
             indexCity: 0,
-            JobType:0
+            JobType: 1,
+            loading: true
 
         };
     }
@@ -112,10 +113,11 @@ class EditUserData extends Component {
             await this.props.Get_USER_DATA(ID)
         }
 
-
         await this.setState({
             fullName: this.props.user_d.fullNameAr,
             email: this.props.user_d.email,
+            JobType: this.props.user_d.jobFieldId,
+
             mobile: this.props.user_d.mobileNumber,
             address: this.props.user_d.location.street,
             realDate: this.props.user_d.dateofBirth.split('T')[0],
@@ -129,7 +131,6 @@ class EditUserData extends Component {
             sexID: this.props.user_d.gender,
             sex: this.props.user_d.gender == 1 ? g.MALE : g.FAMLE,
 
-            
         })
         await this.props.Get_Country()
         await this.props.Get_City(this.state.countryID)
@@ -145,6 +146,7 @@ class EditUserData extends Component {
         this.setState({
             indexCountry: this.props.countries.map(function (x) { return x.id; }).indexOf(this.state.countryID),
             indexCity: this.props.cities.map(function (x) { return x.id; }).indexOf(this.state.regionID)
+            , loading: false
 
 
         })
@@ -172,7 +174,7 @@ class EditUserData extends Component {
                     keyboardVerticalOffset={Platform.OS === "ios" ? 64 : -(g.windowHeight)}>
 
                     {
-                        this.props.loading ?
+                        this.state.loading ?
                             <View style={{ marginTop: hp('35%') }} >
                                 <Spinner />
                             </View>
@@ -370,7 +372,7 @@ class EditUserData extends Component {
                                     }}>
                                         <RadioForm
                                             radio_props={radio_props}
-                                            initial={this.state.JobType}
+                                            initial={this.state.JobType - 1}
                                             formHorizontal={true}
                                             labelHorizontal={true}
                                             buttonSize={11}
@@ -388,7 +390,7 @@ class EditUserData extends Component {
                                             animation={false}
                                             onPress={async (value) => {
                                                 this.setState({
-                                                    JobType: value+1,
+                                                    JobType: value + 1,
                                                 })
                                             }}
                                         />
@@ -434,7 +436,7 @@ class EditUserData extends Component {
                                                 countryID: this.props.countries[selectedIndex].id,
                                                 country: data,
                                                 indexCountry: selectedIndex,
-                                                indexCity:0
+                                                indexCity: 0
                                             })
                                             await this.props.Get_City(this.props.countries[selectedIndex].id)
                                             this.setState({
@@ -488,7 +490,7 @@ class EditUserData extends Component {
                                             this.setState({
                                                 regionID: this.props.cities[selectedIndex].id,
                                                 region: data,
-                                                indexCity:selectedIndex
+                                                indexCity: selectedIndex
                                             })
 
                                         }}
@@ -537,12 +539,12 @@ class EditUserData extends Component {
                                         if (this.props.status == 200) {
                                             AsyncStorage.setItem('userAddress', String(this.state.address + ' ' + this.state.region + ' ' + this.state.country))
                                             this.toast.show('تم تعديل البيانات الشخصية بنجاح', 3000);
-                                             this.props.Get_Dependants()
-                                             const dependentId = await AsyncStorage.getItem('dependentId')
+                                            this.props.Get_Dependants()
+                                            const dependentId = await AsyncStorage.getItem('dependentId')
                                             if (dependentId) { }
                                             else
                                                 AsyncStorage.setItem('patientName', this.state.fullName)
-                                                AsyncStorage.setItem('patientNameEdit',this.state.fullName)
+                                            AsyncStorage.setItem('patientNameEdit', this.state.fullName)
 
                                         }
                                         else {
@@ -588,5 +590,5 @@ const mapStateToProps = state => {
 
     }
 }
-export default connect(mapStateToProps, { Get_USER_DATA, Get_Country, Get_City, Edit_UserData ,Get_Dependants})(withNavigation(EditUserData));
+export default connect(mapStateToProps, { Get_USER_DATA, Get_Country, Get_City, Edit_UserData, Get_Dependants })(withNavigation(EditUserData));
 

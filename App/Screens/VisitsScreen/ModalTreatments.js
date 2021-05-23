@@ -229,19 +229,14 @@ class ModalTreatments extends Component {
                                                                     <>
                                                                         <Text style={[VisitsStyle.txt]}
                                                                             key={index} >
-                                                                            {item.medicine.medicineName + '\n'}
-                                                                            {item.doze == null ? '' : 'ــ ' + item.doze + ' '}
-                                                                            {
+                                                                            { item.medicine.medicineName + '\n'}
+                                                                            {item.doze == null ? '' : 'ــ' + item.doze + ' '}
+                                                                            {item.prescribedMedicineRoute == null ? '' : item.prescribedMedicineRoute.medicineRouteAR}
+                                                                            {item.prescribedMedicineFrequency == null ? '' : ' كل ' + item.prescribedMedicineFrequency.frequencyNameAR + ' ' }
 
-                                                                                item.prescribedMedicineRoute == null || item.prescribedMedicineFrequency == null ||
-                                                                                    item.prescribedMedicineFoodCondition == null || item.prescribedMedicineDuration == null
-                                                                                    ? '' :
-                                                                                    item.prescribedMedicineRoute.medicineRouteAR
-                                                                                    + ' كل ' + item.prescribedMedicineFrequency.frequencyNameAR + ' ' +
-                                                                                    item.prescribedMedicineFoodCondition.foodConditionAR
-                                                                                    + ' لمدة ' + item.prescribedMedicineDuration.medicineDuration + ' يوم' + '\n\n'
+                                                                            {item.prescribedMedicineFoodCondition == null ? '' : item.prescribedMedicineFoodCondition.foodConditionAR}
+                                                                            {item.prescribedMedicineDuration == null ? '' : ' لمدة ' + item.prescribedMedicineDuration.medicineDuration + ' يوم' + '\n\n'}
 
-                                                                            }
                                                                         </Text>
                                                                     </>
                                                                 );

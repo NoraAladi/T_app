@@ -117,13 +117,13 @@ class Visits extends Component {
                     elevation: this.state.elevation ? 3 : 0
                 }]}>
                     <View style={{
-                        flexDirection: 'row',
+                        flexDirection: 'row-reverse',
                         justifyContent: 'space-between',
                         width: g.windowWidth,
                         paddingHorizontal: 25,
                         alignItems: 'center', marginTop: -5
                     }}>
-                        <View style={{ flexDirection: 'row', marginTop: 20, }}>
+                        <View style={{ flexDirection: 'row-reverse', marginTop: 20, }}>
                             <TouchableOpacity onPress={() => {
                                 this.setState({
                                     Flag: true
@@ -133,7 +133,7 @@ class Visits extends Component {
                                 <Icon name="arrow-drop-down" type="MaterialIcons"
                                     style={headerStyle.arrow} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => {
+                            <TouchableOpacity style={{ flexDirection: 'row-reverse' }} onPress={() => {
                                 this.props.navigation.navigate('ProfileScreen')
                             }}>
                                 <FitImage
