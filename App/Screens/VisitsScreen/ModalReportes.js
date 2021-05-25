@@ -17,6 +17,7 @@ export default class ModalReportes extends Component {
         };
     }
     componentDidMount() {
+        console.log(this.props.reportDetails);
     }
     renderListHeader = () => {
         return (
@@ -324,89 +325,98 @@ export default class ModalReportes extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <FlatList
-                    ListFooterComponent={() => { return (<View style={{ height: 50 }} />) }}
-                    ListHeaderComponent={this.renderListHeader}
-                    key={(item) => { item.id }}
-                    nestedScrollEnabled
-                    data={this.props.reportDetails}
-                    renderItem={({ item, index }) => (
-                        <TouchableOpacity activeOpacity={1} >
+                {this.props.reportDetails=='' ? null :
+                    <>
+                        <FlatList
+                            ListFooterComponent={() => { return (<View style={{ height: 50 }} />) }}
+                            ListHeaderComponent={this.renderListHeader}
+                            key={(item) => { item.id }}
+                            nestedScrollEnabled
+                            data={this.props.reportDetails}
+                            renderItem={({ item, index }) => (
+                                <TouchableOpacity activeOpacity={1} >
 
 
-                            {/**content */}
+                                    {/**content */}
 
-                            {/**light title */}
-                            <Text style={[VisitsStyle.txt, {
-                                fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40,
-                            }]}>
-                                {g.Required_analysis}
-                            </Text>
-
-                            {/**Dark Details */}
-                            <Text style={[VisitsStyle.txt, {
-                                fontSize: 16, marginLeft: 'auto', paddingHorizontal: 40, width: wp('80')
-                            }]}>
-                                {item.reportName}
-                            </Text>
-
-
-                            {this.props.typeOfReport == 'MIC' ? null :
-                                <View
-                                    style={{
-                                        width: '80%', paddingVertical: 15, margin: 0,
-                                        borderRadius: 7, marginLeft: 'auto', marginRight: 'auto'
-                                    }}>
-                                    <Text style={{ fontFamily: g.Regular, paddingHorizontal: 5, textAlign: 'right' }}>
-                                        {this.props.reportDetails[0].bodySide == null ? 'null' : this.props.reportDetails[0].bodySide}
+                                    {/**light title */}
+                                    <Text style={[VisitsStyle.txt, {
+                                        fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40,
+                                    }]}>
+                                        {g.Required_analysis}
                                     </Text>
 
-                                </View>}
-                            {/**light title */}
-                            <Text style={[VisitsStyle.txt, {
-                                fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40,
-                            }]}>
-                                {g.RESULTS}
-                            </Text>
-
-
-                            <View style={{
-                                flexDirection: 'row-reverse',
-                                paddingHorizontal: 40,
-                            }}>
-
-                                <View style={{ alignItems: 'center', justifyContent: 'center', padding: 10, }}>
-                                    {item.attachment != '' ?
-                                        <TouchableOpacity onPress={() => {
-                                            Linking.openURL(item.attachment.attachment)
-                                        }}>
-                                            <FitImage source={{ uri: 'https://www.valterlongo.com/wp-content/uploads/2019/08/pdf-icon.png' }}
-                                                style={{ width: 60, height: 80 }}
-                                            />
-                                        </TouchableOpacity>
-                                        : null}
-                                    <Text style={[VisitsStyle.normalTxt, { color: g.Blue }]}>
+                                    {/**Dark Details */}
+                                    <Text style={[VisitsStyle.txt, {
+                                        fontSize: 16, marginLeft: 'auto', paddingHorizontal: 40, width: wp('80')
+                                    }]}>
                                         {item.reportName}
                                     </Text>
-                                </View>
 
-                            </View>
 
-                            <View style={{
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                width: g.windowWidth
-                            }}>
-                                <View style={{
-                                    backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
-                                    marginTop: 10, marginBottom: 10,
-                                }} />
-                            </View>
-                            <View style={{ height: 15 }}></View>
+                                    {this.props.typeOfReport == 'MIC' ? null :
+                                        <View
+                                            style={{
+                                                width: '80%', paddingVertical: 15, margin: 0,
+                                                borderRadius: 7, marginLeft: 'auto', marginRight: 'auto'
+                                            }}>
+                                            <Text style={{ fontFamily: g.Regular, paddingHorizontal: 5, textAlign: 'right' }}>
+                                                {this.props.reportDetails[0].bodySide == null ? 'null' : this.props.reportDetails[0].bodySide}
+                                            </Text>
 
-                        </TouchableOpacity>
+                                        </View>}
+                                    {/**light title */}
+                                    <Text style={[VisitsStyle.txt, {
+                                        fontSize: 12, color: g.Light_Gray, marginLeft: 'auto', paddingHorizontal: 40,
+                                    }]}>
+                                        {g.RESULTS}
+                                    </Text>
 
-                    )} />
+
+                                    <View style={{
+                                        flexDirection: 'row-reverse',
+                                        paddingHorizontal: 40,
+                                    }}>
+
+                                        <View style={{ alignItems: 'center', justifyContent: 'center', padding: 10, }}>
+                                            {item.attachment == null ?
+                                                <Text style={[VisitsStyle.txtx, { marginLeft: wp('55%') }]} >
+                                                لا يوجد بيانات
+                                            </Text>
+                                                :<>   
+                                                 <TouchableOpacity onPress={() => {
+                                                    Linking.openURL(item.attachment.attachment)
+                                                }}>
+                                                    <FitImage source={{ uri: 'https://www.valterlongo.com/wp-content/uploads/2019/08/pdf-icon.png' }}
+                                                        style={{ width: 60, height: 80 }}
+                                                    />
+                                                </TouchableOpacity>
+                                            <Text style={[VisitsStyle.normalTxt, { color: g.Blue }]}>
+                                                {item.reportName}
+                                            </Text>
+                                            </>
+                                            }
+                                        </View>
+
+                                    </View>
+
+                                    <View style={{
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: g.windowWidth
+                                    }}>
+                                        <View style={{
+                                            backgroundColor: g.Light_Gray, width: g.windowWidth - 80, height: 1,
+                                            marginTop: 10, marginBottom: 10,
+                                        }} />
+                                    </View>
+                                    <View style={{ height: 15 }}></View>
+
+                                </TouchableOpacity>
+
+                            )} />
+                    </>
+                }
             </View>
 
         );
