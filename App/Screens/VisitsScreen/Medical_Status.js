@@ -396,31 +396,38 @@ class Visit extends Component {
                                         fontSize: 16, color: g.Gray, marginRight: 0,
                                     }]}>لا يوجد بيانات</Text>
                                     :
-                                    <ScrollView nestedScrollEnabled scrollEnabled>
-                                        {this.state.HealthProfilePrescribedMedicines.map(item => {
-                                            return (
-                                                <View style={{
-                                                    width: '100%', marginLeft: 'auto',
-                                                    justifyContent: 'space-between', paddingHorizontal: 25,
-                                                    flexDirection: 'row-reverse', paddingVertical: 5,
-                                                }}>
-                                                    <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Gray }}>
-                                                        {item.medicineName}
-                                                    </Text>
-                                                    <View style={{ flexDirection: 'row-reverse' }}>
-                                                        <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Gray }}>
-                                                            {'بتاريخ     '}
-                                                        </Text>
-                                                        <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Blue }}>
-                                                            {
-                                                                ArabicNumbers(moment(item.created).format('YYYY/MM/DD'))
-                                                            }
-                                                        </Text>
-                                                    </View>
-                                                </View>
-                                            )
-                                        })}
-                                    </ScrollView>
+                                    <View >
+                                        <ScrollView
+                                            nestedScrollEnabled
+                                            scrollEnabled
+                                            >
+                                            <TouchableOpacity activeOpacity={1}>
+                                                {this.state.HealthProfilePrescribedMedicines.map(item => {
+                                                    return (
+                                                        <View style={{
+                                                            width: '100%', marginLeft: 'auto',
+                                                            justifyContent: 'space-between', paddingHorizontal: 25,
+                                                            flexDirection: 'row-reverse', paddingVertical: 5,
+                                                        }}>
+                                                            <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Gray }}>
+                                                                {item.medicineName}
+                                                            </Text>
+                                                            <View style={{ flexDirection: 'row-reverse' }}>
+                                                                <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Gray }}>
+                                                                    {'بتاريخ     '}
+                                                                </Text>
+                                                                <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Blue }}>
+                                                                    {
+                                                                        ArabicNumbers(moment(item.created).format('YYYY/MM/DD'))
+                                                                    }
+                                                                </Text>
+                                                            </View>
+                                                        </View>
+                                                    )
+                                                })}
+                                            </TouchableOpacity>
+                                        </ScrollView>
+                                    </View>
                             }
 
                         </View>
