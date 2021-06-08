@@ -23,7 +23,7 @@ export default {
   },
   arrow:
   {
-    fontSize: 22, width: 30, marginTop: hp('2%')
+    fontSize: 30, marginLeft: 5, marginTop: hp('1.5%')
   },
 
   userimg:
@@ -54,6 +54,11 @@ export default {
   offer:
   {
     textAlign: 'center', marginLeft: wp('20%'), fontSize: 20,
+    fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
+
+  },
+  headerText: {
+    fontSize: 20,position: 'absolute',top:10,right:20,
     fontFamily: Platform.OS == "android" ? g.Bold : g.Regular, fontWeight: Platform.OS == "ios" ? "800" : null,
 
   },

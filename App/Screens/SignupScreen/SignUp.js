@@ -24,6 +24,7 @@ import { completeRegister } from '../../Actions/completeregister_newpatient_Acti
 
 import { connect } from 'react-redux'
 import Toast from 'react-native-easy-toast'
+import Spinner from '../../Navigation/Spinner';
 
 
 class SignUp extends Component {
@@ -322,9 +323,9 @@ class SignUp extends Component {
                                     position: 'absolute',
                                     width: g.windowWidth,
                                     height: g.windowHeight,
+                                    alignItems:'center',justifyContent:'center'
                                 }}>
-                                <UIActivityIndicator color={g.Bold_blue} size={28}
-                                />
+                               <Spinner/>
                             </View>
                         </Modal>
 

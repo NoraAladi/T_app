@@ -83,6 +83,8 @@ class UserData extends Component {
                 smoking: this.props.dependantHealth.smoker == true ? 0 : 1,
                 married: this.props.dependantHealth.married == true ? 0 : 1,
                 pregnant: this.props.dependantHealth.healthProfile.pregnant == true ? 0 : 1,
+                breastFeeding: this.props.dependantHealth.healthProfile.breastFeeding == true ? 0 : 1,
+
 
             })
         }
@@ -239,7 +241,7 @@ class UserData extends Component {
 
                         {/***حامل  */}
                         { this.props.relationId==2||this.props.relationId==5||this.props.gender == 2 
-                        ?
+                       || this.props.dependantHealth.gender==2 ?
                             <View>
                                 <Text style={[styles.login, { marginTop: hp('2'), fontSize: 18, }]}>
                                     {g.pregnant}

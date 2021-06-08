@@ -13,7 +13,7 @@ class Spinner extends Component {
                 justifyContent: 'center',
             }}>
                 <Image source={require('../Images/AnimatedLogo.gif')}
-                    style={{width:50,height:50}}
+                    style={{width:50,height:50,marginTop:this.props.top?this.props.top:null}}
                     resizeMode={'center'}
                 />
             </View>
