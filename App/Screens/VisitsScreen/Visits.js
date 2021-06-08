@@ -21,6 +21,7 @@ import Reportes from './Reportes';
 import Modal from 'react-native-modalbox';
 import ModalAddUser from '../../Navigation/ModalAddUser';
 import FitImage from 'react-native-fit-image';
+import Spinner from '../../Navigation/Spinner';
 class Visits extends Component {
     constructor(props) {
         super(props);
@@ -120,7 +121,7 @@ class Visits extends Component {
                         flexDirection: 'row-reverse',
                         justifyContent: 'space-between',
                         width: g.windowWidth,
-                        paddingHorizontal: 25,
+                        paddingHorizontal: 10,
                         alignItems: 'center', marginTop: -5
                     }}>
                         <View style={{ flexDirection: 'row-reverse', marginTop: 20, }}>
@@ -279,8 +280,7 @@ class Visits extends Component {
                                     width: g.windowWidth,
                                     height: g.windowHeight,
                                 }}>
-                                <UIActivityIndicator color={g.Bold_blue} size={28}
-                                />
+                               <Spinner/>
                             </View>
                         </Modal>
 

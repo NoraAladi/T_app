@@ -7,11 +7,8 @@ import {
 import React, { useState, useEffect, useRef } from 'react';
 import { withNavigation } from "react-navigation";
 import G from '../../Gloabal';
-import {
 
-    UIActivityIndicator,
-} from 'react-native-indicators';
-
+import Spinner from '../../Navigation/Spinner';
 import {
     CodeField,
     Cursor,
@@ -254,8 +251,8 @@ const Verification = ({ navigation }) => {
                         </View>
 
                     }
-                    {loader ? <UIActivityIndicator color={NOT_EMPTY_CELL_BG_COLOR} size={30}
-                        style={styles.spinner} /> : null}
+                    {loader ?
+                        <Spinner top={50} /> : null}
 
                     <Toast
                         ref={toast}

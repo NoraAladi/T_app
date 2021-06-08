@@ -409,7 +409,9 @@ class Visit extends Component {
                                                             justifyContent: 'space-between', paddingHorizontal: 25,
                                                             flexDirection: 'row-reverse', paddingVertical: 5,
                                                         }}>
-                                                            <Text style={{ textAlign: 'right', fontFamily: g.Regular, color: g.Gray }}>
+                                                            <Text style={{
+                                                                textAlign: 'right', fontFamily: g.Regular, color: g.Gray,
+                                                            width:'60%'}}>
                                                                 {item.medicineName}
                                                             </Text>
                                                             <View style={{ flexDirection: 'row-reverse' }}>

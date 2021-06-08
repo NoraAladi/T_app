@@ -72,8 +72,8 @@ class header extends Component {
         return (
             <View
                 style={[style.container, {
-                    justifyContent: 'space-between', width: '100%',
-                    paddingHorizontal: 25,
+                     width: '100%',
+                    paddingHorizontal: 10,
                     paddingBottom: 15,
                     paddingTop:10
                 }]}>
@@ -107,11 +107,11 @@ class header extends Component {
 
                 {this.props.title == 'لوجو' ?
                     <FitImage source={require('../../Images/logo.png')}
-                        style={{ width: 90, height: 55 }}
+                        style={{ width: 90, height: 55,position: 'absolute',top:10,right:20, }}
                         resizeMode='center'
                     />
                     :
-                    <Text style={[style.offer,{marginLeft:0}]}>{this.props.title}</Text>
+                    <Text style={[style.headerText]}>{this.props.title}</Text>
                 }
                 {
                     this.state.Flag ?
@@ -120,7 +120,6 @@ class header extends Component {
                         /> : null
                 }
             </View>
-
         );
 
     }

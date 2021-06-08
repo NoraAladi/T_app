@@ -63,10 +63,10 @@ class OnBoard extends Component {
                 <ScrollView
                     showsHorizontalScrollIndicator={false
                     }>
-                    <View style={{ flexDirection: 'row-reverse',marginLeft:15 }}>
+                    <View style={{ flexDirection: 'row-reverse',marginLeft:5 }}>
                         <Image source={require('../Images/logo.png')}
                             style={styles.logoSize}
-                            resizeMode='center'
+                          //  resizeMode='center'
                         />
                     </View>
 

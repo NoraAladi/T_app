@@ -26,6 +26,7 @@ import { Put_DependentHealth } from '../../Actions/Put_DependentHealth_Action';
 
 import { connect } from 'react-redux'
 import Toast, { DURATION } from 'react-native-easy-toast'
+import Spinner from '../../Navigation/Spinner';
 
 class newUser extends Component {
     constructor(props) {
@@ -161,7 +162,7 @@ class newUser extends Component {
                             this.state.editID :
                             this.state.newUserID,
                         pregnant: response[4].pregnant == '0' ? true : false,
-                        breastFeeding: response[5].pregnant == '0' ? true : false,
+                        breastFeeding: response[5].breastFeeding == '0' ? true : false,
 
                     }
                 })
@@ -362,9 +363,10 @@ class newUser extends Component {
                                     position: 'absolute',
                                     width: g.windowWidth,
                                     height: g.windowHeight,
+                                    alignItems:'center',justifyContent:'center'
                                 }}>
-                                <UIActivityIndicator color={g.Bold_blue} size={28}
-                                />
+                                <Spinner />
+                               
                             </View>
                         </Modal>
 
