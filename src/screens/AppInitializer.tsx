@@ -8,17 +8,17 @@ import Geolocation from "@react-native-community/geolocation";
 import {saveCurrentLocation} from "../store/actions/address";
 
 const AppInitializer: FC = () => {
-  const appLoaded = useSelector((state: RootState) => state.settings.appLoaded);
+  const appLoaded = [];
   const dispatch = useDispatch();
   const LATITUDE_DELTA = 0.0922 / 5;
   const LONGITUDE_DELTA = 0.0421 / 5;
   useEffect(() => {
-    if (!appLoaded) {
+    if (appLoaded) {
       Geolocation.getCurrentPosition(position => {
         console.log('getCurrentPosition info', position);
         const currentLocation = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
+          latitude: LATITUDE_DELTA,
+          longitude: LATITUDE_DELTA,
           latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA,
         }

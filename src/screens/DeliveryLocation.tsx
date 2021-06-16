@@ -6,7 +6,13 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {I18nManager, Platform, StyleSheet, View} from 'react-native';
+import {
+  I18nManager,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Container} from '../components/containers/Containers';
 import Header from '../components/header/Header';
 import {Colors} from '../constants/styleConstants';
@@ -27,6 +33,8 @@ import Button from '../components/touchables/Button';
 import {saveNewAddress} from '../store/actions/address';
 import {RootState} from '../store/store';
 import {saveCurrentLocationData} from '../store/actions/settings';
+import FastImage from 'react-native-fast-image';
+import Geolocation from '@react-native-community/geolocation';
 
 const {isRTL} = I18nManager;
 const DeliveryLocation: FC = () => {
@@ -182,6 +190,27 @@ const DeliveryLocation: FC = () => {
   const _onRegionChangeComplete = (region: Region): void => {
     animateMap(state.markerRegion, region);
   };
+  const getCurrentLocation = async () => {
+    Geolocation.getCurrentPosition(position => {
+      console.log(position, 'position');
+
+      setstate(old => ({
+        ...old,
+        region: new AnimatedRegion({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        }),
+        markerRegion: new AnimatedRegion({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        }),
+      }));
+    });
+  };
   const renderMap = useMemo(
     () => (
       <MapView.Animated
@@ -196,7 +225,7 @@ const DeliveryLocation: FC = () => {
         <Marker.Animated ref={_marker} coordinate={state.markerRegion} />
       </MapView.Animated>
     ),
-    [],
+    [state.region, state.markerRegion],
   );
 
   return (
@@ -207,7 +236,21 @@ const DeliveryLocation: FC = () => {
       </View>
 
       {renderMap}
-
+      <TouchableOpacity
+        onPress={getCurrentLocation}
+        style={{
+          width: 70,
+          height: 70,
+          position: 'absolute',
+          bottom: 100,
+          left: 10,
+        }}>
+        <FastImage
+          source={require('../../assets/Icons/logo.png')}
+          resizeMode="contain"
+          style={commonStyles.image}
+        />
+      </TouchableOpacity>
       <View style={styles.submitBtnContainer}>
         <Button
           title={t('Save Location')}
