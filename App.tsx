@@ -1,5 +1,13 @@
 import React, {FC, useEffect, useState} from 'react';
-import {I18nManager, Platform, StatusBar, StyleSheet, View,} from 'react-native';
+import {
+  I18nManager,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+  PermissionsAndroid,
+  Alert,
+} from 'react-native';
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import FlashMessage from 'react-native-flash-message';
@@ -14,17 +22,19 @@ import {useDispatch, useSelector} from 'react-redux';
 import {createUpdateDeviceApi} from './src/store/actions/settings';
 import {RootState} from './src/store/store';
 import {getUniqueId} from 'react-native-device-info';
-import {GoogleAnalyticsTracker} from "react-native-google-analytics-bridge";
-import Geocoder from "react-native-geocoding";
+import {GoogleAnalyticsTracker} from 'react-native-google-analytics-bridge';
+import Geocoder from 'react-native-geocoding';
 
-let tracker = new GoogleAnalyticsTracker("UA-195901314-1");
-const payload = {session: "start"};
-tracker.trackScreenView("Home", payload);
-tracker.trackScreenView("Login", payload);
-tracker.trackScreenView("Category", payload);
+let tracker = new GoogleAnalyticsTracker('UA-195901314-1');
+const payload = {session: 'start'};
+tracker.trackScreenView('Home', payload);
+tracker.trackScreenView('Login', payload);
+tracker.trackScreenView('Category', payload);
 
 const {isRTL} = I18nManager;
+
 Geocoder.init(MAP_API_KEY, {language: isRTL ? 'ar' : 'en'});
+
 i18n.use(initReactI18next).init({
   resources: {
     ar: {
@@ -71,6 +81,7 @@ const App: FC = () => {
       }
     }
     requestUserPermission();
+
     messaging()
       .getInitialNotification()
       .then(async (remoteMessage: any) => {
@@ -100,7 +111,7 @@ const App: FC = () => {
         backgroundColor={'transparent'}
         barStyle="dark-content"
       />
-      <AppInitializer/>
+      <AppInitializer />
 
       <FlashMessage
         position="top"
@@ -112,7 +123,7 @@ const App: FC = () => {
           fontFamily: Fonts.medium,
           paddingTop:
             Platform.OS !== 'ios' ? ScreenOptions.StatusBarHeight : 10,
-          alignSelf: 'flex-start'
+          alignSelf: 'flex-start',
         }}
         textStyle={{
           fontFamily: Fonts.medium,

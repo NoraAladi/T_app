@@ -92,6 +92,7 @@ const CategoryHeader: FC<NavigationProps & ICategoryHeader> = ({
           <Animated.View style={{opacity: opacity}}>
             <Text style={styles.addressTitle}>{t('Deliver To')}</Text>
             <TouchableOpacity
+            onPress={()=>{ navigate('DeliveryLocation')}}
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -225,6 +226,8 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.medium,
     fontSize: Pixel(20),
     marginRight: Pixel(15),
+    maxWidth: 120,
+
   },
   searchInputContainer: {
     marginTop: Pixel(50),

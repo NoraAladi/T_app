@@ -19,13 +19,13 @@ const Settings: FC = () => {
       <Header title={t('Settings')} />
       <Content noPadding>
         <View style={styles.container}>
-          {isLogin && (
-            <SettingsItem
-              title={t('Addresses')}
-              btnTitle={t('Check Out  >')}
-              btnAction={'MyAddresses'}
-            />
-          )}
+          <SettingsItem
+            title={t('Addresses')}
+            btnTitle={t('Check Out  >')}
+            btnAction={'MyAddresses'}
+            isLogin={isLogin}
+          />
+
           {/* <SettingsItem
             title={t('My Cards')}
             btnTitle={t('Check Out  >')}

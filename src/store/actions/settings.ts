@@ -10,7 +10,6 @@ import {saveCategories} from './categories';
 import {getUserAddressApi} from './address';
 import Geolocation from '@react-native-community/geolocation';
 import {RootState} from '../store';
-
 const {allowRTL, forceRTL, swapLeftAndRightInRTL} = I18nManager;
 
 export const loadApp = () => ({
@@ -22,7 +21,7 @@ export const toggleLanguage = (payload: boolean) => ({
   payload,
 });
 
-export const saveCurrentLocationData = (payload: string) => ({
+export const saveCurrentLocationData = (payload: {}) => ({
   type: ActionType.SAVE_CURRENT_LOCATION_DATA,
   payload,
 });
@@ -61,8 +60,8 @@ export const userHomeApi = (latLong: any) => {
     try {
       console.log(`${latLong.latitude},${latLong.longitude}`);
       const {data} = await axiosAPI.post(`guest/user-home`, {
-        latLong: `30.880490,29.565331`,
-        // latLong: `${latLong.latitude},${latLong.longitude}`,
+        // latLong: `30.880490,29.565331`,
+        latLong: `${latLong.latitude},${latLong.longitude}`,
       });
       dispatch(saveCategories(data.data.categories));
       console.log('data.data', data.data);

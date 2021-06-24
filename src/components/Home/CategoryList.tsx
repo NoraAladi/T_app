@@ -1,4 +1,5 @@
 import {
+  Alert,
   I18nManager,
   StyleSheet,
   Text,
@@ -21,8 +22,11 @@ interface ICategoryList {
     is_active: boolean;
   }>;
 }
+const {isRTL} = I18nManager;
 
 const CategoryList: FC<ICategoryList> = ({data}) => {
+  console.log('categoriesssss', data);
+
   const {t} = useTranslation();
   const {navigate} = useNavigation();
   return (
@@ -31,7 +35,10 @@ const CategoryList: FC<ICategoryList> = ({data}) => {
         <Text style={styles.sectionTitle}>{t('Explore Category')}</Text>
         <TouchableOpacity
           onPress={() => {
-            // navigate('Category');
+            navigate('Category', {
+              categoryId: data[0].id,
+              categoryName: isRTL ? data[0].name_ar : data[0].name_en,
+            });
           }}>
           <Text style={styles.viewAllBtnText}>{t('View All')}</Text>
         </TouchableOpacity>

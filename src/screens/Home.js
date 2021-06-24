@@ -1,5 +1,11 @@
-import React, {FC, useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {FC, useEffect, useState} from 'react';
+import {
+  Alert,
+  StyleSheet,
+  View,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
 import {Container, Content} from '../components/containers/Containers';
 import HomeHeader from '../components/header/HomeHeader';
 import {Colors} from '../constants/styleConstants';
@@ -7,7 +13,8 @@ import {useTranslation} from 'react-i18next';
 import CategoryList from '../components/Home/CategoryList';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store/store';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
+
 import NotSupported from '../components/Home/NotSupported';
 import Geolocation from '@react-native-community/geolocation';
 import {saveCurrentLocationData, userHomeApi} from '../store/actions/settings';
@@ -15,7 +22,7 @@ import Geocoder from 'react-native-geocoding';
 import OfferSlider from '../components/Home/OfferSlider';
 import FavoriteList from '../components/Home/FavoriteList';
 
-const Home: FC = () => {
+const Home = ({ navigation}) => {
   const {t} = useTranslation();
   const categoryHomeData = [
     {
@@ -81,53 +88,81 @@ const Home: FC = () => {
       image: 'Text 1',
     },
   ];
-  const {categories}: any = useSelector((state: RootState) => state.categories);
-  const {locationSupport}: any = useSelector((state: RootState) => state.auth);
+  const {categories} = useSelector(state => state.categories);
+  const {locationSupport} = useSelector(state => state.auth);
+  const {userCurrentLocation} = useSelector(state => state.address);
+
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
+  const [refresh, setRefresh] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
 
   useEffect(() => {
+    navigation.addListener('focus', () => {
+      setRefresh(!refresh);
+      // do something
+    });
+
     Geolocation.getCurrentPosition(position => {
       Geocoder.from(position.coords.latitude, position.coords.longitude)
         .then(json => {
           let locationStreetName =
             json.results[0].address_components[0].long_name;
           if (locationStreetName !== undefined) {
-            dispatch(saveCurrentLocationData(locationStreetName));
+            dispatch(
+              saveCurrentLocationData(json.results[0].formatted_address),
+            );
           }
-          console.log(
-            'result geocoder',
-            json.results[0].address_components[0].long_name,
-          );
+          console.log('result geocoder', json.results[0].formatted_address);
         })
         .catch(error => console.warn(error));
+
       dispatch(
         userHomeApi({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         }),
       );
+      setRefreshing(false);
     });
   }, []);
+
+  const _onRefresh = () => {
+    setRefreshing(true);
+    // Alert.alert(JSON.stringify(userCurrentLocation));
+    dispatch(
+      userHomeApi({
+        latitude: userCurrentLocation.latitude,
+        longitude: userCurrentLocation.longitude,
+      }),
+    );
+    setRefreshing(false);
+  };
   return (
     <Container style={styles.container}>
-      <HomeHeader navigate={navigate} title={t('Home')} />
-      <Content noPadding>
-        {locationSupport && categories.length > 0 && (
-          <View style={styles.contentContainer}>
-            <CategoryList data={categories} />
-          </View>
-        )}
-        {!locationSupport && (
-          <View style={styles.contentContainer}>
-            <NotSupported />
-          </View>
-        )}
-        <OfferSlider data={carouselItems} />
-        {/* <View style={styles.contentContainer}>
+      <HomeHeader key={refresh} navigate={navigate} title={t('Home')} />
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={_onRefresh} />
+        }>
+        <Content noPadding>
+          {locationSupport && categories.length > 0 && (
+            <View style={styles.contentContainer}>
+              <CategoryList data={categories} />
+            </View>
+          )}
+          {!locationSupport && (
+            <View style={styles.contentContainer}>
+              <NotSupported />
+            </View>
+          )}
+          <OfferSlider data={carouselItems} />
+          {/* <View style={styles.contentContainer}>
           <FavoriteList inHome data={categoryHomeData} />
         </View> */}
-      </Content>
+        </Content>
+      </ScrollView>
     </Container>
   );
 };
