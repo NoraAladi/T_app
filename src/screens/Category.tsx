@@ -1,5 +1,15 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
-import {Animated, FlatList, I18nManager, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
+import {
+  ActivityIndicator,
+  Animated,
+  FlatList,
+  I18nManager,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Container} from '../components/containers/Containers';
 import {Colors, Fonts, Pixel} from '../constants/styleConstants';
 import {useTranslation} from 'react-i18next';
@@ -11,28 +21,28 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import Input from '../components/textInputs/Input';
 import {SearchIcon} from '../../assets/Icons/Icons';
 import IconTouchableContainer from '../components/touchables/IconTouchableContainer';
-import {getCategoryVendors} from "../store/actions/vendors";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../store/store";
+import {getCategoryVendors} from '../store/actions/vendors';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../store/store';
 
 const {isRTL} = I18nManager;
 
 const SearchSubmitBtn: FC = () => {
   return (
     <IconTouchableContainer style={styles.submitSearchBtn}>
-      <SearchIcon width={17} height={17}/>
+      <SearchIcon width={17} height={17} />
     </IconTouchableContainer>
   );
 };
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
 
-
 const Category: FC = () => {
-
   const {t} = useTranslation();
   const {navigate} = useNavigation();
   const route = useRoute();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+
   const [toggleHeader, setToggleHeader] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
   const slideInOut = useRef(new Animated.Value(0)).current;
@@ -55,10 +65,7 @@ const Category: FC = () => {
         style={[
           styles.categoryTitle,
           {
-            color:
-              selectedCategory
-                ? Colors.colorSacand
-                : Colors.dark,
+            color: selectedCategory ? Colors.colorSacand : Colors.dark,
           },
         ]}>
         {isRTL ? item.name_ar : item.name_en}
@@ -126,13 +133,20 @@ const Category: FC = () => {
   });
 
   useEffect(() => {
-    if (route.params.categoryId !== undefined && route.params.categoryName !== undefined) {
+    if (
+      route.params?.categoryId !== undefined &&
+      route.params?.categoryName !== undefined
+    ) {
       setSelectedCategory(route.params.categoryName);
-      dispatch(getCategoryVendors(route.params.categoryId, (success) => {
-        console.log('getCategoryVendors success')
-      }));
+      setLoading(true);
+      dispatch(
+        getCategoryVendors(route.params.categoryId, success => {
+          console.log('getCategoryVendors success', success);
+          setLoading(false);
+        }),
+      );
     }
-  }, [route.params.categoryId, route.params.categoryName])
+  }, [route.params.categoryId, route.params.categoryName]);
 
   const handleToggleHeader = () => {
     setToggleHeader(!toggleHeader);
@@ -141,9 +155,13 @@ const Category: FC = () => {
 
   const handleSelectedCategory = (categoryId: number, categoryName: string) => {
     setSelectedCategory(categoryName);
-    dispatch(getCategoryVendors(categoryId, (success) => {
-      console.log('getCategoryVendors success')
-    }));
+    setLoading(true);
+    dispatch(
+      getCategoryVendors(categoryId, success => {
+        console.log('getCategoryVendors success', success);
+        setLoading(false);
+      }),
+    );
   };
 
   return (
@@ -182,21 +200,30 @@ const Category: FC = () => {
               borderRadius: 22,
               borderWidth: 0,
               padding: Pixel(33),
+              marginBottom: 7,
             }}
             textInputContainer={{
               alignSelf: 'flex-start',
             }}
-            rightContent={() => <SearchSubmitBtn/>}
+            rightContent={() => <SearchSubmitBtn />}
             iconRightStyle={{top: 4.5}}
           />
         </Animated.View>
+
         <FlatList
           data={categories}
-          style={{paddingBottom: 10}}
+          style={{paddingBottom: 5}}
           renderItem={({item, index}) => (
             <Item
-              selectedCategory={selectedCategory === (isRTL ? item.name_ar : item.name_en)}
-              handleSelectedCategory={() => handleSelectedCategory(item.id, isRTL ? item.name_ar : item.name_en)}
+              selectedCategory={
+                selectedCategory === (isRTL ? item.name_ar : item.name_en)
+              }
+              handleSelectedCategory={() =>
+                handleSelectedCategory(
+                  item.id,
+                  isRTL ? item.name_ar : item.name_en,
+                )
+              }
               item={item}
             />
           )}
@@ -205,6 +232,7 @@ const Category: FC = () => {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         />
+
         <AnimatedScrollView
           contentContainerStyle={styles.contentContainer}
           ref={_scrollRef}
@@ -219,7 +247,11 @@ const Category: FC = () => {
           scrollEventThrottle={16}>
           <View>
             <Text style={[styles.sectionTitle]}>{selectedCategory}</Text>
-            <CategoryStoresList data={vendors}/>
+            {loading ? (
+              <ActivityIndicator color="red" />
+            ) : (
+              <CategoryStoresList data={vendors} />
+            )}
           </View>
         </AnimatedScrollView>
       </Animated.View>
@@ -236,7 +268,6 @@ const styles = StyleSheet.create({
     paddingBottom: 200,
     borderTopWidth: 1,
     borderColor: '#707070',
-
   },
   headerCategoryList: {
     // paddingHorizontal: 20,

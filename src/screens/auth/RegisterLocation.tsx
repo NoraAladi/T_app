@@ -214,9 +214,9 @@ const RegisterLocation: FC = () => {
         ref={_map}
         provider={PROVIDER_GOOGLE}
         style={styles.map}
-        // initialRegion={state.currentLocation}
-        region={state.region}
-        onRegionChangeComplete={_onRegionChangeComplete}
+        initialRegion={state.currentLocation}
+        //region={state.region}
+        // onRegionChangeComplete={_onRegionChangeComplete}
         // onRegionChangeComplete={handleRegionChange}
       >
         <Marker.Animated ref={_marker} coordinate={state.markerRegion} />
@@ -230,7 +230,7 @@ const RegisterLocation: FC = () => {
       <View style={[styles.autoCompleteContainer]}>
         <GooglePlacesInput onSelectResult={handleRegionChange} />
       </View>
-      {renderMap}
+
       <View style={styles.submitBtnContainer}>
         <Button
           title={t('Save Location')}

@@ -1,6 +1,21 @@
-import React, {FC} from 'react';
-import {Platform, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle,} from 'react-native';
-import {Colors, Fonts, Pixel, ScreenOptions,} from '../../constants/styleConstants';
+import React, {FC, useEffect} from 'react';
+import {
+  Alert,
+  Platform,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
+import {
+  Colors,
+  Fonts,
+  Pixel,
+  ScreenOptions,
+} from '../../constants/styleConstants';
 import {commonStyles} from '../../styles/styles';
 import {NavigationProps} from '../../constants/interfaces';
 import {
@@ -26,30 +41,34 @@ interface IHeader {
 const SearchSubmitBtn: FC = () => {
   return (
     <IconTouchableContainer style={styles.submitSearchBtn}>
-      <SearchIcon width={17} height={17}/>
+      <SearchIcon width={17} height={17} />
     </IconTouchableContainer>
   );
 };
 
 const HomeHeader: FC<NavigationProps & IHeader> = ({
-                                                     navigate,
-                                                     goBack,
-                                                     name,
-                                                     title,
-                                                     containerStyle,
-                                                     titleStyle,
-                                                   }) => {
+  navigate,
+  goBack,
+  name,
+  title,
+  containerStyle,
+  titleStyle,
+}) => {
   const {t} = useTranslation();
-  const {currentLocationData}: any = useSelector((state: RootState) => state.settings);
+  const {currentLocationData}: any = useSelector(
+    (state: RootState) => state.settings,
+  );
+
+  useEffect(() => {}, []);
   return (
     <View style={[styles.mainContainer, containerStyle]}>
       <View style={[styles.rowConatiner]}>
         <View style={styles.right}>
           <View style={styles.titleConatiner}>
-            <LogoIcon width={56} height={30}/>
+            <LogoIcon width={56} height={30} />
           </View>
           <IconTouchableContainer onPress={global.DrawerProps.openDrawer}>
-            <MenuIcon/>
+            <MenuIcon />
           </IconTouchableContainer>
         </View>
 
@@ -62,19 +81,20 @@ const HomeHeader: FC<NavigationProps & IHeader> = ({
               justifyContent: 'space-between',
               marginTop: 5,
             }}
-            onPress={() => navigate('DeliveryLocation')}
-          >
-            <Text style={styles.addressText} numberOfLines={1}>{currentLocationData}</Text>
-            <ArrowHeaderIcon/>
+            onPress={() => navigate('DeliveryLocation')}>
+            <Text style={styles.addressText} numberOfLines={1}>
+              {currentLocationData}
+            </Text>
+            <ArrowHeaderIcon />
           </TouchableOpacity>
         </View>
 
         <View style={styles.leftContainer}>
           <IconTouchableContainer onPress={() => navigate('Cart')}>
-            <CartIcon/>
+            <CartIcon />
           </IconTouchableContainer>
           <IconTouchableContainer onPress={() => navigate('Notifications')}>
-            <NotificationIcon/>
+            <NotificationIcon />
           </IconTouchableContainer>
         </View>
       </View>
@@ -85,13 +105,17 @@ const HomeHeader: FC<NavigationProps & IHeader> = ({
             placeholder: t('What You Are Looking For ?'),
             placeholderTextColor: '#949494',
           }}
-          contentContainerStyle={{borderRadius: 22, borderWidth: 0, padding: Pixel(33)}}
+          contentContainerStyle={{
+            borderRadius: 22,
+            borderWidth: 0,
+            padding: Pixel(33),
+          }}
           textInputContainer={{
             // textAlign: language === 'ar' ? 'right' : 'left',
-            // paddingVertical: Pixel(33),
-            alignSelf: 'flex-start'
+
+            alignSelf: 'flex-start',
           }}
-          rightContent={() => <SearchSubmitBtn/>}
+          rightContent={() => <SearchSubmitBtn />}
           iconRightStyle={{top: 4.5}}
         />
       </View>
@@ -166,7 +190,8 @@ const styles = StyleSheet.create({
     color: Colors.colorSacand,
     fontFamily: Fonts.medium,
     fontSize: Pixel(20),
-    marginRight: Pixel(15),
+    // marginRight: Pixel(15),
+    maxWidth: 120,
   },
   searchInputContainer: {
     marginTop: Pixel(50),

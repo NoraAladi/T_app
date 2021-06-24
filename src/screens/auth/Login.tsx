@@ -15,7 +15,7 @@ import {RootState} from '../../store/store';
 import {InputErorrHandler} from '../../constants/helpers';
 import {LoginHandler} from '../../store/actions/auth';
 
-const Login: FC = () => {
+const Login: FC = ({navigation}) => {
   const {t} = useTranslation();
   const {navigate} = useNavigation();
   const {loginErorrs} = useSelector((state: RootState) => state.auth);
@@ -32,7 +32,7 @@ const Login: FC = () => {
         onPress={() => {
           setstate(old => ({...old, secureTextEntry: !old.secureTextEntry}));
         }}>
-        <EyeIcon/>
+        <EyeIcon />
       </IconTouchableContainer>
     );
   };
@@ -40,15 +40,20 @@ const Login: FC = () => {
     setstate(old => ({...old, loader: true}));
     console.log(state, ' state');
     dispatch(
-      LoginHandler(state.email, state.password, success => {
-        setstate(old => ({...old, loader: false}));
-        success && navigate('Home');
-      }, () => navigate("PhoneCode")),
+      LoginHandler(
+        state.email,
+        state.password,
+        success => {
+          setstate(old => ({...old, loader: false}));
+          success && navigation.replace('Home');
+        },
+        () => navigate('PhoneCode'),
+      ),
     );
   };
   return (
     <Container style={styles.container}>
-      <AuthHeader/>
+      <AuthHeader />
       <Content style={styles.contentContainer}>
         <Text style={styles.mainTitle}>{t('Sign In')}</Text>
         <View style={styles.inputsContainer}>
@@ -111,10 +116,11 @@ const Login: FC = () => {
             />
           </View>
           <SocialLogin
-            loaderHandler={(loaderStatus) => {
+            loaderHandler={loaderStatus => {
               setstate(old => ({...old, loader: loaderStatus}));
             }}
-            title={t('Or Sign In With')}/>
+            title={t('Or Sign In With')}
+          />
 
           <TouchableOpacity
             style={{
