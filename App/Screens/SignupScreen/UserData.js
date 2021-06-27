@@ -785,8 +785,18 @@ class UserData extends Component {
 
                                 />
                             </View>
+                            <TouchableOpacity onPress={async() => {
+                                   await this.setState({
+                                    isChecked: !this.state.isChecked,
+                                })
+                                await AsyncStorage.setItem('isChecked', String(this.state.isChecked))
+                                this.activeBtn()
+
+                            }}>
                             <Text style={styles.labelText}>{'  اوافق على  '}</Text>
-                            <TouchableOpacity onPress={async () => {
+                            </TouchableOpacity>
+                            <TouchableOpacity 
+                            onPress={async () => {
                                 await this.setState({
                                     //     isChecked: !this.state.isChecked,
                                     modal: !this.state.modal

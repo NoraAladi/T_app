@@ -19,7 +19,7 @@ export const Get_Social = () => {
                }
             })
          console.log('__ SOCIAL ___');
-         // console.log(response.data);
+          console.log(response.data);
          // If request is good...
          dispatch({ type: 'GET_SOCIAL_SUCCESS', social: response.data })
 

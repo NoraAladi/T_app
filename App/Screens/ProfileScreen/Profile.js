@@ -32,6 +32,12 @@ class Profile extends Component {
     }
 
     async _logOut() {
+        // await AsyncStorage.removeItem('app_Token')
+        // await AsyncStorage.removeItem('countryIdKey')
+        // await AsyncStorage.removeItem('cityIdKey')
+
+
+        // this.navigateToScreen()
         try {
             const Token = await AsyncStorage.getItem('app_Token');
             const refreshToken = await AsyncStorage.getItem('refreshToken');
