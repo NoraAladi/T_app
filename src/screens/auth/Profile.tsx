@@ -1,34 +1,36 @@
-import React, {FC, useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Container, Content} from '../../components/containers/Containers';
-import {Colors, Fonts, Images, Pixel} from '../../constants/styleConstants';
-import {useTranslation} from 'react-i18next';
+import React, { FC, useEffect, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Container, Content } from '../../components/containers/Containers';
+import { Colors, Fonts, Images, Pixel } from '../../constants/styleConstants';
+import { useTranslation } from 'react-i18next';
 import Header from '../../components/header/Header';
-import {EditIcon, InputEditIcon} from '../../../assets/Icons/Icons';
+import { EditIcon, InputEditIcon } from '../../../assets/Icons/Icons';
 import FastImage from 'react-native-fast-image';
-import {commonStyles} from '../../styles/styles';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../store/store';
+import { commonStyles } from '../../styles/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 import Input from '../../components/textInputs/Input';
 import IconTouchableContainer from '../../components/touchables/IconTouchableContainer';
 import Button from '../../components/touchables/Button';
-import {useNavigation} from '@react-navigation/native';
-import {getDateHandler} from '../../constants/helpers';
-import {launchImageLibrary} from 'react-native-image-picker';
+import { useNavigation } from '@react-navigation/native';
+import { getDateHandler } from '../../constants/helpers';
+import { launchImageLibrary } from 'react-native-image-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import {GetUserProfileData, updateUserProfile} from '../../store/actions/auth';
+import { GetUserProfileData, updateUserProfile } from '../../store/actions/auth';
 
 const Profile: FC = () => {
-  const {t} = useTranslation();
-  const {navigate} = useNavigation();
+  const { t } = useTranslation();
+  const { navigate } = useNavigation();
   const userData: any = useSelector((state: RootState) => state.auth.userData);
   const dispatch = useDispatch();
   const [state, setstate] = useState({
     username: userData.name,
     email: userData.email,
     phone: userData.phone,
+
     photo: userData.photo,
-    image: '',
+    image: userData.photo,
+
     password: 'userData.password',
     birthdate: userData.birthday ? userData.birthday : getDateHandler(),
     isDatePickerVisible: false,
@@ -55,11 +57,15 @@ const Profile: FC = () => {
         },
         response => {
           console.log('responsepicImageHandler', response);
-          setstate((old: any) => ({
-            ...old,
-            image: response.uri,
-            photo: response.base64,
-          }));
+          if (response?.uri == undefined) { }
+          else {
+            setstate((old: any) => ({
+              ...old,
+              image: response.base64,
+              photo: response.uri,
+              // photo: response.base64,
+            }));
+          }
         },
       );
     } catch (error) {
@@ -74,16 +80,16 @@ const Profile: FC = () => {
     );
   };
   const submitHandler = () => {
-    setstate(old => ({...old, loader: true}));
+    setstate(old => ({ ...old, loader: true }));
 
     dispatch(
       updateUserProfile(
         state.username,
         state.email,
         state.birthdate,
-        state.photo,
+        state.image,
         () => {
-          setstate(old => ({...old, loader: false}));
+          setstate(old => ({ ...old, loader: false }));
         },
       ),
     );
@@ -109,13 +115,13 @@ const Profile: FC = () => {
             }));
           }}
           onCancel={() => {
-            setstate(old => ({...old, isDatePickerVisible: false}));
+            setstate(old => ({ ...old, isDatePickerVisible: false }));
           }}
           maximumDate={new Date()}
         />
 
         <View style={styles.profileHeader}>
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <View style={styles.editIcon}>
               <EditIcon />
             </View>
@@ -123,12 +129,9 @@ const Profile: FC = () => {
               style={styles.userImage}
               onPress={picImageHandler}>
               <FastImage
-                source={
-                  userData.photo
-                    ? {uri: userData.photo}
-                    : state.image
-                    ? {uri: state.image}
-                    : Images.userImage
+                source={state.photo
+                  ? { uri: state.photo }
+                  : Images.userImage
                 }
                 style={commonStyles.image}
                 resizeMode="cover"
@@ -160,7 +163,7 @@ const Profile: FC = () => {
               )}
               options={{
                 onChangeText: value => {
-                  setstate(old => ({...old, username: value}));
+                  setstate(old => ({ ...old, username: value }));
                 },
                 value: state.username,
                 editable: state.editUsername,
@@ -186,7 +189,7 @@ const Profile: FC = () => {
               )}
               options={{
                 onChangeText: value => {
-                  setstate(old => ({...old, email: value}));
+                  setstate(old => ({ ...old, email: value }));
                 },
                 value: state.email,
                 keyboardType: 'email-address',
@@ -210,7 +213,7 @@ const Profile: FC = () => {
               options={{
                 editable: false,
                 onChangeText: value => {
-                  setstate(old => ({...old, phone: value}));
+                  setstate(old => ({ ...old, phone: value }));
                 },
                 value: state.phone,
                 keyboardType: 'number-pad',
@@ -224,11 +227,11 @@ const Profile: FC = () => {
               textInputContainer={styles.textInput}
               contentContainerStyle={styles.contentContainerStyle}
               rightContent={PasswordIcon}
-              iconRightStyle={{top: 9, right: 5}}
+              iconRightStyle={{ top: 9, right: 5 }}
               options={{
                 editable: false,
                 onChangeText: value => {
-                  setstate(old => ({...old, password: value}));
+                  setstate(old => ({ ...old, password: value }));
                 },
                 value: state.password,
                 secureTextEntry: true,
@@ -244,7 +247,7 @@ const Profile: FC = () => {
               rightContent={() => (
                 <TouchableOpacity
                   onPress={() => {
-                    setstate(old => ({...old, isDatePickerVisible: true}));
+                    setstate(old => ({ ...old, isDatePickerVisible: true }));
                   }}>
                   <InputEditIcon />
                 </TouchableOpacity>
@@ -253,7 +256,7 @@ const Profile: FC = () => {
                 editable: false,
 
                 onChangeText: value => {
-                  setstate(old => ({...old, birthdate: value}));
+                  setstate(old => ({ ...old, birthdate: value }));
                 },
                 value: state.birthdate,
               }}

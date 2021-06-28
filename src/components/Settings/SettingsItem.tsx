@@ -1,8 +1,9 @@
-import React, {FC} from 'react';
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {commonStyles} from '../../styles/styles';
-import {useNavigation} from '@react-navigation/native';
-import {Colors, Fonts, Pixel} from '../../constants/styleConstants';
+import React, { FC } from 'react';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { commonStyles } from '../../styles/styles';
+import { useNavigation } from '@react-navigation/native';
+import { Colors, Fonts, Pixel } from '../../constants/styleConstants';
+import { showMessage } from 'react-native-flash-message';
 
 interface ISettingsItem {
   title: string;
@@ -17,18 +18,22 @@ const SettingsItem: FC<ISettingsItem> = ({
   btnAction,
   isLogin,
 }) => {
-  const {navigate} = useNavigation();
+  const { navigate } = useNavigation();
   return (
     <View style={styles.settingsItemContainer}>
       <Text style={styles.settingsItemText}>{title}</Text>
       <TouchableOpacity
         style={styles.settingsItemBtn}
         onPress={() => {
-          isLogin ? navigate(btnAction) : Alert.alert('Login first');
+          isLogin ? navigate(btnAction) : showMessage({
+            message: ('First login ..'),
+            duration: 5000,
+            type: 'warning',
+          });
         }}>
         <Text style={styles.settingsBtnText}>{btnTitle}</Text>
       </TouchableOpacity>
-    </View>
+    </View >
   );
 };
 

@@ -6,39 +6,39 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {I18nManager, Platform, StyleSheet, View} from 'react-native';
-import {Container} from '../../components/containers/Containers';
+import { I18nManager, Platform, StyleSheet, View } from 'react-native';
+import { Container } from '../../components/containers/Containers';
 import Header from '../../components/header/Header';
-import {Colors} from '../../constants/styleConstants';
-import {commonStyles} from '../../styles/styles';
+import { Colors } from '../../constants/styleConstants';
+import { commonStyles } from '../../styles/styles';
 import MapView, {
   AnimatedRegion,
   Marker,
   PROVIDER_GOOGLE,
   Region,
 } from 'react-native-maps';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import Geocoder from 'react-native-geocoding';
 import Button from '../../components/touchables/Button';
-import {showMessage} from 'react-native-flash-message';
-import {useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
+import { showMessage } from 'react-native-flash-message';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   GetUserProfileData,
   VerifyUserLocationHandler,
 } from '../../store/actions/auth';
 import GooglePlacesInput from '../../components/MyAddresses/GooglePlacesInput';
-import {RootState} from '../../store/store';
-import {saveCurrentLocationData} from '../../store/actions/settings';
+import { RootState } from '../../store/store';
+import { saveCurrentLocationData } from '../../store/actions/settings';
 
-const {isRTL} = I18nManager;
+const { isRTL } = I18nManager;
 const RegisterLocation: FC = () => {
-  const {userCurrentLocation} = useSelector(
+  const { userCurrentLocation } = useSelector(
     (state: RootState) => state.address,
   );
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const {navigate} = useNavigation();
+  const { navigate } = useNavigation();
   const _map = useRef(null);
   const _marker = useRef(null);
   const LATITUDE_DELTA = 0.0922 / 5;
@@ -109,13 +109,13 @@ const RegisterLocation: FC = () => {
   const DURATION: number = 500;
   const animateMap = useCallback(
     (element: any, n_region: any) => {
-      setstate(old => ({...old, loader: true}));
+      setstate(old => ({ ...old, loader: true }));
       const DURATION: number = 500;
       if (Platform.OS === 'android') {
         console.log('_marker.current', _marker.current);
         if (_marker.current !== null) {
           _marker.current.animateMarkerToCoordinate(n_region, 500);
-          setstate(old => ({...old, loader: false}));
+          setstate(old => ({ ...old, loader: false }));
         }
         if (_map.current !== null) {
           _map.current.animateToRegion(
@@ -129,10 +129,10 @@ const RegisterLocation: FC = () => {
         }
       } else {
         element
-          .timing({...n_region, duration: DURATION, useNativeDriver: false})
+          .timing({ ...n_region, duration: DURATION, useNativeDriver: false })
           .start();
 
-        setstate(old => ({...old, loader: false}));
+        setstate(old => ({ ...old, loader: false }));
       }
       getLocationDetails(n_region.latitude, n_region.longitude);
     },
@@ -165,7 +165,7 @@ const RegisterLocation: FC = () => {
 
   //save location handler
   const submitHandler = () => {
-    setstate(old => ({...old, loader: true}));
+    setstate(old => ({ ...old, loader: true }));
     if (
       state.currentLocation !== null &&
       Object.keys(state.currentLocation).length > 0
@@ -176,7 +176,7 @@ const RegisterLocation: FC = () => {
           state.currentLocation.latitude,
           state.currentLocation.longitude,
           success => {
-            setstate(old => ({...old, loader: false}));
+            setstate(old => ({ ...old, loader: false }));
             if (success) {
               navigate('Home');
             }
@@ -185,7 +185,7 @@ const RegisterLocation: FC = () => {
         ),
       );
     } else {
-      setstate(old => ({...old, loader: false}));
+      setstate(old => ({ ...old, loader: false }));
       showMessage({
         message: t("Couldn't save your location please try agian!"),
       });
@@ -215,9 +215,9 @@ const RegisterLocation: FC = () => {
         provider={PROVIDER_GOOGLE}
         style={styles.map}
         initialRegion={state.currentLocation}
-        //region={state.region}
-        // onRegionChangeComplete={_onRegionChangeComplete}
-        // onRegionChangeComplete={handleRegionChange}
+      //region={state.region}
+      // onRegionChangeComplete={_onRegionChangeComplete}
+      // onRegionChangeComplete={handleRegionChange}
       >
         <Marker.Animated ref={_marker} coordinate={state.markerRegion} />
       </MapView.Animated>
@@ -225,7 +225,7 @@ const RegisterLocation: FC = () => {
     [],
   );
   return (
-    <Container style={{backgroundColor: Colors.sacandAppBackgroundColor}}>
+    <Container style={{ backgroundColor: Colors.sacandAppBackgroundColor }}>
       <Header title={t('Current Location')} />
       <View style={[styles.autoCompleteContainer]}>
         <GooglePlacesInput onSelectResult={handleRegionChange} />

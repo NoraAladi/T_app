@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   Alert,
   StyleSheet,
@@ -6,24 +6,24 @@ import {
   ScrollView,
   RefreshControl,
 } from 'react-native';
-import {Container, Content} from '../components/containers/Containers';
+import { Container, Content } from '../components/containers/Containers';
 import HomeHeader from '../components/header/HomeHeader';
-import {Colors} from '../constants/styleConstants';
-import {useTranslation} from 'react-i18next';
+import { Colors } from '../constants/styleConstants';
+import { useTranslation } from 'react-i18next';
 import CategoryList from '../components/Home/CategoryList';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../store/store';
-import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 
 import NotSupported from '../components/Home/NotSupported';
 import Geolocation from '@react-native-community/geolocation';
-import {saveCurrentLocationData, userHomeApi} from '../store/actions/settings';
+import { saveCurrentLocationData, userHomeApi } from '../store/actions/settings';
 import Geocoder from 'react-native-geocoding';
 import OfferSlider from '../components/Home/OfferSlider';
-import FavoriteList from '../components/Home/FavoriteList';
 
-const Home = ({ navigation}) => {
-  const {t} = useTranslation();
+const Home = ({ navigation }) => {
+
+  const { t } = useTranslation();
   const categoryHomeData = [
     {
       id: 1,
@@ -88,19 +88,20 @@ const Home = ({ navigation}) => {
       image: 'Text 1',
     },
   ];
-  const {categories} = useSelector(state => state.categories);
-  const {locationSupport} = useSelector(state => state.auth);
-  const {userCurrentLocation} = useSelector(state => state.address);
+  const { categories } = useSelector(state => state.categories);
+  const { locationSupport } = useSelector(state => state.auth);
+  const { userCurrentLocation } = useSelector(state => state.address);
 
-  const {navigate} = useNavigation();
+  const { navigate } = useNavigation();
   const dispatch = useDispatch();
   const [refresh, setRefresh] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-
+  const route = useRoute()
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       setRefresh(!refresh);
+      //  alert(route.params?.refreshing)
       // do something
     });
 

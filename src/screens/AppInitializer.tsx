@@ -1,16 +1,17 @@
-import React, {FC, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { FC, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Splash from './Splash';
 import Navigation from '../navigation/Navigation';
-import {RootState} from '../store/store';
-import {initializApp} from '../store/actions/settings';
+import { RootState } from '../store/store';
+import { initializApp } from '../store/actions/settings';
 import Geolocation from '@react-native-community/geolocation';
-import {saveCurrentLocation} from '../store/actions/address';
-import {Alert, PermissionsAndroid} from 'react-native';
+import { saveCurrentLocation } from '../store/actions/address';
+import { Alert, PermissionsAndroid } from 'react-native';
 
 const AppInitializer: FC = () => {
-  const appLoaded: never[] = [];
   const dispatch = useDispatch();
+  const appLoaded = useSelector((state: RootState) => state.settings.appLoaded);
+
   const requestLocation = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -54,10 +55,13 @@ const AppInitializer: FC = () => {
           longitudeDelta: position.coords.longitude / 10,
         };
         dispatch(saveCurrentLocation(currentLocation));
-        dispatch(initializApp());
       });
     }
-  }, []);
+    else {
+      dispatch(initializApp());
+    }
+  }, [appLoaded]);
+
   if (appLoaded) {
     return <Navigation />;
   } else {

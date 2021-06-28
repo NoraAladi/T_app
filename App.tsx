@@ -25,6 +25,9 @@ import {getUniqueId} from 'react-native-device-info';
 import {GoogleAnalyticsTracker} from 'react-native-google-analytics-bridge';
 import Geocoder from 'react-native-geocoding';
 
+// ...
+
+
 let tracker = new GoogleAnalyticsTracker('UA-195901314-1');
 const payload = {session: 'start'};
 tracker.trackScreenView('Home', payload);
@@ -52,6 +55,8 @@ i18n.use(initReactI18next).init({
 });
 
 const App: FC = () => {
+  
+
   const dispatch = useDispatch();
 
   const isLogin = useSelector((state: RootState) => state.auth.isLogin);

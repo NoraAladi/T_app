@@ -1,20 +1,20 @@
-import React, {FC, useEffect} from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   Dimensions,
   Image,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View, Modal, Alert
 } from 'react-native';
-import {Colors, Fonts, Images, Pixel} from '../../constants/styleConstants';
-import {useTranslation} from 'react-i18next';
-import {ScreenProps} from '../../constants/interfaces';
+import { Colors, Fonts, Images, Pixel } from '../../constants/styleConstants';
+import { useTranslation } from 'react-i18next';
+import { ScreenProps } from '../../constants/interfaces';
 import DrawerItem from './DrawerItem';
-import {ScrollView} from 'react-native-gesture-handler';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../store/store';
-import {GetUserProfileData, LogoutHandler} from '../../store/actions/auth';
+import { ScrollView } from 'react-native-gesture-handler';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { GetUserProfileData, LogoutHandler } from '../../store/actions/auth';
 import {
   EditIcon,
   HeartIcon,
@@ -26,18 +26,23 @@ import {
   TelephoneIcon,
   VouchergIcon,
 } from '../../../assets/Icons/Icons';
-import {OpenUrlHandler} from '../../constants/helpers';
-import {commonStyles} from '../../styles/styles';
+import { OpenUrlHandler } from '../../constants/helpers';
+import { commonStyles } from '../../styles/styles';
+import { Keyboard } from 'react-native';
+import PopUpModal from '../../components/PopUpModal';
 
-const {height, width} = Dimensions.get('window');
-const DrawerContent: FC<ScreenProps> = ({navigation}) => {
+
+const { height, width } = Dimensions.get('window');
+const DrawerContent: FC<ScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch();
   const userData = useSelector((state: RootState) => state.auth.userData);
   const isLogin = useSelector((state: RootState) => state.auth.isLogin);
-  const {voucherData, user}: any = useSelector(
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const { voucherData, user }: any = useSelector(
     (state: RootState) => state.voucher,
   );
-  const {t}: any = useTranslation();
+  const { t }: any = useTranslation();
   // console.log('voucherData.user', voucherData);
 
   const getLetter = (st: string) => {
@@ -51,14 +56,26 @@ const DrawerContent: FC<ScreenProps> = ({navigation}) => {
       LogoutHandler(() => {
         navigation.closeDrawer();
       }),
+
     );
+    setModalVisible(false)
+
+  };
+
+  const closeModal = () => {
+    setModalVisible(false)
   };
 
   useEffect(() => {
-    if (userData?.token !== undefined && userData?.name === undefined) {
+    console.log('keyboard Dismiss');
+    Keyboard.dismiss()
+
+  });
+  useEffect(() => {
+    if (userData?.token !== undefined) {
       dispatch(GetUserProfileData());
     }
-  }, []);
+  }, [userData?.token]);
 
   return (
     <ScrollView
@@ -86,7 +103,7 @@ const DrawerContent: FC<ScreenProps> = ({navigation}) => {
               userData.photo !== null ? (
                 <View style={styles.image}>
                   <Image
-                    source={{uri: userData.photo}}
+                    source={{ uri: userData.photo }}
                     style={commonStyles.image}
                     resizeMode="contain"
                   />
@@ -136,11 +153,13 @@ const DrawerContent: FC<ScreenProps> = ({navigation}) => {
             <DrawerItem
               Icon={VouchergIcon}
               title={t('Voucher')}
-              voucher={user ? user + ' LE' : '0 LE'}
+              //  voucher={user ? user + ' LE' : '0 LE'}
+              voucher={'+'}
               onPress={() => {
                 navigation?.navigate('Voucher');
               }}
-              isLogin={isLogin}
+              //  isLogin={isLogin}
+              isLogin={true}
             />
             {/* <DrawerItem
               Icon={ListIcon}
@@ -184,7 +203,9 @@ const DrawerContent: FC<ScreenProps> = ({navigation}) => {
                 Icon={LogOut}
                 title={t('Log Out')}
                 onPress={() => {
-                  logOut();
+                  //saad
+                  setModalVisible(true)
+                  // logOut();
                 }}
                 isLogin={isLogin}
               />
@@ -192,6 +213,8 @@ const DrawerContent: FC<ScreenProps> = ({navigation}) => {
           ) : null}
         </View>
       </View>
+      <PopUpModal key={modalVisible} closeModal={closeModal} modalVisible={modalVisible} title={'Are you sure ...? '}
+        subTitle={'sub title test ..'} yes={'Yes'} no={'No'} submitAction={logOut} />
     </ScrollView>
   );
 };

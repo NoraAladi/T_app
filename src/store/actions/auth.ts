@@ -438,12 +438,16 @@ export const SetNewPasswordHandler = (
 ) => {
   return async (dispatch: Dispatch<IDispatch>) => {
     try {
+      console.log(old_password,
+        password,
+        password_confirmation);
+      
       const {data} = await axiosAPI.post('user/update-user-password', {
         old_password,
         password,
         password_confirmation,
       });
-      console.log('SetNewPasswordHandler', data.data.message[0]);
+      console.log('SetNewPasswordHandler', data.data.message);
       showMessage({
         message: data.data.message[0],
         type:
@@ -455,6 +459,10 @@ export const SetNewPasswordHandler = (
     } catch (error) {
       cb(false);
       console.log(error?.response);
+      showMessage({
+        message:error?.response.data.message.password[0],
+        type:'danger',
+      });
     }
   };
 };

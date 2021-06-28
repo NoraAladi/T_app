@@ -17,12 +17,12 @@ import {
   fetch,
   ActivityIndicator,
 } from 'react-native';
-import {Container} from '../components/containers/Containers';
+import { Container } from '../components/containers/Containers';
 import Header from '../components/header/Header';
-import {Colors} from '../constants/styleConstants';
-import {MAP_API_KEY} from '../constants/Config';
+import { Colors } from '../constants/styleConstants';
+import { MAP_API_KEY } from '../constants/Config';
 
-import {commonStyles} from '../styles/styles';
+import { commonStyles } from '../styles/styles';
 import MapView, {
   Animated,
   AnimatedRegion,
@@ -32,26 +32,26 @@ import MapView, {
   Region,
   Polyline,
 } from 'react-native-maps';
-import {setDefaults, useTranslation} from 'react-i18next';
+import { setDefaults, useTranslation } from 'react-i18next';
 import Geocoder from 'react-native-geocoding';
 import GooglePlacesInput from '../components/MyAddresses/GooglePlacesInput';
-import {showMessage} from 'react-native-flash-message';
-import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import Button from '../components/touchables/Button';
-import {saveCurrentLocationData, userHomeApi} from '../store/actions/settings';
-import {saveCurrentLocation} from '../store/actions/address';
+import { saveCurrentLocationData, userHomeApi } from '../store/actions/settings';
+import { saveCurrentLocation } from '../store/actions/address';
 
 import FastImage from 'react-native-fast-image';
 import Geolocation from '@react-native-community/geolocation';
 import MapViewDirections from 'react-native-maps-directions';
 
-const {isRTL} = I18nManager;
-const DeliveryLocation = ({navigation}) => {
-  const {userCurrentLocation} = useSelector(state => state.address);
-  const {t} = useTranslation();
+const { isRTL } = I18nManager;
+const DeliveryLocation = ({ navigation }) => {
+  const { userCurrentLocation } = useSelector(state => state.address);
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const {navigate} = useNavigation();
+  const { navigate } = useNavigation();
   let zoom = 7;
 
   console.log('userCurrentLocation', userCurrentLocation);
@@ -98,7 +98,8 @@ const DeliveryLocation = ({navigation}) => {
                 longitude: region.longitude,
               }),
             );
-            navigation.navigate('Home', {'refreshing': 'true'});
+            //navigation.setParams({ refreshing: true })
+            navigate('Home', { refreshing: true });
           } else {
             showMessage({
               message: t('We do not provide delivery to this place now'),
@@ -110,6 +111,11 @@ const DeliveryLocation = ({navigation}) => {
       })
       .catch(error => {
         console.warn(error);
+        showMessage({
+          message: (error.message),
+          duration: 5000,
+          type: 'warning',
+        });
         setLoading(false);
       });
   };
@@ -159,7 +165,7 @@ const DeliveryLocation = ({navigation}) => {
   };
 
   return (
-    <Container style={{backgroundColor: Colors.sacandAppBackgroundColor}}>
+    <Container style={{ backgroundColor: Colors.sacandAppBackgroundColor }}>
       <Header title={t('Current Location')} />
       <View style={[styles.autoCompleteContainer]}>
         <GooglePlacesInput onSelectResult={handleRegionChange} />
@@ -195,7 +201,7 @@ const DeliveryLocation = ({navigation}) => {
           setRegion(x);
           setMarker(x);
         }}
-        // onRegionChangeComplete={handleRegionChange2}
+      // onRegionChangeComplete={handleRegionChange2}
       >
         <Marker
           onDragEnd={e => {
