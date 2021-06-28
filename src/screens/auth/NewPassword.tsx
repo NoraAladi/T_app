@@ -1,19 +1,19 @@
-import React, {FC, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Container, Content} from '../../components/containers/Containers';
-import {Colors, Fonts, Pixel} from '../../constants/styleConstants';
-import {useTranslation} from 'react-i18next';
+import React, { FC, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Container, Content } from '../../components/containers/Containers';
+import { Colors, Fonts, Pixel } from '../../constants/styleConstants';
+import { useTranslation } from 'react-i18next';
 import Header from '../../components/header/Header';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Input from '../../components/textInputs/Input';
 import Button from "../../components/touchables/Button";
-import {SetNewPasswordHandler} from "../../store/actions/auth";
-import {useNavigation} from "@react-navigation/native";
-import {showMessage} from "react-native-flash-message";
+import { SetNewPasswordHandler } from "../../store/actions/auth";
+import { useNavigation } from "@react-navigation/native";
+import { showMessage } from "react-native-flash-message";
 
 const NewPassword: FC = () => {
-  const {t} = useTranslation();
-  const {navigate} = useNavigation();
+  const { t } = useTranslation();
+  const { navigate } = useNavigation();
   const dispatch = useDispatch();
   // const userData = useSelector((state: RootState) => state.auth.userData);
   // console.log('Profile userData',userData)
@@ -30,16 +30,16 @@ const NewPassword: FC = () => {
         setLoader(true);
         dispatch(
           SetNewPasswordHandler(
-            'Sayed@123',
-            'Ssayed@123',
-            'Ssayed@123',
+            oldPassword,
+            newPassword,
+            newPasswordConfirm,
             success => {
               setLoader(false);
               success && navigate('Profile');
             },
           ),
         );
-      }else{
+      } else {
         showMessage({
           message: t('Password and password confirmation does not match'),
           type: 'danger',
@@ -55,7 +55,7 @@ const NewPassword: FC = () => {
   };
   return (
     <Container style={styles.container}>
-      <Header title={t('New Password')}/>
+      <Header title={t('New Password')} />
       <Content
         noPadding
         contentContainerStyle={{
