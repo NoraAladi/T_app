@@ -127,9 +127,11 @@ const AddressLocation: FC = () => {
           );
         }
       } else {
-        element
-          .timing({ ...n_region, duration: DURATION, useNativeDriver: false })
-          .start();
+        if (Platform.OS == 'android') {
+          element
+            .timing({ ...n_region, duration: DURATION, useNativeDriver: false })
+            .start();
+        }
 
         setstate(old => ({ ...old, loader: false }));
       }

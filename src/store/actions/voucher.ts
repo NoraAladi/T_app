@@ -32,13 +32,19 @@ export const getVoucherData = () => {
         type: ActionType.GET_USER_VOUCHERS_ERROR,
         payload: error?.response.data.message,
       });
-
-      showMessage({
-        message: error?.response.data.message,
-        type: 'danger',
-      });
-
       console.log(error?.response.data.message, 'erroe');
+      if (error?.response.status == 401) {
+        showMessage({
+          message: 'First login ..',
+          duration: 5000,
+          type: 'warning',
+        });
+      } else {
+        showMessage({
+          message: error?.response.data.message,
+          type: 'danger',
+        });
+      }
     }
   };
 };
@@ -55,8 +61,8 @@ export const addVoucher = (code: string, cb: (success?: boolean) => void) => {
       const {data} = await axiosAPI.post('user/add-user-voucher', {
         code,
       });
-      console.log('Add voucher',data);
-      
+      console.log('Add voucher', data);
+
       console.log(data.message, 'mes');
       {
         if (data.message != 'Voucher Added') {
@@ -79,7 +85,7 @@ export const addVoucher = (code: string, cb: (success?: boolean) => void) => {
         }
       }
     } catch (error) {
-      console.log('Add voucher',error?.response);
+      console.log('Add voucher', error?.response);
 
       cb(false);
       dispatch({
