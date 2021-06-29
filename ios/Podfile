@@ -18,6 +18,9 @@ target 'Taym' do
 
   pod 'react-native-google-analytics-bridge', :path => '../node_modules/react-native-google-analytics-bridge'
 
+
+  pod 'react-native-image-base64', :path => '../node_modules/react-native-image-base64'
+
   target 'TaymTests' do
     inherit! :complete
     # Pods for testing

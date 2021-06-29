@@ -17,6 +17,7 @@ import { getDateHandler } from '../../constants/helpers';
 import { launchImageLibrary } from 'react-native-image-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { GetUserProfileData, updateUserProfile } from '../../store/actions/auth';
+import ImgToBase64 from 'react-native-image-base64';
 
 const Profile: FC = () => {
   const { t } = useTranslation();
@@ -44,8 +45,18 @@ const Profile: FC = () => {
     return letters.toUpperCase();
   };
   useEffect(() => {
+
+
     dispatch(GetUserProfileData());
     console.log('ProfileuserData', userData);
+    ImgToBase64.getBase64String(userData.photo)
+      .then(base64String =>
+        setstate((old: any) => ({
+          ...old,
+          image: base64String,
+        }))
+      )
+      .catch(err => console.log(err));
   }, []);
   const picImageHandler = async () => {
     try {
