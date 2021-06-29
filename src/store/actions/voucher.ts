@@ -55,6 +55,8 @@ export const addVoucher = (code: string, cb: (success?: boolean) => void) => {
       const {data} = await axiosAPI.post('user/add-user-voucher', {
         code,
       });
+      console.log('Add voucher',data);
+      
       console.log(data.message, 'mes');
       {
         if (data.message != 'Voucher Added') {
@@ -77,6 +79,8 @@ export const addVoucher = (code: string, cb: (success?: boolean) => void) => {
         }
       }
     } catch (error) {
+      console.log('Add voucher',error?.response);
+
       cb(false);
       dispatch({
         type: ActionType.ADD_USER_VOUCHER_ERROR,

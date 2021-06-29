@@ -148,16 +148,18 @@ const Home = ({ navigation }) => {
           <RefreshControl refreshing={refreshing} onRefresh={_onRefresh} />
         }>
         <Content noPadding>
-          {locationSupport && categories.length > 0 && (
-            <View style={styles.contentContainer}>
-              <CategoryList data={categories} />
-            </View>
-          )}
-          {!locationSupport && (
-            <View style={styles.contentContainer}>
-              <NotSupported />
-            </View>
-          )}
+          {locationSupport
+            && categories.length > 0 && (
+              <View style={styles.contentContainer}>
+                <CategoryList data={categories} />
+              </View>
+            )}
+          {!locationSupport
+            && (
+              <View style={styles.contentContainer}>
+                <NotSupported />
+              </View>
+            )}
           <OfferSlider data={carouselItems} />
           {/* <View style={styles.contentContainer}>
           <FavoriteList inHome data={categoryHomeData} />

@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Animated,
@@ -10,22 +10,25 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Container} from '../components/containers/Containers';
-import {Colors, Fonts, Pixel} from '../constants/styleConstants';
-import {useTranslation} from 'react-i18next';
+import { Container } from '../components/containers/Containers';
+import { Colors, Fonts, Pixel } from '../constants/styleConstants';
+import { useTranslation } from 'react-i18next';
 import CategoryHeader from '../components/header/CategoryHeader';
 import FastImage from 'react-native-fast-image';
-import {commonStyles} from '../styles/styles';
+import { commonStyles } from '../styles/styles';
 import CategoryStoresList from '../components/Category/CategoryStoresList';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Input from '../components/textInputs/Input';
-import {SearchIcon} from '../../assets/Icons/Icons';
+import { SearchIcon } from '../../assets/Icons/Icons';
 import IconTouchableContainer from '../components/touchables/IconTouchableContainer';
-import {getCategoryVendors} from '../store/actions/vendors';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../store/store';
+import { getCategoryVendors } from '../store/actions/vendors';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { axiosAPI } from "../constants/Config";
+import CategoryList from '../components/Home/CategoryList';
+import { Alert } from 'react-native';
 
-const {isRTL} = I18nManager;
+const { isRTL } = I18nManager;
 
 const SearchSubmitBtn: FC = () => {
   return (
@@ -36,27 +39,31 @@ const SearchSubmitBtn: FC = () => {
 };
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
 
-const Category: FC = () => {
-  const {t} = useTranslation();
-  const {navigate} = useNavigation();
+const Category: FC = ({ navigation }) => {
+  const { t } = useTranslation();
+  const { navigate } = useNavigation();
   const route = useRoute();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+
+  const [categoriesData, setCategoriesData] = useState([]);
+  const [showCategory, setShowCategory] = useState([false]);
+
 
   const [toggleHeader, setToggleHeader] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
   const slideInOut = useRef(new Animated.Value(0)).current;
   const _scrollRef = useRef<ScrollView>();
-  const {categories}: any = useSelector((state: RootState) => state.categories);
-  const {vendors}: any = useSelector((state: RootState) => state.vendors);
+  const { categories }: any = useSelector((state: RootState) => state.categories);
+  const { vendors }: any = useSelector((state: RootState) => state.vendors);
 
-  const Item = ({item, selectedCategory, handleSelectedCategory}) => (
+  const Item = ({ item, selectedCategory, handleSelectedCategory }) => (
     <TouchableOpacity
       onPress={() => handleSelectedCategory(item.title)}
       style={[styles.headerCategoryListItem]}>
       <View style={[styles.imageContainer]}>
         <FastImage
-          source={{uri: item.icon}}
+          source={{ uri: item.icon }}
           style={commonStyles.image}
           resizeMode="cover"
         />
@@ -133,12 +140,16 @@ const Category: FC = () => {
   });
 
   useEffect(() => {
+    navigation.addListener('focus', () => {
+      //  alert(route.params?.refreshing)
+      // do something
+    });
+    setLoading(true);
     if (
       route.params?.categoryId !== undefined &&
       route.params?.categoryName !== undefined
     ) {
       setSelectedCategory(route.params.categoryName);
-      setLoading(true);
       dispatch(
         getCategoryVendors(route.params.categoryId, success => {
           console.log('getCategoryVendors success', success);
@@ -150,12 +161,12 @@ const Category: FC = () => {
 
   const handleToggleHeader = () => {
     setToggleHeader(!toggleHeader);
-    _scrollRef.current.scrollTo({y: 0, animated: true});
+    _scrollRef.current.scrollTo({ y: 0, animated: true });
   };
 
   const handleSelectedCategory = (categoryId: number, categoryName: string) => {
-    setSelectedCategory(categoryName);
     setLoading(true);
+    setSelectedCategory(categoryName);
     dispatch(
       getCategoryVendors(categoryId, success => {
         console.log('getCategoryVendors success', success);
@@ -163,6 +174,30 @@ const Category: FC = () => {
       }),
     );
   };
+  useEffect(() => {
+    check()
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    console.log('vendors::', vendors);
+    vendors == '' ? setShowCategory(true) : setShowCategory(false)
+    setLoading(false);
+  }, [vendors]);
+
+  const getVendor = async (id) => {
+    let res = await axiosAPI.post('guest/user-show-vendors/' + id)
+    return res.data.data?.vendors
+  }
+
+  const check = async () => {
+    categories.map(async (item) => {
+      const res = await getVendor(item.id)
+      console.log('resCheck:', res);
+      res == '' ? null :
+        setCategoriesData(oldArray => [...oldArray, item]);
+    })
+  }
 
   return (
     <Container style={styles.container}>
@@ -184,12 +219,12 @@ const Category: FC = () => {
       <Animated.View
         style={[
           styles.headerCategoryList,
-          {transform: [{translateY: translate1}]},
+          { transform: [{ translateY: translate1 }] },
         ]}>
         <Animated.View
           style={[
             styles.searchInputContainer,
-            {transform: [{translateY: translate2}]},
+            { transform: [{ translateY: translate2 }] },
           ]}>
           <Input
             options={{
@@ -206,14 +241,14 @@ const Category: FC = () => {
               alignSelf: 'flex-start',
             }}
             rightContent={() => <SearchSubmitBtn />}
-            iconRightStyle={{top: 4.5}}
+            iconRightStyle={{ top: 4.5 }}
           />
         </Animated.View>
 
         <FlatList
           data={categories}
-          style={{paddingBottom: 5}}
-          renderItem={({item, index}) => (
+          style={{ paddingBottom: 5 }}
+          renderItem={({ item, index }) => (
             <Item
               selectedCategory={
                 selectedCategory === (isRTL ? item.name_ar : item.name_en)
@@ -237,7 +272,7 @@ const Category: FC = () => {
           contentContainerStyle={styles.contentContainer}
           ref={_scrollRef}
           onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {y: slideInOut}}}],
+            [{ nativeEvent: { contentOffset: { y: slideInOut } } }],
             {
               useNativeDriver: true,
             },
@@ -245,14 +280,25 @@ const Category: FC = () => {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           scrollEventThrottle={16}>
-          <View>
-            <Text style={[styles.sectionTitle]}>{selectedCategory}</Text>
-            {loading ? (
+          {showCategory ?
+            loading ? (
               <ActivityIndicator color="red" />
             ) : (
-              <CategoryStoresList data={vendors} />
-            )}
-          </View>
+              <View style={{ paddingVertical: 20 }}>
+                <CategoryList data={categoriesData} />
+              </View>
+            )
+
+            :
+            <View>
+              <Text style={[styles.sectionTitle]}>{selectedCategory}</Text>
+              {loading ? (
+                <ActivityIndicator color="red" />
+              ) : (
+                <CategoryStoresList data={vendors} />
+              )}
+            </View>
+          }
         </AnimatedScrollView>
       </Animated.View>
     </Container>
