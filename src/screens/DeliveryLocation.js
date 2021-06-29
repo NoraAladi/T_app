@@ -140,7 +140,9 @@ const DeliveryLocation = ({ navigation }) => {
         longitude: position.coords.longitude,
       });
       mapView.current?.animateToRegion(x, 500);
-      _marker.current?.animateMarkerToCoordinate(x, 500);
+      if (Platform.OS === 'android') {
+        _marker.current?.animateMarkerToCoordinate(x, 500);
+      }
     });
   };
 
@@ -153,7 +155,9 @@ const DeliveryLocation = ({ navigation }) => {
     setRegion(n_region);
     setMarker(n_region);
     mapView.current?.animateToRegion(n_region, 500);
-    _marker.current?.animateMarkerToCoordinate(n_region, 500);
+    if (Platform.OS === 'android') {
+      _marker.current?.animateMarkerToCoordinate(n_region, 500);
+    }
     if (areaName !== '') {
     }
   };
@@ -194,10 +198,12 @@ const DeliveryLocation = ({ navigation }) => {
 
           console.log(x);
           mapView.current.animateToRegion(e.nativeEvent.coordinate, 500);
-          _marker.current.animateMarkerToCoordinate(
-            e.nativeEvent.coordinate,
-            500,
-          );
+          if (Platform.OS === 'android') {
+            _marker.current.animateMarkerToCoordinate(
+              e.nativeEvent.coordinate,
+              500,
+            );
+          }
           setRegion(x);
           setMarker(x);
         }}
