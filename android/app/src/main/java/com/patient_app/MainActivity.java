@@ -1,4 +1,4 @@
-package com.patient_app;
+package com.EXIR360_app;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
