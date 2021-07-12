@@ -4,6 +4,7 @@ import { Dimensions } from 'react-native';
 export default {
 //https://apimobiletest.exir360.com
 //https://apimobile.exir360.com/
+  
   BASE_URL: 'https://apimobile.exir360.com/',
   authorizationKey: '574BECE6-E24F-4F94-AF08-FF578A64D782',
   windowWidth: Dimensions.get('window').width,
