@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, Image, Dimensions, Animated } from 'react-native';
+import { View, Text, ImageBackground, Image, Dimensions, Animated, Platform } from 'react-native';
 import styles from './style';
 import { withNavigation } from "react-navigation";
 import G from '../Gloabal';
@@ -63,7 +63,7 @@ class OnBoard extends Component {
                 <ScrollView
                     showsHorizontalScrollIndicator={false
                     }>
-                    <View style={{ flexDirection: 'row-reverse',marginLeft:5 }}>
+                    <View style={{ flexDirection: 'row-reverse',marginTop:Platform.OS=='ios'?25: 5 ,marginLeft:5}}>
                         <Image source={require('../Images/logo.png')}
                             style={styles.logoSize}
                           //  resizeMode='center'

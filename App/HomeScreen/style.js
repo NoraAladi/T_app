@@ -66,7 +66,7 @@ export default {
     flex: 1,
   },
   Button: {
-    width: 155,
+    width: Platform.OS=='ios'?wp('40'): 155,
     height: 55,
     backgroundColor: '#273A70',
     borderRadius: 9,

@@ -604,7 +604,7 @@ class UserData extends Component {
                                     buttonSize={11}
                                     labelStyle={[styleSignUp.dropDownTxt,
                                     {
-                                        fontFamily: 'FontAwesome5_Brands',
+                                        fontFamily:Platform.OS=='ios'? g.Regular:'FontAwesome5_Brands',
                                         transform: [{
                                             rotate: '180deg',
                                         }],

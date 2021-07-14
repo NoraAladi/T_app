@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {
     Text, View, ScrollView, TouchableWithoutFeedback,
     TouchableOpacity, Image, ActivityIndicator,
-    FlatList, Modal
+    FlatList, Modal, Platform
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Icon } from 'native-base';
